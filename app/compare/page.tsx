@@ -134,7 +134,7 @@ const filteredProducts = PRODUCTS.filter((p) => {
               All products
             </Link>
             <Link href="/quiz" className="btn-secondary text-xs py-1.5 px-3">
-              My Goals →
+              Build my plan →
             </Link>
           </div>
         </div>

@@ -77,7 +77,7 @@ export default function QueryPage() {
           <div className="flex items-center gap-3">
             <span className="text-xs font-mono bg-moss/10 text-moss px-2 py-1 rounded-md">Beta</span>
             <Link href="/products" className="text-sm text-muted hover:text-ink transition-colors">All products</Link>
-            <Link href="/quiz" className="btn-secondary text-xs py-1.5 px-3">My Goals →</Link>
+            <Link href="/quiz" className="btn-secondary text-xs py-1.5 px-3">Build my plan →</Link>
           </div>
         </div>
       </nav>

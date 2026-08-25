@@ -84,7 +84,7 @@ export default function CategoryPage({ params }: { params: { category: string } 
           </Link>
           <div className="flex items-center gap-3">
             <Link href="/products" className="text-sm text-muted hover:text-ink transition-colors">← All products</Link>
-            <Link href="/quiz" className="btn-secondary text-xs py-1.5 px-3">My Goals →</Link>
+            <Link href="/quiz" className="btn-secondary text-xs py-1.5 px-3">Build my plan →</Link>
             <Link href="/query" className="text-sm text-muted hover:text-ink transition-colors">Query</Link><Link href="/ingredients" className="text-sm text-muted hover:text-ink transition-colors">Ingredients</Link><Link href="/graph" className="text-sm text-muted hover:text-ink transition-colors">Graph</Link>
           </div>
         </div>

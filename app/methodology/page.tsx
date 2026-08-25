@@ -20,7 +20,7 @@ export default function MethodologyPage() {
           <div className="flex items-center gap-3">
             <Link href="/products" className="text-sm text-muted hover:text-ink transition-colors">All products</Link>
             <Link href="/about" className="text-sm text-muted hover:text-ink transition-colors">About</Link>
-            <Link href="/quiz" className="btn-secondary text-xs py-1.5 px-3">My Goals →</Link>
+            <Link href="/quiz" className="btn-secondary text-xs py-1.5 px-3">Build my plan →</Link>
           </div>
         </div>
       </nav>
