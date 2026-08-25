@@ -158,7 +158,6 @@ export default function HomePage() {
               <Link key={link.href} href={link.href}
                 className="block p-3 rounded-xl border border-sand hover:border-muted bg-white/40 hover:bg-white/60 transition-all group">
                 <div className="font-medium text-sm group-hover:text-moss transition-colors">{link.label}</div>
-                <div className="text-xs text-muted">{link.desc}</div>
               </Link>
             ))}
           </div>
