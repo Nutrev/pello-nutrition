@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Pello_SCORE_METHODOLOGY } from "@/lib/Pello-score";
+import { FULENS_SCORE_METHODOLOGY } from "@/lib/fulens-score";
 
 const PILLAR_COLORS: Record<string, string> = {
   "Science": "bg-moss/10 text-moss border-moss/20",
@@ -32,12 +32,12 @@ export default function MethodologyPage() {
             Pello Score™
           </h1>
           <p className="text-muted text-lg leading-relaxed mb-4">
-            A transparent, five-pillar scoring system that evaluates every sports nutrition product on the same objective criteria. Version {Pello_SCORE_METHODOLOGY.version}.
+            A transparent, five-pillar scoring system that evaluates every sports nutrition product on the same objective criteria. Version {FULENS_SCORE_METHODOLOGY.version}.
           </p>
           <div className="flex items-center gap-3">
-            <span className="text-xs font-mono text-muted">Last updated {Pello_SCORE_METHODOLOGY.lastUpdated}</span>
+            <span className="text-xs font-mono text-muted">Last updated {FULENS_SCORE_METHODOLOGY.lastUpdated}</span>
             <span className="text-xs bg-moss/10 text-moss font-mono px-2 py-0.5 rounded-md">
-              {Pello_SCORE_METHODOLOGY.totalPoints} point scale
+              {FULENS_SCORE_METHODOLOGY.totalPoints} point scale
             </span>
           </div>
         </div>
@@ -57,7 +57,7 @@ export default function MethodologyPage() {
         <div className="mb-10">
           <h2 className="font-display font-bold text-2xl mb-6">The five pillars</h2>
           <div className="space-y-4">
-            {Pello_SCORE_METHODOLOGY.pillars.map((pillar) => (
+            {FULENS_SCORE_METHODOLOGY.pillars.map((pillar: { name: string; weight: number; description: string; factors: string[] }) => (
               <div key={pillar.name} className={`card border ${PILLAR_COLORS[pillar.name] ?? "border-sand"}`}>
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="font-display font-bold text-lg">{pillar.name}</h3>
@@ -114,7 +114,7 @@ export default function MethodologyPage() {
         <div className="mb-12">
           <h2 className="font-display font-bold text-2xl mb-5">Principles</h2>
           <div className="space-y-2">
-            {Pello_SCORE_METHODOLOGY.principles.map((principle, i) => (
+            {FULENS_SCORE_METHODOLOGY.principles.map((principle: string, i: number) => (
               <div key={i} className="flex items-start gap-3 py-2 border-b border-sand last:border-0">
                 <span className="text-moss font-mono text-xs flex-shrink-0 mt-0.5">✓</span>
                 <p className="text-sm text-muted">{principle}</p>

@@ -401,7 +401,7 @@ export function getFulensScoreLabel(score: number): {
 // ── METHODOLOGY EXPORT ────────────────────────────────────────
 // Published so the methodology is fully transparent
 
-export const Pello_SCORE_METHODOLOGY = {
+export const FULENS_SCORE_METHODOLOGY = {
   version: "1.0",
   lastUpdated: "2026-08-05",
   totalPoints: 100,
