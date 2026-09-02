@@ -185,19 +185,23 @@ export default function GraphPage() {
   }, [dragging, simNodes]);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <nav className="border-b border-sand bg-cream/80 backdrop-blur-sm sticky top-0 z-50 flex-shrink-0">
-        <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
-          <Link href="/" className="font-display font-bold text-lg tracking-tight">
-            Pel<span className="text-moss">lo</span>
-          </Link>
-          <div className="flex items-center gap-3">
-            <span className="text-xs font-mono bg-moss/10 text-moss px-2 py-1 rounded-md">Knowledge Graph</span>
-            <Link href="/products" className="text-sm text-muted hover:text-ink transition-colors">Products</Link>
-            <Link href="/ingredients" className="text-sm text-muted hover:text-ink transition-colors">Ingredients</Link>
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen">
+      <nav className="border-b border-sand bg-cream/80 backdrop-blur-sm sticky top-0 z-50">
+  <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+    <Link href="/" className="font-display font-bold text-lg tracking-tight">
+      Pel<span className="text-moss">lo</span>
+    </Link>
+    <div className="flex items-center gap-3">
+      <Link href="/products" className="hidden sm:block text-sm text-muted hover:text-ink transition-colors">All products</Link>
+      <Link href="/guides" className="hidden md:block text-sm text-muted hover:text-ink transition-colors">Guides</Link>
+      <Link href="/compare" className="hidden md:block text-sm text-muted hover:text-ink transition-colors">Compare</Link>
+      <Link href="/query" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Query</Link>
+      <Link href="/ingredients" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Ingredients</Link>
+      <Link href="/graph" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Graph</Link>
+      <Link href="/quiz" className="btn-secondary text-xs py-1.5 px-3">Build my plan →</Link>
+    </div>
+  </div>
+</nav>
 
       <div className="flex flex-1 overflow-hidden" style={{ height: "calc(100vh - 56px)" }}>
         {/* Left panel */}

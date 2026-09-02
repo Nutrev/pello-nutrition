@@ -110,10 +110,15 @@ function ProductsContent() {
             Pel<span className="text-moss">lo</span>
           </Link>
           <div className="flex items-center gap-3">
-            <Link href="/" className="text-sm text-muted hover:text-ink transition-colors">← Home</Link>
-            <Link href="/compare" className="text-sm text-muted hover:text-ink transition-colors">Compare</Link>
-            <Link href="/quiz" className="btn-secondary text-xs py-1.5 px-3">Build my plan →</Link>
-            <Link href="/query" className="text-sm text-muted hover:text-ink transition-colors">Query</Link><Link href="/ingredients" className="text-sm text-muted hover:text-ink transition-colors">Ingredients</Link><Link href="/graph" className="text-sm text-muted hover:text-ink transition-colors">Graph</Link>
+            <div className="flex items-center gap-3">
+              <Link href="/products" className="hidden sm:block text-sm text-muted hover:text-ink transition-colors">All products</Link>
+              <Link href="/guides" className="hidden md:block text-sm text-muted hover:text-ink transition-colors">Guides</Link>
+              <Link href="/compare" className="hidden md:block text-sm text-muted hover:text-ink transition-colors">Compare</Link>
+              <Link href="/query" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Query</Link>
+              <Link href="/ingredients" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Ingredients</Link>
+              <Link href="/graph" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Graph</Link>
+              <Link href="/quiz" className="btn-secondary text-xs py-1.5 px-3">Build my plan →</Link>
+</div>
           </div>
         </div>
       </nav>
