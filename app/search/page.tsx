@@ -46,12 +46,17 @@ export default function SearchPage() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
-  // Search Pello database first, then Open Food Facts
-  const pelloResults = query.length > 2
-    ? PRODUCTS.filter(p =>
-        p.name.toLowerCase().includes(query.toLowerCase()) ||
-        p.brand.toLowerCase().includes(query.toLowerCase())
-      ).slice(0, 4)
+  // Search Pello database — name, brand, category, ingredients
+  const pelloResults = query.length > 1
+    ? PRODUCTS.filter(p => {
+        const q = query.toLowerCase();
+        return (
+          p.name.toLowerCase().includes(q) ||
+          p.brand.toLowerCase().includes(q) ||
+          p.category.toLowerCase().includes(q) ||
+          p.ingredients?.some((i: any) => i.name.toLowerCase().includes(q))
+        );
+      }).slice(0, 6)
     : [];
 
   const searchExternal = async (q: string) => {
@@ -146,7 +151,6 @@ export default function SearchPage() {
           <Link href="/" className="font-display font-bold text-lg tracking-tight">Pel<span className="text-moss">lo</span></Link>
           <div className="flex items-center gap-3">
             <Link href="/products" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">All products</Link>
-            <Link href="/search" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Search</Link>
             <Link href="/compare" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Compare</Link>
             <Link href="/quiz" className="btn-secondary text-xs py-1.5 px-3">Build my plan →</Link>
           </div>
@@ -215,10 +219,12 @@ export default function SearchPage() {
           </div>
         )}
 
-        {/* Pello database results */}
-        {pelloResults.length > 0 && !hasSearched && (
+        {/* Pello database results — always shown when query matches */}
+        {pelloResults.length > 0 && !selectedProduct && (
           <div className="mb-6">
-            <div className="text-xs font-mono text-moss uppercase tracking-widest mb-3">In Pello database</div>
+            <div className="text-xs font-mono text-moss uppercase tracking-widest mb-3">
+              In Pello database · {pelloResults.length} result{pelloResults.length !== 1 ? "s" : ""}
+            </div>
             <div className="space-y-2">
               {pelloResults.map(p => (
                 <Link key={p.id} href={`/report/${p.id}`}>
@@ -233,11 +239,14 @@ export default function SearchPage() {
                       </div>
                     )}
                     <div className="flex-1">
-                      <div className="text-xs font-mono text-moss mb-0.5">In Pello database</div>
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <span className="text-xs font-mono bg-moss/10 text-moss px-1.5 py-0.5 rounded">Pello</span>
+                        <span className="text-xs font-mono text-muted">{p.category}</span>
+                      </div>
                       <div className="font-display font-semibold text-sm group-hover:text-moss transition-colors">{p.name}</div>
-                      <div className="text-xs text-muted">{p.brand} · {p.category}</div>
+                      <div className="text-xs text-muted">{p.brand} · {p.rating}★ · {p.reviewCount.toLocaleString()} reviews</div>
                     </div>
-                    <div className="text-xs text-moss">Full report →</div>
+                    <div className="text-xs text-moss flex-shrink-0">Full report →</div>
                   </div>
                 </Link>
               ))}
@@ -248,12 +257,19 @@ export default function SearchPage() {
         {/* External search results */}
         {hasSearched && !selectedProduct && (
           <div>
+            {pelloResults.length > 0 && (
+              <div className="flex items-center gap-3 mb-4">
+                <div className="flex-1 h-px bg-sand" />
+                <span className="text-xs font-mono text-muted">External results</span>
+                <div className="flex-1 h-px bg-sand" />
+              </div>
+            )}
             <div className="flex items-center justify-between mb-3">
               <div className="text-xs font-mono text-muted uppercase tracking-widest">
-                {searching ? "Searching..." : `${results.length} external results`}
+                {searching ? "Searching Open Food Facts..." : `${results.length} external results`}
               </div>
               {results.length > 0 && (
-                <div className="text-xs text-muted">Click a product for Pello analysis</div>
+                <div className="text-xs text-muted">Click for Pello analysis</div>
               )}
             </div>
 

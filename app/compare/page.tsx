@@ -129,6 +129,7 @@ const filteredProducts = PRODUCTS.filter((p) => {
     </Link>
     <div className="flex items-center gap-3">
       <Link href="/products" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">All products</Link>
+<Link href="/search" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Search</Link>
             <Link href="/search" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Search</Link>
       <Link href="/guides" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Guides</Link>
       <Link href="/compare" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Compare</Link>
