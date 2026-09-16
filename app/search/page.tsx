@@ -255,7 +255,7 @@ export default function SearchPage() {
         )}
 
         {/* External search results */}
-        {hasSearched && !selectedProduct && (
+        {hasSearched && !selectedProduct && (searching || results.length > 0) && (
           <div>
             {pelloResults.length > 0 && (
               <div className="flex items-center gap-3 mb-4">
