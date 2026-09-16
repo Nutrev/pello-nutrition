@@ -9,7 +9,6 @@ import IngredientFlags from "@/components/IngredientFlags";
 import { calculatePelloScore } from "@/lib/fulens-score";
 import FulensScoreDisplay from "@/components/FulensScore";
 import PriceAlert from "@/components/PriceAlert";
-import MiniGraph from "@/components/MiniGraph";
 
 function ScoreCircle({ score }: { score: number }) {
   const r = 22;
@@ -393,10 +392,8 @@ export default function ReportPage({ params }: { params: { id: string } }) {
               <ScoreCircle score={product.transparencyScore} />
               <div>
                 <div className="lg:col-span-2">
-                <MiniGraph productId={product.id} />
             </div>
             <div className="lg:col-span-2">
-               <MiniGraph productId={product.id} />
               </div>
                 <div className="font-semibold">
                   {product.transparencyScore >= 85 ? "High transparency" : product.transparencyScore >= 70 ? "Good transparency" : "Moderate transparency"}
