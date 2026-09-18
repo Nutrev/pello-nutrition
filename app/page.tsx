@@ -155,7 +155,6 @@ export default function HomePage() {
               { href: "/guides", label: "Guides", desc: "Calculators + science" },
               { href: "/query", label: "Query database", desc: "Bloomberg Terminal" },
               { href: "/ingredients", label: "Ingredients", desc: "Encyclopedia" },
-              { href: "/graph", label: "Knowledge graph", desc: "Explore connections" },
             ].map((link) => (
               <Link key={link.href} href={link.href}
                 className="block p-3 rounded-xl border border-sand hover:border-muted bg-white/40 hover:bg-white/60 transition-all group">
