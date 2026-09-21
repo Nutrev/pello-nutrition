@@ -1,30 +1,118 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
+import { PRODUCTS } from "@/lib/products";
 
-const DEMO_PRODUCTS = [
-  { id: "maurten-gel-100", name: "Gel 100", brand: "Maurten", category: "Energy Gel", logoDomain: "maurten.com", price: 38, servingsPerContainer: 12, pricePerServing: 3.17, carbsPerServing: 25, sodiumPerServing: 55, caffeinePerServing: 0, hasCaffeine: false, isVegan: true, isGlutenFree: true, isDairyFree: true, isCleanLabel: true, hasProprietaryBlend: false, isBatchTested: false, bannedSubstanceTested: false, rating: 4.5, transparencyScore: 96, availableAtRetailers: ["The Feed", "Running Warehouse", "Amazon"] },
-  { id: "sis-beta-fuel-gel", name: "Beta Fuel Gel", brand: "Science in Sport", category: "Energy Gel", logoDomain: "scienceinsport.com", price: 42, servingsPerContainer: 15, pricePerServing: 2.80, carbsPerServing: 40, sodiumPerServing: 115, caffeinePerServing: 0, hasCaffeine: false, isVegan: true, isGlutenFree: true, isDairyFree: true, isCleanLabel: false, hasProprietaryBlend: false, isBatchTested: true, bannedSubstanceTested: true, rating: 4.3, transparencyScore: 84, availableAtRetailers: ["The Feed", "Amazon"] },
-  { id: "gu-energy-gel", name: "Original Energy Gel", brand: "GU Energy", category: "Energy Gel", logoDomain: "guenergy.com", price: 24, servingsPerContainer: 15, pricePerServing: 1.60, carbsPerServing: 21, sodiumPerServing: 55, caffeinePerServing: 20, hasCaffeine: true, isVegan: false, isGlutenFree: true, isDairyFree: true, isCleanLabel: false, hasProprietaryBlend: false, isBatchTested: false, bannedSubstanceTested: false, rating: 4.2, transparencyScore: 78, availableAtRetailers: ["REI", "Amazon", "Running Warehouse", "The Feed"] },
-  { id: "precision-fuel-pf30", name: "PF 30 Gel", brand: "Precision Fuel & Hydration", category: "Energy Gel", logoDomain: "precisionfuelandhydration.com", price: 36, servingsPerContainer: 20, pricePerServing: 1.80, carbsPerServing: 30, sodiumPerServing: 0, caffeinePerServing: 0, hasCaffeine: false, isVegan: true, isGlutenFree: true, isDairyFree: true, isCleanLabel: true, hasProprietaryBlend: false, isBatchTested: true, bannedSubstanceTested: true, rating: 4.5, transparencyScore: 93, availableAtRetailers: ["The Feed", "Running Warehouse", "Amazon"] },
-  { id: "skratch-super-high-carb", name: "Super High-Carb Sport Drink Mix", brand: "Skratch Labs", category: "Carbohydrate Mix", logoDomain: "skratchlabs.com", price: 55, servingsPerContainer: 28, pricePerServing: 1.96, carbsPerServing: 50, sodiumPerServing: 380, caffeinePerServing: 0, hasCaffeine: false, isVegan: true, isGlutenFree: true, isDairyFree: true, isCleanLabel: true, hasProprietaryBlend: false, isBatchTested: false, bannedSubstanceTested: false, rating: 4.6, transparencyScore: 92, availableAtRetailers: ["REI", "Amazon", "The Feed"] },
-  { id: "maurten-drink-mix-320", name: "Drink Mix 320", brand: "Maurten", category: "Carbohydrate Mix", logoDomain: "maurten.com", price: 50, servingsPerContainer: 14, pricePerServing: 3.57, carbsPerServing: 80, sodiumPerServing: 500, caffeinePerServing: 0, hasCaffeine: false, isVegan: true, isGlutenFree: true, isDairyFree: true, isCleanLabel: true, hasProprietaryBlend: false, isBatchTested: false, bannedSubstanceTested: false, rating: 4.4, transparencyScore: 94, availableAtRetailers: ["The Feed", "Running Warehouse", "Amazon"] },
-  { id: "lmnt-electrolyte-mix", name: "Recharge Electrolyte Mix", brand: "LMNT", category: "Hydration", logoDomain: "drinklmnt.com", price: 40, servingsPerContainer: 30, pricePerServing: 1.33, carbsPerServing: 0, sodiumPerServing: 1000, caffeinePerServing: 0, hasCaffeine: false, isVegan: true, isGlutenFree: true, isDairyFree: true, isCleanLabel: true, hasProprietaryBlend: false, isBatchTested: false, bannedSubstanceTested: false, rating: 4.6, transparencyScore: 90, availableAtRetailers: ["Amazon", "Walmart", "The Feed"] },
-  { id: "momentous-whey-isolate", name: "Whey Protein Isolate", brand: "Momentous", category: "Protein", logoDomain: "livemomentous.com", price: 65, servingsPerContainer: 25, pricePerServing: 2.60, carbsPerServing: 2, sodiumPerServing: 135, caffeinePerServing: 0, hasCaffeine: false, isVegan: false, isGlutenFree: true, isDairyFree: false, isCleanLabel: true, hasProprietaryBlend: false, isBatchTested: true, bannedSubstanceTested: true, rating: 4.8, transparencyScore: 97, availableAtRetailers: ["Amazon", "The Feed"] },
-  { id: "thorne-creatine", name: "Creatine", brand: "Thorne", category: "Creatine", logoDomain: "thorne.com", price: 38, servingsPerContainer: 90, pricePerServing: 0.42, carbsPerServing: 0, sodiumPerServing: 0, caffeinePerServing: 0, hasCaffeine: false, isVegan: true, isGlutenFree: true, isDairyFree: true, isCleanLabel: true, hasProprietaryBlend: false, isBatchTested: true, bannedSubstanceTested: true, rating: 4.8, transparencyScore: 97, availableAtRetailers: ["Amazon", "Walmart", "The Feed"] },
-  { id: "carbs-fuel-gel", name: "Fuel Original Energy Gel", brand: "Carbs", category: "Energy Gel", logoDomain: "carbsfuel.com", price: 36, servingsPerContainer: 15, pricePerServing: 2.40, carbsPerServing: 50, sodiumPerServing: 200, caffeinePerServing: 0, hasCaffeine: false, isVegan: true, isGlutenFree: true, isDairyFree: true, isCleanLabel: true, hasProprietaryBlend: false, isBatchTested: false, bannedSubstanceTested: false, rating: 4.5, transparencyScore: 96, availableAtRetailers: ["The Feed", "Amazon"] },
-];
+// ── TYPES ─────────────────────────────────────────────────────
+
+type SortKey = "rating" | "pricePerServing" | "carbsPerServing" | "sodiumPerServing" | "transparencyScore" | "caffeinePerServing" | "reviewCount";
+
+// ── ENRICH PRODUCTS WITH DERIVED FIELDS ───────────────────────
+
+function enrichProduct(p: any) {
+  const servingsMap: Record<string, number> = {
+    "Energy Gel": 12, "Energy Chew": 12, "Energy Bar": 12,
+    "Carbohydrate Mix": 30, "Hydration": 30, "Protein": 28,
+    "Creatine": 90, "Supplement": 30, "Probiotic": 30,
+    "Omega-3": 30, "Vitamin": 90, "Mineral": 60,
+  };
+  const servings = servingsMap[p.category] ?? 30;
+  const pricePerServing = p.price / servings;
+
+  // Extract key nutrients from ingredients
+  let carbsPerServing: number | null = null;
+  let sodiumPerServing: number | null = null;
+  let caffeinePerServing: number | null = null;
+  let proteinPerServing: number | null = null;
+  let hasCaffeine = false;
+  let isHydrogel = false;
+  let glucoseFructoseRatio: string | null = null;
+
+  p.ingredients?.forEach((ing: any) => {
+    const name = ing.name.toLowerCase();
+    const dose = ing.dose?.toLowerCase() ?? "";
+
+    // Carbs
+    const carbMatch = dose.match(/(\d+)g?\s*carb/);
+    if (carbMatch && !carbsPerServing) carbsPerServing = parseInt(carbMatch[1]);
+
+    // Sodium
+    const sodMatch = dose.match(/(\d+)\s*mg\s*sodium/) || name.match(/sodium/);
+    if (sodMatch && ing.dose) {
+      const mg = ing.dose.match(/(\d+)\s*mg/);
+      if (mg && !sodiumPerServing) sodiumPerServing = parseInt(mg[1]);
+    }
+
+    // Caffeine
+    if (name.includes("caffeine") || name.includes("green tea")) {
+      hasCaffeine = true;
+      const cafMatch = dose.match(/(\d+)\s*mg/) || ing.dose?.match(/(\d+)\s*mg/);
+      if (cafMatch) caffeinePerServing = parseInt(cafMatch[1]);
+    }
+
+    // Protein
+    const protMatch = dose.match(/(\d+)g?\s*protein/);
+    if (protMatch && !proteinPerServing) proteinPerServing = parseInt(protMatch[1]);
+
+    // Hydrogel
+    if (name.includes("hydrogel") || name.includes("alginate")) isHydrogel = true;
+
+    // G:F ratio
+    if (name.includes("glucose") && name.includes("fructose")) {
+      if (name.includes("2:1") || dose.includes("2:1")) glucoseFructoseRatio = "2:1";
+      else if (name.includes("1:0.8") || dose.includes("0.8")) glucoseFructoseRatio = "1:0.8";
+      else if (name.includes("1:1") || dose.includes("1:1")) glucoseFructoseRatio = "1:1";
+    }
+    if (name.includes("maltodextrin") && name.includes("fructose")) {
+      glucoseFructoseRatio = glucoseFructoseRatio ?? "2:1";
+    }
+  });
+
+  // Detect certifications from ingredients/sources
+  const isBatchTested = p.sources?.some((s: any) =>
+    s.name?.toLowerCase().includes("informed") || s.name?.toLowerCase().includes("nsf")
+  ) || p.ingredients?.some((i: any) =>
+    i.note?.toLowerCase().includes("nsf") || i.note?.toLowerCase().includes("informed sport") || i.note?.toLowerCase().includes("batch test")
+  ) || false;
+
+  const isVegan = !p.ingredients?.some((i: any) =>
+    i.name.toLowerCase().includes("whey") || i.name.toLowerCase().includes("casein") ||
+    i.name.toLowerCase().includes("egg") || i.name.toLowerCase().includes("collagen")
+  );
+
+  const isCleanLabel = p.transparencyScore >= 85;
+  const costPerGramCarb = carbsPerServing ? pricePerServing / carbsPerServing : null;
+
+  return {
+    ...p,
+    pricePerServing: Math.round(pricePerServing * 100) / 100,
+    carbsPerServing,
+    sodiumPerServing,
+    caffeinePerServing,
+    proteinPerServing,
+    hasCaffeine,
+    isHydrogel,
+    glucoseFructoseRatio,
+    isBatchTested,
+    isVegan,
+    isCleanLabel,
+    costPerGramCarb: costPerGramCarb ? Math.round(costPerGramCarb * 1000) / 1000 : null,
+  };
+}
+
+const ALL_CATEGORIES = Array.from(new Set(PRODUCTS.map(p => p.category))).sort();
 
 const EXAMPLE_QUERIES = [
-  { label: "Gels under $2.50, 25g+ carbs, no caffeine", filters: { category: ["Energy Gel"], maxPricePerServing: 2.50, minCarbsPerServing: 25, hasCaffeine: false } },
+  { label: "Gels under $2.50, 25g+ carbs, no caffeine", filters: { category: ["Energy Gel"], maxPricePerServing: 2.50, minCarbsPerServing: 25, hasCaffeine: "no" } },
   { label: "Batch-tested products only", filters: { isBatchTested: true } },
   { label: "Vegan & clean label only", filters: { isVegan: true, isCleanLabel: true } },
-  { label: "Highest sodium hydration", filters: { category: ["Hydration"], minSodiumPerServing: 500 } },
-  { label: "Available at REI", filters: { availableAt: ["REI"] } },
+  { label: "Highest sodium hydration", filters: { category: ["Hydration"], minSodiumPerServing: 300 } },
+  { label: "Hydrogel gels only", filters: { category: ["Energy Gel"], isHydrogel: true } },
+  { label: "High carb drink mixes 60g+", filters: { category: ["Carbohydrate Mix"], minCarbsPerServing: 60 } },
+  { label: "Caffeinated gels", filters: { category: ["Energy Gel"], hasCaffeine: "yes" } },
+  { label: "Top rated protein", filters: { category: ["Protein"] } },
 ];
-
-type SortKey = "rating" | "pricePerServing" | "carbsPerServing" | "sodiumPerServing" | "transparencyScore";
 
 export default function QueryPage() {
   const [filters, setFilters] = useState<Record<string, any>>({});
@@ -32,40 +120,42 @@ export default function QueryPage() {
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [activeQuery, setActiveQuery] = useState<string | null>(null);
 
-  const applyFilter = (key: string, value: any) => setFilters((prev) => ({ ...prev, [key]: value }));
-  const clearFilter = (key: string) => setFilters((prev) => { const n = { ...prev }; delete n[key]; return n; });
+  const enrichedProducts = useMemo(() => PRODUCTS.map(enrichProduct), []);
+
+  const applyFilter = (key: string, value: any) => setFilters(prev => ({ ...prev, [key]: value }));
+  const clearFilter = (key: string) => setFilters(prev => { const n = { ...prev }; delete n[key]; return n; });
 
   const applyExampleQuery = (q: typeof EXAMPLE_QUERIES[0]) => {
     setFilters(q.filters as Record<string, any>);
     setActiveQuery(q.label);
   };
 
-  const filteredProducts = DEMO_PRODUCTS.filter((p: any) => {
-    if (filters.category?.length && !filters.category.includes(p.category)) return false;
-    if (filters.maxPricePerServing && p.pricePerServing > filters.maxPricePerServing) return false;
-    if (filters.minCarbsPerServing && (p.carbsPerServing ?? 0) < filters.minCarbsPerServing) return false;
-    if (filters.minSodiumPerServing && (p.sodiumPerServing ?? 0) < filters.minSodiumPerServing) return false;
-    if (filters.hasCaffeine === false && p.hasCaffeine) return false;
-    if (filters.hasCaffeine === true && !p.hasCaffeine) return false;
-    if (filters.isVegan && !p.isVegan) return false;
-    if (filters.isGlutenFree && !p.isGlutenFree) return false;
-    if (filters.isDairyFree && !p.isDairyFree) return false;
-    if (filters.isCleanLabel && !p.isCleanLabel) return false;
-    if (filters.isBatchTested && !p.isBatchTested) return false;
-    if (filters.noArtificialSweeteners && p.hasArtificialSweeteners) return false;
-    if (filters.noSeedOils && p.hasSeedOils) return false;
-    if (filters.noGums && p.hasGums) return false;
-    if (filters.noArtificialPreservatives && p.hasArtificialPreservatives) return false;
-    if (filters.availableAt?.length && !filters.availableAt.some((r: string) => p.availableAtRetailers?.includes(r))) return false;
-    if (filters.search && !`${p.name} ${p.brand} ${p.category}`.toLowerCase().includes(filters.search.toLowerCase())) return false;
-    return true;
-  }).sort((a: any, b: any) => {
-    const aVal = a[sortBy] ?? 0;
-    const bVal = b[sortBy] ?? 0;
-    return sortDir === "desc" ? bVal - aVal : aVal - bVal;
-  });
+  const filteredProducts = useMemo(() => {
+    return enrichedProducts.filter((p: any) => {
+      if (filters.category?.length && !filters.category.includes(p.category)) return false;
+      if (filters.maxPricePerServing && p.pricePerServing > filters.maxPricePerServing) return false;
+      if (filters.minCarbsPerServing && (p.carbsPerServing ?? 0) < filters.minCarbsPerServing) return false;
+      if (filters.minSodiumPerServing && (p.sodiumPerServing ?? 0) < filters.minSodiumPerServing) return false;
+      if (filters.minProteinPerServing && (p.proteinPerServing ?? 0) < filters.minProteinPerServing) return false;
+      if (filters.hasCaffeine === "no" && p.hasCaffeine) return false;
+      if (filters.hasCaffeine === "yes" && !p.hasCaffeine) return false;
+      if (filters.isVegan && !p.isVegan) return false;
+      if (filters.isCleanLabel && !p.isCleanLabel) return false;
+      if (filters.isBatchTested && !p.isBatchTested) return false;
+      if (filters.isHydrogel && !p.isHydrogel) return false;
+      if (filters.minTransparencyScore && p.transparencyScore < filters.minTransparencyScore) return false;
+      if (filters.minRating && p.rating < filters.minRating) return false;
+      if (filters.glucoseFructoseRatio && p.glucoseFructoseRatio !== filters.glucoseFructoseRatio) return false;
+      if (filters.search && !`${p.name} ${p.brand} ${p.category}`.toLowerCase().includes(filters.search.toLowerCase())) return false;
+      return true;
+    }).sort((a: any, b: any) => {
+      const aVal = a[sortBy] ?? 0;
+      const bVal = b[sortBy] ?? 0;
+      return sortDir === "desc" ? bVal - aVal : aVal - bVal;
+    });
+  }, [enrichedProducts, filters, sortBy, sortDir]);
 
-  const activeFilterCount = Object.keys(filters).length;
+  const activeFilterCount = Object.keys(filters).filter(k => filters[k] !== null && filters[k] !== undefined && filters[k] !== "").length;
 
   return (
     <div className="min-h-screen">
@@ -75,8 +165,8 @@ export default function QueryPage() {
             Pel<span className="text-moss">lo</span>
           </Link>
           <div className="flex items-center gap-3">
-            <span className="text-xs font-mono bg-moss/10 text-moss px-2 py-1 rounded-md">Beta</span>
-            <Link href="/products" className="text-sm text-muted hover:text-ink transition-colors">All products</Link>
+            <Link href="/products" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">All products</Link>
+            <Link href="/compare" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Compare</Link>
             <Link href="/quiz" className="btn-secondary text-xs py-1.5 px-3">Build my plan →</Link>
           </div>
         </div>
@@ -85,8 +175,8 @@ export default function QueryPage() {
       <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="mb-6">
           <div className="text-xs font-mono text-muted uppercase tracking-widest mb-1">Pello Query</div>
-          <h1 className="font-display font-bold text-3xl tracking-tight mb-2">Product Database</h1>
-          <p className="text-muted text-sm">Filter across {DEMO_PRODUCTS.length} demo products by any attribute. Full database coming soon.</p>
+          <h1 className="font-display font-bold text-3xl tracking-tight mb-1">Product Database</h1>
+          <p className="text-muted text-sm">{PRODUCTS.length} products — filter by carbs, sodium, caffeine, G:F ratio, certifications and more.</p>
         </div>
 
         {/* Example queries */}
@@ -110,20 +200,22 @@ export default function QueryPage() {
 
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Filter panel */}
-          <div className="w-full lg:w-52 lg:flex-shrink-0 space-y-4">
+          <div className="w-full lg:w-56 lg:flex-shrink-0 space-y-5">
             <div className="text-xs font-mono text-muted uppercase tracking-widest">Filters</div>
 
+            {/* Search */}
             <div>
               <div className="text-xs font-mono text-muted mb-1.5">Search</div>
               <input type="text" placeholder="Brand or product..." value={filters.search ?? ""}
-                onChange={(e) => applyFilter("search", e.target.value)}
+                onChange={(e) => e.target.value ? applyFilter("search", e.target.value) : clearFilter("search")}
                 className="w-full bg-white/60 border border-sand rounded-lg px-3 py-2 text-xs outline-none focus:border-muted" />
             </div>
 
+            {/* Category */}
             <div>
               <div className="text-xs font-mono text-muted mb-1.5">Category</div>
               <div className="space-y-1">
-                {["Energy Gel", "Carbohydrate Mix", "Hydration", "Protein", "Creatine"].map((cat) => (
+                {ALL_CATEGORIES.map((cat) => (
                   <label key={cat} className="flex items-center gap-2 text-xs cursor-pointer">
                     <input type="checkbox" className="accent-moss"
                       checked={filters.category?.includes(cat) ?? false}
@@ -138,6 +230,7 @@ export default function QueryPage() {
               </div>
             </div>
 
+            {/* Price per serving */}
             <div>
               <div className="text-xs font-mono text-muted mb-1.5">Max price/serving</div>
               <div className="flex gap-1 flex-wrap">
@@ -150,6 +243,7 @@ export default function QueryPage() {
               </div>
             </div>
 
+            {/* Carbs */}
             <div>
               <div className="text-xs font-mono text-muted mb-1.5">Min carbs/serving</div>
               <div className="flex gap-1 flex-wrap">
@@ -162,6 +256,7 @@ export default function QueryPage() {
               </div>
             </div>
 
+            {/* Sodium */}
             <div>
               <div className="text-xs font-mono text-muted mb-1.5">Min sodium</div>
               <div className="flex gap-1 flex-wrap">
@@ -174,31 +269,80 @@ export default function QueryPage() {
               </div>
             </div>
 
+            {/* Protein */}
+            <div>
+              <div className="text-xs font-mono text-muted mb-1.5">Min protein/serving</div>
+              <div className="flex gap-1 flex-wrap">
+                {[10, 20, 25, 30].map((g) => (
+                  <button key={g} onClick={() => filters.minProteinPerServing === g ? clearFilter("minProteinPerServing") : applyFilter("minProteinPerServing", g)}
+                    className={`text-xs px-2 py-1 rounded-md border font-mono transition-all ${filters.minProteinPerServing === g ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
+                    {g}g+
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Caffeine */}
             <div>
               <div className="text-xs font-mono text-muted mb-1.5">Caffeine</div>
-              <div className="flex gap-1 flex-wrap">
-                {[{ label: "Any", val: null }, { label: "None", val: false }, { label: "Yes", val: true }].map((opt) => (
-                  <button key={opt.label} onClick={() => opt.val === null ? clearFilter("hasCaffeine") : applyFilter("hasCaffeine", opt.val)}
-                    className={`text-xs px-2 py-1 rounded-md border font-mono transition-all ${filters.hasCaffeine === opt.val ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
+              <div className="flex gap-1">
+                {[{ label: "Any", val: "" }, { label: "None", val: "no" }, { label: "Yes", val: "yes" }].map((opt) => (
+                  <button key={opt.label} onClick={() => opt.val === "" ? clearFilter("hasCaffeine") : applyFilter("hasCaffeine", opt.val)}
+                    className={`text-xs px-2 py-1 rounded-md border font-mono transition-all ${filters.hasCaffeine === opt.val || (!filters.hasCaffeine && opt.val === "") ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
                     {opt.label}
                   </button>
                 ))}
               </div>
             </div>
 
+            {/* G:F Ratio */}
             <div>
-              <div className="text-xs font-mono text-muted mb-1.5">Dietary & certifications</div>
+              <div className="text-xs font-mono text-muted mb-1.5">Glucose:Fructose ratio</div>
+              <div className="flex gap-1 flex-wrap">
+                {["2:1", "1:0.8", "1:1"].map((ratio) => (
+                  <button key={ratio} onClick={() => filters.glucoseFructoseRatio === ratio ? clearFilter("glucoseFructoseRatio") : applyFilter("glucoseFructoseRatio", ratio)}
+                    className={`text-xs px-2 py-1 rounded-md border font-mono transition-all ${filters.glucoseFructoseRatio === ratio ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
+                    {ratio}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Min rating */}
+            <div>
+              <div className="text-xs font-mono text-muted mb-1.5">Min rating</div>
+              <div className="flex gap-1 flex-wrap">
+                {[4.0, 4.3, 4.5, 4.7].map((r) => (
+                  <button key={r} onClick={() => filters.minRating === r ? clearFilter("minRating") : applyFilter("minRating", r)}
+                    className={`text-xs px-2 py-1 rounded-md border font-mono transition-all ${filters.minRating === r ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
+                    {r}★+
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Min transparency */}
+            <div>
+              <div className="text-xs font-mono text-muted mb-1.5">Min transparency</div>
+              <div className="flex gap-1 flex-wrap">
+                {[70, 80, 90, 95].map((t) => (
+                  <button key={t} onClick={() => filters.minTransparencyScore === t ? clearFilter("minTransparencyScore") : applyFilter("minTransparencyScore", t)}
+                    className={`text-xs px-2 py-1 rounded-md border font-mono transition-all ${filters.minTransparencyScore === t ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
+                    {t}%+
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Checkboxes */}
+            <div>
+              <div className="text-xs font-mono text-muted mb-1.5">Special filters</div>
               <div className="space-y-1.5">
                 {[
                   { key: "isVegan", label: "Vegan" },
-                  { key: "isGlutenFree", label: "Gluten-free" },
-                  { key: "isDairyFree", label: "Dairy-free" },
-                  { key: "isCleanLabel", label: "Clean label" },
+                  { key: "isCleanLabel", label: "Clean label (90%+ transparency)" },
                   { key: "isBatchTested", label: "Batch tested" },
-                  { key: "noArtificialSweeteners", label: "No artificial sweeteners" },
-                  { key: "noSeedOils", label: "No seed oils" },
-                  { key: "noGums", label: "No gums" },
-                  { key: "noArtificialPreservatives", label: "No artificial preservatives" },
+                  { key: "isHydrogel", label: "Hydrogel delivery" },
                 ].map(({ key, label }) => (
                   <label key={key} className="flex items-center gap-2 text-xs cursor-pointer">
                     <input type="checkbox" className="accent-moss"
@@ -209,31 +353,13 @@ export default function QueryPage() {
                 ))}
               </div>
             </div>
-
-            <div>
-              <div className="text-xs font-mono text-muted mb-1.5">Available at</div>
-              <div className="space-y-1">
-                {["REI", "Amazon", "The Feed", "Running Warehouse"].map((r) => (
-                  <label key={r} className="flex items-center gap-2 text-xs cursor-pointer">
-                    <input type="checkbox" className="accent-moss"
-                      checked={filters.availableAt?.includes(r) ?? false}
-                      onChange={(e) => {
-                        const current = filters.availableAt ?? [];
-                        const updated = e.target.checked ? [...current, r] : current.filter((x: string) => x !== r);
-                        updated.length ? applyFilter("availableAt", updated) : clearFilter("availableAt");
-                      }} />
-                    {r}
-                  </label>
-                ))}
-              </div>
-            </div>
           </div>
 
           {/* Results */}
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between mb-4">
               <div className="text-xs font-mono text-muted">
-                {filteredProducts.length} product{filteredProducts.length !== 1 ? "s" : ""}
+                {filteredProducts.length} of {PRODUCTS.length} products
                 {activeFilterCount > 0 && ` · ${activeFilterCount} filter${activeFilterCount !== 1 ? "s" : ""} active`}
               </div>
               <div className="flex items-center gap-2">
@@ -244,7 +370,9 @@ export default function QueryPage() {
                   <option value="pricePerServing">Price/serving</option>
                   <option value="carbsPerServing">Carbs</option>
                   <option value="sodiumPerServing">Sodium</option>
+                  <option value="caffeinePerServing">Caffeine</option>
                   <option value="transparencyScore">Transparency</option>
+                  <option value="reviewCount">Review count</option>
                 </select>
                 <button onClick={() => setSortDir(d => d === "desc" ? "asc" : "desc")}
                   className="text-xs border border-sand rounded-lg px-2 py-1 font-mono hover:border-muted">
@@ -256,66 +384,118 @@ export default function QueryPage() {
             {filteredProducts.length === 0 ? (
               <div className="text-center py-16 text-muted">
                 <p className="font-display font-medium mb-1">No products match</p>
-                <button onClick={() => { setFilters({}); setActiveQuery(null); }} className="text-xs text-moss underline mt-2">Clear filters</button>
+                <p className="text-xs mb-3">Try removing some filters</p>
+                <button onClick={() => { setFilters({}); setActiveQuery(null); }} className="text-xs text-moss underline">Clear all filters</button>
               </div>
             ) : (
-              <div className="bg-white/60 border border-sand rounded-xl overflow-hidden">
-                <div className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr_1fr_1fr] gap-3 px-4 py-2.5 bg-sand/40 border-b border-sand text-xs font-mono text-muted">
-                  <div>Product</div>
-                  <div>$/serving</div>
-                  <div>Carbs</div>
-                  <div>Sodium</div>
-                  <div>Caffeine</div>
-                  <div>Rating</div>
-                  <div>Certified</div>
-                </div>
-                {filteredProducts.map((p: any, i: number) => (
-                  <div key={p.id} onClick={() => window.location.href = `/report/${p.id}`}
-                    className={`grid grid-cols-[2fr_1fr_1fr_1fr_1fr_1fr_1fr] gap-3 px-4 py-3 border-b border-sand last:border-0 hover:bg-sand/20 transition-colors cursor-pointer ${i % 2 !== 0 ? "bg-white/20" : ""}`}>
-                    <div className="flex items-center gap-2">
-                      <img src={`https://logo.clearbit.com/${p.logoDomain}`} alt={p.brand}
-                        className="h-5 w-auto object-contain flex-shrink-0"
-                        onError={(e) => (e.currentTarget.style.display = "none")} />
-                      <div>
-                        <div className="text-xs font-medium leading-tight">{p.name}</div>
-                        <div className="text-xs text-muted">{p.brand}</div>
+              <div className="bg-white/60 border border-sand rounded-xl overflow-x-auto">
+                <div className="min-w-[700px]">
+                  {/* Header */}
+                  <div className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr_1fr_1fr_1fr] gap-2 px-4 py-2.5 bg-sand/40 border-b border-sand text-xs font-mono text-muted">
+                    <div>Product</div>
+                    <div>$/serving</div>
+                    <div>Carbs</div>
+                    <div>Sodium</div>
+                    <div>Caffeine</div>
+                    <div>G:F</div>
+                    <div>Rating</div>
+                    <div>Transp.</div>
+                  </div>
+
+                  {/* Rows */}
+                  {filteredProducts.map((p: any, i: number) => (
+                    <div key={p.id} onClick={() => window.location.href = `/report/${p.id}`}
+                      className={`grid grid-cols-[2fr_1fr_1fr_1fr_1fr_1fr_1fr_1fr] gap-2 px-4 py-3 border-b border-sand last:border-0 hover:bg-moss/5 transition-colors cursor-pointer ${i % 2 !== 0 ? "bg-white/20" : ""}`}>
+
+                      {/* Product */}
+                      <div className="flex items-center gap-2 min-w-0">
+                        <img src={`https://logo.clearbit.com/${(p as any).logoDomain ?? ""}`} alt={p.brand}
+                          className="h-5 w-5 object-contain flex-shrink-0 rounded"
+                          onError={(e) => (e.currentTarget.style.display = "none")} />
+                        <div className="min-w-0">
+                          <div className="text-xs font-medium leading-tight truncate">{p.name}</div>
+                          <div className="text-xs text-muted truncate">{p.brand}</div>
+                        </div>
+                      </div>
+
+                      {/* Price */}
+                      <div className="flex items-center text-xs font-mono">
+                        ${p.pricePerServing.toFixed(2)}
+                      </div>
+
+                      {/* Carbs */}
+                      <div className="flex items-center">
+                        <span className={`text-xs font-mono ${(p.carbsPerServing ?? 0) >= 40 ? "text-moss font-medium" : "text-muted"}`}>
+                          {p.carbsPerServing ? `${p.carbsPerServing}g` : "—"}
+                        </span>
+                      </div>
+
+                      {/* Sodium */}
+                      <div className="flex items-center">
+                        <span className={`text-xs font-mono ${(p.sodiumPerServing ?? 0) >= 500 ? "text-moss font-medium" : "text-muted"}`}>
+                          {p.sodiumPerServing ? `${p.sodiumPerServing}mg` : "—"}
+                        </span>
+                      </div>
+
+                      {/* Caffeine */}
+                      <div className="flex items-center">
+                        <span className={`text-xs font-mono ${p.hasCaffeine ? "text-amber font-medium" : "text-muted"}`}>
+                          {p.hasCaffeine ? `${p.caffeinePerServing ?? "?"}mg` : "None"}
+                        </span>
+                      </div>
+
+                      {/* G:F ratio */}
+                      <div className="flex items-center">
+                        <span className="text-xs font-mono text-muted">
+                          {p.glucoseFructoseRatio ?? "—"}
+                        </span>
+                      </div>
+
+                      {/* Rating */}
+                      <div className="flex items-center text-xs font-mono font-medium">
+                        {p.rating}★
+                      </div>
+
+                      {/* Transparency */}
+                      <div className="flex items-center">
+                        <span className={`text-xs font-mono ${p.transparencyScore >= 90 ? "text-moss font-medium" : p.transparencyScore >= 75 ? "text-amber" : "text-muted"}`}>
+                          {p.transparencyScore}%
+                        </span>
                       </div>
                     </div>
-                    <div className="flex items-center text-xs font-mono font-medium">${p.pricePerServing.toFixed(2)}</div>
-                    <div className="flex items-center">
-                      <span className={`text-xs font-mono ${(p.carbsPerServing ?? 0) >= 40 ? "text-moss font-medium" : "text-muted"}`}>
-                        {p.carbsPerServing ?? "—"}g
-                      </span>
-                    </div>
-                    <div className="flex items-center">
-                      <span className={`text-xs font-mono ${(p.sodiumPerServing ?? 0) >= 500 ? "text-moss font-medium" : "text-muted"}`}>
-                        {p.sodiumPerServing ? `${p.sodiumPerServing}mg` : "—"}
-                      </span>
-                    </div>
-                    <div className="flex items-center">
-                      <span className={`text-xs font-mono ${p.hasCaffeine ? "text-amber" : "text-muted"}`}>
-                        {p.hasCaffeine ? `${p.caffeinePerServing}mg` : "None"}
-                      </span>
-                    </div>
-                    <div className="flex items-center text-xs font-mono font-medium">{p.rating}★</div>
-                    <div className="flex items-center">
-                      {p.isBatchTested
-                        ? <span className="text-xs bg-moss/10 text-moss font-mono px-1.5 py-0.5 rounded">✓ Tested</span>
-                        : <span className="text-xs text-muted font-mono">—</span>}
-                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Summary stats */}
+            {filteredProducts.length > 0 && (
+              <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {[
+                  {
+                    label: "Avg rating",
+                    value: (filteredProducts.reduce((a: number, p: any) => a + p.rating, 0) / filteredProducts.length).toFixed(1) + "★"
+                  },
+                  {
+                    label: "Avg price/serving",
+                    value: "$" + (filteredProducts.reduce((a: number, p: any) => a + p.pricePerServing, 0) / filteredProducts.length).toFixed(2)
+                  },
+                  {
+                    label: "Avg transparency",
+                    value: Math.round(filteredProducts.reduce((a: number, p: any) => a + p.transparencyScore, 0) / filteredProducts.length) + "%"
+                  },
+                  {
+                    label: "Batch tested",
+                    value: filteredProducts.filter((p: any) => p.isBatchTested).length + "/" + filteredProducts.length
+                  },
+                ].map(stat => (
+                  <div key={stat.label} className="card text-center py-3">
+                    <div className="font-display font-bold text-lg">{stat.value}</div>
+                    <div className="text-xs text-muted">{stat.label}</div>
                   </div>
                 ))}
               </div>
             )}
-
-            <div className="mt-6 p-4 bg-sand/30 rounded-xl border border-sand">
-              <div className="text-xs font-mono text-muted uppercase tracking-widest mb-2">Coming soon</div>
-              <div className="flex flex-wrap gap-2">
-                {["G:F ratio filter", "Osmolality", "Hydrogel filter", "Cost per gram carb", "Formula history", "Price alerts", "Full database", "Country filter", "Pello Score™"].map((attr) => (
-                  <span key={attr} className="text-xs bg-white/60 border border-sand px-2 py-1 rounded-md font-mono text-muted">{attr}</span>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
       </div>
