@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
-import { PRODUCTS, Category } from "@/lib/products";
+import { PRODUCTS } from "@/lib/products";
 
 // ── TYPES ─────────────────────────────────────────────────────
 
@@ -33,9 +33,16 @@ interface ParsedPlan {
   preEvent: string[];
   duringEvent: string[];
   postEvent: string[];
-  products: string[];
   totals: string[];
   keyNotes: string[];
+}
+
+interface PhaseProduct {
+  product: typeof PRODUCTS[0];
+  phase: "pre" | "during" | "post" | "daily";
+  quantity: number;
+  totalCost: number;
+  reason: string;
 }
 
 // ── CONSTANTS ─────────────────────────────────────────────────
@@ -88,6 +95,27 @@ const FORMAT_OPTIONS: { id: FormatPreference; label: string; desc: string }[] = 
 
 const RETAILER_OPTIONS: Retailer[] = ["REI", "Amazon", "The Feed", "Running Warehouse"];
 
+// ── OUTCOME → CATEGORY PRIORITY MAP ──────────────────────────
+
+const OUTCOME_CATEGORY_PRIORITY: Record<OutcomeType, string[]> = {
+  "finish-first-marathon": ["Energy Gel", "Energy Chew", "Hydration", "Carbohydrate Mix", "Energy Bar"],
+  "finish-first-triathlon": ["Energy Gel", "Carbohydrate Mix", "Hydration", "Energy Chew", "Protein"],
+  "improve-cycling-endurance": ["Energy Gel", "Carbohydrate Mix", "Hydration", "Energy Chew", "Creatine"],
+  "improve-recovery": ["Protein", "Omega-3", "Supplement", "Mineral", "Probiotic"],
+  "build-muscle-endurance": ["Protein", "Creatine", "Energy Gel", "Supplement", "Mineral"],
+  "lose-weight-perform": ["Protein", "Hydration", "Energy Gel", "Supplement", "Omega-3"],
+  "race-faster": ["Energy Gel", "Carbohydrate Mix", "Hydration", "Creatine", "Supplement"],
+  "gut-health": ["Probiotic", "Supplement", "Hydration", "Energy Gel", "Omega-3"],
+};
+
+// ── PHASE → CATEGORY MAP ──────────────────────────────────────
+
+const PHASE_CATEGORIES = {
+  pre: ["Energy Bar", "Carbohydrate Mix", "Hydration"],
+  during: ["Energy Gel", "Energy Chew", "Carbohydrate Mix", "Hydration"],
+  post: ["Protein", "Supplement", "Omega-3", "Mineral", "Probiotic"],
+};
+
 // ── HELPERS ───────────────────────────────────────────────────
 
 function carbsNeeded(durationHours: number, intensity: Intensity): number {
@@ -101,28 +129,204 @@ function sodiumNeeded(durationHours: number, intensity: Intensity, weightKg: num
   return Math.round(sweat[intensity] * weightKg * 500 * durationHours);
 }
 
-function parsePlan(raw: string): ParsedPlan {
-  const sections: ParsedPlan = {
-    preEvent: [], duringEvent: [], postEvent: [],
-    products: [], totals: [], keyNotes: [],
+function getServingsPerContainer(category: string): number {
+  const map: Record<string, number> = {
+    "Energy Gel": 12, "Energy Chew": 12, "Energy Bar": 12,
+    "Carbohydrate Mix": 30, "Hydration": 30, "Protein": 28,
+    "Creatine": 90, "Supplement": 30, "Probiotic": 30,
+    "Omega-3": 30, "Vitamin": 90, "Mineral": 60,
+  };
+  return map[category] ?? 30;
+}
+
+function getCarbsPerServing(p: typeof PRODUCTS[0]): number {
+  for (const ing of p.ingredients ?? []) {
+    const dose = ing.dose?.toLowerCase() ?? "";
+    const match = dose.match(/(\d+)g?\s*carb/);
+    if (match) return parseInt(match[1]);
+  }
+  return 25; // default estimate
+}
+
+// ── SMART RECOMMENDATION ENGINE ───────────────────────────────
+
+function buildPhaseRecommendations(inputs: PlannerInputs, carbTarget: number): {
+  pre: PhaseProduct[];
+  during: PhaseProduct[];
+  post: PhaseProduct[];
+} {
+  const isEvent = inputs.mode === "event";
+  const hasCaffeine = inputs.caffeinePreference !== "none";
+  const needsFuelling = inputs.durationHours >= 1;
+
+  // Filter base pool
+  const pool = PRODUCTS.filter(p => {
+    if (inputs.dietary.includes("vegan")) {
+      const hasAnimal = p.ingredients?.some((i: any) =>
+        i.name.toLowerCase().includes("whey") ||
+        i.name.toLowerCase().includes("casein") ||
+        i.name.toLowerCase().includes("egg")
+      );
+      if (hasAnimal) return false;
+    }
+    return true;
+  });
+
+  const bestByCategory = (categories: string[], maxPerCat = 2, preferCaffeine = false): typeof PRODUCTS => {
+    const results: typeof PRODUCTS = [];
+    categories.forEach(cat => {
+      const inCat = pool
+        .filter(p => p.category === cat)
+        .filter(p => {
+          if (inputs.caffeinePreference === "none") {
+            return !p.ingredients?.some((i: any) =>
+              i.name.toLowerCase().includes("caffeine") ||
+              i.name.toLowerCase().includes("green tea")
+            );
+          }
+          return true;
+        })
+        .sort((a, b) => {
+          // Prefer caffeinated products during event if caffeine preference is high
+          if (preferCaffeine && inputs.caffeinePreference === "high") {
+            const aHasCaf = a.ingredients?.some((i: any) => i.name.toLowerCase().includes("caffeine")) ?? false;
+            const bHasCaf = b.ingredients?.some((i: any) => i.name.toLowerCase().includes("caffeine")) ?? false;
+            if (aHasCaf && !bHasCaf) return -1;
+            if (!aHasCaf && bHasCaf) return 1;
+          }
+          return b.rating - a.rating;
+        })
+        .slice(0, maxPerCat);
+      results.push(...inCat);
+    });
+    return results;
   };
 
+  if (isEvent) {
+    // PRE — bar + hydration
+    const preProducts = bestByCategory(PHASE_CATEGORIES.pre, 1);
+
+    // DURING — gels/chews + hydration based on duration and carb target
+    const duringCategories = inputs.formats.length > 0
+      ? inputs.formats.filter(f => PHASE_CATEGORIES.during.includes(f))
+      : PHASE_CATEGORIES.during;
+
+    const duringProducts = bestByCategory(
+      duringCategories.length > 0 ? duringCategories : PHASE_CATEGORIES.during,
+      2,
+      true // prefer caffeinated during event
+    );
+
+    // Calculate quantities
+    const prePhase: PhaseProduct[] = preProducts.slice(0, 1).map(p => ({
+      product: p,
+      phase: "pre" as const,
+      quantity: 1,
+      totalCost: parseFloat((p.price / getServingsPerContainer(p.category)).toFixed(2)),
+      reason: `Slow-release carbs 2-3 hours before — provides sustained energy without GI distress`,
+    }));
+
+    const duringPhase: PhaseProduct[] = duringProducts.slice(0, 3).map(p => {
+      const carbsPerServing = getCarbsPerServing(p);
+      const carbsPerHr = INTENSITY_OPTIONS.find(i => i.id === inputs.intensity)?.carbsPerHr ?? 50;
+      const servingsNeeded = p.category === "Energy Gel" || p.category === "Energy Chew"
+        ? Math.max(1, Math.ceil(carbTarget / carbsPerServing))
+        : Math.ceil(inputs.durationHours);
+      const pricePerServing = p.price / getServingsPerContainer(p.category);
+      const totalCost = parseFloat((pricePerServing * servingsNeeded).toFixed(2));
+
+      const hasCaf = p.ingredients?.some((i: any) => i.name.toLowerCase().includes("caffeine")) ?? false;
+      const reason = p.category === "Energy Gel"
+        ? `x${servingsNeeded} gels — 1 every ${Math.round(inputs.durationHours * 60 / servingsNeeded)} min for ${carbsPerServing * servingsNeeded}g total carbs`
+        : p.category === "Hydration"
+        ? `Electrolyte replacement — ${Math.ceil(inputs.durationHours)} servings for sodium and fluid balance`
+        : `Carb + hydration combined — ${Math.ceil(inputs.durationHours)} servings`;
+
+      return { product: p, phase: "during" as const, quantity: servingsNeeded, totalCost, reason };
+    });
+
+    // POST — protein + recovery
+    const postProducts = bestByCategory(PHASE_CATEGORIES.post, 1);
+    const postPhase: PhaseProduct[] = postProducts.slice(0, 2).map(p => ({
+      product: p,
+      phase: "post" as const,
+      quantity: 1,
+      totalCost: parseFloat((p.price / getServingsPerContainer(p.category)).toFixed(2)),
+      reason: p.category === "Protein"
+        ? `30-min recovery window — protein synthesis peaks immediately post-event`
+        : `Recovery support — reduce inflammation and restore balance`,
+    }));
+
+    return { pre: prePhase, during: duringPhase, post: postPhase };
+
+  } else {
+    // OUTCOME MODE
+    const outcomeType = inputs.outcomeType!;
+    const priorityCategories = OUTCOME_CATEGORY_PRIORITY[outcomeType] ?? [];
+
+    const allProducts = bestByCategory(priorityCategories, 2);
+
+    // Split into phases based on category
+    const pre = allProducts
+      .filter(p => ["Energy Bar", "Carbohydrate Mix", "Hydration"].includes(p.category))
+      .slice(0, 1)
+      .map(p => ({
+        product: p,
+        phase: "pre" as const,
+        quantity: 1,
+        totalCost: parseFloat((p.price / getServingsPerContainer(p.category)).toFixed(2)),
+        reason: "Daily preparation and pre-training nutrition",
+      }));
+
+    const during = allProducts
+      .filter(p => ["Energy Gel", "Energy Chew", "Carbohydrate Mix"].includes(p.category))
+      .slice(0, 2)
+      .map(p => ({
+        product: p,
+        phase: "during" as const,
+        quantity: 1,
+        totalCost: parseFloat((p.price / getServingsPerContainer(p.category)).toFixed(2)),
+        reason: "Intra-workout fuelling to support your goal",
+      }));
+
+    const post = allProducts
+      .filter(p => ["Protein", "Creatine", "Omega-3", "Supplement", "Mineral", "Probiotic"].includes(p.category))
+      .slice(0, 3)
+      .map(p => ({
+        product: p,
+        phase: "post" as const,
+        quantity: 30,
+        totalCost: p.price,
+        reason: outcomeType === "build-muscle-endurance" && p.category === "Creatine"
+          ? "3-5g daily — most researched performance supplement. Take consistently."
+          : outcomeType === "improve-recovery" && p.category === "Omega-3"
+          ? "Daily anti-inflammatory — reduces DOMS and accelerates tissue repair"
+          : outcomeType === "gut-health" && p.category === "Probiotic"
+          ? "Daily gut support — diversifies microbiome and reduces GI distress during exercise"
+          : "Daily supplement to support your goal",
+      }));
+
+    return { pre, during, post };
+  }
+}
+
+function parsePlan(raw: string): ParsedPlan {
+  const sections: ParsedPlan = {
+    preEvent: [], duringEvent: [], postEvent: [], totals: [], keyNotes: [],
+  };
   let current: keyof ParsedPlan = "preEvent";
 
   raw.split("\n").forEach(line => {
     const trimmed = line.trim();
     if (!trimmed) return;
-
     if (trimmed.match(/^PRE.EVENT/i) || trimmed.match(/^BEFORE/i)) { current = "preEvent"; return; }
     if (trimmed.match(/^DURING/i) || trimmed.match(/^INTRA/i)) { current = "duringEvent"; return; }
     if (trimmed.match(/^POST.EVENT/i) || trimmed.match(/^AFTER/i) || trimmed.match(/^RECOVERY/i)) { current = "postEvent"; return; }
-    if (trimmed.match(/^PRODUCT/i) || trimmed.match(/^RECOMMENDED/i)) { current = "products"; return; }
+    if (trimmed.match(/^PRODUCT/i) || trimmed.match(/^RECOMMENDED/i)) return; // skip — we handle products ourselves
     if (trimmed.match(/^TOTAL/i) || trimmed.match(/^SUMMARY/i)) { current = "totals"; return; }
     if (trimmed.match(/^KEY NOTE/i) || trimmed.match(/^IMPORTANT/i) || trimmed.match(/^NOTE/i)) { current = "keyNotes"; return; }
-
     sections[current].push(trimmed);
   });
-
   return sections;
 }
 
@@ -161,26 +365,56 @@ function PlanLines({ lines }: { lines: string[] }) {
   );
 }
 
+function PhaseProductCard({ item, borderColor }: { item: PhaseProduct; borderColor: string }) {
+  const p = item.product;
+  const pricePerServing = (p.price / getServingsPerContainer(p.category)).toFixed(2);
+
+  return (
+    <Link href={`/report/${p.id}`}>
+      <div className={`bg-white/60 border ${borderColor} rounded-xl p-3 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group`}>
+        <div className="flex items-start gap-3">
+          {(p as any).logoDomain ? (
+            <img src={`https://logo.clearbit.com/${(p as any).logoDomain}`} alt={p.brand}
+              className="h-7 w-7 object-contain flex-shrink-0 rounded"
+              onError={e => (e.currentTarget.style.display = "none")} />
+          ) : (
+            <div className="w-7 h-7 rounded bg-sand flex items-center justify-center text-xs font-mono flex-shrink-0">
+              {p.brand.charAt(0)}
+            </div>
+          )}
+          <div className="flex-1 min-w-0">
+            <div className="text-xs font-mono text-muted mb-0.5">{p.category}</div>
+            <div className="font-display font-semibold text-sm group-hover:text-moss transition-colors leading-tight">{p.name}</div>
+            <div className="text-xs text-muted">{p.brand}</div>
+          </div>
+          <div className="text-right flex-shrink-0">
+            {item.quantity > 1 ? (
+              <>
+                <div className="text-xs font-mono font-bold text-ink">x{item.quantity}</div>
+                <div className="text-xs font-mono text-moss">${item.totalCost.toFixed(2)}</div>
+              </>
+            ) : (
+              <div className="text-xs font-mono text-muted">${pricePerServing}/srv</div>
+            )}
+          </div>
+        </div>
+        <p className="text-xs text-muted mt-2 leading-relaxed">{item.reason}</p>
+      </div>
+    </Link>
+  );
+}
+
 // ── MAIN COMPONENT ────────────────────────────────────────────
 
 export default function PlannerPage() {
   const [step, setStep] = useState(1);
   const [inputs, setInputs] = useState<PlannerInputs>({
-    mode: "event",
-    eventType: null,
-    outcomeType: null,
-    durationHours: 2,
-    intensity: "moderate",
-    caffeinePreference: "moderate",
-    budget: 50,
-    dietary: [],
-    formats: [],
-    retailers: [],
-    weightKg: 70,
+    mode: "event", eventType: null, outcomeType: null,
+    durationHours: 2, intensity: "moderate", caffeinePreference: "moderate",
+    budget: 50, dietary: [], formats: [], retailers: [], weightKg: 70,
   });
   const [loading, setLoading] = useState(false);
   const [parsedPlan, setParsedPlan] = useState<ParsedPlan | null>(null);
-  const [rawPlan, setRawPlan] = useState("");
 
   const update = (key: keyof PlannerInputs, value: any) =>
     setInputs(prev => ({ ...prev, [key]: value }));
@@ -192,64 +426,30 @@ export default function PlannerPage() {
 
   const carbTarget = carbsNeeded(inputs.durationHours, inputs.intensity);
   const sodiumTarget = sodiumNeeded(inputs.durationHours, inputs.intensity, inputs.weightKg);
+  const isEvent = inputs.mode === "event";
 
-  const getMatchingProducts = () => {
-    const suppCats = ["Protein", "Creatine", "Supplement", "Recovery & Sleep", "Probiotic", "Omega-3", "Vitamin", "Mineral"];
-    return PRODUCTS.filter(p => {
-      if (inputs.formats.length > 0 && !inputs.formats.includes(p.category as FormatPreference) && !suppCats.includes(p.category)) return false;
-      return true;
-    }).sort((a, b) => b.rating - a.rating).slice(0, 15);
-  };
+  // Build phase-specific recommendations
+  const phaseRecs = useMemo(() => {
+    if (!parsedPlan) return null;
+    return buildPhaseRecommendations(inputs, carbTarget);
+  }, [parsedPlan, inputs, carbTarget]);
+
+  // Total cost
+  const totalCost = useMemo(() => {
+    if (!phaseRecs) return 0;
+    return [...phaseRecs.pre, ...phaseRecs.during, ...phaseRecs.post]
+      .reduce((sum, item) => sum + item.totalCost, 0);
+  }, [phaseRecs]);
 
   const generatePlan = async () => {
     setLoading(true);
     setParsedPlan(null);
-    setRawPlan("");
-    const matchingProducts = getMatchingProducts();
 
-    const isOutcome = inputs.mode === "outcome";
     const outcomeData = OUTCOME_TYPES.find(o => o.id === inputs.outcomeType);
     const eventData = EVENT_TYPES.find(e => e.id === inputs.eventType);
 
-    const prompt = isOutcome ? `You are Pello's expert sports nutrition AI. Generate a complete, science-backed nutrition protocol.
-
-ATHLETE GOAL:
-- Outcome: ${outcomeData?.label}
-- Description: ${outcomeData?.desc}
-- Body weight: ${inputs.weightKg}kg
-- Budget: $${inputs.budget}/month
-- Caffeine preference: ${inputs.caffeinePreference}
-- Dietary: ${inputs.dietary.length > 0 ? inputs.dietary.join(", ") : "none"}
-- Preferred formats: ${inputs.formats.length > 0 ? inputs.formats.join(", ") : "any"}
-
-AVAILABLE PRODUCTS FROM PELLO DATABASE:
-${matchingProducts.map(p => `- ${p.name} by ${p.brand} (${p.category}, $${p.price}/mo, rating ${p.rating})`).join("\n")}
-
-Generate a complete outcome-based nutrition protocol with these exact sections:
-
-PRE-EVENT
-Daily nutrition habits and pre-training preparation specific to achieving this outcome. Include meal timing, key nutrients and what to prioritise before training sessions.
-
-DURING EVENT
-Intra-training or intra-event fuelling strategy. What to take, when and how much. If this is a recovery or muscle-building outcome, focus on intra-workout nutrition.
-
-POST-EVENT
-Recovery nutrition protocol. The critical 0-30 minute window, 30-120 minute window, and daily recovery habits that directly support this outcome.
-
-PRODUCT RECOMMENDATIONS
-Pick 4-6 specific products from the Pello database above that are most important for achieving this outcome. For each: name, why it matters for this goal, how to use it and approximate monthly cost.
-
-TOTALS
-- Daily protein target: Xg
-- Daily carb target: Xg
-- Key supplement budget: $X/month
-
-KEY NOTES
-3 specific, actionable science-backed tips for achieving this outcome through nutrition.
-
-Be specific, practical and outcome-focused. Every recommendation should directly serve the stated goal.`
-
-    : `You are Pello's expert sports nutrition AI. Generate a complete, science-backed nutrition plan.
+    const prompt = isEvent
+      ? `You are Pello's expert sports nutrition AI. Generate a complete, science-backed nutrition plan.
 
 ATHLETE PROFILE:
 - Event: ${eventData?.label}
@@ -259,41 +459,57 @@ ATHLETE PROFILE:
 - Budget: $${inputs.budget}
 - Caffeine preference: ${inputs.caffeinePreference}
 - Dietary: ${inputs.dietary.length > 0 ? inputs.dietary.join(", ") : "none"}
-- Preferred formats: ${inputs.formats.length > 0 ? inputs.formats.join(", ") : "any"}
-- Retailers: ${inputs.retailers.length > 0 ? inputs.retailers.join(", ") : "any"}
 
 CALCULATED TARGETS:
-- Total carbs needed: ${carbTarget}g (${INTENSITY_OPTIONS.find(i => i.id === inputs.intensity)?.carbsPerHr}g/hr)
-- Total sodium needed: ${sodiumTarget}mg
-- ${inputs.durationHours < 1 ? "Under 60 min — carb fuelling optional" : `${inputs.durationHours} hours — full fuelling protocol needed`}
+- Total carbs: ${carbTarget}g (${INTENSITY_OPTIONS.find(i => i.id === inputs.intensity)?.carbsPerHr}g/hr)
+- Total sodium: ${sodiumTarget}mg
+- ${inputs.durationHours < 1 ? "Under 60 min — carb fuelling optional" : "Full fuelling protocol needed"}
 
-AVAILABLE PRODUCTS FROM PELLO DATABASE:
-${matchingProducts.map(p => `- ${p.name} by ${p.brand} (${p.category}, $${p.price}/mo, rating ${p.rating})`).join("\n")}
-
-Generate a complete plan with these exact sections:
+Generate a plan with EXACTLY these sections (use these headers):
 
 PRE-EVENT
-What to eat and drink 2-3 hours before the event. Include specific foods, products, quantities and timing. Focus on carb loading, hydration and gut preparation.
+What to eat 2-3 hours before. Specific foods, quantities, timing. Focus on carb loading and gut prep.
 
 DURING EVENT
-Per-hour fuelling breakdown. Start time for fuelling, exact quantities, timing intervals, what to take when. Be specific: "Take 1 gel at 30 min, then 1 every 25 min after that."
+Per-hour fuelling. Exact timing: "Start fuelling at 30 min, 1 gel every 25 min." Include sodium strategy.
 
 POST-EVENT
-Recovery protocol in three windows: 0-30 minutes (critical window), 30-120 minutes (sustained recovery), and overnight recovery. Specific foods, products and quantities for each window.
-
-PRODUCT RECOMMENDATIONS
-Pick 4-6 specific products from the Pello database above. For each: product name, how many units needed for this event, total cost, exact timing in the plan and why it's the right choice.
+Three windows: 0-30 min (critical), 30-120 min (sustained), overnight recovery. Specific foods and amounts.
 
 TOTALS
 - Total carbs: Xg
 - Total sodium: Xmg
 - Total caffeine: Xmg
-- Estimated product cost: $X
 
 KEY NOTES
-3 specific tips for this exact event/athlete combination based on the science.
+3 specific science-backed tips for this exact event and athlete.`
 
-Be specific with quantities and timing. Use exact numbers.`;
+      : `You are Pello's expert sports nutrition AI. Generate a complete outcome-based nutrition protocol.
+
+ATHLETE GOAL: ${outcomeData?.label}
+- Body weight: ${inputs.weightKg}kg
+- Budget: $${inputs.budget}/month
+- Caffeine: ${inputs.caffeinePreference}
+- Dietary: ${inputs.dietary.length > 0 ? inputs.dietary.join(", ") : "none"}
+
+Generate a protocol with EXACTLY these sections:
+
+PRE-EVENT
+Daily nutrition habits before training. Meal timing, key nutrients, what to prioritise.
+
+DURING EVENT
+Intra-training nutrition. What to take, when and how much during sessions.
+
+POST-EVENT
+Recovery protocol: 0-30 min window, 30-120 min, daily recovery habits. Specific foods and amounts.
+
+TOTALS
+- Daily protein target: Xg
+- Daily carb target: Xg
+- Monthly supplement budget: $X
+
+KEY NOTES
+3 specific actionable tips for achieving this outcome through nutrition.`;
 
     try {
       const res = await fetch("/api/plan", {
@@ -302,18 +518,15 @@ Be specific with quantities and timing. Use exact numbers.`;
         body: JSON.stringify({ prompt }),
       });
       const data = await res.json();
-      const plan = data.plan || "Failed to generate plan. Please try again.";
-      setRawPlan(plan);
-      setParsedPlan(parsePlan(plan));
+      setParsedPlan(parsePlan(data.plan ?? "Failed to generate plan."));
     } catch {
-      setRawPlan("Failed to generate plan. Please try again.");
+      setParsedPlan(parsePlan("Failed to generate plan. Please try again."));
     }
     setLoading(false);
   };
 
   const reset = () => {
     setParsedPlan(null);
-    setRawPlan("");
     setStep(1);
     setInputs({
       mode: "event", eventType: null, outcomeType: null,
@@ -322,7 +535,6 @@ Be specific with quantities and timing. Use exact numbers.`;
     });
   };
 
-  const isEvent = inputs.mode === "event";
   const planTitle = isEvent
     ? `${EVENT_TYPES.find(e => e.id === inputs.eventType)?.label} · ${inputs.durationHours}hr plan`
     : OUTCOME_TYPES.find(o => o.id === inputs.outcomeType)?.label ?? "Your plan";
@@ -334,7 +546,6 @@ Be specific with quantities and timing. Use exact numbers.`;
           <Link href="/" className="font-display font-bold text-lg tracking-tight">Pel<span className="text-moss">lo</span></Link>
           <div className="flex items-center gap-3">
             <Link href="/products" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">All products</Link>
-<Link href="/search" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Search</Link>
             <Link href="/search" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Search</Link>
             <Link href="/guides" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Guides</Link>
             <Link href="/compare" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Compare</Link>
@@ -360,28 +571,22 @@ Be specific with quantities and timing. Use exact numbers.`;
           <>
             <StepIndicator current={step} total={3} />
 
-            {/* Step 1 — Mode + Event/Outcome */}
+            {/* Step 1 */}
             {step === 1 && (
               <div>
-                {/* Mode selector */}
                 <div className="grid grid-cols-2 gap-3 mb-6">
-                  <button
-                    onClick={() => update("mode", "event")}
-                    className={`p-4 rounded-xl border text-left transition-all ${inputs.mode === "event" ? "border-moss bg-moss/5" : "border-sand hover:border-muted bg-white/40"}`}
-                  >
+                  <button onClick={() => update("mode", "event")}
+                    className={`p-4 rounded-xl border text-left transition-all ${inputs.mode === "event" ? "border-moss bg-moss/5" : "border-sand hover:border-muted bg-white/40"}`}>
                     <div className="font-display font-semibold text-sm mb-1">Event / session</div>
                     <div className="text-xs text-muted">I have a specific event or training session to fuel for</div>
                   </button>
-                  <button
-                    onClick={() => update("mode", "outcome")}
-                    className={`p-4 rounded-xl border text-left transition-all ${inputs.mode === "outcome" ? "border-moss bg-moss/5" : "border-sand hover:border-muted bg-white/40"}`}
-                  >
+                  <button onClick={() => update("mode", "outcome")}
+                    className={`p-4 rounded-xl border text-left transition-all ${inputs.mode === "outcome" ? "border-moss bg-moss/5" : "border-sand hover:border-muted bg-white/40"}`}>
                     <div className="font-display font-semibold text-sm mb-1">Outcome / goal</div>
                     <div className="text-xs text-muted">I want to achieve a specific result through nutrition</div>
                   </button>
                 </div>
 
-                {/* Event types */}
                 {inputs.mode === "event" && (
                   <div>
                     <h2 className="font-display font-semibold text-base mb-4">What are you planning for?</h2>
@@ -397,7 +602,6 @@ Be specific with quantities and timing. Use exact numbers.`;
                         </button>
                       ))}
                     </div>
-
                     {inputs.eventType && (
                       <div className="card mb-6">
                         <h3 className="font-display font-semibold mb-4">Duration</h3>
@@ -414,7 +618,6 @@ Be specific with quantities and timing. Use exact numbers.`;
                   </div>
                 )}
 
-                {/* Outcome types */}
                 {inputs.mode === "outcome" && (
                   <div>
                     <h2 className="font-display font-semibold text-base mb-4">What do you want to achieve?</h2>
@@ -437,17 +640,14 @@ Be specific with quantities and timing. Use exact numbers.`;
                   </div>
                 )}
 
-                <button
-                  onClick={() => setStep(2)}
-                  disabled={isEvent ? !inputs.eventType : !inputs.outcomeType}
-                  className="btn-primary w-full justify-center flex disabled:opacity-40"
-                >
+                <button onClick={() => setStep(2)} disabled={isEvent ? !inputs.eventType : !inputs.outcomeType}
+                  className="btn-primary w-full justify-center flex disabled:opacity-40">
                   Next →
                 </button>
               </div>
             )}
 
-            {/* Step 2 — Targets */}
+            {/* Step 2 */}
             {step === 2 && (
               <div>
                 <h2 className="font-display font-semibold text-lg mb-1">Your targets</h2>
@@ -540,7 +740,7 @@ Be specific with quantities and timing. Use exact numbers.`;
               </div>
             )}
 
-            {/* Step 3 — Preferences */}
+            {/* Step 3 */}
             {step === 3 && (
               <div>
                 <h2 className="font-display font-semibold text-lg mb-1">Your preferences</h2>
@@ -612,9 +812,9 @@ Be specific with quantities and timing. Use exact numbers.`;
         )}
 
         {/* Results */}
-        {parsedPlan && !loading && (
+        {parsedPlan && !loading && phaseRecs && (
           <div>
-            {/* Plan header */}
+            {/* Header */}
             <div className="mb-8">
               <div className="text-xs font-mono text-muted uppercase tracking-widest mb-2">Your nutrition plan</div>
               <h1 className="font-display font-bold text-3xl tracking-tight mb-3">{planTitle}</h1>
@@ -627,65 +827,100 @@ Be specific with quantities and timing. Use exact numbers.`;
               </div>
             </div>
 
-            {/* Three phase cards */}
-            <div className="space-y-4 mb-6">
-
-              {/* Pre-event */}
-              {parsedPlan.preEvent.length > 0 && (
-                <div className="card border-l-4 border-l-moss">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-8 h-8 rounded-full bg-moss/10 flex items-center justify-center flex-shrink-0">
-                      <span className="text-moss text-xs font-mono font-bold">PRE</span>
-                    </div>
-                    <div>
-                      <h3 className="font-display font-bold text-base">{isEvent ? "Pre-event" : "Before training"}</h3>
-                      <p className="text-xs text-muted">{isEvent ? "2-3 hours before" : "Daily preparation"}</p>
-                    </div>
-                  </div>
-                  <PlanLines lines={parsedPlan.preEvent} />
+            {/* PRE phase */}
+            <div className="card border-l-4 border-l-moss mb-4">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-8 h-8 rounded-full bg-moss/10 flex items-center justify-center flex-shrink-0">
+                  <span className="text-moss text-xs font-mono font-bold">PRE</span>
                 </div>
-              )}
-
-              {/* During event */}
-              {parsedPlan.duringEvent.length > 0 && (
-                <div className="card border-l-4 border-l-amber">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-8 h-8 rounded-full bg-amber/10 flex items-center justify-center flex-shrink-0">
-                      <span className="text-amber text-xs font-mono font-bold">DUR</span>
-                    </div>
-                    <div>
-                      <h3 className="font-display font-bold text-base">{isEvent ? "During event" : "During training"}</h3>
-                      <p className="text-xs text-muted">{isEvent ? "Per-hour fuelling plan" : "Intra-workout nutrition"}</p>
-                    </div>
-                  </div>
-                  <PlanLines lines={parsedPlan.duringEvent} />
+                <div>
+                  <h3 className="font-display font-bold text-base">{isEvent ? "Pre-event" : "Before training"}</h3>
+                  <p className="text-xs text-muted">{isEvent ? "2-3 hours before" : "Daily preparation"}</p>
                 </div>
-              )}
-
-              {/* Post-event */}
-              {parsedPlan.postEvent.length > 0 && (
-                <div className="card border-l-4 border-l-blue-400">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0">
-                      <span className="text-blue-600 text-xs font-mono font-bold">POST</span>
-                    </div>
-                    <div>
-                      <h3 className="font-display font-bold text-base">{isEvent ? "Post-event recovery" : "Recovery protocol"}</h3>
-                      <p className="text-xs text-muted">{isEvent ? "0-30 min · 30-120 min · overnight" : "Daily recovery habits"}</p>
-                    </div>
+              </div>
+              <PlanLines lines={parsedPlan.preEvent} />
+              {phaseRecs.pre.length > 0 && (
+                <div className="mt-4 pt-4 border-t border-sand">
+                  <div className="text-xs font-mono text-muted uppercase tracking-widest mb-2">Recommended products</div>
+                  <div className="space-y-2">
+                    {phaseRecs.pre.map(item => (
+                      <PhaseProductCard key={item.product.id} item={item} borderColor="border-moss/20" />
+                    ))}
                   </div>
-                  <PlanLines lines={parsedPlan.postEvent} />
                 </div>
               )}
             </div>
 
-            {/* Totals */}
-            {parsedPlan.totals.length > 0 && (
-              <div className="card bg-moss/5 border-moss/20 mb-4">
-                <div className="text-xs font-mono text-moss uppercase tracking-widest mb-3">Plan summary</div>
-                <PlanLines lines={parsedPlan.totals} />
+            {/* DURING phase */}
+            <div className="card border-l-4 border-l-amber mb-4">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-8 h-8 rounded-full bg-amber/10 flex items-center justify-center flex-shrink-0">
+                  <span className="text-amber text-xs font-mono font-bold">DUR</span>
+                </div>
+                <div>
+                  <h3 className="font-display font-bold text-base">{isEvent ? "During event" : "During training"}</h3>
+                  <p className="text-xs text-muted">{isEvent ? "Per-hour fuelling plan" : "Intra-workout nutrition"}</p>
+                </div>
               </div>
-            )}
+              <PlanLines lines={parsedPlan.duringEvent} />
+              {phaseRecs.during.length > 0 && (
+                <div className="mt-4 pt-4 border-t border-sand">
+                  <div className="text-xs font-mono text-muted uppercase tracking-widest mb-2">Recommended products</div>
+                  <div className="space-y-2">
+                    {phaseRecs.during.map(item => (
+                      <PhaseProductCard key={item.product.id} item={item} borderColor="border-amber/20" />
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* POST phase */}
+            <div className="card border-l-4 border-l-blue-400 mb-4">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0">
+                  <span className="text-blue-600 text-xs font-mono font-bold">POST</span>
+                </div>
+                <div>
+                  <h3 className="font-display font-bold text-base">{isEvent ? "Post-event recovery" : "Recovery protocol"}</h3>
+                  <p className="text-xs text-muted">{isEvent ? "0-30 min · 30-120 min · overnight" : "Daily recovery habits"}</p>
+                </div>
+              </div>
+              <PlanLines lines={parsedPlan.postEvent} />
+              {phaseRecs.post.length > 0 && (
+                <div className="mt-4 pt-4 border-t border-sand">
+                  <div className="text-xs font-mono text-muted uppercase tracking-widest mb-2">Recommended products</div>
+                  <div className="space-y-2">
+                    {phaseRecs.post.map(item => (
+                      <PhaseProductCard key={item.product.id} item={item} borderColor="border-blue-100" />
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Cost summary */}
+            <div className="card bg-moss/5 border-moss/20 mb-4">
+              <div className="text-xs font-mono text-moss uppercase tracking-widest mb-3">
+                {isEvent ? "Estimated event cost" : "Monthly supplement stack"}
+              </div>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm text-muted">Recommended products total</span>
+                <span className="font-display font-bold text-xl text-moss">${totalCost.toFixed(2)}</span>
+              </div>
+              {isEvent && (
+                <div className={`text-xs font-mono ${totalCost <= inputs.budget ? "text-moss" : "text-amber"}`}>
+                  {totalCost <= inputs.budget
+                    ? `✓ Within your $${inputs.budget} budget`
+                    : `⚠ $${(totalCost - inputs.budget).toFixed(2)} over your $${inputs.budget} budget`}
+                </div>
+              )}
+              {parsedPlan.totals.length > 0 && (
+                <div className="mt-3 pt-3 border-t border-sand">
+                  <PlanLines lines={parsedPlan.totals} />
+                </div>
+              )}
+            </div>
 
             {/* Key notes */}
             {parsedPlan.keyNotes.length > 0 && (
@@ -694,38 +929,6 @@ Be specific with quantities and timing. Use exact numbers.`;
                 <PlanLines lines={parsedPlan.keyNotes} />
               </div>
             )}
-
-            {/* Product recommendations */}
-            <div className="mb-6">
-              <div className="text-xs font-mono text-muted uppercase tracking-widest mb-1">From the Pello database</div>
-              <p className="text-xs text-muted mb-4">Top-rated products that match your plan — click any to read the full report</p>
-              <div className="space-y-3">
-                {getMatchingProducts().slice(0, 6).map(p => (
-                  <Link key={p.id} href={`/report/${p.id}`}>
-                    <div className="card hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group flex items-center gap-4">
-                      {(p as any).logoDomain ? (
-                        <img src={`https://logo.clearbit.com/${(p as any).logoDomain}`} alt={p.brand}
-                          className="h-8 w-auto object-contain flex-shrink-0"
-                          onError={e => (e.currentTarget.style.display = "none")} />
-                      ) : (
-                        <div className="w-8 h-8 rounded-lg bg-sand flex items-center justify-center text-xs font-mono flex-shrink-0">
-                          {p.brand.charAt(0)}
-                        </div>
-                      )}
-                      <div className="flex-1">
-                        <div className="text-xs font-mono text-muted mb-0.5">{p.category}</div>
-                        <div className="font-display font-semibold text-sm group-hover:text-moss transition-colors">{p.name}</div>
-                        <div className="text-xs text-muted">{p.brand} · {p.rating}★</div>
-                      </div>
-                      <div className="text-right flex-shrink-0">
-                        <div className="text-xs font-mono font-medium">${p.price}/mo</div>
-                        <div className="text-xs text-moss mt-1">View →</div>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
 
             <div className="flex gap-3">
               <button onClick={reset} className="btn-secondary flex-1 justify-center flex">Start over</button>
