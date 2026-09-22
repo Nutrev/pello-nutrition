@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Block admin
+Disallow: /admin
+
+Sitemap: https://www.pellonutrition.com/sitemap.xml
