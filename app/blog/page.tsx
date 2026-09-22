@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { getAllPosts } from "@/lib/blog";
+import { getPostBySlug, getAllPosts } from "@/lib/blog-data";
 import type { Metadata } from "next";
-
 export const metadata: Metadata = {
   title: "Sports Nutrition Blog",
   description: "Science-backed guides, product comparisons and nutrition advice for endurance athletes. Evidence-based articles on energy gels, supplements, race nutrition and more.",

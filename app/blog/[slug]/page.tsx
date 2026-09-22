@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getPostBySlug, getAllPosts } from "@/lib/blog";
+import { getPostBySlug, getAllPosts } from "@/lib/blog-data";
 import { PRODUCTS } from "@/lib/products";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -8,6 +8,7 @@ export async function generateStaticParams() {
   const posts = getAllPosts();
   return posts.map(post => ({ slug: post.slug }));
 }
+
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const post = getPostBySlug(params.slug);
   if (!post) return { title: "Post not found" };
@@ -150,35 +151,22 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         </div>
 
         {/* Related products */}
-        {relatedProducts && relatedProducts.length > 0 && (
-          <div className="border-t border-sand pt-10">
-            <div className="text-xs font-mono text-muted uppercase tracking-widest mb-4">Products mentioned</div>
-            <div className="space-y-3">
-              {relatedProducts.map(p => p && (
-                <Link key={p.id} href={`/report/${p.id}`}>
-                  <div className="card hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group flex items-center gap-4">
-                    {(p as any).logoDomain ? (
-                      <img src={`https://logo.clearbit.com/${(p as any).logoDomain}`} alt={p.brand}
-                        className="h-8 w-auto object-contain flex-shrink-0"
-                        onError={e => (e.currentTarget.style.display = "none")} />
-                    ) : (
-                      <div className="w-8 h-8 rounded-lg bg-sand flex items-center justify-center text-xs font-mono flex-shrink-0">
-                        {p.brand.charAt(0)}
-                      </div>
-                    )}
-                    <div className="flex-1">
-                      <div className="text-xs font-mono text-muted mb-0.5">{p.category}</div>
-                      <div className="font-display font-semibold text-sm group-hover:text-moss transition-colors">{p.name}</div>
-                      <div className="text-xs text-muted">{p.brand} · {p.rating}★</div>
-                    </div>
-                    <div className="text-xs text-moss flex-shrink-0">Full report →</div>
-                  </div>
-                </Link>
-              ))}
+      {relatedProducts.map(p => p && (
+          <Link key={p.id} href={`/report/${p.id}`}>
+            <div className="card hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group flex items-center gap-4">
+              <div className="w-8 h-8 rounded-lg bg-sand flex items-center justify-center text-xs font-mono flex-shrink-0">
+                {p.brand.charAt(0)}
+              </div>
+              <div className="flex-1">
+                <div className="text-xs font-mono text-muted mb-0.5">{p.category}</div>
+                <div className="font-display font-semibold text-sm group-hover:text-moss transition-colors">{p.name}</div>
+                <div className="text-xs text-muted">{p.brand} · {p.rating}★</div>
+              </div>
+              <div className="text-xs text-moss flex-shrink-0">Full report →</div>
             </div>
-          </div>
-        )}
-
+          </Link>
+        ))}
+        
         {/* CTA */}
         <div className="card bg-moss/5 border-moss/20 text-center py-8 mt-10">
           <h3 className="font-display font-semibold mb-2">Get your personalised nutrition plan</h3>
