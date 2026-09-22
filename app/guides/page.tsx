@@ -29,13 +29,9 @@ export default function GuidesPage() {
       <Link href="/products" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">All products</Link>
 <Link href="/search" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Search</Link>
             <Link href="/search" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Search</Link>
-      
-<Link href="/blog" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Blog</Link>      <Link href="/compare" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Compare</Link>
+<Link href="/compare" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Compare</Link>
       <Link href="/query" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Query</Link>
       <Link href="/ingredients" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Ingredients</Link>
-      
-      <Link href="/blog" className="text-sm text-muted hover:text-ink transition-colors">Blog</Link>
-<Link href="/blog" className="text-sm text-muted hover:text-ink transition-colors">Blog</Link>
             <Link href="/quiz" className="btn-secondary text-xs py-1.5 px-3">Build my plan →</Link>
     </div>
   </div>
