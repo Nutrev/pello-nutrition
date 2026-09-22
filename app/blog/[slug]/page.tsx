@@ -115,6 +115,8 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           <div className="flex items-center gap-3">
             <Link href="/blog" className="text-sm text-muted hover:text-ink transition-colors">Blog</Link>
             <Link href="/products" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Products</Link>
+            <Link href="/blog" className="text-sm text-muted hover:text-ink transition-colors">Blog</Link>
+<Link href="/blog" className="text-sm text-muted hover:text-ink transition-colors">Blog</Link>
             <Link href="/quiz" className="btn-secondary text-xs py-1.5 px-3">Build my plan →</Link>
           </div>
         </div>
@@ -166,7 +168,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
             </div>
           </Link>
         ))}
-        
+
         {/* CTA */}
         <div className="card bg-moss/5 border-moss/20 text-center py-8 mt-10">
           <h3 className="font-display font-semibold mb-2">Get your personalised nutrition plan</h3>
