@@ -93,6 +93,8 @@ export default function HomePage() {
               <Link href="/compare" className="hidden md:block text-sm text-muted hover:text-ink transition-colors">Compare</Link>
               <Link href="/query" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Query</Link>
               <Link href="/ingredients" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Ingredients</Link>
+              <Link href="/guides" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Guides</Link>
+              <Link href="/blog" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Blog</Link>
               
               <Link href="/quiz" className="btn-secondary text-xs py-1.5 px-3">Build my plan →</Link>
 </div>
@@ -155,6 +157,8 @@ export default function HomePage() {
               { href: "/guides", label: "Guides", desc: "Calculators + science" },
               { href: "/query", label: "Query database", desc: "Bloomberg Terminal" },
               { href: "/ingredients", label: "Ingredients", desc: "Encyclopedia" },
+              { href: "/ingredients", label: "Ingredients" },
+              { href: "/blog", label: "Blog" },
             ].map((link) => (
               <Link key={link.href} href={link.href}
                 className="block p-3 rounded-xl border border-sand hover:border-muted bg-white/40 hover:bg-white/60 transition-all group">
