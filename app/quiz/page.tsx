@@ -345,18 +345,75 @@ function StepIndicator({ current, total }: { current: number; total: number }) {
   );
 }
 
+// Replace the PlanLines function in app/quiz/page.tsx with this:
+
 function PlanLines({ lines }: { lines: string[] }) {
   return (
-    <div className="space-y-1.5">
+    <div className="space-y-2">
       {lines.map((line, i) => {
-        const clean = line.replace(/^[-•*]\s*/, "").replace(/\*\*/g, "");
+        // Strip markdown
+        const clean = line
+          .replace(/^#+\s*/, "")           // remove ## headers
+          .replace(/\*\*(.*?)\*\*/g, "$1") // remove bold
+          .replace(/^[-*]\s+/, "")         // remove bullet markers
+          .replace(/^\*(.+)\*$/, "$1")     // remove italic wrappers
+          .replace(/^---+$/, "")           // remove dividers
+          .replace(/^--$/, "")             // remove --
+          .trim();
+
         if (!clean) return null;
-        if (clean.match(/^[A-Z][A-Z\s:]+$/) || clean.endsWith(":")) {
-          return <p key={i} className="font-semibold text-sm mt-3 mb-1 text-ink">{clean}</p>;
+
+        // Table rows — pipe separated
+        if (clean.startsWith("|") && clean.endsWith("|")) {
+          // Skip separator rows like |---|---|
+          if (clean.match(/^\|[\s\-|]+\|$/)) return null;
+          const cells = clean.split("|").filter(c => c.trim());
+          // Header row (first table row)
+          if (cells.length >= 2) {
+            return (
+              <div key={i} className="grid gap-2 text-xs py-1.5 border-b border-sand last:border-0"
+                style={{ gridTemplateColumns: `repeat(${cells.length}, 1fr)` }}>
+                {cells.map((cell, ci) => (
+                  <span key={ci} className={ci === 0 ? "font-medium text-ink" : "text-muted"}>{cell.trim()}</span>
+                ))}
+              </div>
+            );
+          }
         }
+
+        // Timing headers (e.g. "2.5-3 Hours Before", "0-30 Minutes", "60 Minutes Before")
+        if (clean.match(/^\d[\d\s\-–]+(?:hour|min|minute)/i) || clean.match(/^(?:meal total|hour \d)/i)) {
+          return (
+            <div key={i} className="font-semibold text-sm text-ink mt-4 mb-1 pt-2 border-t border-sand first:border-0 first:pt-0">
+              {clean}
+            </div>
+          );
+        }
+
+        // Section subheaders (ALL CAPS or ends with colon)
+        if ((clean === clean.toUpperCase() && clean.length > 3) || (clean.endsWith(":") && clean.length < 40)) {
+          return (
+            <div key={i} className="font-semibold text-sm text-ink mt-3 mb-1">{clean}</div>
+          );
+        }
+
+        // Totals / summary lines (start with key metric)
+        if (clean.match(/^(total|estimated|daily|monthly|target|budget)/i)) {
+          const parts = clean.split(":");
+          if (parts.length === 2) {
+            return (
+              <div key={i} className="flex items-center justify-between py-1 border-b border-sand/50 last:border-0">
+                <span className="text-xs text-muted">{parts[0].trim()}</span>
+                <span className="text-xs font-mono font-medium text-ink">{parts[1].trim()}</span>
+              </div>
+            );
+          }
+        }
+
+        // Regular line
         return (
           <div key={i} className="flex items-start gap-2 text-sm text-muted">
-            <span className="text-moss flex-shrink-0 mt-0.5">→</span>
+            <span className="text-moss flex-shrink-0 mt-1 text-xs">→</span>
             <span className="leading-relaxed">{clean}</span>
           </div>
         );
@@ -449,7 +506,7 @@ export default function PlannerPage() {
     const eventData = EVENT_TYPES.find(e => e.id === inputs.eventType);
 
     const prompt = isEvent
-      ? `You are Pello's expert sports nutrition AI. Generate a complete, science-backed nutrition plan.
+    ? `You are Pello's expert sports nutrition AI. Generate a complete, science-backed nutrition plan.
 
 ATHLETE PROFILE:
 - Event: ${eventData?.label}
@@ -463,28 +520,37 @@ ATHLETE PROFILE:
 CALCULATED TARGETS:
 - Total carbs: ${carbTarget}g (${INTENSITY_OPTIONS.find(i => i.id === inputs.intensity)?.carbsPerHr}g/hr)
 - Total sodium: ${sodiumTarget}mg
-- ${inputs.durationHours < 1 ? "Under 60 min — carb fuelling optional" : "Full fuelling protocol needed"}
 
-Generate a plan with EXACTLY these sections (use these headers):
+Use ONLY these exact section headers. No markdown, no tables, no asterisks, no hashtags. Plain text only.
 
 PRE-EVENT
-What to eat 2-3 hours before. Specific foods, quantities, timing. Focus on carb loading and gut prep.
+List specific foods with quantities and carb counts. Use this format:
+White rice or pasta — 200g cooked — 55g carbs
+Banana — 1 medium — 25g carbs
+Then add timing notes as plain sentences.
 
 DURING EVENT
-Per-hour fuelling. Exact timing: "Start fuelling at 30 min, 1 gel every 25 min." Include sodium strategy.
+Write a clear per-hour fuelling schedule as plain sentences. Example:
+Start fuelling at 30 minutes with 1 gel (25g carbs).
+Take 1 gel every 25 minutes after that.
+Sip 150-200ml water with each gel.
 
 POST-EVENT
-Three windows: 0-30 min (critical), 30-120 min (sustained), overnight recovery. Specific foods and amounts.
+Three clear windows as plain text:
+0-30 minutes: specific food and amounts
+30-120 minutes: specific food and amounts
+Overnight: specific recommendations
 
 TOTALS
-- Total carbs: Xg
-- Total sodium: Xmg
-- Total caffeine: Xmg
+Total carbs: Xg
+Total sodium: Xmg
+Total caffeine: Xmg
+Estimated product cost: $X
 
 KEY NOTES
-3 specific science-backed tips for this exact event and athlete.`
+Write exactly 3 numbered tips as plain sentences. No bullet points, no asterisks.`
 
-      : `You are Pello's expert sports nutrition AI. Generate a complete outcome-based nutrition protocol.
+    : `You are Pello's expert sports nutrition AI. Generate a complete outcome-based nutrition protocol.
 
 ATHLETE GOAL: ${outcomeData?.label}
 - Body weight: ${inputs.weightKg}kg
@@ -492,24 +558,27 @@ ATHLETE GOAL: ${outcomeData?.label}
 - Caffeine: ${inputs.caffeinePreference}
 - Dietary: ${inputs.dietary.length > 0 ? inputs.dietary.join(", ") : "none"}
 
-Generate a protocol with EXACTLY these sections:
+Use ONLY these exact section headers. No markdown, no tables, no asterisks. Plain text only.
 
 PRE-EVENT
-Daily nutrition habits before training. Meal timing, key nutrients, what to prioritise.
+Daily nutrition habits before training as plain sentences. Specific foods, timing and quantities.
 
 DURING EVENT
-Intra-training nutrition. What to take, when and how much during sessions.
+Intra-training nutrition as plain sentences. What to take, when and how much.
 
 POST-EVENT
-Recovery protocol: 0-30 min window, 30-120 min, daily recovery habits. Specific foods and amounts.
+Three windows as plain text:
+0-30 minutes: specific recommendations
+30-120 minutes: specific recommendations
+Daily habits: ongoing recovery nutrition
 
 TOTALS
-- Daily protein target: Xg
-- Daily carb target: Xg
-- Monthly supplement budget: $X
+Daily protein target: Xg
+Daily carb target: Xg
+Monthly supplement budget: $X
 
 KEY NOTES
-3 specific actionable tips for achieving this outcome through nutrition.`;
+Write exactly 3 numbered tips as plain sentences. No bullet points, no asterisks.`;
 
     try {
       const res = await fetch("/api/plan", {
