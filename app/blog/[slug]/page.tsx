@@ -4,8 +4,10 @@ import { PRODUCTS } from "@/lib/products";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-export const revalidate = 3600; // rebuild every hour
-
+export async function generateStaticParams() {
+  const posts = getAllPosts();
+  return posts.map(post => ({ slug: post.slug }));
+}
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const post = getPostBySlug(params.slug);
   if (!post) return { title: "Post not found" };
