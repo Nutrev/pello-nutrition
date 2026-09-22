@@ -4,10 +4,7 @@ import { PRODUCTS } from "@/lib/products";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-export async function generateStaticParams() {
-  const posts = getAllPosts();
-  return posts.map(post => ({ slug: post.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const post = getPostBySlug(params.slug);
