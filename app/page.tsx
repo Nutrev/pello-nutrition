@@ -93,7 +93,7 @@ export default function HomePage() {
               <Link href="/compare" className="hidden md:block text-sm text-muted hover:text-ink transition-colors">Compare</Link>
               <Link href="/query" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Query</Link>
               <Link href="/ingredients" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Ingredients</Link>
-              <Link href="/guides" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Guides</Link>
+              
               <Link href="/blog" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Blog</Link>
               
               <Link href="/blog" className="text-sm text-muted hover:text-ink transition-colors">Blog</Link>

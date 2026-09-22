@@ -31,7 +31,7 @@ export default function BlogPage() {
           </Link>
           <div className="flex items-center gap-3">
             <Link href="/products" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">All products</Link>
-            <Link href="/guides" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Guides</Link>
+            
 <Link href="/blog" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Blog</Link>            <Link href="/compare" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Compare</Link>
             <Link href="/blog" className="text-sm text-muted hover:text-ink transition-colors">Blog</Link>
 <Link href="/blog" className="text-sm text-muted hover:text-ink transition-colors">Blog</Link>
