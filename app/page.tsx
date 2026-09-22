@@ -155,7 +155,6 @@ export default function HomePage() {
               { href: "/guides", label: "Guides", desc: "Calculators + science" },
               { href: "/query", label: "Query database", desc: "Bloomberg Terminal" },
               { href: "/ingredients", label: "Ingredients", desc: "Encyclopedia" },
-              { href: "/ingredients", label: "Ingredients" },
               { href: "/blog", label: "Blog", desc: "Articles & guides" },
             ].map((link) => (
               <Link key={link.href} href={link.href}
