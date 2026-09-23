@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
 import { PRODUCTS, Category, Product } from "@/lib/products";
 import Link from "next/link";
+import Logo from "@/components/Logo";
 import BrandLogo from "@/components/BrandLogo";
 
 const GOAL_COLORS: Record<string, string> = {
@@ -107,7 +108,7 @@ function ProductsContent() {
       <nav className="border-b border-sand bg-cream/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
           <Link href="/" className="font-display font-bold text-lg tracking-tight">
-            Pel<span className="text-moss">lo</span>
+            <Logo />
           </Link>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-3">
@@ -205,9 +206,11 @@ function ProductsContent() {
   );
 }
 
+import { Suspense } from "react";
+
 export default function ProductsPage() {
   return (
-    <Suspense>
+    <Suspense fallback={<div className="min-h-screen" />}>
       <ProductsContent />
     </Suspense>
   );

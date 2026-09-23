@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Logo from "@/components/Logo";
 import { getPostBySlug, getAllPosts } from "@/lib/blog-data";
 import { PRODUCTS } from "@/lib/products";
 import { notFound } from "next/navigation";
@@ -110,7 +111,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
       <nav className="border-b border-sand bg-cream/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
           <Link href="/" className="font-display font-bold text-lg tracking-tight">
-            Pel<span className="text-moss">lo</span>
+            <Logo />
           </Link>
           <div className="flex items-center gap-3">
             <Link href="/blog" className="text-sm text-muted hover:text-ink transition-colors">Blog</Link>

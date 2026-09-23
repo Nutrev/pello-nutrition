@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Logo from "@/components/Logo";
 
 interface EnrichedProduct {
   id: string;
@@ -135,7 +136,7 @@ export default function AdminPage() {
       <nav className="border-b border-sand bg-cream/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
           <Link href="/" className="font-display font-bold text-lg tracking-tight">
-            Pel<span className="text-moss">lo</span>
+            <Logo />
           </Link>
           <div className="flex items-center gap-3">
             <span className="text-xs font-mono bg-amber/10 text-amber px-2 py-1 rounded-md">Admin</span>

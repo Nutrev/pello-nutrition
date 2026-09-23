@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Logo from "@/components/Logo";
 
 const WORKOUT_TYPES = [
   { id: "endurance", label: "Endurance", desc: "Running, cycling, triathlon, swimming" },
@@ -136,7 +137,7 @@ export default function RecoveryGuidePage() {
       <nav className="border-b border-sand bg-cream/80 backdrop-blur-sm sticky top-0 z-50">
   <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
     <Link href="/" className="font-display font-bold text-lg tracking-tight">
-      Pel<span className="text-moss">lo</span>
+      <Logo />
     </Link>
     <div className="flex items-center gap-3">
       <Link href="/products" className="hidden sm:block text-sm text-muted hover:text-ink transition-colors">All products</Link>

@@ -2,6 +2,7 @@
 
 import { FulensScoreBreakdown, getFulensScoreLabel } from "@/lib/fulens-score";
 import Link from "next/link";
+import Logo from "@/components/Logo";
 import { useState } from "react";
 
 interface FulensScoreProps {

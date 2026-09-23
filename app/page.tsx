@@ -1,7 +1,7 @@
 "use client";
-
 import { PRODUCTS, Product } from "@/lib/products";
 import Link from "next/link";
+import Logo from "@/components/Logo";
 import { useState } from "react";
 
 const GOAL_COLORS: Record<string, string> = {
@@ -84,7 +84,7 @@ export default function HomePage() {
       <nav className="border-b border-sand bg-cream/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
           <span className="font-display font-bold text-lg tracking-tight">
-            Pel<span className="text-moss">lo</span>
+            <Logo />
           </span>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-3">

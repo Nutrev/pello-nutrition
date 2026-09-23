@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Logo from "@/components/Logo";
 import { GRAPH_NODES, GRAPH_EDGES, NODE_COLORS, GraphNode, getSubgraph } from "@/lib/knowledge-graph";
 
 interface MiniGraphProps {
