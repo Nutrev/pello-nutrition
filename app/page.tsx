@@ -70,8 +70,6 @@ function ProductCard({ product, featured = false }: { product: Product; featured
   );
 }
 
-"use client";
-
 const HEADLINES = [
   { static: "Find nutrition", rotating: "that actually works" },
   { static: "Build your", rotating: "fueling plan" },
