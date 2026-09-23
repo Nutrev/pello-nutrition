@@ -177,7 +177,7 @@ export default function QueryPage() {
       <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="mb-6">
           <div className="text-xs font-mono text-muted uppercase tracking-widest mb-1">Pello Query</div>
-          <h1 className="font-display font-bold text-3xl tracking-tight mb-1">Product Explore</h1>
+          <h1 className="font-display font-bold text-3xl tracking-tight mb-1">Product Database</h1>
           <p className="text-muted text-sm">{PRODUCTS.length} products — filter by carbs, sodium, caffeine, G:F ratio, certifications and more.</p>
         </div>
 
