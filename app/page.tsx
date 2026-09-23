@@ -125,7 +125,7 @@ export default function HomePage() {
               <Link href="/products" className="hidden sm:block text-sm text-muted hover:text-ink transition-colors">All products</Link>
               <Link href="/guides" className="hidden md:block text-sm text-muted hover:text-ink transition-colors">Guides</Link>
               <Link href="/compare" className="hidden md:block text-sm text-muted hover:text-ink transition-colors">Compare</Link>
-              <Link href="/query" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Query</Link>
+              <Link href="/Explore" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Explore</Link>
               <Link href="/ingredients" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Ingredients</Link>
               <Link href="/blog" className="text-sm text-muted hover:text-ink transition-colors">Blog</Link>
             <Link href="/quiz" className="btn-secondary text-xs py-1.5 px-3">Build my plan →</Link>
@@ -182,11 +182,10 @@ export default function HomePage() {
 
           {/* Right — quick links */}
           <div className="hidden lg:flex flex-col gap-2 flex-shrink-0 pt-2 w-48">
-            <div className="text-xs font-mono text-muted uppercase tracking-widest mb-2">Explore</div>
             {[
               { href: "/compare", label: "Compare products", desc: "Side by side" },
               { href: "/guides", label: "Guides", desc: "Calculators + science" },
-              { href: "/query", label: "Query Explore", desc: "Bloomberg Terminal" },
+              { href: "/Explore", label: "Explore", desc: "Bloomberg Terminal" },
               { href: "/ingredients", label: "Ingredients", desc: "Encyclopedia" },
               { href: "/blog", label: "Blog", desc: "Articles & guides" },
             ].map((link) => (

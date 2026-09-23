@@ -176,7 +176,7 @@ export default function ReportPage({ params }: { params: { id: string } }) {
 <Link href="/search" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Search</Link>
             <Link href="/search" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Search</Link>
       
-      <Link href="/query" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Query</Link>
+      <Link href="/Explore" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Explore</Link>
       <Link href="/ingredients" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Ingredients</Link>
       <Link href="/blog" className="text-sm text-muted hover:text-ink transition-colors">Blog</Link>
             <Link href="/quiz" className="btn-secondary text-xs py-1.5 px-3">Build my plan →</Link>

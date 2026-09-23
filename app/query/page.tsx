@@ -115,20 +115,20 @@ const EXAMPLE_QUERIES = [
   { label: "Top rated protein", filters: { category: ["Protein"] } },
 ];
 
-export default function QueryPage() {
+export default function ExplorePage() {
   const [filters, setFilters] = useState<Record<string, any>>({});
   const [sortBy, setSortBy] = useState<SortKey>("rating");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
-  const [activeQuery, setActiveQuery] = useState<string | null>(null);
+  const [activeExplore, setActiveExplore] = useState<string | null>(null);
 
   const enrichedProducts = useMemo(() => PRODUCTS.map(enrichProduct), []);
 
   const applyFilter = (key: string, value: any) => setFilters(prev => ({ ...prev, [key]: value }));
   const clearFilter = (key: string) => setFilters(prev => { const n = { ...prev }; delete n[key]; return n; });
 
-  const applyExampleQuery = (q: typeof EXAMPLE_QUERIES[0]) => {
+  const applyExampleExplore = (q: typeof EXAMPLE_QUERIES[0]) => {
     setFilters(q.filters as Record<string, any>);
-    setActiveQuery(q.label);
+    setActiveExplore(q.label);
   };
 
   const filteredProducts = useMemo(() => {
@@ -176,7 +176,7 @@ export default function QueryPage() {
 
       <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="mb-6">
-          <div className="text-xs font-mono text-muted uppercase tracking-widest mb-1">Pello Query</div>
+          <div className="text-xs font-mono text-muted uppercase tracking-widest mb-1">Explore</div>
           <h1 className="font-display font-bold text-3xl tracking-tight mb-1">Product Database</h1>
           <p className="text-muted text-sm">{PRODUCTS.length} products — filter by carbs, sodium, caffeine, G:F ratio, certifications and more.</p>
         </div>
@@ -186,13 +186,13 @@ export default function QueryPage() {
           <div className="text-xs font-mono text-muted mb-2">Example queries</div>
           <div className="flex flex-wrap gap-2">
             {EXAMPLE_QUERIES.map((q) => (
-              <button key={q.label} onClick={() => applyExampleQuery(q)}
-                className={`text-xs px-3 py-1.5 rounded-lg border font-mono transition-all ${activeQuery === q.label ? "bg-moss text-cream border-moss" : "bg-white/60 border-sand hover:border-muted"}`}>
+              <button key={q.label} onClick={() => applyExampleExplore(q)}
+                className={`text-xs px-3 py-1.5 rounded-lg border font-mono transition-all ${activeExplore === q.label ? "bg-moss text-cream border-moss" : "bg-white/60 border-sand hover:border-muted"}`}>
                 {q.label}
               </button>
             ))}
             {activeFilterCount > 0 && (
-              <button onClick={() => { setFilters({}); setActiveQuery(null); }}
+              <button onClick={() => { setFilters({}); setActiveExplore(null); }}
                 className="text-xs px-3 py-1.5 rounded-lg border border-rust/30 text-rust bg-rust/5 font-mono">
                 Clear all ({activeFilterCount})
               </button>
@@ -387,7 +387,7 @@ export default function QueryPage() {
               <div className="text-center py-16 text-muted">
                 <p className="font-display font-medium mb-1">No products match</p>
                 <p className="text-xs mb-3">Try removing some filters</p>
-                <button onClick={() => { setFilters({}); setActiveQuery(null); }} className="text-xs text-moss underline">Clear all filters</button>
+                <button onClick={() => { setFilters({}); setActiveExplore(null); }} className="text-xs text-moss underline">Clear all filters</button>
               </div>
             ) : (
               <div className="bg-white/60 border border-sand rounded-xl overflow-x-auto">

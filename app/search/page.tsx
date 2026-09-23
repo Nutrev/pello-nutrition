@@ -36,7 +36,7 @@ const SCIENCE_COLORS: Record<string, string> = {
 };
 
 export default function SearchPage() {
-  const [query, setQuery] = useState("");
+  const [Explore, setExplore] = useState("");
   const [searching, setSearching] = useState(false);
   const [results, setResults] = useState<OFFProduct[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<OFFProduct | null>(null);
@@ -48,9 +48,9 @@ export default function SearchPage() {
   const streamRef = useRef<MediaStream | null>(null);
 
   // Search Pello Explore — name, brand, category, ingredients
-  const pelloResults = query.length > 1
+  const pelloResults = Explore.length > 1
     ? PRODUCTS.filter(p => {
-        const q = query.toLowerCase();
+        const q = Explore.toLowerCase();
         return (
           p.name.toLowerCase().includes(q) ||
           p.brand.toLowerCase().includes(q) ||
@@ -172,9 +172,9 @@ export default function SearchPage() {
         <div className="relative mb-4">
           <input
             type="text"
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-            onKeyDown={e => e.key === "Enter" && searchExternal(query)}
+            value={Explore}
+            onChange={e => setExplore(e.target.value)}
+            onKeyDown={e => e.key === "Enter" && searchExternal(Explore)}
             placeholder="Search any product or brand..."
             className="w-full bg-white/80 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-muted font-body placeholder:text-muted pr-32"
           />
@@ -187,8 +187,8 @@ export default function SearchPage() {
               Scan
             </button>
             <button
-              onClick={() => searchExternal(query)}
-              disabled={searching || query.length < 3}
+              onClick={() => searchExternal(Explore)}
+              disabled={searching || Explore.length < 3}
               className="btn-primary text-xs py-1.5 px-3 disabled:opacity-40"
             >
               {searching ? "..." : "Search"}
@@ -221,7 +221,7 @@ export default function SearchPage() {
           </div>
         )}
 
-        {/* Pello Explore results — always shown when query matches */}
+        {/* Pello Explore results — always shown when Explore matches */}
         {pelloResults.length > 0 && !selectedProduct && (
           <div className="mb-6">
             <div className="text-xs font-mono text-moss uppercase tracking-widest mb-3">

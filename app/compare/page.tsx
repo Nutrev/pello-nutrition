@@ -81,13 +81,13 @@ function CompareContent() {
 
 const filteredProducts = PRODUCTS.filter((p) => {
   const q = search.toLowerCase();
-  const resolvedQuery = BRAND_ALIASES[q] ?? q;
+  const resolvedExplore = BRAND_ALIASES[q] ?? q;
   return (
     !selectedIds.includes(p.id) &&
     (search === "" ||
-      p.name.toLowerCase().includes(resolvedQuery) ||
-      p.brand.toLowerCase().includes(resolvedQuery) ||
-      p.category.toLowerCase().includes(resolvedQuery))
+      p.name.toLowerCase().includes(resolvedExplore) ||
+      p.brand.toLowerCase().includes(resolvedExplore) ||
+      p.category.toLowerCase().includes(resolvedExplore))
   );
 });
 
@@ -133,7 +133,7 @@ const filteredProducts = PRODUCTS.filter((p) => {
 <Link href="/search" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Search</Link>
             <Link href="/search" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Search</Link>
 <Link href="/compare" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Compare</Link>
-      <Link href="/query" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Query</Link>
+      <Link href="/Explore" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Explore</Link>
       <Link href="/ingredients" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Ingredients</Link>
             <Link href="/quiz" className="btn-secondary text-xs py-1.5 px-3">Build my plan →</Link>
     </div>

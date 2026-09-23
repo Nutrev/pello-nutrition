@@ -1,6 +1,6 @@
 // lib/ingredient-taxonomy.ts
 // Pello ingredient & source taxonomy
-// Powers ingredient filtering, flagging and the query interface
+// Powers ingredient filtering, flagging and the Explore interface
 
 // ── INGREDIENT CATEGORIES ────────────────────────────────────
 
@@ -712,7 +712,7 @@ export const INGREDIENT_TAXONOMY: TaxonomyIngredient[] = [
 ];
 
 // ── FLAGGED INGREDIENT LOOKUP ─────────────────────────────────
-// Quick reference for the query interface
+// Quick reference for the Explore interface
 
 export const FLAGGED_INGREDIENTS = INGREDIENT_TAXONOMY.filter(
   (i) => i.flags.length > 0
@@ -740,8 +740,8 @@ export function getIngredient(id: string): TaxonomyIngredient | undefined {
   return INGREDIENT_TAXONOMY.find((i) => i.id === id);
 }
 
-export function searchIngredients(query: string): TaxonomyIngredient[] {
-  const q = query.toLowerCase();
+export function searchIngredients(Explore: string): TaxonomyIngredient[] {
+  const q = Explore.toLowerCase();
   return INGREDIENT_TAXONOMY.filter(
     (i) =>
       i.name.toLowerCase().includes(q) ||
