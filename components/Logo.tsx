@@ -1,6 +1,6 @@
 export default function Logo() {
   return (
-    <svg width="160" height="38" viewBox="0 0 480 120" role="img">
+    <svg width="130" height="32" viewBox="0 0 480 120" role="img" style={{ maxWidth: "130px" }}>
       <title>PelloNutrition</title>
       <text x="40" y="62" fontFamily="Arial Bold, Arial, sans-serif" fontSize="46" fontWeight="300" letterSpacing="1" fill="#2D4A2D">PELLO</text>
       <text x="210" y="62" fontFamily="Arial, sans-serif" fontSize="31" fontWeight="400" letterSpacing="5" fill="#2D4A2D">NUTRITION</text>
