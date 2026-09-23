@@ -52,9 +52,9 @@ Ingredients: ${manualData.ingredients}`;
     return NextResponse.json({ error: "No product data provided" }, { status: 400 });
   }
 
-  const prompt = `You are an expert sports nutrition analyst building a product database for Pello Nutrition, a science-backed sports nutrition research platform for endurance athletes.
+  const prompt = `You are an expert sports nutrition analyst building a product Explore for Pello Nutrition, a science-backed sports nutrition research platform for endurance athletes.
 
-Based on the following product information, generate a complete TypeScript product entry for the Pello database.
+Based on the following product information, generate a complete TypeScript product entry for the Pello Explore.
 
 ${productContext}
 

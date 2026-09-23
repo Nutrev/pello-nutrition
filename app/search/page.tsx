@@ -47,7 +47,7 @@ export default function SearchPage() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
-  // Search Pello database — name, brand, category, ingredients
+  // Search Pello Explore — name, brand, category, ingredients
   const pelloResults = query.length > 1
     ? PRODUCTS.filter(p => {
         const q = query.toLowerCase();
@@ -165,7 +165,7 @@ export default function SearchPage() {
         <div className="mb-8">
           <div className="text-xs font-mono text-muted uppercase tracking-widest mb-2">Universal search</div>
           <h1 className="font-display font-bold text-3xl tracking-tight mb-2">Search any product</h1>
-          <p className="text-muted text-sm">Search across the Pello database and 3 million+ products from Open Food Facts. Get an instant AI analysis for any product not yet in our database.</p>
+          <p className="text-muted text-sm">Search across the Pello Explore and 3 million+ products from Open Food Facts. Get an instant AI analysis for any product not yet in our Explore.</p>
         </div>
 
         {/* Search input */}
@@ -221,11 +221,11 @@ export default function SearchPage() {
           </div>
         )}
 
-        {/* Pello database results — always shown when query matches */}
+        {/* Pello Explore results — always shown when query matches */}
         {pelloResults.length > 0 && !selectedProduct && (
           <div className="mb-6">
             <div className="text-xs font-mono text-moss uppercase tracking-widest mb-3">
-              In Pello database · {pelloResults.length} result{pelloResults.length !== 1 ? "s" : ""}
+              In Pello Explore · {pelloResults.length} result{pelloResults.length !== 1 ? "s" : ""}
             </div>
             <div className="space-y-2">
               {pelloResults.map(p => (
@@ -471,7 +471,7 @@ export default function SearchPage() {
 
                 {/* CTA */}
                 <div className="card text-center py-6">
-                  <p className="text-sm font-medium mb-1">This product isn't in the Pello database yet</p>
+                  <p className="text-sm font-medium mb-1">This product isn't in the Pello Explore yet</p>
                   <p className="text-xs text-muted mb-4">Browse similar products with full Pello reports, ingredient science and community reviews</p>
                   <Link href={`/products?q=${encodeURIComponent(analysis.pelloCategoryGuess)}`} className="btn-primary text-sm">
                     Browse {analysis.pelloCategoryGuess}s →

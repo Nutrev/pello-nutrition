@@ -186,7 +186,7 @@ export default function HomePage() {
             {[
               { href: "/compare", label: "Compare products", desc: "Side by side" },
               { href: "/guides", label: "Guides", desc: "Calculators + science" },
-              { href: "/query", label: "Query database", desc: "Bloomberg Terminal" },
+              { href: "/query", label: "Query Explore", desc: "Bloomberg Terminal" },
               { href: "/ingredients", label: "Ingredients", desc: "Encyclopedia" },
               { href: "/blog", label: "Blog", desc: "Articles & guides" },
             ].map((link) => (

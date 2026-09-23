@@ -408,7 +408,7 @@ export default function CarbCalculatorPage() {
             {/* CTA */}
             <div className="card text-center py-8">
               <h3 className="font-display font-semibold mb-2">Find the right products</h3>
-              <p className="text-xs text-muted mb-4">Browse our database to find products that hit your targets</p>
+              <p className="text-xs text-muted mb-4">Browse our Explore to find products that hit your targets</p>
               <div className="flex gap-3 justify-center flex-wrap">
                 <Link href="/products/energy-gel" className="btn-primary text-sm">Energy gels</Link>
                 <Link href="/products/carbohydrate-mix" className="btn-secondary text-sm">Carb mixes</Link>

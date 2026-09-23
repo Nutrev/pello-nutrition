@@ -127,7 +127,7 @@ function ProductsContent() {
       <div className="max-w-5xl mx-auto px-6 py-10">
         {/* Header */}
         <div className="mb-8">
-          <div className="text-xs font-mono text-muted uppercase tracking-widest mb-1">Full database</div>
+          <div className="text-xs font-mono text-muted uppercase tracking-widest mb-1">Full Explore</div>
           <h1 className="font-display font-bold text-3xl tracking-tight mb-2">All products</h1>
           <p className="text-muted text-sm">
             {PRODUCTS.length} products across {allCategories.length} categories — sorted by rating within each group

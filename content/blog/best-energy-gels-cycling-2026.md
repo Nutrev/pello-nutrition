@@ -29,7 +29,7 @@ Before getting into picks, here's what actually matters in a gel:
 
 ### Best overall: Maurten Gel 100
 
-Maurten's hydrogel technology encapsulates carbohydrates in a polymer matrix that passes through the stomach quickly. The result is exceptional GI comfort scores — consistently the highest in our database.
+Maurten's hydrogel technology encapsulates carbohydrates in a polymer matrix that passes through the stomach quickly. The result is exceptional GI comfort scores — consistently the highest in our Explore.
 
 At 25g carbs per gel with a clean 7-ingredient label, it's not the most carb-dense option but the tolerance makes it a reliable choice for long events. The main drawback is price — at $3.17/gel it's among the most expensive on the market.
 

@@ -7,7 +7,7 @@ const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-body" });
 const dmMono = DM_Mono({ subsets: ["latin"], variable: "--font-mono", weight: ["400", "500"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.pellonutrition.com"),
+  metaExplore: new URL("https://www.pellonutrition.com"),
   title: {
     default: "Pello — Sports Nutrition Research for Endurance Athletes",
     template: "%s | Pello Nutrition",

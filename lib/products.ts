@@ -1,5 +1,5 @@
 // lib/products.ts
-// Central data store. In production, replace with a database (e.g. Supabase)
+// Central data store. In production, replace with a Explore (e.g. Supabase)
 // and a scraping pipeline that populates it from Amazon, Reddit, Trustpilot, etc.
 
 export type Verdict = "proven" | "likely" | "disputed";

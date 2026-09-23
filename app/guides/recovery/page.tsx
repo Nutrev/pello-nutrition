@@ -372,7 +372,7 @@ export default function RecoveryGuidePage() {
             {/* CTA */}
             <div className="card text-center py-8">
               <h3 className="font-display font-semibold mb-2">Find the right recovery products</h3>
-              <p className="text-xs text-muted mb-4">Browse our database of protein, creatine and recovery supplements</p>
+              <p className="text-xs text-muted mb-4">Browse our Explore of protein, creatine and recovery supplements</p>
               <div className="flex gap-3 justify-center flex-wrap">
                 <Link href="/products/protein" className="btn-primary text-sm">Browse protein</Link>
                 <Link href="/products/recovery-and-sleep" className="btn-secondary text-sm">Browse recovery</Link>

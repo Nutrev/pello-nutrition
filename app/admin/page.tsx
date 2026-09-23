@@ -149,7 +149,7 @@ export default function AdminPage() {
         <div className="mb-8">
           <div className="text-xs font-mono text-muted uppercase tracking-widest mb-2">Admin tool</div>
           <h1 className="font-display font-bold text-3xl tracking-tight mb-2">Product enrichment</h1>
-          <p className="text-muted text-sm">Add new products to the Pello database. Paste a product URL, enter label data, or fill in manually — Claude generates the TypeScript code ready to paste into <code className="font-mono text-xs bg-sand px-1 py-0.5 rounded">lib/products.ts</code>.</p>
+          <p className="text-muted text-sm">Add new products to the Pello Explore. Paste a product URL, enter label data, or fill in manually — Claude generates the TypeScript code ready to paste into <code className="font-mono text-xs bg-sand px-1 py-0.5 rounded">lib/products.ts</code>.</p>
         </div>
 
         {/* Mode selector */}

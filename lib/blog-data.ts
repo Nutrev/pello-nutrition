@@ -45,7 +45,7 @@ Before getting into picks, here's what actually matters in a gel:
 
 ### Best overall: Maurten Gel 100
 
-Maurten's hydrogel technology encapsulates carbohydrates in a polymer matrix that passes through the stomach quickly. The result is exceptional GI comfort scores — consistently the highest in our database.
+Maurten's hydrogel technology encapsulates carbohydrates in a polymer matrix that passes through the stomach quickly. The result is exceptional GI comfort scores — consistently the highest in our Explore.
 
 At 25g carbs per gel with a clean 7-ingredient label, it's not the most carb-dense option but the tolerance makes it a reliable choice for long events. The main drawback is price — at $3.17/gel it's among the most expensive on the market.
 
@@ -184,7 +184,7 @@ The drink mixes tell a similar story. SiS Beta Fuel drink provides 80g carbs per
 
 ## GI comfort
 
-This is Maurten's strongest suit. The hydrogel system consistently produces the highest GI comfort scores in our database — across thousands of real athlete reviews.
+This is Maurten's strongest suit. The hydrogel system consistently produces the highest GI comfort scores in our Explore — across thousands of real athlete reviews.
 
 SiS Beta Fuel's 1:0.8 ratio is a genuine improvement over older formulations, and GI comfort scores are high. But Maurten scores higher, particularly for athletes with sensitive stomachs or those racing at very high intensities where gut stress is amplified.
 

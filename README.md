@@ -57,7 +57,7 @@ nutrilens/
 
 ## Adding More Products
 
-Edit `lib/products.ts` and add entries to the `PRODUCTS` array following the existing structure. In production, replace this with a database (Supabase recommended).
+Edit `lib/products.ts` and add entries to the `PRODUCTS` array following the existing structure. In production, replace this with a Explore (Supabase recommended).
 
 ## Adding Real Reviews (Next Steps)
 
