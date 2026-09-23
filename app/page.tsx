@@ -1,8 +1,44 @@
 "use client";
+
 import { PRODUCTS, Product } from "@/lib/products";
 import Link from "next/link";
 import Logo from "@/components/Logo";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+
+const HEADLINES = [
+  { static: "Find nutrition", rotating: "that actually works" },
+  { static: "Build your", rotating: "fueling plan" },
+  { static: "Discover what's in", rotating: "your gels" },
+  { static: "Compare products", rotating: "side by side" },
+];
+
+function RotatingHeadline() {
+  const [index, setIndex] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setVisible(false);
+      setTimeout(() => {
+        setIndex(i => (i + 1) % HEADLINES.length);
+        setVisible(true);
+      }, 400);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <>
+      {HEADLINES[index].static}<br />
+      <span
+        className="text-moss italic transition-opacity duration-400"
+        style={{ opacity: visible ? 1 : 0 }}
+      >
+        {HEADLINES[index].rotating}
+      </span>
+    </>
+  );
+}
 
 const GOAL_COLORS: Record<string, string> = {
   muscle: "bg-moss/10 text-moss",
@@ -70,130 +106,71 @@ function ProductCard({ product, featured = false }: { product: Product; featured
   );
 }
 
-const HEADLINES = [
-  { static: "Find nutrition", rotating: "that actually works" },
-  { static: "Build your", rotating: "fueling plan" },
-  { static: "Discover what's in", rotating: "your gels" },
-  { static: "Compare products", rotating: "side by side" },
-];
-
-function RotatingHeadline() {
-  const [index, setIndex] = useState(0);
-  const [visible, setVisible] = useState(true);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setVisible(false);
-      setTimeout(() => {
-        setIndex(i => (i + 1) % HEADLINES.length);
-        setVisible(true);
-      }, 400);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <>
-      {HEADLINES[index].static}<br />
-      <span
-        className="text-moss italic transition-opacity duration-400"
-        style={{ opacity: visible ? 1 : 0 }}
-      >
-        {HEADLINES[index].rotating}
-      </span>
-    </>
-  );
-}
 export default function HomePage() {
   const [heroSearch, setHeroSearch] = useState("");
   const highlights = getBestPerCategory();
-
-  if (typeof window !== "undefined") {
-    document.title = "Pello — Sports Nutrition Research";
-  }
 
   return (
     <div className="min-h-screen">
       {/* Nav */}
       <nav className="border-b border-sand bg-cream/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
-          <span className="font-display font-bold text-lg tracking-tight">
+          <Link href="/">
             <Logo />
-          </span>
+          </Link>
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-3">
-              <Link href="/products" className="hidden sm:block text-sm text-muted hover:text-ink transition-colors">All products</Link>
-              <Link href="/guides" className="hidden md:block text-sm text-muted hover:text-ink transition-colors">Guides</Link>
-              <Link href="/compare" className="hidden md:block text-sm text-muted hover:text-ink transition-colors">Compare</Link>
-              <Link href="/Explore" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Explore</Link>
-              <Link href="/ingredients" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Ingredients</Link>
-              <Link href="/blog" className="text-sm text-muted hover:text-ink transition-colors">Blog</Link>
+            <Link href="/products" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">All products</Link>
+            <Link href="/guides" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Guides</Link>
+            <Link href="/compare" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Compare</Link>
+            <Link href="/query" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Explore</Link>
+            <Link href="/ingredients" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Ingredients</Link>
+            <Link href="/blog" className="text-sm text-muted hover:text-ink transition-colors">Blog</Link>
             <Link href="/quiz" className="btn-secondary text-xs py-1.5 px-3">Build my plan →</Link>
-</div>
           </div>
         </div>
       </nav>
 
       {/* Hero */}
       <div className="max-w-5xl mx-auto px-6 pt-16 pb-10">
-        <div className="flex gap-12 items-start">
-          {/* Left — hero text */}
-          <div className="flex-1">
-            <div className="inline-flex items-center gap-2 bg-moss/10 text-moss text-xs font-mono font-medium px-3 py-1 rounded-full mb-4">
-              Science-backed · AI-powered · {PRODUCTS.reduce((a, p) => a + p.reviewCount, 0).toLocaleString()} reviews analyzed
-            </div>
-            <h1 className="font-display font-bold text-5xl leading-[1.05] tracking-tight mb-4">
-              <RotatingHeadline />
-            </h1>
-            <p className="text-muted text-lg leading-relaxed mb-8">
-              We aggregate thousands of real reviews, cross-reference ingredients with peer-reviewed science, and use AI to generate clear, unbiased reports.
-            </p>
-            <div className="flex gap-3 flex-wrap mb-6">
-              <Link href="/quiz" className="btn-primary">Build my plan →</Link>
-              <Link href="/products" className="btn-secondary">Browse all products</Link>
-            </div>
-
-            {/* Search */}
-            <div className="relative max-w-lg">
-              <input
-                type="text"
-                placeholder="Search products, brands or categories..."
-                value={heroSearch}
-                onChange={(e) => setHeroSearch(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && heroSearch.trim()) {
-                    window.location.href = `/products?q=${encodeURIComponent(heroSearch.trim())}`;
-                  }
-                }}
-                className="w-full bg-white/80 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-muted font-body placeholder:text-muted pr-24"
-              />
-              <button
-                onClick={() => {
-                  if (heroSearch.trim()) {
-                    window.location.href = `/products?q=${encodeURIComponent(heroSearch.trim())}`;
-                  }
-                }}
-                className="absolute right-2 top-2 btn-primary text-xs py-1.5 px-3"
-              >
-                Search
-              </button>
-            </div>
+        <div className="max-w-2xl">
+          <div className="inline-flex items-center gap-2 bg-moss/10 text-moss text-xs font-mono font-medium px-3 py-1 rounded-full mb-4">
+            Science-backed · AI-powered · {PRODUCTS.reduce((a, p) => a + p.reviewCount, 0).toLocaleString()} reviews analyzed
+          </div>
+          <h1 className="font-display font-bold text-5xl leading-[1.05] tracking-tight mb-4">
+            <RotatingHeadline />
+          </h1>
+          <p className="text-muted text-lg leading-relaxed mb-8">
+            We aggregate thousands of real reviews, cross-reference ingredients with peer-reviewed science, and use AI to generate clear, unbiased reports.
+          </p>
+          <div className="flex gap-3 flex-wrap mb-6">
+            <Link href="/quiz" className="btn-primary">Build my plan →</Link>
+            <Link href="/products" className="btn-secondary">Browse all products</Link>
           </div>
 
-          {/* Right — quick links */}
-          <div className="hidden lg:flex flex-col gap-2 flex-shrink-0 pt-2 w-48">
-            {[
-              { href: "/compare", label: "Compare products", desc: "Side by side" },
-              { href: "/guides", label: "Guides", desc: "Calculators + science" },
-              { href: "/Explore", label: "Explore", desc: "Bloomberg Terminal" },
-              { href: "/ingredients", label: "Ingredients", desc: "Encyclopedia" },
-              { href: "/blog", label: "Blog", desc: "Articles & guides" },
-            ].map((link) => (
-              <Link key={link.href} href={link.href}
-                className="block p-3 rounded-xl border border-sand hover:border-muted bg-white/40 hover:bg-white/60 transition-all group">
-                <div className="font-medium text-sm group-hover:text-moss transition-colors">{link.label}</div>
-              </Link>
-            ))}
+          {/* Search */}
+          <div className="relative max-w-lg">
+            <input
+              type="text"
+              placeholder="Search products, brands or categories..."
+              value={heroSearch}
+              onChange={(e) => setHeroSearch(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && heroSearch.trim()) {
+                  window.location.href = `/products?q=${encodeURIComponent(heroSearch.trim())}`;
+                }
+              }}
+              className="w-full bg-white/80 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-muted font-body placeholder:text-muted pr-24"
+            />
+            <button
+              onClick={() => {
+                if (heroSearch.trim()) {
+                  window.location.href = `/products?q=${encodeURIComponent(heroSearch.trim())}`;
+                }
+              }}
+              className="absolute right-2 top-2 btn-primary text-xs py-1.5 px-3"
+            >
+              Search
+            </button>
           </div>
         </div>
       </div>
