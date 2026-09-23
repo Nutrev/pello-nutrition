@@ -132,7 +132,8 @@ export default function HomePage() {
 
       {/* Hero */}
       <div className="max-w-5xl mx-auto px-6 pt-16 pb-10">
-        <div className="max-w-2xl">
+        <div className="flex flex-col lg:flex-row gap-12 items-center">
+        <div className="flex-1">
           <div className="inline-flex items-center gap-2 bg-moss/10 text-moss text-xs font-mono font-medium px-3 py-1 rounded-full mb-4">
             Science-backed · AI-powered · {PRODUCTS.reduce((a, p) => a + p.reviewCount, 0).toLocaleString()} reviews analyzed
           </div>
@@ -173,7 +174,30 @@ export default function HomePage() {
             </button>
           </div>
         </div>
+
+        {/* Right — floating product cards */}
+        <div className="hidden lg:flex flex-col gap-4 flex-shrink-0 w-64">
+          {[
+            PRODUCTS.find(p => p.category === "Energy Gel"),
+            PRODUCTS.find(p => p.category === "Protein"),
+            PRODUCTS.find(p => p.category === "Creatine"),
+          ].filter(Boolean).map((p, i) => p && (
+            <Link key={p.id} href={`/report/${p.id}`}>
+              <div className="card hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group"
+                style={{ transform: `rotate(${i % 2 === 0 ? "-1.5" : "1.5"}deg)` }}>
+                <div className="text-xs font-mono text-muted mb-1">{p.brand}</div>
+                <div className="font-display font-semibold text-sm group-hover:text-moss transition-colors mb-2">{p.name}</div>
+                <div className="flex items-center justify-between">
+                  <span className="text-amber text-xs">★★★★★</span>
+                  <span className="text-xs font-mono bg-moss/10 text-moss px-2 py-0.5 rounded-md">{p.category}</span>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+
       </div>
+    </div>
 
       {/* Stats strip */}
       <div className="border-y border-sand bg-white/30 py-5 mb-12">
