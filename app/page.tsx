@@ -2,7 +2,7 @@
 import { PRODUCTS, Product } from "@/lib/products";
 import Link from "next/link";
 import Logo from "@/components/Logo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const GOAL_COLORS: Record<string, string> = {
   muscle: "bg-moss/10 text-moss",
@@ -70,6 +70,42 @@ function ProductCard({ product, featured = false }: { product: Product; featured
   );
 }
 
+"use client";
+
+const HEADLINES = [
+  { static: "Find nutrition", rotating: "that actually works" },
+  { static: "Build your", rotating: "fueling plan" },
+  { static: "Discover what's in", rotating: "your gels" },
+  { static: "Compare products", rotating: "side by side" },
+];
+
+function RotatingHeadline() {
+  const [index, setIndex] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setVisible(false);
+      setTimeout(() => {
+        setIndex(i => (i + 1) % HEADLINES.length);
+        setVisible(true);
+      }, 400);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <>
+      {HEADLINES[index].static}<br />
+      <span
+        className="text-moss italic transition-opacity duration-400"
+        style={{ opacity: visible ? 1 : 0 }}
+      >
+        {HEADLINES[index].rotating}
+      </span>
+    </>
+  );
+}
 export default function HomePage() {
   const [heroSearch, setHeroSearch] = useState("");
   const highlights = getBestPerCategory();
@@ -109,8 +145,7 @@ export default function HomePage() {
               Science-backed · AI-powered · {PRODUCTS.reduce((a, p) => a + p.reviewCount, 0).toLocaleString()} reviews analyzed
             </div>
             <h1 className="font-display font-bold text-5xl leading-[1.05] tracking-tight mb-4">
-              Find nutrition<br />
-              that <span className="text-moss italic">actually works</span>
+              <RotatingHeadline />
             </h1>
             <p className="text-muted text-lg leading-relaxed mb-8">
               We aggregate thousands of real reviews, cross-reference ingredients with peer-reviewed science, and use AI to generate clear, unbiased reports.
