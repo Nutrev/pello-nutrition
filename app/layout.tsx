@@ -45,7 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-cream text-ink antialiased">
         {children}
         <footer className="border-t border-sand py-6 mt-auto">
-          <div className="max-w-5xl mx-auto px-6 flex flex-wrap gap-4 text-xs text-muted font-mono">
+          <div className="max-w-5xl mx-auto px-6 flex flex-wrap justify-center gap-4 text-xs text-muted font-mono">
             <span>© 2026 Pello Nutrition</span>
             <Link href="/legal/privacy">Privacy Policy</Link>
             <Link href="/legal/terms">Terms of Service</Link>
