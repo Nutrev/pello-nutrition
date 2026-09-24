@@ -3,7 +3,7 @@
 import { PRODUCTS, Product } from "@/lib/products";
 import Link from "next/link";
 import Logo from "@/components/Logo";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 const HEADLINES = [
   { static: "Find nutrition", rotating: "that actually works" },
@@ -109,6 +109,10 @@ function ProductCard({ product, featured = false }: { product: Product; featured
 export default function HomePage() {
   const [heroSearch, setHeroSearch] = useState("");
   const highlights = getBestPerCategory();
+  const featuredProducts = useMemo(() => {
+  const shuffled = [...PRODUCTS].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, 3);
+}, []);
 
   return (
     <div className="min-h-screen">
@@ -177,11 +181,7 @@ export default function HomePage() {
 
         {/* Right — floating product cards */}
         <div className="hidden lg:flex flex-col gap-4 flex-shrink-0 w-64">
-          {[
-            PRODUCTS.find(p => p.category === "Energy Gel"),
-            PRODUCTS.find(p => p.category === "Protein"),
-            PRODUCTS.find(p => p.category === "Creatine"),
-          ].filter(Boolean).map((p, i) => p && (
+          {featuredProducts.map((p, i) => (
             <Link key={p.id} href={`/report/${p.id}`}>
               <div className="card hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group"
                 style={{ transform: `rotate(${i % 2 === 0 ? "-1.5" : "1.5"}deg)` }}>
