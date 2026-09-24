@@ -203,16 +203,16 @@ export default function HomePage() {
       <div className="border-y border-sand bg-white/30 py-5 mb-12">
         <div className="max-w-5xl mx-auto px-6 grid grid-cols-3 gap-6 text-center">
           <div>
-            <div className="font-display font-bold text-3xl">{PRODUCTS.reduce((a, p) => a + p.reviewCount, 0).toLocaleString()}</div>
-            <div className="text-muted text-sm mt-0.5">Reviews analyzed</div>
+            <div className="font-display font-semibold text-2xl">{PRODUCTS.reduce((a, p) => a + p.reviewCount, 0).toLocaleString()}</div>
+            <div className="text-muted text-xs mt-0.5">Reviews analyzed</div>
           </div>
           <div>
-            <div className="font-display font-bold text-3xl">{PRODUCTS.length}</div>
-            <div className="text-muted text-sm mt-0.5">Products tracked</div>
+            <div className="font-display font-semibold text-2xl">{PRODUCTS.length}</div>
+            <div className="text-muted text-xs mt-0.5">Products tracked</div>
           </div>
           <div>
-            <div className="font-display font-bold text-3xl">100%</div>
-            <div className="text-muted text-sm mt-0.5">Editorially independent</div>
+            <div className="font-display font-semibold text-2xl">100%</div>
+            <div className="text-muted text-xs mt-0.5">Editorially independent</div>
           </div>
         </div>
       </div>
