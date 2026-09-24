@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Review, AttributeAverages } from "@/lib/supabase";
+import type { Review, AttributeAverages } from "@/lib/supabase";
 import { Category } from "@/lib/products";
 
 interface ReviewSectionProps {
