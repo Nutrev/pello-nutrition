@@ -150,10 +150,16 @@ export default function ReportPage({ params }: { params: { id: string } }) {
         body: JSON.stringify({ productId: product.id }),
       });
       const data = await res.json();
-      setSummary(data.summary);
-      setGenerated(true);
+      if (!res.ok || !data.summary) {
+        setSummary(res.status === 429
+          ? "Too many requests. Please wait a moment and try again."
+          : "Couldn't generate a summary right now. Please try again.");
+      } else {
+        setSummary(data.summary);
+        setGenerated(true);
+      }
     } catch {
-      setSummary("Failed to generate summary. Check your ANTHROPIC_API_KEY in .env.local");
+      setSummary("Couldn't generate a summary right now. Please try again.");
     }
     setLoading(false);
   };

@@ -308,6 +308,7 @@ export default function ReviewSection({ productId, category }: ReviewSectionProp
                 placeholder="What did you think? How did it work for you?"
                 rows={4}
                 minLength={10}
+                maxLength={2000}
                 required
                 className="w-full bg-white/80 border border-sand rounded-lg px-3 py-2 text-sm outline-none focus:border-muted font-body placeholder:text-muted resize-none"
               />

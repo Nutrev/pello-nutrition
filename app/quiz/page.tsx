@@ -4,31 +4,13 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import Logo from "@/components/Logo";
 import { PRODUCTS } from "@/lib/products";
+import {
+  type PlannerInputs, type EventType, type OutcomeType, type Intensity,
+  type CaffeinePreference, type DietaryRestriction, type FormatPreference, type Retailer,
+  EVENT_TYPES, OUTCOME_TYPES, INTENSITY_OPTIONS, carbsNeeded, sodiumNeeded,
+} from "@/lib/planner";
 
 // ── TYPES ─────────────────────────────────────────────────────
-
-type PlanMode = "event" | "outcome";
-type EventType = "road-cycling" | "gravel" | "triathlon" | "running" | "trail-running" | "gym" | "training-day" | "recovery";
-type OutcomeType = "finish-first-marathon" | "finish-first-triathlon" | "improve-cycling-endurance" | "improve-recovery" | "build-muscle-endurance" | "lose-weight-perform" | "race-faster" | "gut-health";
-type Intensity = "easy" | "moderate" | "hard" | "race";
-type CaffeinePreference = "none" | "moderate" | "high";
-type DietaryRestriction = "vegan" | "gluten-free" | "dairy-free";
-type FormatPreference = "Energy Gel" | "Energy Chew" | "Energy Bar" | "Carbohydrate Mix" | "Hydration";
-type Retailer = "REI" | "Amazon" | "The Feed" | "Running Warehouse";
-
-interface PlannerInputs {
-  mode: PlanMode;
-  eventType: EventType | null;
-  outcomeType: OutcomeType | null;
-  durationHours: number;
-  intensity: Intensity;
-  caffeinePreference: CaffeinePreference;
-  budget: number;
-  dietary: DietaryRestriction[];
-  formats: FormatPreference[];
-  retailers: Retailer[];
-  weightKg: number;
-}
 
 interface ParsedPlan {
   preEvent: string[];
@@ -48,28 +30,6 @@ interface PhaseProduct {
 
 // ── CONSTANTS ─────────────────────────────────────────────────
 
-const EVENT_TYPES: { id: EventType; label: string; desc: string }[] = [
-  { id: "road-cycling", label: "Road cycling", desc: "Sportive, gran fondo, road race" },
-  { id: "gravel", label: "Gravel / MTB", desc: "Gravel race, mountain bike event" },
-  { id: "triathlon", label: "Triathlon", desc: "Sprint, Olympic, 70.3, Ironman" },
-  { id: "running", label: "Running", desc: "5K, 10K, half marathon, marathon" },
-  { id: "trail-running", label: "Trail running", desc: "Trail race, ultra marathon" },
-  { id: "gym", label: "Gym / Strength", desc: "Lifting, CrossFit, resistance training" },
-  { id: "training-day", label: "Training day", desc: "General training session" },
-  { id: "recovery", label: "Recovery day", desc: "Post-race or hard session recovery" },
-];
-
-const OUTCOME_TYPES: { id: OutcomeType; label: string; desc: string; timeframe: string }[] = [
-  { id: "finish-first-marathon", label: "Finish my first marathon", desc: "Complete 26.2 miles feeling strong", timeframe: "Race-day + training nutrition" },
-  { id: "finish-first-triathlon", label: "Finish my first triathlon", desc: "Swim, bike, run nutrition strategy", timeframe: "Multi-sport fuelling" },
-  { id: "improve-cycling-endurance", label: "Improve cycling endurance", desc: "Go longer and stronger on the bike", timeframe: "Training + event nutrition" },
-  { id: "improve-recovery", label: "Improve my recovery", desc: "Bounce back faster between sessions", timeframe: "Daily recovery protocol" },
-  { id: "build-muscle-endurance", label: "Build muscle while training", desc: "Strength + endurance combined goals", timeframe: "Hybrid nutrition strategy" },
-  { id: "lose-weight-perform", label: "Lose weight and perform", desc: "Body composition without losing power", timeframe: "Periodised nutrition" },
-  { id: "race-faster", label: "Race faster", desc: "Optimise nutrition for peak performance", timeframe: "Performance nutrition" },
-  { id: "gut-health", label: "Fix my gut health", desc: "Reduce GI issues during training", timeframe: "GI protocol" },
-];
-
 const DURATION_OPTIONS = [
   { value: 0.5, label: "30 min" }, { value: 0.75, label: "45 min" },
   { value: 1, label: "1 hr" }, { value: 1.5, label: "1.5 hrs" },
@@ -77,13 +37,6 @@ const DURATION_OPTIONS = [
   { value: 3, label: "3 hrs" }, { value: 4, label: "4 hrs" },
   { value: 5, label: "5 hrs" }, { value: 6, label: "6 hrs" },
   { value: 8, label: "8 hrs" }, { value: 10, label: "10+ hrs" },
-];
-
-const INTENSITY_OPTIONS = [
-  { id: "easy" as Intensity, label: "Easy / recovery", desc: "Conversational pace, Z1-Z2", carbsPerHr: 30 },
-  { id: "moderate" as Intensity, label: "Moderate", desc: "Steady effort, Z2-Z3", carbsPerHr: 50 },
-  { id: "hard" as Intensity, label: "Hard", desc: "Threshold / tempo, Z3-Z4", carbsPerHr: 70 },
-  { id: "race" as Intensity, label: "Race pace", desc: "Maximum effort, Z4-Z5", carbsPerHr: 90 },
 ];
 
 const FORMAT_OPTIONS: { id: FormatPreference; label: string; desc: string }[] = [
@@ -118,17 +71,6 @@ const PHASE_CATEGORIES = {
 };
 
 // ── HELPERS ───────────────────────────────────────────────────
-
-function carbsNeeded(durationHours: number, intensity: Intensity): number {
-  const rates: Record<Intensity, number> = { easy: 30, moderate: 50, hard: 70, race: 90 };
-  if (durationHours < 1) return Math.round(rates[intensity] * durationHours * 0.5);
-  return Math.round(rates[intensity] * durationHours);
-}
-
-function sodiumNeeded(durationHours: number, intensity: Intensity, weightKg: number): number {
-  const sweat: Record<Intensity, number> = { easy: 0.5, moderate: 0.8, hard: 1.1, race: 1.4 };
-  return Math.round(sweat[intensity] * weightKg * 500 * durationHours);
-}
 
 function getServingsPerContainer(category: string): number {
   const map: Record<string, number> = {
@@ -503,89 +445,11 @@ export default function PlannerPage() {
     setLoading(true);
     setParsedPlan(null);
 
-    const outcomeData = OUTCOME_TYPES.find(o => o.id === inputs.outcomeType);
-    const eventData = EVENT_TYPES.find(e => e.id === inputs.eventType);
-
-    const prompt = isEvent
-    ? `You are Pello's expert sports nutrition AI. Generate a complete, science-backed nutrition plan.
-
-ATHLETE PROFILE:
-- Event: ${eventData?.label}
-- Duration: ${inputs.durationHours} hours
-- Intensity: ${inputs.intensity}
-- Body weight: ${inputs.weightKg}kg
-- Budget: $${inputs.budget}
-- Caffeine preference: ${inputs.caffeinePreference}
-- Dietary: ${inputs.dietary.length > 0 ? inputs.dietary.join(", ") : "none"}
-
-CALCULATED TARGETS:
-- Total carbs: ${carbTarget}g (${INTENSITY_OPTIONS.find(i => i.id === inputs.intensity)?.carbsPerHr}g/hr)
-- Total sodium: ${sodiumTarget}mg
-
-Use ONLY these exact section headers. No markdown, no tables, no asterisks, no hashtags. Plain text only.
-
-PRE-EVENT
-List specific foods with quantities and carb counts. Use this format:
-White rice or pasta — 200g cooked — 55g carbs
-Banana — 1 medium — 25g carbs
-Then add timing notes as plain sentences.
-
-DURING EVENT
-Write a clear per-hour fuelling schedule as plain sentences. Example:
-Start fuelling at 30 minutes with 1 gel (25g carbs).
-Take 1 gel every 25 minutes after that.
-Sip 150-200ml water with each gel.
-
-POST-EVENT
-Three clear windows as plain text:
-0-30 minutes: specific food and amounts
-30-120 minutes: specific food and amounts
-Overnight: specific recommendations
-
-TOTALS
-Total carbs: Xg
-Total sodium: Xmg
-Total caffeine: Xmg
-Estimated product cost: $X
-
-KEY NOTES
-Write exactly 3 numbered tips as plain sentences. No bullet points, no asterisks.`
-
-    : `You are Pello's expert sports nutrition AI. Generate a complete outcome-based nutrition protocol.
-
-ATHLETE GOAL: ${outcomeData?.label}
-- Body weight: ${inputs.weightKg}kg
-- Budget: $${inputs.budget}/month
-- Caffeine: ${inputs.caffeinePreference}
-- Dietary: ${inputs.dietary.length > 0 ? inputs.dietary.join(", ") : "none"}
-
-Use ONLY these exact section headers. No markdown, no tables, no asterisks. Plain text only.
-
-PRE-EVENT
-Daily nutrition habits before training as plain sentences. Specific foods, timing and quantities.
-
-DURING EVENT
-Intra-training nutrition as plain sentences. What to take, when and how much.
-
-POST-EVENT
-Three windows as plain text:
-0-30 minutes: specific recommendations
-30-120 minutes: specific recommendations
-Daily habits: ongoing recovery nutrition
-
-TOTALS
-Daily protein target: Xg
-Daily carb target: Xg
-Monthly supplement budget: $X
-
-KEY NOTES
-Write exactly 3 numbered tips as plain sentences. No bullet points, no asterisks.`;
-
     try {
       const res = await fetch("/api/plan", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt }),
+        body: JSON.stringify({ inputs }),
       });
       const data = await res.json();
       setParsedPlan(parsePlan(data.plan ?? "Failed to generate plan."));

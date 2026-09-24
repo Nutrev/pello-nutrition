@@ -1,15 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
+import { PRODUCTS } from "@/lib/products";
+import { rateLimit } from "@/lib/rate-limit";
 
 export async function POST(req: NextRequest) {
-  const { productId, email } = await req.json();
+  const limited = rateLimit(req, "price-alerts", 5, 10 * 60_000);
+  if (limited) return limited;
+
+  const body = await req.json().catch(() => null);
+  const productId = body?.productId;
+  const email = typeof body?.email === "string" ? body.email.trim().toLowerCase() : "";
 
   if (!productId || !email) {
     return NextResponse.json({ error: "Product and email required" }, { status: 400 });
   }
+  if (!PRODUCTS.some((p) => p.id === productId)) {
+    return NextResponse.json({ error: "Product not found" }, { status: 404 });
+  }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
+  if (email.length > 254 || !emailRegex.test(email)) {
     return NextResponse.json({ error: "Invalid email address" }, { status: 400 });
   }
 
@@ -21,7 +31,8 @@ export async function POST(req: NextRequest) {
     if (error.code === "23505") {
       return NextResponse.json({ message: "already_subscribed" }, { status: 200 });
     }
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("Price alert insert error:", error);
+    return NextResponse.json({ error: "Couldn't save your alert. Please try again." }, { status: 500 });
   }
 
   return NextResponse.json({ message: "subscribed" }, { status: 201 });

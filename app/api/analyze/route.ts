@@ -1,11 +1,39 @@
 import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
+import { rateLimit } from "@/lib/rate-limit";
 
 const client = new Anthropic();
 
+// Product data comes from the browser, so cap each field before it goes into the prompt.
+const MAX_FIELD = 200;
+const MAX_INGREDIENTS = 3000;
+
 export async function POST(req: NextRequest) {
-  const { product } = await req.json();
-  if (!product) return NextResponse.json({ error: "Product data required" }, { status: 400 });
+  const limited = rateLimit(req, "analyze", 10, 60_000);
+  if (limited) return limited;
+
+  const body = await req.json().catch(() => null);
+  const input = body?.product;
+  if (!input || typeof input !== "object") {
+    return NextResponse.json({ error: "Product data required" }, { status: 400 });
+  }
+
+  const text = (v: unknown, max: number) => (typeof v === "string" ? v.slice(0, max) : "");
+  const num = (v: unknown) => (typeof v === "number" && Number.isFinite(v) ? v : undefined);
+  const n = input.nutriments && typeof input.nutriments === "object" ? input.nutriments : {};
+  const product = {
+    product_name: text(input.product_name, MAX_FIELD),
+    brands: text(input.brands, MAX_FIELD),
+    ingredients_text: text(input.ingredients_text, MAX_INGREDIENTS),
+    nutriments: Object.fromEntries(
+      [
+        "energy-kcal_serving", "energy-kcal_100g",
+        "carbohydrates_serving", "carbohydrates_100g",
+        "proteins_serving", "proteins_100g",
+        "sodium_serving", "sodium_100g",
+      ].map((k) => [k, num(n[k])])
+    ) as Record<string, number | undefined>,
+  };
 
   const prompt = `You are Pello's sports nutrition analyst. Analyze this product for endurance athletes.
 
@@ -44,6 +72,7 @@ Return ONLY this JSON (no other text):
     const analysis = JSON.parse(clean);
     return NextResponse.json({ analysis });
   } catch (e) {
-    return NextResponse.json({ error: String(e) }, { status: 500 });
+    console.error("Analyze error:", e);
+    return NextResponse.json({ error: "Failed to analyze product" }, { status: 500 });
   }
 }
