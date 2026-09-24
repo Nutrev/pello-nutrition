@@ -64,8 +64,7 @@ function ProductCard({ product, featured = false }: { product: Product; featured
     <Link href={`/report/${product.id}`}>
       <div className={`card hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group h-full ${featured ? "border-moss/30" : ""}`}>
         <div className="flex items-start justify-between mb-3">
-          <BrandLogo logoDomain={product.logoDomain} logo={product.logo} brand={product.brand}
-            imageEmoji={product.imageEmoji} fallback="emoji" />
+          <BrandLogo logoDomain={product.logoDomain} logo={product.logo} brand={product.brand} />
           <div className="flex items-center gap-1.5">
             <div className="h-2 w-2 rounded-full" style={{ background: product.transparencyScore >= 85 ? "#2D4A2D" : product.transparencyScore >= 70 ? "#C8860A" : "#B84C2E" }} />
             <span className="text-xs font-mono text-muted">{product.transparencyScore}%</span>

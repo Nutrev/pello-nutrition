@@ -24,10 +24,7 @@ function ProductCard({ product }: { product: Product }) {
           <BrandLogo
              logoDomain={product.logoDomain}
               logo={product.logo}
-              brand={product.brand}
-              imageEmoji={product.imageEmoji}
-              logoSize={product.logoSize}
-              />
+              brand={product.brand} />
           <div className="flex items-center gap-1.5">
             <div className="h-2 w-2 rounded-full" style={{ background: product.transparencyScore >= 85 ? "#2D4A2D" : product.transparencyScore >= 70 ? "#C8860A" : "#B84C2E" }} />
             <span className="text-xs font-mono text-muted">{product.transparencyScore}% transparent</span>
@@ -105,8 +102,7 @@ export default function CategoryPage({ params }: { params: { category: string } 
         {/* Top rated callout */}
         {topProduct && (
           <div className="card bg-moss/5 border-moss/20 flex items-center gap-4 mb-8">
-            <BrandLogo logoDomain={topProduct.logoDomain} logo={topProduct.logo} brand={topProduct.brand}
-              sizeClass="h-10" fallback="none" />
+            <BrandLogo logoDomain={topProduct.logoDomain} logo={topProduct.logo} brand={topProduct.brand} size="lg" />
             <div className="flex-1">
               <div className="text-xs font-mono text-moss mb-0.5">★ Top rated in {matched}</div>
               <div className="font-display font-semibold">{topProduct.name}</div>

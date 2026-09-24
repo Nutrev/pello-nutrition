@@ -375,7 +375,7 @@ function PhaseProductCard({ item, borderColor }: { item: PhaseProduct; borderCol
     <Link href={`/report/${p.id}`}>
       <div className={`bg-white/60 border ${borderColor} rounded-xl p-3 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group`}>
         <div className="flex items-start gap-3">
-          <BrandLogo logoDomain={p.logoDomain} logo={p.logo} brand={p.brand} sizeClass="h-7 w-7" className="rounded" />
+          <BrandLogo logoDomain={p.logoDomain} logo={p.logo} brand={p.brand} size="sm" />
           <div className="flex-1 min-w-0">
             <div className="text-xs font-mono text-muted mb-0.5">{p.category}</div>
             <div className="font-display font-semibold text-sm group-hover:text-moss transition-colors leading-tight">{p.name}</div>

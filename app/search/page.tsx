@@ -232,7 +232,7 @@ export default function SearchPage() {
               {pelloResults.map(p => (
                 <Link key={p.id} href={`/report/${p.id}`}>
                   <div className="card hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group flex items-center gap-4">
-                    <BrandLogo logoDomain={p.logoDomain} logo={p.logo} brand={p.brand} sizeClass="h-8" />
+                    <BrandLogo logoDomain={p.logoDomain} logo={p.logo} brand={p.brand} />
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-0.5">
                         <span className="text-xs font-mono bg-moss/10 text-moss px-1.5 py-0.5 rounded">Pello</span>

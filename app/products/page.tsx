@@ -32,11 +32,7 @@ function ProductCard({ product }: { product: Product }) {
           <BrandLogo
             logoDomain={product.logoDomain}
             logo={product.logo}
-            brand={product.brand}
-            imageEmoji={product.imageEmoji}
-            logoSize={product.logoSize}
-            fallback="emoji"
-          />
+            brand={product.brand} />
           <div className="flex items-center gap-1.5">
             <div className="h-2 w-2 rounded-full" style={{ background: product.transparencyScore >= 85 ? "#2D4A2D" : product.transparencyScore >= 70 ? "#C8860A" : "#B84C2E" }} />
             <span className="text-xs font-mono text-muted">{product.transparencyScore}% transparent</span>

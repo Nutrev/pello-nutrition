@@ -206,10 +206,7 @@ export default function ReportPage({ params }: { params: { id: string } }) {
           <BrandLogo
             logoDomain={product.logoDomain}
             logo={product.logo}
-            brand={product.brand}
-            imageEmoji={product.imageEmoji}
-            logoSize={product.logoSize}
-          />
+            brand={product.brand} size="lg" />
           <div className="flex-1">
             <div className="text-sm text-muted mb-1">{product.brand}</div>
             <h1 className="font-display font-bold text-3xl tracking-tight mb-2">{product.name}</h1>
@@ -435,8 +432,7 @@ export default function ReportPage({ params }: { params: { id: string } }) {
                 <Link key={p.id} href={`/report/${p.id}`}>
                   <div className="card hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group">
                     <div className="flex items-start justify-between mb-3">
-                      <BrandLogo logoDomain={p.logoDomain} logo={p.logo} brand={p.brand} imageEmoji={p.imageEmoji}
-                        sizeClass={p.logoSize === "sm" ? "h-5" : p.logoSize === "lg" ? "h-10" : "h-7"} fallback="emoji" />
+                      <BrandLogo logoDomain={p.logoDomain} logo={p.logo} brand={p.brand} />
                       <span className="text-xs font-mono text-muted">{p.rating} ★</span>
                     </div>
                     <div className="text-xs text-muted mb-0.5">{p.brand}</div>
@@ -461,8 +457,7 @@ export default function ReportPage({ params }: { params: { id: string } }) {
               .map((p) => p && (
                 <Link key={p.id} href={`/report/${p.id}`}>
                   <div className="card hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group">
-                    <BrandLogo logoDomain={p.logoDomain} logo={p.logo} brand={p.brand} imageEmoji={p.imageEmoji}
-                      sizeClass={p.logoSize === "sm" ? "h-4" : p.logoSize === "lg" ? "h-8" : "h-6"} className="mb-2" fallback="emoji" />
+                    <BrandLogo logoDomain={p.logoDomain} logo={p.logo} brand={p.brand} size="sm" className="mb-2" />
                     <div className="text-xs text-muted mb-0.5">{p.brand}</div>
                     <div className="font-display font-semibold text-xs group-hover:text-moss transition-colors leading-tight">{p.name}</div>
                   </div>
