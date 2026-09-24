@@ -103,8 +103,3 @@ export default function PrivacyPage() {
   );
 }
 
-// ── TERMS OF SERVICE ──────────────────────────────────────────
-// app/legal/terms/page.tsx
-
-// ── AFFILIATE DISCLOSURE ──────────────────────────────────────
-// app/legal/affiliate-disclosure/page.tsx

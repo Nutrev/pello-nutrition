@@ -1,3 +1,4 @@
+// ── AFFILIATE DISCLOSURE ──────────────────────────────────────
 // app/legal/affiliate-disclosure/page.tsx
 
 import Link from "next/link";
