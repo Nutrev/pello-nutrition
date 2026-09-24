@@ -188,9 +188,7 @@ const filteredProducts = PRODUCTS.filter((p) => {
                   key={p.id}
                   className="flex items-center gap-2 bg-moss/10 border border-moss/20 px-3 py-1.5 rounded-lg"
                 >
-                  {p.logo && (
-                    <img src={p.logo} alt={p.brand} className="h-4 w-auto object-contain" />
-                  )}
+                  <BrandLogo logoDomain={p.logoDomain} logo={p.logo} brand={p.brand} sizeClass="h-4" fallback="none" />
                   <span className="text-xs font-medium">{p.name}</span>
                   <button
                     onClick={() => removeProduct(p.id)}
@@ -224,9 +222,7 @@ const filteredProducts = PRODUCTS.filter((p) => {
                         onClick={() => addProduct(p.id)}
                         className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-sand/50 transition-colors text-left"
                       >
-                        {p.logo && (
-                          <img src={p.logo} alt={p.brand} className="h-5 w-auto object-contain flex-shrink-0" />
-                        )}
+                        <BrandLogo logoDomain={p.logoDomain} logo={p.logo} brand={p.brand} sizeClass="h-5" fallback="none" />
                         <div className="flex-1">
                           <div className="text-sm font-medium">{p.name}</div>
                           <div className="text-xs text-muted">{p.brand} · {p.category}</div>
@@ -253,15 +249,9 @@ const filteredProducts = PRODUCTS.filter((p) => {
                   {selectedProducts.map((p) => (
                     <th key={p.id} className={`${colClass} px-4 pb-4 text-left align-top`}>
                       <div className="card">
-                        {p.logo && (
-                          <img
-                            src={p.logo}
-                            alt={p.brand}
-                            className={`w-auto object-contain mb-2 ${
-                              p.logoSize === "sm" ? "h-5" : p.logoSize === "lg" ? "h-10" : "h-7"
-                            }`}
-                          />
-                        )}
+                        <BrandLogo logoDomain={p.logoDomain} logo={p.logo} brand={p.brand}
+                          sizeClass={p.logoSize === "sm" ? "h-5" : p.logoSize === "lg" ? "h-10" : "h-7"}
+                          className="mb-2" fallback="none" />
                         <div className="text-xs text-muted mb-0.5">{p.brand}</div>
                         <div className="font-display font-semibold text-sm leading-tight mb-1">
                           {p.name}

@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import BrandLogo from "@/components/BrandLogo";
 import Logo from "@/components/Logo";
 import { PRODUCTS } from "@/lib/products";
 
@@ -18,7 +19,7 @@ function enrichProduct(p: any) {
     "Creatine": 90, "Supplement": 30, "Probiotic": 30,
     "Omega-3": 30, "Vitamin": 90, "Mineral": 60,
   };
-  const servings = servingsMap[p.category] ?? 30;
+  const servings = p.servingsPerContainer ?? servingsMap[p.category] ?? 30;
   const pricePerServing = p.price / servings;
 
   // Extract key nutrients from ingredients
@@ -411,9 +412,7 @@ export default function ExplorePage() {
 
                       {/* Product */}
                       <div className="flex items-center gap-2 min-w-0">
-                        <img src={`https://logo.clearbit.com/${(p as any).logoDomain ?? ""}`} alt={p.brand}
-                          className="h-5 w-5 object-contain flex-shrink-0 rounded"
-                          onError={(e) => (e.currentTarget.style.display = "none")} />
+                        <BrandLogo logoDomain={p.logoDomain} logo={p.logo} brand={p.brand} sizeClass="h-5 w-5" className="rounded" />
                         <div className="min-w-0">
                           <div className="text-xs font-medium leading-tight truncate">{p.name}</div>
                           <div className="text-xs text-muted truncate">{p.brand}</div>

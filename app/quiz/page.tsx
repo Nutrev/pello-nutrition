@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import BrandLogo from "@/components/BrandLogo";
 import Logo from "@/components/Logo";
 import { PRODUCTS } from "@/lib/products";
 import {
@@ -72,14 +73,15 @@ const PHASE_CATEGORIES = {
 
 // ── HELPERS ───────────────────────────────────────────────────
 
-function getServingsPerContainer(category: string): number {
+function getServingsPerContainer(p: typeof PRODUCTS[0]): number {
+  if (p.servingsPerContainer) return p.servingsPerContainer;
   const map: Record<string, number> = {
     "Energy Gel": 12, "Energy Chew": 12, "Energy Bar": 12,
     "Carbohydrate Mix": 30, "Hydration": 30, "Protein": 28,
     "Creatine": 90, "Supplement": 30, "Probiotic": 30,
     "Omega-3": 30, "Vitamin": 90, "Mineral": 60,
   };
-  return map[category] ?? 30;
+  return map[p.category] ?? 30;
 }
 
 function getCarbsPerServing(p: typeof PRODUCTS[0]): number {
@@ -165,7 +167,7 @@ function buildPhaseRecommendations(inputs: PlannerInputs, carbTarget: number): {
       product: p,
       phase: "pre" as const,
       quantity: 1,
-      totalCost: parseFloat((p.price / getServingsPerContainer(p.category)).toFixed(2)),
+      totalCost: parseFloat((p.price / getServingsPerContainer(p)).toFixed(2)),
       reason: `Slow-release carbs 2-3 hours before — provides sustained energy without GI distress`,
     }));
 
@@ -175,7 +177,7 @@ function buildPhaseRecommendations(inputs: PlannerInputs, carbTarget: number): {
       const servingsNeeded = p.category === "Energy Gel" || p.category === "Energy Chew"
         ? Math.max(1, Math.ceil(carbTarget / carbsPerServing))
         : Math.ceil(inputs.durationHours);
-      const pricePerServing = p.price / getServingsPerContainer(p.category);
+      const pricePerServing = p.price / getServingsPerContainer(p);
       const totalCost = parseFloat((pricePerServing * servingsNeeded).toFixed(2));
 
       const hasCaf = p.ingredients?.some((i: any) => i.name.toLowerCase().includes("caffeine")) ?? false;
@@ -194,7 +196,7 @@ function buildPhaseRecommendations(inputs: PlannerInputs, carbTarget: number): {
       product: p,
       phase: "post" as const,
       quantity: 1,
-      totalCost: parseFloat((p.price / getServingsPerContainer(p.category)).toFixed(2)),
+      totalCost: parseFloat((p.price / getServingsPerContainer(p)).toFixed(2)),
       reason: p.category === "Protein"
         ? `30-min recovery window — protein synthesis peaks immediately post-event`
         : `Recovery support — reduce inflammation and restore balance`,
@@ -217,7 +219,7 @@ function buildPhaseRecommendations(inputs: PlannerInputs, carbTarget: number): {
         product: p,
         phase: "pre" as const,
         quantity: 1,
-        totalCost: parseFloat((p.price / getServingsPerContainer(p.category)).toFixed(2)),
+        totalCost: parseFloat((p.price / getServingsPerContainer(p)).toFixed(2)),
         reason: "Daily preparation and pre-training nutrition",
       }));
 
@@ -228,7 +230,7 @@ function buildPhaseRecommendations(inputs: PlannerInputs, carbTarget: number): {
         product: p,
         phase: "during" as const,
         quantity: 1,
-        totalCost: parseFloat((p.price / getServingsPerContainer(p.category)).toFixed(2)),
+        totalCost: parseFloat((p.price / getServingsPerContainer(p)).toFixed(2)),
         reason: "Intra-workout fuelling to support your goal",
       }));
 
@@ -367,21 +369,13 @@ function PlanLines({ lines }: { lines: string[] }) {
 
 function PhaseProductCard({ item, borderColor }: { item: PhaseProduct; borderColor: string }) {
   const p = item.product;
-  const pricePerServing = (p.price / getServingsPerContainer(p.category)).toFixed(2);
+  const pricePerServing = (p.price / getServingsPerContainer(p)).toFixed(2);
 
   return (
     <Link href={`/report/${p.id}`}>
       <div className={`bg-white/60 border ${borderColor} rounded-xl p-3 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group`}>
         <div className="flex items-start gap-3">
-          {(p as any).logoDomain ? (
-            <img src={`https://logo.clearbit.com/${(p as any).logoDomain}`} alt={p.brand}
-              className="h-7 w-7 object-contain flex-shrink-0 rounded"
-              onError={e => (e.currentTarget.style.display = "none")} />
-          ) : (
-            <div className="w-7 h-7 rounded bg-sand flex items-center justify-center text-xs font-mono flex-shrink-0">
-              {p.brand.charAt(0)}
-            </div>
-          )}
+          <BrandLogo logoDomain={p.logoDomain} logo={p.logo} brand={p.brand} sizeClass="h-7 w-7" className="rounded" />
           <div className="flex-1 min-w-0">
             <div className="text-xs font-mono text-muted mb-0.5">{p.category}</div>
             <div className="font-display font-semibold text-sm group-hover:text-moss transition-colors leading-tight">{p.name}</div>

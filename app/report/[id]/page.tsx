@@ -44,21 +44,18 @@ function getProsAndCons(sentiment: Record<string, number>, ingredients: { verdic
   return { pros: pros.slice(0, 4), cons: cons.slice(0, 4) };
 }
 
+const DEFAULT_SERVINGS: Record<string, number> = {
+  "Energy Gel": 12, "Energy Chew": 12, "Energy Bar": 12, "Carbohydrate Mix": 30, "Hydration": 30,
+  "Protein": 28, "Creatine": 30, "Probiotic": 30, "Omega-3": 30, "Vitamin": 30, "Mineral": 30,
+};
+const SERVING_UNIT: Record<string, string> = {
+  "Energy Gel": "gel", "Energy Chew": "pack", "Energy Bar": "bar", "Probiotic": "capsule",
+};
+
 function getPricePerServing(product: Product): string | null {
-  const category = product.category;
-  const price = product.price;
-  if (category === "Energy Gel") return `$${(price / 12).toFixed(2)} per gel`;
-  if (category === "Energy Chew") return `$${(price / 12).toFixed(2)} per pack`;
-  if (category === "Energy Bar") return `$${(price / 12).toFixed(2)} per bar`;
-  if (category === "Carbohydrate Mix") return `$${(price / 30).toFixed(2)} per serving`;
-  if (category === "Hydration") return `$${(price / 30).toFixed(2)} per serving`;
-  if (category === "Protein") return `$${(price / 28).toFixed(2)} per serving`;
-  if (category === "Creatine") return `$${(price / 30).toFixed(2)} per serving`;
-  if (category === "Probiotic") return `$${(price / 30).toFixed(2)} per capsule`;
-  if (category === "Omega-3") return `$${(price / 30).toFixed(2)} per serving`;
-  if (category === "Vitamin") return `$${(price / 30).toFixed(2)} per serving`;
-  if (category === "Mineral") return `$${(price / 30).toFixed(2)} per serving`;
-  return null;
+  const servings = product.servingsPerContainer ?? DEFAULT_SERVINGS[product.category];
+  if (!servings) return null;
+  return `$${(product.price / servings).toFixed(2)} per ${SERVING_UNIT[product.category] ?? "serving"}`;
 }
 
 function getBestForStatement(product: typeof PRODUCTS[0]): string {
@@ -98,7 +95,7 @@ export default function ReportPage({ params }: { params: { id: string } }) {
     certifications: [],
     isBatchTested: false,
     bannedSubstanceTested: false,
-    pricePerServing: product.price / 30,
+    pricePerServing: product.price / (product.servingsPerContainer ?? DEFAULT_SERVINGS[product.category] ?? 30),
     carbsPerServing: undefined,
     proteinPerServing: undefined,
     sodiumPerServing: undefined,
@@ -206,15 +203,13 @@ export default function ReportPage({ params }: { params: { id: string } }) {
 
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-start gap-6 mb-6">
-          {product.logo && (
-            <BrandLogo
-              logoDomain={product.logoDomain}
-              logo={product.logo}
-              brand={product.brand}
-              imageEmoji={product.imageEmoji}
-              logoSize={product.logoSize}
-            />
-          )}
+          <BrandLogo
+            logoDomain={product.logoDomain}
+            logo={product.logo}
+            brand={product.brand}
+            imageEmoji={product.imageEmoji}
+            logoSize={product.logoSize}
+          />
           <div className="flex-1">
             <div className="text-sm text-muted mb-1">{product.brand}</div>
             <h1 className="font-display font-bold text-3xl tracking-tight mb-2">{product.name}</h1>
@@ -440,11 +435,8 @@ export default function ReportPage({ params }: { params: { id: string } }) {
                 <Link key={p.id} href={`/report/${p.id}`}>
                   <div className="card hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group">
                     <div className="flex items-start justify-between mb-3">
-                      {p.logo ? (
-                        <img src={p.logo} alt={p.brand} className={`w-auto object-contain ${p.logoSize === "sm" ? "h-5" : p.logoSize === "lg" ? "h-10" : "h-7"}`} />
-                      ) : (
-                        <div className="text-2xl">{p.imageEmoji}</div>
-                      )}
+                      <BrandLogo logoDomain={p.logoDomain} logo={p.logo} brand={p.brand} imageEmoji={p.imageEmoji}
+                        sizeClass={p.logoSize === "sm" ? "h-5" : p.logoSize === "lg" ? "h-10" : "h-7"} fallback="emoji" />
                       <span className="text-xs font-mono text-muted">{p.rating} ★</span>
                     </div>
                     <div className="text-xs text-muted mb-0.5">{p.brand}</div>
@@ -469,11 +461,8 @@ export default function ReportPage({ params }: { params: { id: string } }) {
               .map((p) => p && (
                 <Link key={p.id} href={`/report/${p.id}`}>
                   <div className="card hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group">
-                    {p.logo ? (
-                      <img src={p.logo} alt={p.brand} className={`w-auto object-contain mb-2 ${p.logoSize === "sm" ? "h-4" : p.logoSize === "lg" ? "h-8" : "h-6"}`} />
-                    ) : (
-                      <div className="text-xl mb-2">{p.imageEmoji}</div>
-                    )}
+                    <BrandLogo logoDomain={p.logoDomain} logo={p.logo} brand={p.brand} imageEmoji={p.imageEmoji}
+                      sizeClass={p.logoSize === "sm" ? "h-4" : p.logoSize === "lg" ? "h-8" : "h-6"} className="mb-2" fallback="emoji" />
                     <div className="text-xs text-muted mb-0.5">{p.brand}</div>
                     <div className="font-display font-semibold text-xs group-hover:text-moss transition-colors leading-tight">{p.name}</div>
                   </div>

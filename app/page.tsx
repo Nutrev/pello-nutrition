@@ -2,6 +2,7 @@
 
 import { PRODUCTS, Product } from "@/lib/products";
 import Link from "next/link";
+import BrandLogo from "@/components/BrandLogo";
 import Logo from "@/components/Logo";
 import { useState, useEffect, useMemo } from "react";
 
@@ -63,18 +64,8 @@ function ProductCard({ product, featured = false }: { product: Product; featured
     <Link href={`/report/${product.id}`}>
       <div className={`card hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group h-full ${featured ? "border-moss/30" : ""}`}>
         <div className="flex items-start justify-between mb-3">
-          {(product as any).logoDomain ? (
-            <img
-              src={`https://logo.clearbit.com/${(product as any).logoDomain}`}
-              alt={product.brand}
-              className="h-8 w-auto object-contain"
-              onError={(e) => (e.currentTarget.style.display = "none")}
-            />
-          ) : product.logo ? (
-            <img src={product.logo} alt={product.brand} className="h-8 w-auto object-contain" />
-          ) : (
-            <div className="text-3xl">{product.imageEmoji}</div>
-          )}
+          <BrandLogo logoDomain={product.logoDomain} logo={product.logo} brand={product.brand}
+            imageEmoji={product.imageEmoji} fallback="emoji" />
           <div className="flex items-center gap-1.5">
             <div className="h-2 w-2 rounded-full" style={{ background: product.transparencyScore >= 85 ? "#2D4A2D" : product.transparencyScore >= 70 ? "#C8860A" : "#B84C2E" }} />
             <span className="text-xs font-mono text-muted">{product.transparencyScore}%</span>

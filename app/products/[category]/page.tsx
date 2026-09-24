@@ -105,9 +105,8 @@ export default function CategoryPage({ params }: { params: { category: string } 
         {/* Top rated callout */}
         {topProduct && (
           <div className="card bg-moss/5 border-moss/20 flex items-center gap-4 mb-8">
-            {topProduct.logo && (
-              <img src={topProduct.logo} alt={topProduct.brand} className="h-10 w-auto object-contain flex-shrink-0" />
-            )}
+            <BrandLogo logoDomain={topProduct.logoDomain} logo={topProduct.logo} brand={topProduct.brand}
+              sizeClass="h-10" fallback="none" />
             <div className="flex-1">
               <div className="text-xs font-mono text-moss mb-0.5">★ Top rated in {matched}</div>
               <div className="font-display font-semibold">{topProduct.name}</div>

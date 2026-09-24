@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
+import BrandLogo from "@/components/BrandLogo";
 import Logo from "@/components/Logo";
 import { PRODUCTS } from "@/lib/products";
 
@@ -231,15 +232,7 @@ export default function SearchPage() {
               {pelloResults.map(p => (
                 <Link key={p.id} href={`/report/${p.id}`}>
                   <div className="card hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group flex items-center gap-4">
-                    {(p as any).logoDomain ? (
-                      <img src={`https://logo.clearbit.com/${(p as any).logoDomain}`} alt={p.brand}
-                        className="h-8 w-auto object-contain flex-shrink-0"
-                        onError={e => (e.currentTarget.style.display = "none")} />
-                    ) : (
-                      <div className="w-8 h-8 rounded-lg bg-sand flex items-center justify-center text-xs font-mono flex-shrink-0">
-                        {p.brand.charAt(0)}
-                      </div>
-                    )}
+                    <BrandLogo logoDomain={p.logoDomain} logo={p.logo} brand={p.brand} sizeClass="h-8" />
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-0.5">
                         <span className="text-xs font-mono bg-moss/10 text-moss px-1.5 py-0.5 rounded">Pello</span>
