@@ -2252,7 +2252,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     id: "cadence-performance-fuel-mix-carb-electrolyte",
     name: "Performance Fuel Mix Carb + Electrolyte",
     brand: "Cadence",
-    logoDomain: "cadencenutrition.com",
+    logoDomain: "usecadence.com",
     logo: "/logo/cadence.png",
     category: "Carbohydrate Mix",
     rating: 5,

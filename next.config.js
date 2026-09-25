@@ -10,6 +10,8 @@ const nextConfig = {
       { source: "/report/momentous-vitamin-d3-k2", destination: "/report/momentous-vitamin-d3", permanent: true },
       // Product removed from the site
       { source: "/report/clif-shot-gel", destination: "/products/energy-gel", permanent: true },
+      { source: "/report/larabar-original", destination: "/products/energy-bar", permanent: true },
+      { source: "/report/kind-bar-original", destination: "/products/energy-bar", permanent: true },
     ];
   },
 };
