@@ -28,3 +28,8 @@ export function servingsPerContainer(p: Pick<Product, "category" | "servingsPerC
 export function pricePerServing(p: Pick<Product, "price" | "category" | "servingsPerContainer">): number {
   return p.price / servingsPerContainer(p);
 }
+
+// "$32.3" -> "$32.30", "$45" -> "$45": whole-dollar prices stay short, others show cents.
+export function formatPrice(price: number): string {
+  return Number.isInteger(price) ? `$${price}` : `$${price.toFixed(2)}`;
+}

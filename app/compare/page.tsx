@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { PRODUCTS, Product } from "@/lib/products";
-import { pricePerServing, servingsPerContainer } from "@/lib/servings";
+import { pricePerServing, servingsPerContainer, formatPrice } from "@/lib/servings";
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
 import IngredientFlags from "@/components/IngredientFlags";
@@ -293,7 +293,7 @@ const filteredProducts = PRODUCTS.filter((p) => {
                           ${perServing(p).toFixed(2)}
                         </span>
                         <span className="text-xs text-muted"> / serving</span>
-                        <div className="text-xs text-muted font-mono mt-0.5">${p.price} for {servingsPerContainer(p)}</div>
+                        <div className="text-xs text-muted font-mono mt-0.5">{formatPrice(p.price)} for {servingsPerContainer(p)}</div>
                         {isBest && selectedProducts.length > 1 && (
                           <div className="text-xs text-moss font-mono mt-0.5">Best value</div>
                         )}

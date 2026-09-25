@@ -1,7 +1,7 @@
 "use client";
 
 import { PRODUCTS, Product } from "@/lib/products";
-import { servingsPerContainer } from "@/lib/servings";
+import { servingsPerContainer, formatPrice } from "@/lib/servings";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import BrandLogo from "@/components/BrandLogo";
@@ -51,7 +51,7 @@ function ProductCard({ product }: { product: Product }) {
               <span key={g} className={`text-xs px-2 py-0.5 rounded-md font-mono ${GOAL_COLORS[g] ?? "bg-sand text-muted"}`}>{g}</span>
             ))}
           </div>
-          <span className="text-xs font-mono text-muted">${product.price} · {servingsPerContainer(product)} servings</span>
+          <span className="text-xs font-mono text-muted">{formatPrice(product.price)} · {servingsPerContainer(product)} servings</span>
         </div>
       </div>
     </Link>

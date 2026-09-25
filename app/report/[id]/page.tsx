@@ -7,7 +7,7 @@ import ReviewSection from "@/components/ReviewSection";
 import BrandLogo from "@/components/BrandLogo";
 import IngredientFlags from "@/components/IngredientFlags";
 import { calculatePelloScore } from "@/lib/fulens-score";
-import { pricePerServing as calcPricePerServing, servingsPerContainer } from "@/lib/servings";
+import { pricePerServing as calcPricePerServing, servingsPerContainer, formatPrice } from "@/lib/servings";
 import { productNutrition } from "@/lib/nutrition";
 import FulensScoreDisplay from "@/components/FulensScore";
 import PriceAlert from "@/components/PriceAlert";
@@ -231,7 +231,7 @@ export default function ReportPage({ params }: { params: { id: string } }) {
               </div>
             )}
             <div className="flex items-center gap-3 mb-2">
-              <span className="font-display font-bold text-xl">${shown.price}</span>
+              <span className="font-display font-bold text-xl">{formatPrice(shown.price)}</span>
               <span className="text-sm text-muted">for {servingsPerContainer(shown)} servings</span>
               {pricePerServing && (
                 <span className="text-base font-mono font-medium text-ink">· {pricePerServing}</span>
@@ -449,7 +449,7 @@ export default function ReportPage({ params }: { params: { id: string } }) {
                     </div>
                     <div className="text-xs text-muted mb-0.5">{p.brand}</div>
                     <div className="font-display font-semibold text-sm group-hover:text-moss transition-colors">{p.name}</div>
-                    <div className="text-xs font-mono text-muted mt-1">${p.price} · {servingsPerContainer(p)} servings</div>
+                    <div className="text-xs font-mono text-muted mt-1">{formatPrice(p.price)} · {servingsPerContainer(p)} servings</div>
                   </div>
                 </Link>
               ))}

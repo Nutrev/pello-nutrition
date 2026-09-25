@@ -1,10 +1,10 @@
 "use client";
 
 import { PRODUCTS, Product } from "@/lib/products";
-import { servingsPerContainer } from "@/lib/servings";
+import { servingsPerContainer, formatPrice } from "@/lib/servings";
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 
 const HEADLINES = [
   { static: "Find nutrition", rotating: "that actually works" },
@@ -91,7 +91,7 @@ function ProductCard({ product, featured = false }: { product: Product; featured
               <span key={g} className={`text-xs px-2 py-0.5 rounded-md font-mono ${GOAL_COLORS[g] ?? "bg-sand text-muted"}`}>{g}</span>
             ))}
           </div>
-          <span className="text-xs font-mono text-muted">${product.price} · {servingsPerContainer(product)} servings</span>
+          <span className="text-xs font-mono text-muted">{formatPrice(product.price)} · {servingsPerContainer(product)} servings</span>
         </div>
       </div>
     </Link>
@@ -101,10 +101,12 @@ function ProductCard({ product, featured = false }: { product: Product; featured
 export default function HomePage() {
   const [heroSearch, setHeroSearch] = useState("");
   const highlights = getBestPerCategory();
-  const featuredProducts = useMemo(() => {
-  const shuffled = [...PRODUCTS].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, 3);
-}, []);
+  // Picked after mount: a random choice during render differs between server and browser
+  // and causes a hydration mismatch.
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+  useEffect(() => {
+    setFeaturedProducts([...PRODUCTS].sort(() => Math.random() - 0.5).slice(0, 3));
+  }, []);
 
   return (
     <div className="min-h-screen">
@@ -163,7 +165,13 @@ export default function HomePage() {
                 <div className="text-xs font-mono text-muted mb-1">{p.brand}</div>
                 <div className="font-display font-semibold text-sm group-hover:text-moss transition-colors mb-2">{p.name}</div>
                 <div className="flex items-center justify-between">
-                  <span className="text-amber text-xs">★★★★★</span>
+                  {p.reviewCount > 0 ? (
+                    <span className="text-xs text-muted font-mono">
+                      <span className="text-amber">{"★".repeat(Math.round(p.rating))}{"☆".repeat(5 - Math.round(p.rating))}</span> {p.rating}
+                    </span>
+                  ) : (
+                    <span className="text-xs text-muted">No reviews yet</span>
+                  )}
                   <span className="text-xs font-mono bg-moss/10 text-moss px-2 py-0.5 rounded-md">{p.category}</span>
                 </div>
               </div>
