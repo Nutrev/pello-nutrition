@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import BrandLogo from "@/components/BrandLogo";
 import { PRODUCTS } from "@/lib/products";
 import { pricePerServing as getPricePerServing } from "@/lib/servings";
+import { productNutrition } from "@/lib/nutrition";
 
 // ── TYPES ─────────────────────────────────────────────────────
 
@@ -14,66 +15,10 @@ type SortKey = "rating" | "pricePerServing" | "carbsPerServing" | "sodiumPerServ
 function enrichProduct(p: any) {
   const pricePerServing = getPricePerServing(p);
 
-  // Extract key nutrients from ingredients
-  let carbsPerServing: number | null = null;
-  let sodiumPerServing: number | null = null;
-  let caffeinePerServing: number | null = null;
-  let proteinPerServing: number | null = null;
-  let hasCaffeine = false;
-  let isHydrogel = false;
-  let glucoseFructoseRatio: string | null = null;
-
-  p.ingredients?.forEach((ing: any) => {
-    const name = ing.name.toLowerCase();
-    const dose = ing.dose?.toLowerCase() ?? "";
-
-    // Carbs
-    const carbMatch = dose.match(/(\d+)g?\s*carb/);
-    if (carbMatch && !carbsPerServing) carbsPerServing = parseInt(carbMatch[1]);
-
-    // Sodium
-    const sodMatch = dose.match(/(\d+)\s*mg\s*sodium/) || name.match(/sodium/);
-    if (sodMatch && ing.dose) {
-      const mg = ing.dose.match(/(\d+)\s*mg/);
-      if (mg && !sodiumPerServing) sodiumPerServing = parseInt(mg[1]);
-    }
-
-    // Caffeine
-    if (name.includes("caffeine") || name.includes("green tea")) {
-      hasCaffeine = true;
-      const cafMatch = dose.match(/(\d+)\s*mg/) || ing.dose?.match(/(\d+)\s*mg/);
-      if (cafMatch) caffeinePerServing = parseInt(cafMatch[1]);
-    }
-
-    // Protein
-    const protMatch = dose.match(/(\d+)g?\s*protein/);
-    if (protMatch && !proteinPerServing) proteinPerServing = parseInt(protMatch[1]);
-
-    // Hydrogel
-    if (name.includes("hydrogel") || name.includes("alginate")) isHydrogel = true;
-
-    // G:F ratio
-    if (name.includes("glucose") && name.includes("fructose")) {
-      if (name.includes("2:1") || dose.includes("2:1")) glucoseFructoseRatio = "2:1";
-      else if (name.includes("1:0.8") || dose.includes("0.8")) glucoseFructoseRatio = "1:0.8";
-      else if (name.includes("1:1") || dose.includes("1:1")) glucoseFructoseRatio = "1:1";
-    }
-    if (name.includes("maltodextrin") && name.includes("fructose")) {
-      glucoseFructoseRatio = glucoseFructoseRatio ?? "2:1";
-    }
-  });
-
-  // Detect certifications from ingredients/sources
-  const isBatchTested = p.sources?.some((s: any) =>
-    s.name?.toLowerCase().includes("informed") || s.name?.toLowerCase().includes("nsf")
-  ) || p.ingredients?.some((i: any) =>
-    i.note?.toLowerCase().includes("nsf") || i.note?.toLowerCase().includes("informed sport") || i.note?.toLowerCase().includes("batch test")
-  ) || false;
-
-  const isVegan = !p.ingredients?.some((i: any) =>
-    i.name.toLowerCase().includes("whey") || i.name.toLowerCase().includes("casein") ||
-    i.name.toLowerCase().includes("egg") || i.name.toLowerCase().includes("collagen")
-  );
+  const {
+    carbsPerServing, sodiumPerServing, caffeinePerServing, proteinPerServing,
+    hasCaffeine, isHydrogel, glucoseFructoseRatio, isBatchTested, isVegan,
+  } = productNutrition(p);
 
   const isCleanLabel = p.transparencyScore >= 85;
   const costPerGramCarb = carbsPerServing ? pricePerServing / carbsPerServing : null;
@@ -406,21 +351,21 @@ export default function ExplorePage() {
                       {/* Carbs */}
                       <div className="flex items-center">
                         <span className={`text-xs font-mono ${(p.carbsPerServing ?? 0) >= 40 ? "text-moss font-medium" : "text-muted"}`}>
-                          {p.carbsPerServing ? `${p.carbsPerServing}g` : "—"}
+                          {p.carbsPerServing != null ? `${p.carbsPerServing}g` : "—"}
                         </span>
                       </div>
 
                       {/* Sodium */}
                       <div className="flex items-center">
                         <span className={`text-xs font-mono ${(p.sodiumPerServing ?? 0) >= 500 ? "text-moss font-medium" : "text-muted"}`}>
-                          {p.sodiumPerServing ? `${p.sodiumPerServing}mg` : "—"}
+                          {p.sodiumPerServing != null ? `${p.sodiumPerServing}mg` : "—"}
                         </span>
                       </div>
 
                       {/* Caffeine */}
                       <div className="flex items-center">
                         <span className={`text-xs font-mono ${p.hasCaffeine ? "text-amber font-medium" : "text-muted"}`}>
-                          {p.hasCaffeine ? `${p.caffeinePerServing ?? "?"}mg` : "None"}
+                          {p.hasCaffeine ? (p.caffeinePerServing != null ? `${p.caffeinePerServing}mg` : "Varies") : "None"}
                         </span>
                       </div>
 

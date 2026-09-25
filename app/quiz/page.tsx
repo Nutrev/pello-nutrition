@@ -5,6 +5,7 @@ import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
 import { PRODUCTS } from "@/lib/products";
 import { servingsPerContainer } from "@/lib/servings";
+import { productNutrition } from "@/lib/nutrition";
 import {
   type PlannerInputs, type EventType, type OutcomeType, type Intensity,
   type CaffeinePreference, type DietaryRestriction, type FormatPreference, type Retailer,
@@ -74,12 +75,7 @@ const PHASE_CATEGORIES = {
 // ── HELPERS ───────────────────────────────────────────────────
 
 function getCarbsPerServing(p: typeof PRODUCTS[0]): number {
-  for (const ing of p.ingredients ?? []) {
-    const dose = ing.dose?.toLowerCase() ?? "";
-    const match = dose.match(/(\d+)g?\s*carb/);
-    if (match) return parseInt(match[1]);
-  }
-  return 25; // default estimate
+  return productNutrition(p).carbsPerServing ?? 25; // 25g when unknown
 }
 
 // ── SMART RECOMMENDATION ENGINE ───────────────────────────────

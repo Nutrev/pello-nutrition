@@ -8,6 +8,7 @@ import BrandLogo from "@/components/BrandLogo";
 import IngredientFlags from "@/components/IngredientFlags";
 import { calculatePelloScore } from "@/lib/fulens-score";
 import { pricePerServing as calcPricePerServing } from "@/lib/servings";
+import { productNutrition } from "@/lib/nutrition";
 import FulensScoreDisplay from "@/components/FulensScore";
 import PriceAlert from "@/components/PriceAlert";
 
@@ -77,7 +78,8 @@ export default function ReportPage({ params }: { params: { id: string } }) {
   const [generated, setGenerated] = useState(false);
   const [recentIds, setRecentIds] = useState<string[]>([]);
 
-  const PelloScore = product ? calculatePelloScore({
+  const nutrition = product ? productNutrition(product) : null;
+  const PelloScore = product && nutrition ? calculatePelloScore({
     category: product.category,
     ingredients: product.ingredients.map((i) => ({
       name: i.name,
@@ -86,16 +88,16 @@ export default function ReportPage({ params }: { params: { id: string } }) {
     })),
     hasProprietaryBlend: false,
     isCleanLabel: true,
-    certifications: [],
-    isBatchTested: false,
+    certifications: nutrition.certifications,
+    isBatchTested: nutrition.isBatchTested,
     bannedSubstanceTested: false,
     pricePerServing: calcPricePerServing(product),
-    carbsPerServing: undefined,
-    proteinPerServing: undefined,
-    sodiumPerServing: undefined,
-    isVegan: true,
-    isGlutenFree: true,
-    allergens: [],
+    carbsPerServing: nutrition.carbsPerServing ?? undefined,
+    proteinPerServing: nutrition.proteinPerServing ?? undefined,
+    sodiumPerServing: nutrition.sodiumPerServing ?? undefined,
+    isVegan: nutrition.isVegan,
+    isGlutenFree: nutrition.isGlutenFree ?? true, // unknown keeps the previous default
+    allergens: product.allergens ?? [],
     sentiment: product.sentiment,
     reviewCount: product.reviewCount,
     rating: product.rating,
