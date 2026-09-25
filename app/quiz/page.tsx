@@ -5,6 +5,7 @@ import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
 import Logo from "@/components/Logo";
 import { PRODUCTS } from "@/lib/products";
+import { servingsPerContainer } from "@/lib/servings";
 import {
   type PlannerInputs, type EventType, type OutcomeType, type Intensity,
   type CaffeinePreference, type DietaryRestriction, type FormatPreference, type Retailer,
@@ -72,17 +73,6 @@ const PHASE_CATEGORIES = {
 };
 
 // ── HELPERS ───────────────────────────────────────────────────
-
-function getServingsPerContainer(p: typeof PRODUCTS[0]): number {
-  if (p.servingsPerContainer) return p.servingsPerContainer;
-  const map: Record<string, number> = {
-    "Energy Gel": 12, "Energy Chew": 12, "Energy Bar": 12,
-    "Carbohydrate Mix": 30, "Hydration": 30, "Protein": 28,
-    "Creatine": 90, "Supplement": 30, "Probiotic": 30,
-    "Omega-3": 30, "Vitamin": 90, "Mineral": 60,
-  };
-  return map[p.category] ?? 30;
-}
 
 function getCarbsPerServing(p: typeof PRODUCTS[0]): number {
   for (const ing of p.ingredients ?? []) {
@@ -167,7 +157,7 @@ function buildPhaseRecommendations(inputs: PlannerInputs, carbTarget: number): {
       product: p,
       phase: "pre" as const,
       quantity: 1,
-      totalCost: parseFloat((p.price / getServingsPerContainer(p)).toFixed(2)),
+      totalCost: parseFloat((p.price / servingsPerContainer(p)).toFixed(2)),
       reason: `Slow-release carbs 2-3 hours before — provides sustained energy without GI distress`,
     }));
 
@@ -177,7 +167,7 @@ function buildPhaseRecommendations(inputs: PlannerInputs, carbTarget: number): {
       const servingsNeeded = p.category === "Energy Gel" || p.category === "Energy Chew"
         ? Math.max(1, Math.ceil(carbTarget / carbsPerServing))
         : Math.ceil(inputs.durationHours);
-      const pricePerServing = p.price / getServingsPerContainer(p);
+      const pricePerServing = p.price / servingsPerContainer(p);
       const totalCost = parseFloat((pricePerServing * servingsNeeded).toFixed(2));
 
       const hasCaf = p.ingredients?.some((i: any) => i.name.toLowerCase().includes("caffeine")) ?? false;
@@ -196,7 +186,7 @@ function buildPhaseRecommendations(inputs: PlannerInputs, carbTarget: number): {
       product: p,
       phase: "post" as const,
       quantity: 1,
-      totalCost: parseFloat((p.price / getServingsPerContainer(p)).toFixed(2)),
+      totalCost: parseFloat((p.price / servingsPerContainer(p)).toFixed(2)),
       reason: p.category === "Protein"
         ? `30-min recovery window — protein synthesis peaks immediately post-event`
         : `Recovery support — reduce inflammation and restore balance`,
@@ -219,7 +209,7 @@ function buildPhaseRecommendations(inputs: PlannerInputs, carbTarget: number): {
         product: p,
         phase: "pre" as const,
         quantity: 1,
-        totalCost: parseFloat((p.price / getServingsPerContainer(p)).toFixed(2)),
+        totalCost: parseFloat((p.price / servingsPerContainer(p)).toFixed(2)),
         reason: "Daily preparation and pre-training nutrition",
       }));
 
@@ -230,7 +220,7 @@ function buildPhaseRecommendations(inputs: PlannerInputs, carbTarget: number): {
         product: p,
         phase: "during" as const,
         quantity: 1,
-        totalCost: parseFloat((p.price / getServingsPerContainer(p)).toFixed(2)),
+        totalCost: parseFloat((p.price / servingsPerContainer(p)).toFixed(2)),
         reason: "Intra-workout fuelling to support your goal",
       }));
 
@@ -369,7 +359,7 @@ function PlanLines({ lines }: { lines: string[] }) {
 
 function PhaseProductCard({ item, borderColor }: { item: PhaseProduct; borderColor: string }) {
   const p = item.product;
-  const pricePerServing = (p.price / getServingsPerContainer(p)).toFixed(2);
+  const pricePerServing = (p.price / servingsPerContainer(p)).toFixed(2);
 
   return (
     <Link href={`/report/${p.id}`}>

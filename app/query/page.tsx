@@ -5,6 +5,7 @@ import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
 import Logo from "@/components/Logo";
 import { PRODUCTS } from "@/lib/products";
+import { pricePerServing as getPricePerServing } from "@/lib/servings";
 
 // ── TYPES ─────────────────────────────────────────────────────
 
@@ -13,14 +14,7 @@ type SortKey = "rating" | "pricePerServing" | "carbsPerServing" | "sodiumPerServ
 // ── ENRICH PRODUCTS WITH DERIVED FIELDS ───────────────────────
 
 function enrichProduct(p: any) {
-  const servingsMap: Record<string, number> = {
-    "Energy Gel": 12, "Energy Chew": 12, "Energy Bar": 12,
-    "Carbohydrate Mix": 30, "Hydration": 30, "Protein": 28,
-    "Creatine": 90, "Supplement": 30, "Probiotic": 30,
-    "Omega-3": 30, "Vitamin": 90, "Mineral": 60,
-  };
-  const servings = p.servingsPerContainer ?? servingsMap[p.category] ?? 30;
-  const pricePerServing = p.price / servings;
+  const pricePerServing = getPricePerServing(p);
 
   // Extract key nutrients from ingredients
   let carbsPerServing: number | null = null;

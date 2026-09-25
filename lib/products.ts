@@ -56,6 +56,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.4,
   reviewCount: 320,
   price: 32,                       // ~$2.67/gel, 12-pack = $32
+  servingsPerContainer: 12,
   goals: ["endurance", "recovery"],
   imageEmoji: "⚡",
   transparencyScore: 88,
@@ -118,6 +119,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.5,
   reviewCount: 1840,
   price: 38,                       // ~$3.17/gel, 12-pack
+  servingsPerContainer: 12,
   goals: ["endurance", "recovery"],
   imageEmoji: "🟡",
   transparencyScore: 96,
@@ -177,6 +179,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.3,
   reviewCount: 2100,
   price: 42,                       // ~$2.80/gel, 15-pack
+  servingsPerContainer: 15,
   goals: ["endurance", "muscle"],
   imageEmoji: "🔵",
   transparencyScore: 84,
@@ -235,6 +238,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.2,
   reviewCount: 4800,
   price: 24,                       // ~$1.60/gel, 15-pack
+  servingsPerContainer: 15,
   goals: ["endurance", "recovery"],
   imageEmoji: "🟠",
   transparencyScore: 78,
@@ -295,6 +299,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.4,
   reviewCount: 740,
   price: 36,                       // ~$3/gel, 12-pack
+  servingsPerContainer: 12,
   goals: ["endurance", "recovery"],
   imageEmoji: "⚪",
   transparencyScore: 91,
@@ -345,6 +350,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.1,
   reviewCount: 1650,
   price: 26,                       // ~$1.75/gel, 15-pack
+  servingsPerContainer: 15,
   goals: ["endurance", "recovery"],
   imageEmoji: "🍯",
   transparencyScore: 80,
@@ -403,6 +409,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.4,
   reviewCount: 1240,
   price: 50,                       // 14-sachet box
+  servingsPerContainer: 14,
   goals: ["endurance", "recovery"],
   imageEmoji: "🫙",
   transparencyScore: 94,
@@ -460,6 +467,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.5,
   reviewCount: 3200,
   price: 38,                       // 50-serving bag
+  servingsPerContainer: 50,
   goals: ["endurance", "recovery"],
   imageEmoji: "💧",
   transparencyScore: 88,
@@ -519,6 +527,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.3,
   reviewCount: 980,
   price: 45,                       // 15-serving bag
+  servingsPerContainer: 15,
   goals: ["endurance", "muscle"],
   imageEmoji: "🔷",
   transparencyScore: 83,
@@ -570,6 +579,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.2,
   reviewCount: 3850,
   price: 28,                       // ~$1.87/gel, 15-pack
+  servingsPerContainer: 15,
   goals: ["endurance", "recovery"],
   imageEmoji: "🔵",
   transparencyScore: 80,
@@ -635,6 +645,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.6,
   reviewCount: 420,
   price: 48,                       // ~$3.20/gel, 15-pack
+  servingsPerContainer: 15,
   goals: ["endurance", "recovery"],
   imageEmoji: "🟣",
   transparencyScore: 93,
@@ -688,6 +699,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.1,
   reviewCount: 860,
   price: 30,                       // ~$2/gel, 15-pack
+  servingsPerContainer: 15,
   goals: ["endurance", "recovery"],
   imageEmoji: "🌿",
   transparencyScore: 82,
@@ -753,6 +765,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.6,
   reviewCount: 2940,
   price: 25,                       // 90-capsule bottle
+  servingsPerContainer: 90,
   goals: ["recovery", "endurance"],
   imageEmoji: "💊",
   transparencyScore: 95,
@@ -804,6 +817,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.5,
   reviewCount: 310,
   price: 36,                       // ~$2.40/gel, 15-pack
+  servingsPerContainer: 15,
   goals: ["endurance", "recovery"],
   imageEmoji: "⚡",
   transparencyScore: 96,
@@ -859,6 +873,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.8,
   reviewCount: 3240,
   price: 28,                       // 180-capsule bottle
+  servingsPerContainer: 90,
   goals: ["recovery", "endurance"],
   imageEmoji: "💜",
   transparencyScore: 97,
@@ -919,6 +934,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.5,
   reviewCount: 2840,
   price: 22,                       // 20-serving bag
+  servingsPerContainer: 20,
   goals: ["endurance", "recovery"],
   imageEmoji: "💧",
   transparencyScore: 91,
@@ -978,6 +994,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.4,
   reviewCount: 980,
   price: 20,                       // 30-serving bag
+  servingsPerContainer: 30,
   goals: ["endurance", "recovery"],
   imageEmoji: "🫧",
   transparencyScore: 95,
@@ -1030,6 +1047,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.6,
   reviewCount: 1240,
   price: 55,                       // 28-serving bag
+  servingsPerContainer: 28,
   goals: ["endurance", "muscle"],
   imageEmoji: "⚡",
   transparencyScore: 92,
@@ -1091,6 +1109,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.5,
   reviewCount: 1640,
   price: 26,                       // box of 10 single packets
+  servingsPerContainer: 10,
   goals: ["endurance", "recovery"],
   imageEmoji: "🍬",
   transparencyScore: 93,
@@ -1150,6 +1169,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.5,
   reviewCount: 1380,
   price: 30,                       // 12-bar box
+  servingsPerContainer: 12,
   goals: ["endurance", "recovery"],
   imageEmoji: "🍫",
   transparencyScore: 90,
@@ -1204,6 +1224,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.7,
   reviewCount: 890,
   price: 35,                       // 3lb bag, 45 servings (~$0.78/serving)
+  servingsPerContainer: 45,
   goals: ["endurance", "recovery"],
   imageEmoji: "🧪",
   transparencyScore: 96,
@@ -1267,6 +1288,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.6,
   reviewCount: 980,
   price: 48,                       // tray of 24 x 30g shots
+  servingsPerContainer: 24,
   goals: ["endurance", "recovery"],
   imageEmoji: "⚡",
   transparencyScore: 91,
@@ -1334,6 +1356,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.6,
   reviewCount: 1240,
   price: 42,                       // 30-serving bag
+  servingsPerContainer: 30,
   goals: ["endurance", "recovery"],
   imageEmoji: "💧",
   transparencyScore: 93,
@@ -1403,6 +1426,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.7,
   reviewCount: 860,
   price: 52,                       // 20-serving bag
+  servingsPerContainer: 20,
   goals: ["endurance", "recovery"],
   imageEmoji: "🔷",
   transparencyScore: 94,
@@ -1471,6 +1495,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.5,
   reviewCount: 380,
   price: 34,                       // ~$2.83/gel, 12-pack
+  servingsPerContainer: 12,
   goals: ["endurance", "recovery"],
   imageEmoji: "⚪",
   transparencyScore: 90,
@@ -1522,6 +1547,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.4,
   reviewCount: 520,
   price: 32,                       // 12-bar box
+  servingsPerContainer: 12,
   goals: ["endurance", "recovery"],
   imageEmoji: "🍫",
   transparencyScore: 92,
@@ -1581,6 +1607,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.4,
   reviewCount: 740,
   price: 36,                       // box of 12 mini bars (6 packs of 2)
+  servingsPerContainer: 12,
   goals: ["endurance", "recovery"],
   imageEmoji: "🟡",
   transparencyScore: 94,
@@ -1644,6 +1671,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.5,
   reviewCount: 1120,
   price: 52,                       // box of 12 x 65g sachets
+  servingsPerContainer: 12,
   goals: ["endurance", "recovery"],
   imageEmoji: "🟡",
   transparencyScore: 96,
@@ -1699,6 +1727,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.5,
   reviewCount: 890,
   price: 30,                       // £29.99 for 12 bars
+  servingsPerContainer: 12,
   goals: ["endurance", "recovery"],
   imageEmoji: "🍬",
   transparencyScore: 88,
@@ -1759,6 +1788,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.3,
   reviewCount: 680,
   price: 32,                       // ~$1.33/gel, 24-pack
+  servingsPerContainer: 24,
   goals: ["endurance", "recovery"],
   imageEmoji: "🔶",
   transparencyScore: 82,
@@ -1812,6 +1842,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.5,
   reviewCount: 920,
   price: 38,                       // 650g can, ~14 servings
+  servingsPerContainer: 14,
   goals: ["endurance", "recovery"],
   imageEmoji: "🔷",
   transparencyScore: 93,
@@ -1872,6 +1903,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.4,
   reviewCount: 580,
   price: 36,                       // ~$2.40/gel, 15-pack
+  servingsPerContainer: 15,
   goals: ["endurance", "recovery"],
   imageEmoji: "🔶",
   transparencyScore: 86,
@@ -1930,6 +1962,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.7,
   reviewCount: 420,
   price: 44,                       // ~$2.93/gel, 15-pack
+  servingsPerContainer: 15,
   goals: ["endurance", "recovery"],
   imageEmoji: "🏆",
   transparencyScore: 92,
@@ -1988,6 +2021,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.2,
   reviewCount: 340,
   price: 28,                       // 12-bar box
+  servingsPerContainer: 12,
   goals: ["endurance", "recovery"],
   imageEmoji: "🍫",
   transparencyScore: 78,
@@ -2047,6 +2081,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.3,
   reviewCount: 290,
   price: 30,                       // 15-pack
+  servingsPerContainer: 15,
   goals: ["endurance", "recovery"],
   imageEmoji: "🍊",
   transparencyScore: 84,
@@ -2111,6 +2146,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.8,
   reviewCount: 320,
   price: 22,                       // 400g tub, 80 servings
+  servingsPerContainer: 80,
   goals: ["muscle", "endurance", "recovery"],
   imageEmoji: "⚡",
   transparencyScore: 98,
@@ -2150,6 +2186,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.7,
   reviewCount: 480,
   price: 30,                       // 12-pack of 60ml shots
+  servingsPerContainer: 12,
   goals: ["endurance", "health"],
   imageEmoji: "🫀",
   transparencyScore: 94,
@@ -2202,6 +2239,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.5,
   reviewCount: 940,
   price: 48,                       // 12 x 500ml bottles
+  servingsPerContainer: 12,
   goals: ["recovery", "health"],
   imageEmoji: "🍒",
   transparencyScore: 92,
@@ -2257,6 +2295,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.6,
   reviewCount: 340,
   price: 50,                       // 30-pack powder sachets
+  servingsPerContainer: 30,
   goals: ["muscle", "endurance", "recovery"],
   imageEmoji: "💪",
   transparencyScore: 90,
@@ -2324,6 +2363,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.5,
   reviewCount: 580,
   price: 45,                       // 30-pack
+  servingsPerContainer: 30,
   goals: ["recovery", "sleep", "health"],
   imageEmoji: "😌",
   transparencyScore: 88,
@@ -2393,6 +2433,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.8,
   reviewCount: 28400,
   price: 38,                       // 90-serving tub
+  servingsPerContainer: 90,
   goals: ["muscle", "endurance", "recovery"],
   imageEmoji: "⚡",
   transparencyScore: 97,
@@ -2440,6 +2481,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.8,
   reviewCount: 9200,
   price: 40,                       // 90-serving tub
+  servingsPerContainer: 90,
   goals: ["muscle", "endurance", "recovery"],
   imageEmoji: "⚡",
   transparencyScore: 97,
@@ -2488,6 +2530,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.8,
   reviewCount: 640,
   price: 35,                       // 90-serving tub
+  servingsPerContainer: 90,
   goals: ["muscle", "endurance", "recovery"],
   imageEmoji: "⚡",
   transparencyScore: 96,
@@ -2533,6 +2576,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.6,
   reviewCount: 3800,
   price: 28,                       // 100-serving tub — best value in category
+  servingsPerContainer: 100,
   goals: ["muscle", "endurance"],
   imageEmoji: "⚡",
   transparencyScore: 88,
@@ -2581,6 +2625,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.7,
   reviewCount: 820,
   price: 65,                       // 30-serving tub
+  servingsPerContainer: 30,
   goals: ["recovery", "health"],
   imageEmoji: "🦴",
   transparencyScore: 96,
@@ -2636,6 +2681,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.7,
   reviewCount: 680,
   price: 75,                       // 30-serving tub
+  servingsPerContainer: 30,
   goals: ["recovery", "health", "immunity"],
   imageEmoji: "🌿",
   transparencyScore: 94,
@@ -2701,6 +2747,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.8,
   reviewCount: 420,
   price: 90,                       // 30-serving pouch
+  servingsPerContainer: 30,
   goals: ["recovery", "muscle", "health"],
   imageEmoji: "🧬",
   transparencyScore: 95,
@@ -2768,6 +2815,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.0,
   reviewCount: 680,
   price: 65,                       // box of 6 systems
+  servingsPerContainer: 6,
   goals: ["endurance"],
   imageEmoji: "🧪",
   transparencyScore: 85,
@@ -2822,6 +2870,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.3,
   reviewCount: 240,
   price: 32,                       // weight-based 4-portion system
+  servingsPerContainer: 4,
   goals: ["endurance"],
   imageEmoji: "🧪",
   transparencyScore: 88,
@@ -2873,6 +2922,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.5,
   reviewCount: 380,
   price: 38,                       // box of 6 x 3-dose systems
+  servingsPerContainer: 6,
   goals: ["endurance", "health"],
   imageEmoji: "💨",
   transparencyScore: 89,
@@ -2933,6 +2983,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.4,
   reviewCount: 520,
   price: 38,                       // 4-pack of 60ml shots (~$9.50/shot)
+  servingsPerContainer: 4,
   goals: ["endurance", "health"],
   imageEmoji: "🥦",
   transparencyScore: 86,
@@ -2985,6 +3036,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.6,
   reviewCount: 48200,
   price: 40,                       // 30-stick box
+  servingsPerContainer: 30,
   goals: ["endurance", "recovery", "health"],
   imageEmoji: "🧂",
   transparencyScore: 90,
@@ -3046,6 +3098,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.6,
   reviewCount: 480,
   price: 38,                       // 30-stick box
+  servingsPerContainer: 30,
   goals: ["recovery", "sleep", "health"],
   imageEmoji: "🌙",
   transparencyScore: 88,
@@ -3105,6 +3158,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.6,
   reviewCount: 520,
   price: 30,                       // 30-serving bag
+  servingsPerContainer: 30,
   goals: ["endurance", "recovery"],
   imageEmoji: "💧",
   transparencyScore: 92,
@@ -3156,6 +3210,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.5,
   reviewCount: 1840,
   price: 38,                       // 16-serving bag
+  servingsPerContainer: 16,
   goals: ["endurance", "recovery"],
   imageEmoji: "💧",
   transparencyScore: 92,
@@ -3216,6 +3271,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.6,
   reviewCount: 2240,
   price: 18,                       // tube of 20 tablets
+  servingsPerContainer: 20,
   goals: ["endurance", "recovery"],
   imageEmoji: "💊",
   transparencyScore: 93,
@@ -3267,6 +3323,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.5,
   reviewCount: 980,
   price: 15,                       // 15-capsule blister pack
+  servingsPerContainer: 15,
   goals: ["endurance", "recovery"],
   imageEmoji: "💊",
   transparencyScore: 95,
@@ -3316,6 +3373,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.5,
   reviewCount: 1240,
   price: 32,                       // 30-stick box
+  servingsPerContainer: 30,
   goals: ["endurance", "recovery"],
   imageEmoji: "💀",
   transparencyScore: 85,
@@ -3374,6 +3432,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.5,
   reviewCount: 840,
   price: 22,                       // 15-serving pouch
+  servingsPerContainer: 15,
   goals: ["endurance", "recovery"],
   imageEmoji: "⚡",
   transparencyScore: 94,
@@ -3425,6 +3484,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.4,
   reviewCount: 2840,
   price: 45,                       // 12-serving bag
+  servingsPerContainer: 12,
   goals: ["endurance", "muscle"],
   imageEmoji: "🔶",
   transparencyScore: 84,
@@ -3499,6 +3559,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.6,
   reviewCount: 8400,
   price: 12,                       // 60-count tube
+  servingsPerContainer: 30,
   goals: ["endurance", "recovery"],
   imageEmoji: "🧂",
   transparencyScore: 93,
@@ -3550,6 +3611,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.6,
   reviewCount: 380,
   price: 28,                       // 60-serving tub
+  servingsPerContainer: 60,
   goals: ["endurance", "recovery", "health"],
   imageEmoji: "🪨",
   transparencyScore: 92,
@@ -3608,6 +3670,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.5,
   reviewCount: 1680,
   price: 28,                       // 12-pack single-serve sachets
+  servingsPerContainer: 12,
   goals: ["endurance", "recovery"],
   imageEmoji: "⚡",
   transparencyScore: 87,
@@ -3671,6 +3734,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.4,
   reviewCount: 18400,
   price: 55,                       // 2lb bag, ~28 servings
+  servingsPerContainer: 28,
   goals: ["muscle", "recovery"],
   imageEmoji: "🥛",
   transparencyScore: 78,
@@ -3741,6 +3805,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.7,
   reviewCount: 840,
   price: 60,                       // 2lb bag, ~28 servings
+  servingsPerContainer: 28,
   goals: ["muscle", "recovery"],
   imageEmoji: "🥛",
   transparencyScore: 94,
@@ -3793,6 +3858,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.6,
   reviewCount: 620,
   price: 58,                       // 500g tub, ~20 servings
+  servingsPerContainer: 20,
   goals: ["muscle", "recovery"],
   imageEmoji: "🧬",
   transparencyScore: 96,
@@ -3846,6 +3912,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.8,
   reviewCount: 6400,
   price: 65,                       // 1.5lb bag, 25 servings
+  servingsPerContainer: 25,
   goals: ["muscle", "recovery"],
   imageEmoji: "🥛",
   transparencyScore: 97,
@@ -3905,6 +3972,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.3,
   reviewCount: 24800,
   price: 38,                       // 1.1lb bag, 20 servings — best value clear whey
+  servingsPerContainer: 20,
   goals: ["muscle", "recovery"],
   imageEmoji: "🍹",
   transparencyScore: 80,
@@ -3964,6 +4032,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.5,
   reviewCount: 680,
   price: 42,                       // 880g tub, ~15 servings
+  servingsPerContainer: 15,
   goals: ["recovery", "muscle"],
   imageEmoji: "🍫",
   transparencyScore: 88,
@@ -4029,6 +4098,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.7,
   reviewCount: 12800,
   price: 58,                       // 30-serving tub
+  servingsPerContainer: 30,
   goals: ["muscle", "recovery"],
   imageEmoji: "🥛",
   transparencyScore: 96,
@@ -4090,6 +4160,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.7,
   reviewCount: 8200,
   price: 62,                       // 2.5lb bag, 30 servings
+  servingsPerContainer: 30,
   goals: ["muscle", "recovery"],
   imageEmoji: "🥛",
   transparencyScore: 97,
@@ -4149,6 +4220,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.7,
   reviewCount: 32400,
   price: 60,                       // 2lb bag, 30 servings
+  servingsPerContainer: 30,
   goals: ["muscle", "recovery"],
   imageEmoji: "🥛",
   transparencyScore: 98,
@@ -4212,6 +4284,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.7,
   reviewCount: 1240,
   price: 55,                       // 30-capsule bottle
+  servingsPerContainer: 30,
   goals: ["gut health", "immunity", "health"],
   imageEmoji: "🦠",
   transparencyScore: 88,
@@ -4268,6 +4341,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.7,
   reviewCount: 820,
   price: 60,                       // 30-serving capsules
+  servingsPerContainer: 30,
   goals: ["gut health", "immunity", "health"],
   imageEmoji: "🛡️",
   transparencyScore: 90,
@@ -4321,6 +4395,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.6,
   reviewCount: 680,
   price: 58,                       // 30-serving capsules
+  servingsPerContainer: 30,
   goals: ["gut health", "recovery", "health"],
   imageEmoji: "🔒",
   transparencyScore: 89,
@@ -4381,6 +4456,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.7,
   reviewCount: 580,
   price: 65,                       // 30-stick box
+  servingsPerContainer: 30,
   goals: ["gut health", "endurance", "health"],
   imageEmoji: "😊",
   transparencyScore: 88,
@@ -4434,6 +4510,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.7,
   reviewCount: 6800,
   price: 42,                       // 30-capsule blister pack
+  servingsPerContainer: 30,
   goals: ["gut health", "immunity", "health"],
   imageEmoji: "🦠",
   transparencyScore: 97,
@@ -4488,6 +4565,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.7,
   reviewCount: 2840,
   price: 48,                       // 30-stick packs
+  servingsPerContainer: 30,
   goals: ["gut health", "immunity", "health"],
   imageEmoji: "🌱",
   transparencyScore: 96,
@@ -4549,6 +4627,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.5,
   reviewCount: 18400,
   price: 48,                       // 12-pack of 15ml bottles (~$4/bottle)
+  servingsPerContainer: 12,
   goals: ["gut health", "health"],
   imageEmoji: "🍺",
   transparencyScore: 86,
@@ -4600,6 +4679,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.6,
   reviewCount: 3840,
   price: 35,                       // 30-serving jar
+  servingsPerContainer: 30,
   goals: ["gut health", "immunity", "health"],
   imageEmoji: "🌿",
   transparencyScore: 92,
@@ -4661,6 +4741,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.5,
   reviewCount: 1240,
   price: 28,                       // 12-pack
+  servingsPerContainer: 12,
   goals: ["endurance", "recovery"],
   imageEmoji: "🍬",
   transparencyScore: 92,
@@ -4719,6 +4800,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.6,
   reviewCount: 820,
   price: 30,                       // 12-pack
+  servingsPerContainer: 12,
   goals: ["endurance", "recovery"],
   imageEmoji: "⚡",
   transparencyScore: 91,
@@ -4776,6 +4858,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.4,
   reviewCount: 18400,
   price: 22,                       // 18-pack box
+  servingsPerContainer: 18,
   goals: ["endurance", "recovery"],
   imageEmoji: "🍬",
   transparencyScore: 86,
@@ -4835,6 +4918,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.5,
   reviewCount: 680,
   price: 28,                       // 12-pack
+  servingsPerContainer: 12,
   goals: ["endurance", "recovery"],
   imageEmoji: "🍋",
   transparencyScore: 88,
@@ -4890,6 +4974,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.5,
   reviewCount: 1840,
   price: 30,                       // 20-pack box
+  servingsPerContainer: 20,
   goals: ["endurance", "recovery"],
   imageEmoji: "⚪",
   transparencyScore: 93,
@@ -4942,6 +5027,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.6,
   reviewCount: 920,
   price: 36,                       // 20-pack box
+  servingsPerContainer: 20,
   goals: ["endurance", "recovery"],
   imageEmoji: "⚪",
   transparencyScore: 94,
@@ -4993,6 +5079,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.4,
   reviewCount: 2840,
   price: 32,                       // 20-pack box
+  servingsPerContainer: 20,
   goals: ["endurance", "recovery"],
   imageEmoji: "🔵",
   transparencyScore: 84,
@@ -5052,6 +5139,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.4,
   reviewCount: 8400,
   price: 24,                       // 12-pack box
+  servingsPerContainer: 12,
   goals: ["endurance", "recovery"],
   imageEmoji: "🍯",
   transparencyScore: 84,
@@ -5112,6 +5200,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.3,
   reviewCount: 6800,
   price: 22,                       // 12-pack box
+  servingsPerContainer: 12,
   goals: ["endurance", "recovery"],
   imageEmoji: "🔶",
   transparencyScore: 82,
@@ -5173,6 +5262,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.3,
   reviewCount: 480,
   price: 30,                       // 25-pack box
+  servingsPerContainer: 25,
   goals: ["endurance", "recovery"],
   imageEmoji: "🔶",
   transparencyScore: 84,
@@ -5229,6 +5319,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.5,
   reviewCount: 620,
   price: 26,                       // 20-pack box (~$1.30/bar)
+  servingsPerContainer: 20,
   goals: ["endurance", "recovery"],
   imageEmoji: "🍭",
   transparencyScore: 85,
@@ -5288,6 +5379,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.6,
   reviewCount: 2840,
   price: 30,                       // 30-serving bottle (4 capsules/serving)
+  servingsPerContainer: 30,
   goals: ["sleep", "recovery"],
   imageEmoji: "😴",
   transparencyScore: 97,
@@ -5359,6 +5451,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.7,
   reviewCount: 840,
   price: 42,                       // 6-pack of 2oz shots
+  servingsPerContainer: 6,
   goals: ["sleep", "recovery"],
   imageEmoji: "🌙",
   transparencyScore: 92,
@@ -5429,6 +5522,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.6,
   reviewCount: 3840,
   price: 40,                       // 30-serving bottle (2 capsules/serving)
+  servingsPerContainer: 30,
   goals: ["sleep", "recovery"],
   imageEmoji: "😴",
   transparencyScore: 96,
@@ -5499,6 +5593,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.4,
   reviewCount: 2840,
   price: 22,                       // 60-count bottle (30 servings)
+  servingsPerContainer: 30,
   goals: ["sleep", "recovery"],
   imageEmoji: "🍒",
   transparencyScore: 82,
@@ -5552,6 +5647,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.7,
   reviewCount: 2480,
   price: 42,                       // 40-serving tub or sachets
+  servingsPerContainer: 40,
   goals: ["sleep", "recovery", "health"],
   imageEmoji: "🌙",
   transparencyScore: 94,
@@ -5613,6 +5709,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.5,
   reviewCount: 620,
   price: 34,                       // 30-sachet box
+  servingsPerContainer: 30,
   goals: ["sleep", "recovery"],
   imageEmoji: "🍒",
   transparencyScore: 90,
@@ -5676,6 +5773,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.0,
   reviewCount: 12400,
   price: 45,                       // 30-serving bag
+  servingsPerContainer: 30,
   goals: ["sleep", "recovery"],
   imageEmoji: "☕",
   transparencyScore: 78,
@@ -5743,6 +5841,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.5,
   reviewCount: 1840,
   price: 35,                       // 30-count bottle
+  servingsPerContainer: 30,
   goals: ["sleep", "recovery"],
   imageEmoji: "🍒",
   transparencyScore: 84,
@@ -5804,6 +5903,7 @@ const CURATED_PRODUCTS: Product[] = [
   rating: 4.7,
   reviewCount: 980,
   price: 58,                       // 15-serving bottle (capsules)
+  servingsPerContainer: 15,
   goals: ["sleep", "recovery"],
   imageEmoji: "🌙",
   transparencyScore: 92,
@@ -5874,6 +5974,7 @@ imageEmoji: "💧",
   rating: 4.6,
   reviewCount: 30,
   price: 38,                       // ~$38 for box of 15 sachets (~$2.53/serving)
+  servingsPerContainer: 15,
   goals: ["endurance", "recovery", "health"],
   transparencyScore: 90,
   sentiment: {
@@ -5957,6 +6058,7 @@ imageEmoji: "💧",
   rating: 4.3,
   reviewCount: 12400,
   price: 28,                       // 24-pack box
+  servingsPerContainer: 24,
   goals: ["endurance"],
   transparencyScore: 82,
   sentiment: {
@@ -6015,6 +6117,7 @@ imageEmoji: "💧",
   rating: 4.6,
   reviewCount: 4800,
   price: 50,                       // box of 12
+  servingsPerContainer: 12,
   goals: ["endurance"],
   transparencyScore: 96,
   sentiment: {
@@ -6069,6 +6172,7 @@ imageEmoji: "💧",
   rating: 4.4,
   reviewCount: 9800,
   price: 48,                       // box of 24
+  servingsPerContainer: 24,
   goals: ["endurance", "recovery"],
   transparencyScore: 80,
   sentiment: {
@@ -6144,6 +6248,7 @@ imageEmoji: "💧",
   rating: 4.5,
   reviewCount: 1640,
   price: 38,                       // box of 20
+  servingsPerContainer: 20,
   goals: ["endurance"],
   transparencyScore: 92,
   sentiment: {
@@ -6206,6 +6311,7 @@ imageEmoji: "💧",
   rating: 4.3,
   reviewCount: 28400,
   price: 28,                       // box of 12 x 68g bars
+  servingsPerContainer: 12,
   goals: ["endurance", "health"],
   transparencyScore: 78,
   sentiment: {
@@ -6264,6 +6370,7 @@ imageEmoji: "💧",
   rating: 4.4,
   reviewCount: 18200,
   price: 22,                       // box of 16 bars
+  servingsPerContainer: 16,
   goals: ["endurance", "health"],
   transparencyScore: 92,
   sentiment: {
@@ -6314,6 +6421,7 @@ imageEmoji: "💧",
   rating: 4.4,
   reviewCount: 24800,
   price: 28,                       // box of 12 bars
+  servingsPerContainer: 12,
   goals: ["recovery", "muscle", "health"],
   transparencyScore: 94,
   sentiment: {
@@ -6371,6 +6479,7 @@ imageEmoji: "💧",
   rating: 4.3,
   reviewCount: 32400,
   price: 22,                       // box of 12 bars
+  servingsPerContainer: 12,
   goals: ["health", "endurance"],
   transparencyScore: 84,
   sentiment: {
@@ -6429,6 +6538,7 @@ imageEmoji: "💧",
   rating: 4.8,
   reviewCount: 3840,
   price: 45,                       // 30-serving bottle (2 capsules/serving)
+  servingsPerContainer: 30,
   goals: ["recovery", "health", "endurance"],
   transparencyScore: 97,
   sentiment: {
@@ -6490,6 +6600,7 @@ imageEmoji: "💧",
   rating: 4.7,
   reviewCount: 58400,
   price: 35,                       // 60 softgels, 30 servings
+  servingsPerContainer: 30,
   goals: ["recovery", "health", "endurance"],
   transparencyScore: 96,
   sentiment: {
@@ -6539,6 +6650,7 @@ imageEmoji: "💧",
   rating: 4.8,
   reviewCount: 18200,
   price: 16,                       // 90 capsules, 90 servings
+  servingsPerContainer: 90,
   goals: ["health", "recovery", "immunity"],
   transparencyScore: 97,
   sentiment: {
@@ -6592,6 +6704,7 @@ imageEmoji: "💧",
   rating: 4.7,
   reviewCount: 2840,
   price: 30,                       // 30 servings
+  servingsPerContainer: 30,
   goals: ["health", "immunity", "recovery"],
   transparencyScore: 96,
   sentiment: {
@@ -6648,6 +6761,7 @@ imageEmoji: "💧",
   rating: 4.8,
   reviewCount: 4200,
   price: 16,                       // 60 capsules
+  servingsPerContainer: 60,
   goals: ["endurance", "health"],
   transparencyScore: 97,
   sentiment: {
@@ -6703,6 +6817,7 @@ imageEmoji: "💧",
   rating: 4.7,
   reviewCount: 1240,
   price: 25,                       // 30 servings
+  servingsPerContainer: 30,
   goals: ["endurance", "health"],
   transparencyScore: 96,
   sentiment: {
@@ -6768,7 +6883,8 @@ imageEmoji: "💧",
   imageEmoji: "🟠",
   rating: 4.7,
   reviewCount: 4,
-  price: 3.99,
+  price: 31.99,                    // 832g bag, 16 servings (The Feed)
+  servingsPerContainer: 16,
   goals: ["endurance"],
   transparencyScore: 82,
   sentiment: {

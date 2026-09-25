@@ -8,6 +8,7 @@ import ReviewSection from "@/components/ReviewSection";
 import BrandLogo from "@/components/BrandLogo";
 import IngredientFlags from "@/components/IngredientFlags";
 import { calculatePelloScore } from "@/lib/fulens-score";
+import { pricePerServing as calcPricePerServing } from "@/lib/servings";
 import FulensScoreDisplay from "@/components/FulensScore";
 import PriceAlert from "@/components/PriceAlert";
 
@@ -44,18 +45,12 @@ function getProsAndCons(sentiment: Record<string, number>, ingredients: { verdic
   return { pros: pros.slice(0, 4), cons: cons.slice(0, 4) };
 }
 
-const DEFAULT_SERVINGS: Record<string, number> = {
-  "Energy Gel": 12, "Energy Chew": 12, "Energy Bar": 12, "Carbohydrate Mix": 30, "Hydration": 30,
-  "Protein": 28, "Creatine": 30, "Probiotic": 30, "Omega-3": 30, "Vitamin": 30, "Mineral": 30,
-};
 const SERVING_UNIT: Record<string, string> = {
   "Energy Gel": "gel", "Energy Chew": "pack", "Energy Bar": "bar", "Probiotic": "capsule",
 };
 
-function getPricePerServing(product: Product): string | null {
-  const servings = product.servingsPerContainer ?? DEFAULT_SERVINGS[product.category];
-  if (!servings) return null;
-  return `$${(product.price / servings).toFixed(2)} per ${SERVING_UNIT[product.category] ?? "serving"}`;
+function getPricePerServing(product: Product): string {
+  return `$${calcPricePerServing(product).toFixed(2)} per ${SERVING_UNIT[product.category] ?? "serving"}`;
 }
 
 function getBestForStatement(product: typeof PRODUCTS[0]): string {
@@ -95,7 +90,7 @@ export default function ReportPage({ params }: { params: { id: string } }) {
     certifications: [],
     isBatchTested: false,
     bannedSubstanceTested: false,
-    pricePerServing: product.price / (product.servingsPerContainer ?? DEFAULT_SERVINGS[product.category] ?? 30),
+    pricePerServing: calcPricePerServing(product),
     carbsPerServing: undefined,
     proteinPerServing: undefined,
     sodiumPerServing: undefined,
