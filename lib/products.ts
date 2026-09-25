@@ -43,6 +43,27 @@ export interface Product {
   logoDomain?: string;
   // Servings in the pack `price` is for. When missing, a per-category default is used.
   servingsPerContainer?: number;
+
+  // ── Structured nutrition & label data ──────────────────────
+  // Optional so existing products stay valid until they're filled in. Leave a field
+  // out (or null) when the label doesn't state it, rather than guessing.
+  carbsPerServing?: number;        // grams
+  sodiumPerServing?: number;       // mg
+  caffeinePerServing?: number;     // mg (0 if caffeine-free)
+  proteinPerServing?: number;      // grams
+  caloriesPerServing?: number;     // kcal
+  servingSize?: string;            // as on the label, e.g. "1 gel (40g)", "1 scoop (30g)"
+  osmolality?: "isotonic" | "hypotonic" | "hypertonic" | null;
+  glucoseFructoseRatio?: string | null;  // e.g. "1:0.8", "2:1"
+  isHydrogel?: boolean;
+  isBatchTested?: boolean;         // every batch third-party tested (e.g. Informed Sport, NSF)
+  isVegan?: boolean;
+  isGlutenFree?: boolean;
+  certifications?: string[];       // e.g. ["Informed Sport", "NSF Certified for Sport"]
+  allergens?: string[];            // e.g. ["milk", "soy", "tree nuts"]
+  flavours?: string[];
+  affiliateUrl?: string | null;
+  imageUrl?: string | null;
 }
 
 const CURATED_PRODUCTS: Product[] = [

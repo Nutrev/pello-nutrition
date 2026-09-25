@@ -139,6 +139,26 @@ Rules:
 - sources: realistic review sources with counts
 - logoDomain: the brand's main website domain (e.g. "maurten.com")
 - imageEmoji: most relevant emoji
+- servingsPerContainer: number of servings in the pack that \`price\` is for
+
+Structured label data — these must come from the product information above, NOT from estimates.
+If the information doesn't state a value, use null (or omit booleans/arrays you can't confirm). Never guess.
+- carbsPerServing: grams of carbohydrate per serving (number)
+- sodiumPerServing: mg of sodium per serving (number)
+- caffeinePerServing: mg of caffeine per serving (number; 0 only if the product is stated caffeine-free)
+- proteinPerServing: grams of protein per serving (number)
+- caloriesPerServing: kcal per serving (number)
+- servingSize: serving size as written on the label, e.g. "1 gel (40g)" or "1 scoop (30g)"
+- osmolality: "isotonic" | "hypotonic" | "hypertonic" — only if the product states it; otherwise null
+- glucoseFructoseRatio: e.g. "1:0.8" or "2:1" — only if stated; otherwise null
+- isHydrogel: true only if the product uses a hydrogel (e.g. sodium alginate + pectin system); otherwise false
+- isBatchTested: true only if every batch is third-party tested (Informed Sport, NSF Certified for Sport, Cologne List); otherwise false
+- isVegan / isGlutenFree: true only if stated or certified; false if the ingredients rule it out; omit if unclear
+- certifications: third-party certifications named on the product (e.g. "Informed Sport", "NSF Certified for Sport", "USDA Organic")
+- allergens: allergens declared on the label, lowercase (e.g. "milk", "soy", "tree nuts", "peanuts")
+- flavours: available flavours
+- affiliateUrl: always null — affiliate links are added separately
+- imageUrl: a direct product image URL only if one appears in the product information; otherwise null
 
 Output ONLY the TypeScript object — no imports, no variable declaration, no explanation. Start with { and end with },
 
@@ -156,6 +176,24 @@ Example structure:
   price: 38,
   goals: ["endurance"],
   transparencyScore: 96,
+  servingsPerContainer: 12,
+  carbsPerServing: 25,
+  sodiumPerServing: 20,
+  caffeinePerServing: 0,
+  proteinPerServing: 0,
+  caloriesPerServing: 100,
+  servingSize: "1 gel (40g)",
+  osmolality: null,
+  glucoseFructoseRatio: "1:0.8",
+  isHydrogel: true,
+  isBatchTested: true,
+  isVegan: true,
+  isGlutenFree: true,
+  certifications: ["Informed Sport"],
+  allergens: [],
+  flavours: ["Original"],
+  affiliateUrl: null,
+  imageUrl: null,
   sentiment: {
     "GI Comfort": 92,
     "Energy": 94,
@@ -181,7 +219,7 @@ Example structure:
   try {
     const message = await client.messages.create({
       model: "claude-sonnet-4-6",
-      max_tokens: 2000,
+      max_tokens: 3000,
       messages: [{ role: "user", content: prompt }],
     });
 
