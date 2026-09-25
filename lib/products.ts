@@ -5135,7 +5135,7 @@ const CURATED_PRODUCTS: Product[] = [
   brand: "Honey Stinger",
   category: "Energy Chew",
   logoDomain: "honeystinger.com",
-  logo: "/logo/honey-stinger.png",
+  logo: "/logo/honeystinger.png",
   rating: 4.4,
   reviewCount: 8400,
   price: 24,                       // 12-pack box

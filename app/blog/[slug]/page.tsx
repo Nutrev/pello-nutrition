@@ -1,6 +1,5 @@
 import Link from "next/link";
-import Logo from "@/components/Logo";
-import { getPostBySlug, getAllPosts } from "@/lib/blog-data";
+import { getPostBySlug, getAllPosts } from "@/lib/blog";
 import { PRODUCTS } from "@/lib/products";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -108,18 +107,6 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
 
   return (
     <div className="min-h-screen">
-      <nav className="border-b border-sand bg-cream/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
-          <Link href="/" className="font-display font-bold text-lg tracking-tight">
-            <Logo />
-          </Link>
-          <div className="flex items-center gap-3">
-            <Link href="/blog" className="text-sm text-muted hover:text-ink transition-colors">Blog</Link>
-            <Link href="/products" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Products</Link>
-            <Link href="/quiz" className="btn-secondary text-xs py-1.5 px-3">Build my plan →</Link>
-          </div>
-        </div>
-      </nav>
 
       <article className="max-w-2xl mx-auto px-6 py-16">
         {/* Header */}
