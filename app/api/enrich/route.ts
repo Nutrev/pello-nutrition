@@ -54,6 +54,25 @@ function generateSlug(name: string, brand: string): string {
 // <script type="application/ld+json"> tags: nutrition, ingredients, certifications,
 // diet, prices per size and the store's rating. Pull those out in compact form, since
 // the visible page text is mostly navigation.
+//
+// Shops often list a single serving and bigger packs with slightly different details
+// (e.g. "1 packet" vs "1 scoop", or a dose that differs between listings). So one pack
+// size is chosen as the primary one, and its details win over the other sizes'.
+
+// Servings in a pack, read from its size label ("Box of 12", "40 Servings", "Single Serving").
+// Size labels are more reliable than shops' "servings per container" fields.
+function packServings(size: unknown): number | undefined {
+  const label = String(size ?? "");
+  const patterns = [/(\d+)\s*Servings?\b/i, /(?:Box|Bag|Pack|Case|Tub|Carton) of (\d+)/i, /^(\d+)[ -]?(?:Pack|Packets?|Gels|Bars|Pouches|Sachets|Sticks)\b/i];
+  for (const re of patterns) {
+    const m = label.match(re);
+    if (m) return Number(m[1]);
+  }
+  return /single|^1 /i.test(label) ? 1 : undefined;
+}
+
+const PRIMARY_PACK_TARGET = 20; // prefer a typical box/tub over singles and bulk packs
+
 function extractStructuredProduct(html: string): string {
   const products: any[] = [];
   const re = /<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
@@ -68,33 +87,54 @@ function extractStructuredProduct(html: string): string {
   }
   if (products.length === 0) return "";
 
-  const first = products.find((p) => p.nutrition || p.additionalProperty) ?? products[0];
   const offerOf = (p: any) => (Array.isArray(p.offers) ? p.offers[0] : p.offers) ?? {};
+  const isRegular = (p: any) => !/variety|bundle|\+|best by/i.test(`${p.size ?? ""} ${p.name ?? ""}`);
+  const packs = products.map((p) => ({
+    p,
+    servings: packServings(p.size),
+    price: Number(offerOf(p).price) || 0,
+    inStock: /InStock/i.test(String(offerOf(p).availability ?? "")),
+  }));
+
+  // Primary pack: an in-stock, regular multi-serving pack closest to a typical box/tub size.
+  const candidates = [
+    packs.filter((x) => x.price > 0 && (x.servings ?? 0) > 1 && x.inStock && isRegular(x.p)),
+    packs.filter((x) => x.price > 0 && (x.servings ?? 0) > 1 && isRegular(x.p)),
+    packs.filter((x) => x.price > 0),
+  ].find((list) => list.length > 0) ?? packs;
+  const primary = candidates.reduce((best, x) =>
+    Math.abs((x.servings ?? 1) - PRIMARY_PACK_TARGET) < Math.abs((best.servings ?? 1) - PRIMARY_PACK_TARGET) ? x : best);
+  const main = primary.p;
+
+  // Details from the primary pack win; other sizes only fill gaps.
+  const ordered = [main, ...products.filter((p) => p !== main)];
   const props: Record<string, unknown> = {};
-  for (const p of products) {
+  for (const p of ordered) {
     for (const a of p.additionalProperty ?? []) {
-      if (a?.name && !(a.name in props) && !/HS Code|Categories/i.test(a.name)) props[a.name] = a.value;
+      const name = String(a?.name ?? "").trim();
+      if (name && !(name in props) && !/HS Code|Categories|Servings Per Container/i.test(name)) props[name] = a.value;
     }
   }
   const sizes = new Map<string, unknown>();
-  for (const p of products) {
-    const o = offerOf(p);
-    const key = `${p.name ?? ""}`;
-    if (!sizes.has(key)) sizes.set(key, { name: p.name, size: p.size, price: o.price, currency: o.priceCurrency, availability: String(o.availability ?? "").split("/").pop() });
+  for (const x of packs) {
+    const o = offerOf(x.p);
+    if (!sizes.has(x.p.name)) sizes.set(x.p.name, { name: x.p.name, size: x.p.size, servings: x.servings, price: o.price, availability: String(o.availability ?? "").split("/").pop() });
   }
+  const nutrition = main.nutrition ?? ordered.find((p) => p.nutrition)?.nutrition;
+  const image = main.image ?? ordered.find((p) => p.image)?.image;
+  const rating = ordered.find((p) => p.aggregateRating)?.aggregateRating;
   const compact = {
-    name: first.name,
-    brand: first.brand?.name ?? first.brand,
-    category: first.category,
-    image: Array.isArray(first.image) ? first.image[0] : first.image?.url ?? first.image,
-    aggregateRating: first.aggregateRating
-      ? { ratingValue: first.aggregateRating.ratingValue, reviewCount: first.aggregateRating.reviewCount }
-      : undefined,
-    nutrition: first.nutrition,
+    name: main.name,
+    brand: main.brand?.name ?? main.brand,
+    category: main.category,
+    primaryPack: { name: main.name, size: main.size, servings: primary.servings, price: offerOf(main).price, currency: offerOf(main).priceCurrency },
+    image: Array.isArray(image) ? image[0] : image?.url ?? image,
+    aggregateRating: rating ? { ratingValue: rating.ratingValue, reviewCount: rating.reviewCount } : undefined,
+    nutrition,
     properties: props,
     certifications: Array.from(new Set(products.flatMap((p) => (p.hasCertification ?? []).map((c: any) => c?.name).filter(Boolean)))),
-    suitableForDiet: first.suitableForDiet,
-    sizesAndPrices: Array.from(sizes.values()).slice(0, 25),
+    suitableForDiet: main.suitableForDiet ?? ordered.find((p) => p.suitableForDiet)?.suitableForDiet,
+    otherSizes: Array.from(sizes.values()).slice(0, 25),
   };
   return JSON.stringify(compact, null, 1).slice(0, 9000);
 }
@@ -182,7 +222,7 @@ Rules:
 - id: lowercase-hyphenated slug from brand + product name
 - category: must be exactly one of: "Energy Gel" | "Energy Chew" | "Energy Bar" | "Carbohydrate Mix" | "Hydration" | "Protein" | "Creatine" | "Supplement" | "Probiotic" | "Omega-3" | "Vitamin" | "Mineral"
 - rating / reviewCount: the store's customer rating and number of reviews from the product information. If none is given, use 0 for both — never estimate.
-- price: price in USD for one pack as listed in the product information (not per serving). If several sizes are listed, use a standard multi-serving pack (e.g. a box of 12 gels, or a 30–40 serving tub) and set servingsPerContainer to match that size
+- price: price in USD for one pack (not per serving). If the structured data has a primaryPack, use its price and set servingsPerContainer to its servings, and take servingSize, doses and nutrition from that pack's details (they're already listed first). Otherwise use a standard multi-serving pack (e.g. a box of 12 gels, or a 30–40 serving tub) and set servingsPerContainer to match
 - transparencyScore: 0-100 based on label clarity, dose disclosure, certifications, no proprietary blends
 - goals: array from ["endurance", "recovery", "muscle", "health", "immunity", "gut health", "sleep"]
 - sentiment: {} (empty). Only fill it if the product information includes per-attribute ratings (e.g. a taste score); never invent them
