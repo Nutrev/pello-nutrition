@@ -259,6 +259,13 @@ function scoreAthleteExperience(input: ScoringInput): { score: number; notes: st
   const notes: string[] = [];
   let score = 0;
 
+  // No customer reviews: there's nothing to judge experience on, so give a neutral
+  // mid score rather than treating the missing rating as a very bad one.
+  if (input.reviewCount === 0) {
+    notes.push("No customer reviews yet — neutral athlete experience score");
+    return { score: 10, notes };
+  }
+
   // Overall rating (0-8)
   const ratingScore = Math.round(((input.rating - 1) / 4) * 8);
   score += ratingScore;
@@ -272,7 +279,10 @@ function scoreAthleteExperience(input: ScoringInput): { score: number; notes: st
 
   // Sentiment quality (0-8)
   const sentimentValues = Object.values(input.sentiment);
-  if (sentimentValues.length > 0) {
+  if (sentimentValues.length === 0) {
+    // No per-attribute data (taste, GI comfort…): scale rating + review volume (0-12) to the full 0-20.
+    score = Math.round((score * 20) / 12);
+  } else {
     const avgSentiment = sentimentValues.reduce((a, b) => a + b, 0) / sentimentValues.length;
     const sentimentScore = Math.round((avgSentiment / 100) * 8);
     score += sentimentScore;

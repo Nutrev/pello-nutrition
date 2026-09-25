@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { PRODUCTS, Product } from "@/lib/products";
+import { pricePerServing, servingsPerContainer } from "@/lib/servings";
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
 import IngredientFlags from "@/components/IngredientFlags";
@@ -263,9 +264,15 @@ const filteredProducts = PRODUCTS.filter((p) => {
                   </td>
                   {selectedProducts.map((p) => (
                     <td key={p.id} className="px-4 py-4">
-                      <StarRating rating={p.rating} />
-                      <div className="text-sm font-mono font-medium mt-0.5">{p.rating} / 5</div>
-                      <div className="text-xs text-muted">{p.reviewCount.toLocaleString()} reviews</div>
+                      {p.reviewCount > 0 ? (
+                        <>
+                          <StarRating rating={p.rating} />
+                          <div className="text-sm font-mono font-medium mt-0.5">{p.rating} / 5</div>
+                          <div className="text-xs text-muted">{p.reviewCount.toLocaleString()} reviews</div>
+                        </>
+                      ) : (
+                        <div className="text-xs text-muted">No reviews yet</div>
+                      )}
                     </td>
                   ))}
                 </tr>
@@ -276,14 +283,18 @@ const filteredProducts = PRODUCTS.filter((p) => {
                     Price
                   </td>
                   {selectedProducts.map((p) => {
-                    const minPrice = Math.min(...selectedProducts.map((x) => x.price));
+                    // Compare on price per serving: pack sizes differ, so pack price alone is misleading.
+                    const perServing = (x: Product) => pricePerServing(x);
+                    const minPerServing = Math.min(...selectedProducts.map(perServing));
+                    const isBest = perServing(p) === minPerServing;
                     return (
                       <td key={p.id} className="px-4 py-4">
-                        <span className={`font-display font-bold text-lg ${p.price === minPrice ? "text-moss" : ""}`}>
-                          ${p.price}
+                        <span className={`font-display font-bold text-lg ${isBest ? "text-moss" : ""}`}>
+                          ${perServing(p).toFixed(2)}
                         </span>
-                        <span className="text-xs text-muted">/mo</span>
-                        {p.price === minPrice && selectedProducts.length > 1 && (
+                        <span className="text-xs text-muted"> / serving</span>
+                        <div className="text-xs text-muted font-mono mt-0.5">${p.price} for {servingsPerContainer(p)}</div>
+                        {isBest && selectedProducts.length > 1 && (
                           <div className="text-xs text-moss font-mono mt-0.5">Best value</div>
                         )}
                       </td>
@@ -403,13 +414,15 @@ const filteredProducts = PRODUCTS.filter((p) => {
                 {/* Sources */}
                 <tr>
                   <td className="py-4 pr-4 text-xs font-mono text-muted uppercase tracking-wide">
-                    Data sources
+                    Reviews & certifications
                   </td>
                   {selectedProducts.map((p) => (
                     <td key={p.id} className="px-4 py-4">
-                      <div className="text-sm font-display font-bold">{p.sources.length}</div>
+                      <div className="text-sm font-display font-bold">
+                        {p.reviewCount > 0 ? `${p.reviewCount.toLocaleString()} reviews` : "No reviews yet"}
+                      </div>
                       <div className="text-xs text-muted">
-                        {p.sources.reduce((a, s) => a + s.count, 0).toLocaleString()} total reviews
+                        {p.certifications?.length ? p.certifications.join(", ") : "No certifications"}
                       </div>
                     </td>
                   ))}

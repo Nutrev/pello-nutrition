@@ -148,7 +148,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
               <div className="flex-1">
                 <div className="text-xs font-mono text-muted mb-0.5">{p.category}</div>
                 <div className="font-display font-semibold text-sm group-hover:text-moss transition-colors">{p.name}</div>
-                <div className="text-xs text-muted">{p.brand} · {p.rating}★</div>
+                <div className="text-xs text-muted">{p.brand}{p.reviewCount > 0 && ` · ${p.rating}★`}</div>
               </div>
               <div className="text-xs text-moss flex-shrink-0">Full report →</div>
             </div>

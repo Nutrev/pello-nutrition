@@ -227,7 +227,7 @@ export default function SearchPage() {
                         <span className="text-xs font-mono text-muted">{p.category}</span>
                       </div>
                       <div className="font-display font-semibold text-sm group-hover:text-moss transition-colors">{p.name}</div>
-                      <div className="text-xs text-muted">{p.brand} · {p.rating}★ · {p.reviewCount.toLocaleString()} reviews</div>
+                      <div className="text-xs text-muted">{p.brand}{p.reviewCount > 0 ? ` · ${p.rating}★ · ${p.reviewCount.toLocaleString()} reviews` : " · No reviews yet"}</div>
                     </div>
                     <div className="text-xs text-moss flex-shrink-0">Full report →</div>
                   </div>

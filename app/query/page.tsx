@@ -378,7 +378,7 @@ export default function ExplorePage() {
 
                       {/* Rating */}
                       <div className="flex items-center text-xs font-mono font-medium">
-                        {p.rating}★
+                        {p.reviewCount > 0 ? `${p.rating}★` : "—"}
                       </div>
 
                       {/* Transparency */}
@@ -399,7 +399,7 @@ export default function ExplorePage() {
                 {[
                   {
                     label: "Avg rating",
-                    value: (filteredProducts.reduce((a: number, p: any) => a + p.rating, 0) / filteredProducts.length).toFixed(1) + "★"
+                    value: (() => { const rated = filteredProducts.filter((p: any) => p.reviewCount > 0); return rated.length ? (rated.reduce((a: number, p: any) => a + p.rating, 0) / rated.length).toFixed(1) + "★" : "—"; })()
                   },
                   {
                     label: "Avg price/serving",

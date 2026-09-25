@@ -6,7 +6,8 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   if (!product) return { title: "Product not found" };
 
   const title = `${product.name} by ${product.brand} Review`;
-  const description = `${product.brand} ${product.name} review — ${product.rating}/5 stars from ${product.reviewCount.toLocaleString()} reviews. Ingredient analysis, Pello Score™, pros and cons for endurance athletes.`;
+  const ratingText = product.reviewCount > 0 ? `${product.rating}/5 stars from ${product.reviewCount.toLocaleString()} reviews. ` : "";
+  const description = `${product.brand} ${product.name} review — ${ratingText}Ingredient analysis, Pello Score™, pros and cons for endurance athletes.`;
 
   return {
     title,

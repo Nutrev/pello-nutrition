@@ -7,7 +7,7 @@ import ReviewSection from "@/components/ReviewSection";
 import BrandLogo from "@/components/BrandLogo";
 import IngredientFlags from "@/components/IngredientFlags";
 import { calculatePelloScore } from "@/lib/fulens-score";
-import { pricePerServing as calcPricePerServing } from "@/lib/servings";
+import { pricePerServing as calcPricePerServing, servingsPerContainer } from "@/lib/servings";
 import { productNutrition } from "@/lib/nutrition";
 import FulensScoreDisplay from "@/components/FulensScore";
 import PriceAlert from "@/components/PriceAlert";
@@ -83,6 +83,7 @@ export default function ReportPage({ params }: { params: { id: string } }) {
   const [loading, setLoading] = useState(false);
   const [generated, setGenerated] = useState(false);
   const [recentIds, setRecentIds] = useState<string[]>([]);
+  const [variantId, setVariantId] = useState(product?.defaultVariantId ?? product?.variants?.[0]?.id);
 
   const nutrition = product ? productNutrition(product) : null;
   const PelloScore = product && nutrition ? calculatePelloScore({
@@ -163,7 +164,10 @@ export default function ReportPage({ params }: { params: { id: string } }) {
     setLoading(false);
   };
 
-  const pricePerServing = getPricePerServing(product);
+  // The selected variant (e.g. a strength) overrides the product's price, servings, sodium and rating.
+  const variant = product.variants?.find((v) => v.id === variantId);
+  const shown: Product = variant ? { ...product, ...variant, id: product.id } : product;
+  const pricePerServing = getPricePerServing(shown);
   const { pros, cons } = getProsAndCons(product.sentiment, product.ingredients);
   const bestFor = getBestForStatement(product);
   const disputedIngredients = getDisputedIngredients(product.ingredients);
@@ -195,21 +199,47 @@ export default function ReportPage({ params }: { params: { id: string } }) {
             <div className="text-sm text-muted mb-1">{product.brand}</div>
             <h1 className="font-display font-bold text-3xl tracking-tight mb-2">{product.name}</h1>
             <div className="flex flex-wrap items-center gap-3 mb-2">
-              <div className="flex text-amber text-lg">{"★".repeat(Math.round(product.rating))}{"☆".repeat(5 - Math.round(product.rating))}</div>
-              <span className="font-mono text-sm text-muted">{product.rating} / 5</span>
-              <span className="text-muted">·</span>
-              <span className="text-sm text-muted">{product.reviewCount.toLocaleString()} reviews</span>
+              {shown.reviewCount > 0 ? (
+                <>
+                  <div className="flex text-amber text-lg">{"★".repeat(Math.round(shown.rating))}{"☆".repeat(5 - Math.round(shown.rating))}</div>
+                  <span className="font-mono text-sm text-muted">{shown.rating} / 5</span>
+                  <span className="text-muted">·</span>
+                  <span className="text-sm text-muted">{shown.reviewCount.toLocaleString()} reviews{variant ? ` for ${variant.label}` : ""}</span>
+                </>
+              ) : (
+                <span className="text-sm text-muted">No reviews yet</span>
+              )}
               <span className="text-xs bg-moss/10 text-moss font-mono px-2 py-0.5 rounded-md">{product.category}</span>
             </div>
+            {product.variants && product.variants.length > 1 && (
+              <div className="flex flex-wrap gap-2 mb-3" role="radiogroup" aria-label="Choose a version">
+                {product.variants.map((v) => (
+                  <button
+                    key={v.id}
+                    type="button"
+                    role="radio"
+                    aria-checked={v.id === variantId}
+                    onClick={() => setVariantId(v.id)}
+                    className={`text-sm px-3 py-1.5 rounded-lg border transition-colors ${
+                      v.id === variantId ? "border-moss bg-moss/10 text-moss font-medium" : "border-sand text-muted hover:border-muted hover:text-ink"
+                    }`}
+                  >
+                    {v.label}
+                    {v.sodiumPerServing != null && <span className="font-mono text-xs"> · {v.sodiumPerServing}mg sodium</span>}
+                  </button>
+                ))}
+              </div>
+            )}
             <div className="flex items-center gap-3 mb-2">
-              <span className="font-display font-bold text-xl">${product.price}/mo</span>
+              <span className="font-display font-bold text-xl">${shown.price}</span>
+              <span className="text-sm text-muted">for {servingsPerContainer(shown)} servings</span>
               {pricePerServing && (
                 <span className="text-base font-mono font-medium text-ink">· {pricePerServing}</span>
               )}
               <PriceAlert
                  productId={product.id}
                  productName={product.name}
-                currentPrice={product.price}
+                currentPrice={shown.price}
               />
             </div>
             <div className="inline-flex items-center gap-2 bg-moss/10 text-moss px-3 py-1.5 rounded-lg mt-1">
@@ -257,9 +287,9 @@ export default function ReportPage({ params }: { params: { id: string } }) {
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4 mb-6">
           {[
-            { val: product.reviewCount.toLocaleString(), label: "Reviews analyzed" },
-            { val: product.sources.length, label: "Data sources" },
-            { val: product.sources.find(s => s.name === "PubMed")?.count ?? 0, label: "Studies cited" },
+            { val: product.reviewCount > 0 ? product.reviewCount.toLocaleString() : "—", label: "Customer reviews" },
+            { val: product.certifications?.length ?? 0, label: "Certifications" },
+            { val: product.ingredients.length, label: "Key ingredients" },
           ].map((s) => (
             <div key={s.label} className="card text-center">
               <div className="font-display font-bold text-2xl">{s.val}</div>
@@ -282,12 +312,12 @@ export default function ReportPage({ params }: { params: { id: string } }) {
               <div>
                 <p className="text-sm leading-relaxed">{summary}</p>
                 <div className="mt-3 text-xs text-muted font-mono">
-                  AI-generated · {product.reviewCount.toLocaleString()} reviews · {product.sources.find(s => s.name === "PubMed")?.count ?? 0} studies
+                  AI-generated from this product's label, ingredient and rating data
                 </div>
               </div>
             ) : loading ? (
               <div className="bg-sand/40 rounded-xl p-4 text-center text-sm text-muted">
-                Reading {product.reviewCount.toLocaleString()} reviews across {product.sources.length} sources...
+                Writing summary...
               </div>
             ) : (
               <div className="bg-sand/30 border border-sand rounded-xl p-6">
@@ -297,9 +327,7 @@ export default function ReportPage({ params }: { params: { id: string } }) {
                       Get an AI breakdown of this product
                     </div>
                     <div className="text-sm text-muted mb-1">
-                      Based on {product.reviewCount.toLocaleString()} reviews across {product.sources.length} sources
-                      {product.sources.find(s => s.name === "PubMed") &&
-                        ` · ${product.sources.find(s => s.name === "PubMed")?.count} peer-reviewed studies`}
+                      Based on this product's label, ingredients and rating data
                     </div>
                     <div className="flex flex-wrap gap-4 mt-3">
                       {["Overall verdict", "Key strengths", "Weaknesses", "Who it's best for"].map((label) => (
@@ -381,7 +409,7 @@ export default function ReportPage({ params }: { params: { id: string } }) {
                   {product.transparencyScore >= 85 ? "High transparency" : product.transparencyScore >= 70 ? "Good transparency" : "Moderate transparency"}
                 </div>
                 <div className="text-xs text-muted mt-0.5">
-                  {product.sources.length} sources · {product.reviewCount.toLocaleString()} reviews · {product.sources.find(s => s.name === "PubMed")?.count ?? 0} peer-reviewed studies
+                  {product.certifications?.length ?? 0} certification{(product.certifications?.length ?? 0) === 1 ? "" : "s"} · {product.reviewCount > 0 ? `${product.reviewCount.toLocaleString()} reviews on The Feed` : "no reviews yet"}
                 </div>
               </div>
             </div>
@@ -417,11 +445,11 @@ export default function ReportPage({ params }: { params: { id: string } }) {
                   <div className="card hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group">
                     <div className="flex items-start justify-between mb-3">
                       <BrandLogo logoDomain={p.logoDomain} logo={p.logo} brand={p.brand} />
-                      <span className="text-xs font-mono text-muted">{p.rating} ★</span>
+                      <span className="text-xs font-mono text-muted">{p.reviewCount > 0 ? `${p.rating} ★` : "No reviews"}</span>
                     </div>
                     <div className="text-xs text-muted mb-0.5">{p.brand}</div>
                     <div className="font-display font-semibold text-sm group-hover:text-moss transition-colors">{p.name}</div>
-                    <div className="text-xs font-mono text-muted mt-1">${p.price}/mo</div>
+                    <div className="text-xs font-mono text-muted mt-1">${p.price} · {servingsPerContainer(p)} servings</div>
                   </div>
                 </Link>
               ))}

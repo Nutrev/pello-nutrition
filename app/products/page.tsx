@@ -3,6 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { PRODUCTS, Category, Product } from "@/lib/products";
+import { servingsPerContainer } from "@/lib/servings";
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
 
@@ -42,13 +43,15 @@ function ProductCard({ product }: { product: Product }) {
           {product.name}
         </h3>
         <div className="flex items-center gap-2 mb-3">
+          {product.reviewCount > 0 ? (<>
           <div className="flex text-amber text-sm">
             {"★".repeat(Math.round(product.rating))}
             {"☆".repeat(5 - Math.round(product.rating))}
           </div>
           <span className="text-xs text-muted font-mono">{product.rating}</span>
+          </>) : <span className="text-xs text-muted">No reviews yet</span>}
           <span className="text-xs text-muted">·</span>
-          <span className="text-xs text-muted">{product.reviewCount.toLocaleString()} reviews</span>
+          {product.reviewCount > 0 && <span className="text-xs text-muted">{product.reviewCount.toLocaleString()} reviews</span>}
         </div>
         <div className="flex items-center justify-between">
           <div className="flex gap-1 flex-wrap">
@@ -56,7 +59,7 @@ function ProductCard({ product }: { product: Product }) {
               <span key={g} className={`text-xs px-2 py-0.5 rounded-md font-mono ${GOAL_COLORS[g] ?? "bg-sand text-muted"}`}>{g}</span>
             ))}
           </div>
-          <span className="text-xs font-mono text-muted">${product.price}/mo</span>
+          <span className="text-xs font-mono text-muted">${product.price} · {servingsPerContainer(product)} servings</span>
         </div>
       </div>
     </Link>
