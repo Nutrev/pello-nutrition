@@ -50,6 +50,55 @@ function generateSlug(name: string, brand: string): string {
     .replace(/^-|-$/g, "");
 }
 
+// Most shop pages (Shopify, WooCommerce, …) embed the real product facts as JSON-LD in
+// <script type="application/ld+json"> tags: nutrition, ingredients, certifications,
+// diet, prices per size and the store's rating. Pull those out in compact form, since
+// the visible page text is mostly navigation.
+function extractStructuredProduct(html: string): string {
+  const products: any[] = [];
+  const re = /<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
+  for (const match of Array.from(html.matchAll(re))) {
+    let data: any;
+    try { data = JSON.parse(match[1]); } catch { continue; }
+    const items = Array.isArray(data) ? data : data["@graph"] ?? [data];
+    for (const item of items) {
+      if (item?.["@type"] === "Product") products.push(item);
+      if (item?.["@type"] === "ProductGroup") products.push(item, ...(item.hasVariant ?? []));
+    }
+  }
+  if (products.length === 0) return "";
+
+  const first = products.find((p) => p.nutrition || p.additionalProperty) ?? products[0];
+  const offerOf = (p: any) => (Array.isArray(p.offers) ? p.offers[0] : p.offers) ?? {};
+  const props: Record<string, unknown> = {};
+  for (const p of products) {
+    for (const a of p.additionalProperty ?? []) {
+      if (a?.name && !(a.name in props) && !/HS Code|Categories/i.test(a.name)) props[a.name] = a.value;
+    }
+  }
+  const sizes = new Map<string, unknown>();
+  for (const p of products) {
+    const o = offerOf(p);
+    const key = `${p.name ?? ""}`;
+    if (!sizes.has(key)) sizes.set(key, { name: p.name, size: p.size, price: o.price, currency: o.priceCurrency, availability: String(o.availability ?? "").split("/").pop() });
+  }
+  const compact = {
+    name: first.name,
+    brand: first.brand?.name ?? first.brand,
+    category: first.category,
+    image: Array.isArray(first.image) ? first.image[0] : first.image?.url ?? first.image,
+    aggregateRating: first.aggregateRating
+      ? { ratingValue: first.aggregateRating.ratingValue, reviewCount: first.aggregateRating.reviewCount }
+      : undefined,
+    nutrition: first.nutrition,
+    properties: props,
+    certifications: Array.from(new Set(products.flatMap((p) => (p.hasCertification ?? []).map((c: any) => c?.name).filter(Boolean)))),
+    suitableForDiet: first.suitableForDiet,
+    sizesAndPrices: Array.from(sizes.values()).slice(0, 25),
+  };
+  return JSON.stringify(compact, null, 1).slice(0, 9000);
+}
+
 async function fetchPublicPage(startUrl: string): Promise<Response> {
   let current = startUrl;
   for (let hop = 0; hop <= 3; hop++) {
@@ -90,13 +139,16 @@ export async function POST(req: NextRequest) {
       const pageRes = await fetchPublicPage(url);
       const html = await pageRes.text();
       // Strip HTML tags and get text content
+      const structured = extractStructuredProduct(html);
       const text = html
         .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, "")
         .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, "")
         .replace(/<[^>]+>/g, " ")
         .replace(/\s+/g, " ")
-        .slice(0, 8000);
-      productContext = `Product page URL: ${url}\n\nPage content:\n${text}`;
+        .slice(0, structured ? 5000 : 8000);
+      productContext = `Product page URL: ${url}\n\n` +
+        (structured ? `Structured product data from the page (most reliable — prefer this over the page text):\n${structured}\n\n` : "") +
+        `Page text:\n${text}`;
     } catch (e) {
       return NextResponse.json({ error: "Could not fetch the product page. Try label or manual mode instead." }, { status: 400 });
     }
@@ -129,20 +181,19 @@ Generate a complete TypeScript object that matches this exact structure. Be thor
 Rules:
 - id: lowercase-hyphenated slug from brand + product name
 - category: must be exactly one of: "Energy Gel" | "Energy Chew" | "Energy Bar" | "Carbohydrate Mix" | "Hydration" | "Protein" | "Creatine" | "Supplement" | "Probiotic" | "Omega-3" | "Vitamin" | "Mineral"
-- rating: realistic 1-5 based on brand reputation and product quality (most good products are 4.2-4.8)
-- reviewCount: realistic estimate based on brand size and product popularity
-- price: price in USD for a standard box/bottle (not per serving)
+- rating / reviewCount: the store's customer rating and number of reviews from the product information. If none is given, use 0 for both — never estimate.
+- price: price in USD for one pack as listed in the product information (not per serving). If several sizes are listed, use a standard multi-serving pack (e.g. a box of 12 gels, or a 30–40 serving tub) and set servingsPerContainer to match that size
 - transparencyScore: 0-100 based on label clarity, dose disclosure, certifications, no proprietary blends
 - goals: array from ["endurance", "recovery", "muscle", "health", "immunity", "gut health", "sleep"]
-- sentiment: object with 3-5 relevant attributes rated 0-100 (e.g. Taste, GI Comfort, Energy, Value, Effectiveness)
-- ingredients: array of key active ingredients with science-backed notes. verdict must be "proven" | "likely" | "disputed"
-- sources: realistic review sources with counts
+- sentiment: {} (empty). Only fill it if the product information includes per-attribute ratings (e.g. a taste score); never invent them
+- ingredients: array of key active ingredients with science-backed notes. verdict must be "proven" | "likely" | "disputed". Put the labelled amount in dose (e.g. "1000mg", "25g carbs"); omit dose if no amount is given
+- sources: only sources that appear in the product information, with their real counts — e.g. { name: "The Feed", icon: "🛒", count: <its review count>, unit: "reviews", credibility: "medium" }, and one entry per third-party certification with count 1 and unit "certification". Do not add PubMed, study counts or other sources you can't see
 - logoDomain: the brand's main website domain (e.g. "maurten.com")
 - imageEmoji: most relevant emoji
 - servingsPerContainer: number of servings in the pack that \`price\` is for
 
 Structured label data — these must come from the product information above, NOT from estimates.
-If the information doesn't state a value, use null (or omit booleans/arrays you can't confirm). Never guess.
+If the information doesn't state a value, leave the field out entirely (don't write null) — except osmolality, glucoseFructoseRatio, affiliateUrl and imageUrl, which may be null. Never guess.
 - carbsPerServing: grams of carbohydrate per serving (number)
 - sodiumPerServing: mg of sodium per serving (number)
 - caffeinePerServing: mg of caffeine per serving (number; 0 only if the product is stated caffeine-free)
@@ -169,10 +220,9 @@ Example structure:
   brand: "Maurten",
   category: "Energy Gel",
   logoDomain: "maurten.com",
-  logo: "",
   imageEmoji: "⚡",
-  rating: 4.6,
-  reviewCount: 8400,
+  rating: 4.8,
+  reviewCount: 1426,
   price: 38,
   goals: ["endurance"],
   transparencyScore: 96,
@@ -194,12 +244,7 @@ Example structure:
   flavours: ["Original"],
   affiliateUrl: null,
   imageUrl: null,
-  sentiment: {
-    "GI Comfort": 92,
-    "Energy": 94,
-    "Taste": 80,
-    "Value": 58,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Maltodextrin + Fructose (Hydrogel)",
@@ -210,9 +255,8 @@ Example structure:
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 4200, unit: "reviews", credibility: "high" },
-    { name: "The Feed", icon: "📝", count: 2100, unit: "reviews", credibility: "high" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 1426, unit: "reviews", credibility: "medium" },
+    { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },`;
 
