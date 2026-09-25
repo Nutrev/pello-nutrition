@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // Brand logos, shown in a fixed-size square tile so every logo lines up regardless of
 // its shape. Logos are looked up online by the brand's website domain (`logoDomain`),
@@ -59,12 +59,25 @@ interface BrandLogoProps {
 export default function BrandLogo({ logoDomain, logo, brand, size = "md", className }: BrandLogoProps) {
   const sources = logoSources(logoDomain, logo);
   const [index, setIndex] = useState(0);
+  const imgRef = useRef<HTMLImageElement>(null);
 
   // Start over when the component is reused for a different brand.
   useEffect(() => setIndex(0), [logoDomain, logo]);
 
   const tile = TILE[size];
   const source = sources[index];
+
+  // Move to the next source if the image failed, or is a favicon too small to use.
+  const checkImage = (img: HTMLImageElement) => {
+    if (img.naturalWidth === 0 || (source?.minWidth && img.naturalWidth < source.minWidth)) setIndex((i) => i + 1);
+  };
+
+  // On server-rendered pages the image can finish loading, or fail, before React attaches
+  // onLoad/onError, so check an already-complete image once we're mounted.
+  useEffect(() => {
+    const img = imgRef.current;
+    if (img?.complete) checkImage(img);
+  }, [source?.src]);
 
   if (!source) {
     const { initials, colour } = monogram(brand);
@@ -84,12 +97,11 @@ export default function BrandLogo({ logoDomain, logo, brand, size = "md", classN
     <div className={`${tile.box} ${tile.radius} ${tile.pad} flex-shrink-0 flex items-center justify-center bg-white border border-sand overflow-hidden ${className ?? ""}`}>
       <img
         key={source.src}
+        ref={imgRef}
         src={source.src}
         alt={brand}
         className="max-h-full max-w-full object-contain"
-        onLoad={(e) => {
-          if (source.minWidth && e.currentTarget.naturalWidth < source.minWidth) setIndex((i) => i + 1);
-        }}
+        onLoad={(e) => checkImage(e.currentTarget)}
         onError={() => setIndex((i) => i + 1)}
       />
     </div>
