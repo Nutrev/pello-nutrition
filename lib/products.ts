@@ -24,6 +24,19 @@ export interface Source {
   credibility: "high" | "medium" | "low";
 }
 
+// A selectable version of a product (e.g. a strength) shown on its page. Only the
+// fields that differ are set; everything else comes from the product.
+export interface ProductVariant {
+  id: string;
+  label: string;
+  price: number;
+  servingsPerContainer: number;
+  sodiumPerServing?: number;
+  rating?: number;
+  reviewCount?: number;
+  imageUrl?: string;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -64,6 +77,11 @@ export interface Product {
   flavours?: string[];
   affiliateUrl?: string | null;
   imageUrl?: string | null;
+
+  // Selectable versions shown on the product page. The product's own price, servings,
+  // sodium and rating describe the default one (defaultVariantId).
+  variants?: ProductVariant[];
+  defaultVariantId?: string;
 }
 
 const CURATED_PRODUCTS: Product[] = [
@@ -74,9 +92,9 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "amacx.com",
   logo: "/logo/amacx.png",
   category: "Energy Gel",
-  rating: 4.4,
-  reviewCount: 320,
-  price: 32,                       // ~$2.67/gel, 12-pack = $32
+  rating: 4.8,
+  reviewCount: 392,
+  price: 35.49,                    // Box of 12 on The Feed
   servingsPerContainer: 12,
   glucoseFructoseRatio: "2:1",
   carbsPerServing: 30,
@@ -96,13 +114,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageEmoji: "⚡",
   transparencyScore: 88,
 
-  sentiment: {
-    Energy: 91,
-    Taste: 78,
-    Stomach: 82,
-    Value: 85,
-    Convenience: 94,
-  },
+  sentiment: {},
 
   ingredients: [
     {
@@ -136,11 +148,7 @@ const CURATED_PRODUCTS: Product[] = [
   ],
 
   sources: [
-    { name: "Amazon", icon: "🛒", count: 180, unit: "reviews", credibility: "high" },
-    { name: "WeeViews", icon: "📝", count: 45, unit: "reviews", credibility: "medium" },
-    { name: "FueledByLOLZ", icon: "🏃", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 392, unit: "reviews", credibility: "medium" },
   ],
 },// ── ENERGY GEL ──────────────────────────────────────────────
 
@@ -151,9 +159,9 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "maurten.com",
   logo: "/logo/maurten.png",
   category: "Energy Gel",
-  rating: 4.5,
-  reviewCount: 1840,
-  price: 38,                       // ~$3.17/gel, 12-pack
+  rating: 4.8,
+  reviewCount: 1426,
+  price: 45,                       // Box of 12 on The Feed
   servingsPerContainer: 12,
   carbsPerServing: 25,
   sodiumPerServing: 20,
@@ -171,13 +179,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "🟡",
   transparencyScore: 96,
-  sentiment: {
-    "GI Comfort": 94,
-    Energy: 89,
-    Taste: 62,
-    Texture: 55,
-    Value: 48,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Glucose + Fructose (0.8:1 ratio)",
@@ -208,12 +210,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 920, unit: "reviews", credibility: "high" },
-    { name: "Running Warehouse", icon: "🏃", count: 340, unit: "reviews", credibility: "high" },
-    { name: "Believe in the Run", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/running", icon: "💬", count: 410, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 1426, unit: "reviews", credibility: "medium" },
+    { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -224,10 +222,10 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "scienceinsport.com",
   logo: "/logo/sis.png",
   category: "Energy Gel",
-  rating: 4.3,
-  reviewCount: 2100,
-  price: 42,                       // ~$2.80/gel, 15-pack
-  servingsPerContainer: 15,
+  rating: 4.8,
+  reviewCount: 1299,
+  price: 60.99,                    // Box of 18 on The Feed
+  servingsPerContainer: 18,
   glucoseFructoseRatio: "1:0.8",
   carbsPerServing: 40,
   sodiumPerServing: 200,
@@ -246,13 +244,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "muscle"],
   imageEmoji: "🔵",
   transparencyScore: 84,
-  sentiment: {
-    Energy: 91,
-    "GI Comfort": 82,
-    Taste: 80,
-    Value: 74,
-    Mixability: 88,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Maltodextrin + Fructose (1:0.8 ratio)",
@@ -282,12 +274,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "SiS website", icon: "🏪", count: 680, unit: "reviews", credibility: "medium" },
-    { name: "Amazon", icon: "🛒", count: 820, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 290, unit: "posts", credibility: "medium" },
-    { name: "Running.Reviews", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 5, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 1299, unit: "reviews", credibility: "medium" },
+    { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -298,10 +286,10 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "guenergy.com",
   logo: "/logo/gu.png",
   category: "Energy Gel",
-  rating: 4.2,
-  reviewCount: 4800,
-  price: 24,                       // ~$1.60/gel, 15-pack
-  servingsPerContainer: 15,
+  rating: 4.8,
+  reviewCount: 997,
+  price: 14.4,                     // Pack of 8 on The Feed
+  servingsPerContainer: 8,
   glucoseFructoseRatio: "2:1",
   carbsPerServing: 21,
   sodiumPerServing: 55,
@@ -316,13 +304,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "🟠",
   transparencyScore: 78,
-  sentiment: {
-    Energy: 85,
-    Taste: 83,
-    Value: 91,
-    "GI Comfort": 70,
-    "Flavour Variety": 95,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Maltodextrin + Fructose (2:1 ratio)",
@@ -354,12 +336,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 2800, unit: "reviews", credibility: "high" },
-    { name: "REI", icon: "🏕️", count: 640, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/running", icon: "💬", count: 890, unit: "posts", credibility: "medium" },
-    { name: "Running Warehouse", icon: "🏃", count: 310, unit: "reviews", credibility: "high" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 997, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -370,10 +347,10 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "precisionfuelandhydration.com",
   logo: "/logo/precision.png",
   category: "Energy Gel",
-  rating: 4.4,
-  reviewCount: 740,
-  price: 36,                       // ~$3/gel, 12-pack
-  servingsPerContainer: 12,
+  rating: 4.8,
+  reviewCount: 654,
+  price: 45.99,                    // 15 Gels on The Feed
+  servingsPerContainer: 15,
   glucoseFructoseRatio: "2:1",
   carbsPerServing: 30,
   sodiumPerServing: 0,
@@ -391,13 +368,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "⚪",
   transparencyScore: 91,
-  sentiment: {
-    "GI Comfort": 90,
-    Taste: 85,
-    Energy: 82,
-    Value: 68,
-    Texture: 88,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Maltodextrin + Fructose (2:1 ratio)",
@@ -420,11 +391,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Precision Fuel website", icon: "🏪", count: 380, unit: "reviews", credibility: "medium" },
-    { name: "Amazon", icon: "🛒", count: 220, unit: "reviews", credibility: "high" },
-    { name: "road.cc", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Runivore", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 654, unit: "reviews", credibility: "medium" },
+    { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -435,10 +403,10 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "honeystinger.com",
   logo: "/logo/honeystinger.png",
   category: "Energy Gel",
-  rating: 4.1,
-  reviewCount: 1650,
-  price: 26,                       // ~$1.75/gel, 15-pack
-  servingsPerContainer: 15,
+  rating: 4.6,
+  reviewCount: 505,
+  price: 39.98,                    // Box of 24 on The Feed
+  servingsPerContainer: 24,
   carbsPerServing: 24,
   sodiumPerServing: 50,
   proteinPerServing: 0,
@@ -455,13 +423,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "🍯",
   transparencyScore: 80,
-  sentiment: {
-    Taste: 92,
-    "GI Comfort": 81,
-    Energy: 78,
-    Value: 84,
-    Texture: 72,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Organic Honey + Tapioca Syrup",
@@ -490,11 +452,9 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 1100, unit: "reviews", credibility: "high" },
-    { name: "REI", icon: "🏕️", count: 320, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/running", icon: "💬", count: 180, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 2, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 505, unit: "reviews", credibility: "medium" },
+    { name: "USDA Organic", icon: "✅", count: 1, unit: "certification", credibility: "high" },
+    { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -507,9 +467,9 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "maurten.com",
   logo: "/logo/maurten.png",
   category: "Carbohydrate Mix",
-  rating: 4.4,
-  reviewCount: 1240,
-  price: 50,                       // 14-sachet box
+  rating: 4.7,
+  reviewCount: 637,
+  price: 51,                       // Drink 320 Box (14 Servings) on The Feed
   servingsPerContainer: 14,
   carbsPerServing: 80,
   sodiumPerServing: 245,
@@ -527,13 +487,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "🫙",
   transparencyScore: 94,
-  sentiment: {
-    "GI Comfort": 93,
-    Energy: 91,
-    Taste: 61,
-    Mixability: 72,
-    Value: 44,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Maltodextrin + Fructose",
@@ -562,12 +516,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 580, unit: "reviews", credibility: "high" },
-    { name: "Running Warehouse", icon: "🏃", count: 290, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 220, unit: "posts", credibility: "medium" },
-    { name: "nutritiontriathlon.com", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 637, unit: "reviews", credibility: "medium" },
+    { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -578,9 +528,9 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "tailwindnutrition.com",
   logo: "/logo/tailwind.png",
   category: "Carbohydrate Mix",
-  rating: 4.5,
-  reviewCount: 3200,
-  price: 38,                       // 50-serving bag
+  rating: 4.8,
+  reviewCount: 990,
+  price: 42.99,                    // 50 Servings on The Feed
   servingsPerContainer: 50,
   carbsPerServing: 50,
   sodiumPerServing: 620,
@@ -599,13 +549,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "💧",
   transparencyScore: 88,
-  sentiment: {
-    "GI Comfort": 90,
-    Taste: 88,
-    Value: 93,
-    Mixability: 96,
-    Energy: 82,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Dextrose (Glucose) + Sucrose",
@@ -636,12 +580,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 1800, unit: "reviews", credibility: "high" },
-    { name: "REI", icon: "🏕️", count: 620, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/ultrarunning", icon: "💬", count: 480, unit: "posts", credibility: "medium" },
-    { name: "Adventure Alan", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Running.Reviews", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 990, unit: "reviews", credibility: "medium" },
+    { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -652,9 +592,9 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "scienceinsport.com",
   logo: "/logo/sis.png",
   category: "Carbohydrate Mix",
-  rating: 4.3,
-  reviewCount: 980,
-  price: 45,                       // 15-serving bag
+  rating: 4.6,
+  reviewCount: 162,
+  price: 51.99,                    // Box of 15 on The Feed
   servingsPerContainer: 15,
   glucoseFructoseRatio: "1:0.8",
   carbsPerServing: 80,
@@ -674,13 +614,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "muscle"],
   imageEmoji: "🔷",
   transparencyScore: 83,
-  sentiment: {
-    Energy: 90,
-    "GI Comfort": 83,
-    Taste: 78,
-    Mixability: 85,
-    Value: 71,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Maltodextrin + Fructose (1:0.8 ratio)",
@@ -705,12 +639,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "SiS website", icon: "🏪", count: 420, unit: "reviews", credibility: "medium" },
-    { name: "Amazon", icon: "🛒", count: 380, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/cycling", icon: "💬", count: 130, unit: "posts", credibility: "medium" },
-    { name: "nutritiontriathlon.com", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 5, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 162, unit: "reviews", credibility: "medium" },
+    { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },{
   id: "sis-go-isotonic",
@@ -719,10 +649,10 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "scienceinsport.com",
   logo: "/logo/sis.png",
   category: "Energy Gel",
-  rating: 4.2,
-  reviewCount: 3850,
-  price: 28,                       // ~$1.87/gel, 15-pack
-  servingsPerContainer: 15,
+  rating: 4.7,
+  reviewCount: 1388,
+  price: 29.99,                    // Box of 18 on The Feed
+  servingsPerContainer: 18,
   carbsPerServing: 22,
   sodiumPerServing: 4,
   caffeinePerServing: 0,
@@ -741,13 +671,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "🔵",
   transparencyScore: 80,
-  sentiment: {
-    "GI Comfort": 88,
-    Taste: 84,
-    Energy: 80,
-    Value: 91,
-    Convenience: 93,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Maltodextrin (from Maize)",
@@ -784,13 +708,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 1900, unit: "reviews", credibility: "high" },
-    { name: "Running Warehouse", icon: "🏃", count: 480, unit: "reviews", credibility: "high" },
-    { name: "SiS website", icon: "🏪", count: 720, unit: "reviews", credibility: "medium" },
-    { name: "Reddit r/running", icon: "💬", count: 390, unit: "posts", credibility: "medium" },
-    { name: "road.cc", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 1388, unit: "reviews", credibility: "medium" },
+    { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -800,10 +719,10 @@ const CURATED_PRODUCTS: Product[] = [
   brand: "Victus",
   logo: "/logo/victus.png",
   category: "Energy Gel",
-  rating: 4.6,
-  reviewCount: 420,
-  price: 48,                       // ~$3.20/gel, 15-pack
-  servingsPerContainer: 15,
+  rating: 4.5,
+  reviewCount: 195,
+  price: 3.99,                     // Single Serving on The Feed
+  servingsPerContainer: 1,
   glucoseFructoseRatio: "2:1",
   carbsPerServing: 45,
   sodiumPerServing: 343,
@@ -821,13 +740,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "🟣",
   transparencyScore: 93,
-  sentiment: {
-    "GI Comfort": 92,
-    Energy: 94,
-    Value: 70,
-    Convenience: 88,
-    Taste: 78,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Maltodextrin + Glucose + Fructose (2:1:1.5 ratio)",
@@ -852,12 +765,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Victus website", icon: "🏪", count: 180, unit: "reviews", credibility: "medium" },
-    { name: "XMiles", icon: "🛒", count: 95, unit: "reviews", credibility: "medium" },
-    { name: "The Feed", icon: "📝", count: 1, unit: "article", credibility: "medium" },
-    { name: "FueledByLOLZ", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 88, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 195, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -868,21 +776,15 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "puresportsnutrition.com",
   logo: "/logo/purenutrition.png",
   category: "Energy Gel",
-  rating: 4.1,
-  reviewCount: 860,
-  price: 30,                       // ~$2/gel, 15-pack
-  servingsPerContainer: 15,
+  rating: 0,
+  reviewCount: 0,
+  price: 72.99,                    // box of 18 (confirmed)
+  servingsPerContainer: 18,
   carbsPerServing: 22,
   goals: ["endurance", "recovery"],
   imageEmoji: "🌿",
   transparencyScore: 82,
-  sentiment: {
-    Taste: 76,
-    "GI Comfort": 83,
-    Energy: 79,
-    Value: 82,
-    Ingredients: 90,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Maltodextrin + Organic Cane Sugar",
@@ -918,14 +820,7 @@ const CURATED_PRODUCTS: Product[] = [
       examineUrl: "https://examine.com/supplements/caffeine/",
     },
   ],
-  sources: [
-    { name: "PURE website", icon: "🏪", count: 420, unit: "reviews", credibility: "medium" },
-    { name: "Amazon", icon: "🛒", count: 240, unit: "reviews", credibility: "high" },
-    { name: "Trail Run Magazine", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Runivore", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/running", icon: "💬", count: 140, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 2, unit: "studies", credibility: "high" },
-  ],
+  sources: [],
 },
 
 {
@@ -935,9 +830,9 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "thorne.com",
   logo: "/logo/thorne.png",
   category: "Supplement",
-  rating: 4.6,
-  reviewCount: 2940,
-  price: 25,                       // 90-capsule bottle
+  rating: 0,
+  reviewCount: 0,
+  price: 26,                       // 90 Servings on The Feed
   servingsPerContainer: 90,
   servingSize: "One Capsule",
   isHydrogel: false,
@@ -949,13 +844,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["recovery", "endurance"],
   imageEmoji: "💊",
   transparencyScore: 95,
-  sentiment: {
-    "Sleep Quality": 91,
-    "Muscle Relaxation": 88,
-    "GI Comfort": 90,
-    Value: 78,
-    Absorption: 92,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Magnesium Bisglycinate Chelate",
@@ -980,24 +869,17 @@ const CURATED_PRODUCTS: Product[] = [
       note: "Gluten, dairy and soy free — third-party certified, trusted by 100+ professional sports teams",
     },
   ],
-  sources: [
-    { name: "Amazon", icon: "🛒", count: 1800, unit: "reviews", credibility: "high" },
-    { name: "Walmart", icon: "🛒", count: 620, unit: "reviews", credibility: "high" },
-    { name: "Thorne website", icon: "🏪", count: 380, unit: "reviews", credibility: "medium" },
-    { name: "PureFormulas", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 5, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
-  ],
+  sources: [],
 },{
   id: "carbs-fuel-gel",
   name: "Fuel Original Energy Gel",
   brand: "Carbs",
   logo: "/logo/carbs.png",
   category: "Energy Gel",
-  rating: 4.5,
-  reviewCount: 310,
-  price: 36,                       // ~$2.40/gel, 15-pack
-  servingsPerContainer: 15,
+  rating: 4.6,
+  reviewCount: 913,
+  price: 30,                       // Box of 12 on The Feed
+  servingsPerContainer: 12,
   glucoseFructoseRatio: "2:1",
   carbsPerServing: 50,
   sodiumPerServing: 105,
@@ -1015,13 +897,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "⚡",
   transparencyScore: 96,
-  sentiment: {
-    "GI Comfort": 93,
-    Energy: 91,
-    Value: 88,
-    Taste: 80,
-    Texture: 90,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Maltodextrin + Sucrose + Fructose (2:1 ratio)",
@@ -1052,11 +928,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Carbs Fuel website", icon: "🏪", count: 190, unit: "reviews", credibility: "medium" },
-    { name: "Reddit r/running", icon: "💬", count: 75, unit: "posts", credibility: "medium" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 45, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 913, unit: "reviews", credibility: "medium" },
   ],
 },{
   id: "pure-encapsulations-magnesium-glycinate",
@@ -1064,9 +936,9 @@ const CURATED_PRODUCTS: Product[] = [
   brand: "Pure Encapsulations",
   logo: "/logo/pure.png",
   category: "Supplement",
-  rating: 4.8,
-  reviewCount: 3240,
-  price: 28,                       // 180-capsule bottle
+  rating: 4.4,
+  reviewCount: 8,
+  price: 27,                       // 90 Servings on The Feed
   servingsPerContainer: 90,
   servingSize: "1 capsule",
   isHydrogel: false,
@@ -1078,13 +950,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["recovery", "endurance"],
   imageEmoji: "💜",
   transparencyScore: 97,
-  sentiment: {
-    "Sleep Quality": 93,
-    "Muscle Recovery": 87,
-    "GI Comfort": 95,
-    Value: 74,
-    Absorption: 91,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Magnesium Glycinate (Chelated)",
@@ -1116,13 +982,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 1800, unit: "reviews", credibility: "high" },
-    { name: "iHerb", icon: "🌿", count: 890, unit: "reviews", credibility: "high" },
-    { name: "Walmart", icon: "🛒", count: 340, unit: "reviews", credibility: "high" },
-    { name: "The Feed", icon: "📝", count: 5, unit: "reviews", credibility: "medium" },
-    { name: "PureFormulas", icon: "💊", count: 205, unit: "reviews", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 5, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 8, unit: "reviews", credibility: "medium" },
   ],
   // ── SKRATCH LABS DRINK MIXES ─────────────────────────────────
 },{
@@ -1132,9 +992,9 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "skratchlabs.com",
   logo: "/logo/skratch.png",
   category: "Carbohydrate Mix",
-  rating: 4.5,
-  reviewCount: 2840,
-  price: 22,                       // 20-serving bag
+  rating: 4.9,
+  reviewCount: 1540,
+  price: 23.95,                    // 1lb Bag on The Feed
   servingsPerContainer: 20,
   carbsPerServing: 19,
   sodiumPerServing: 400,
@@ -1152,13 +1012,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "💧",
   transparencyScore: 91,
-  sentiment: {
-    Taste: 90,
-    "GI Comfort": 93,
-    Mixability: 95,
-    Value: 85,
-    Electrolytes: 88,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Cane Sugar + Dextrose",
@@ -1188,13 +1042,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 1400, unit: "reviews", credibility: "high" },
-    { name: "REI", icon: "🏕️", count: 520, unit: "reviews", credibility: "high" },
-    { name: "Skratch Labs website", icon: "🏪", count: 480, unit: "reviews", credibility: "medium" },
-    { name: "Reddit r/running", icon: "💬", count: 290, unit: "posts", credibility: "medium" },
-    { name: "Road Trail Run", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 1540, unit: "reviews", credibility: "medium" },
+    { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -1205,9 +1054,9 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "skratchlabs.com",
   logo: "/logo/skratch.png",
   category: "Hydration",
-  rating: 4.4,
-  reviewCount: 980,
-  price: 20,                       // 30-serving bag
+  rating: 4.8,
+  reviewCount: 85,
+  price: 27.95,                    // 30 Serving Bag on The Feed
   servingsPerContainer: 30,
   carbsPerServing: 1,
   sodiumPerServing: 400,
@@ -1226,13 +1075,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "🫧",
   transparencyScore: 95,
-  sentiment: {
-    "GI Comfort": 97,
-    Electrolytes: 91,
-    Taste: 78,
-    Value: 92,
-    Versatility: 90,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Sodium Citrate + Potassium Citrate + Calcium Citrate + Magnesium Carbonate",
@@ -1256,12 +1099,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 520, unit: "reviews", credibility: "high" },
-    { name: "Skratch Labs website", icon: "🏪", count: 280, unit: "reviews", credibility: "medium" },
-    { name: "The Feed", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 140, unit: "posts", credibility: "medium" },
-    { name: "Road Trail Run", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 85, unit: "reviews", credibility: "medium" },
+    { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -1272,10 +1111,10 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "skratchlabs.com",
   logo: "/logo/skratch.png",
   category: "Carbohydrate Mix",
-  rating: 4.6,
-  reviewCount: 1240,
-  price: 55,                       // 28-serving bag
-  servingsPerContainer: 28,
+  rating: 4.7,
+  reviewCount: 293,
+  price: 41.95,                    // 840g - 16 Serving Bag on The Feed
+  servingsPerContainer: 16,
   carbsPerServing: 50,
   sodiumPerServing: 200,
   caffeinePerServing: 0,
@@ -1293,13 +1132,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "muscle"],
   imageEmoji: "⚡",
   transparencyScore: 92,
-  sentiment: {
-    Energy: 95,
-    "GI Comfort": 91,
-    Mixability: 82,
-    Taste: 74,
-    Value: 78,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Cluster Dextrin™ (Highly-Branched Cyclic Dextrin)",
@@ -1329,13 +1162,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Skratch Labs website", icon: "🏪", count: 580, unit: "reviews", credibility: "medium" },
-    { name: "Amazon", icon: "🛒", count: 390, unit: "reviews", credibility: "high" },
-    { name: "The Feed", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Road Trail Run", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/cycling", icon: "💬", count: 180, unit: "posts", credibility: "medium" },
-    { name: "Trail Run Magazine", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 293, unit: "reviews", credibility: "medium" },
+    { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -1348,9 +1176,9 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "skratchlabs.com",
   logo: "/logo/skratch.png",
   category: "Energy Chew",
-  rating: 4.5,
-  reviewCount: 1640,
-  price: 26,                       // box of 10 single packets
+  rating: 4.8,
+  reviewCount: 842,
+  price: 26.95,                    // Box of 10 on The Feed
   servingsPerContainer: 10,
   carbsPerServing: 18,
   sodiumPerServing: 45,
@@ -1368,13 +1196,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "🍬",
   transparencyScore: 93,
-  sentiment: {
-    Taste: 92,
-    "GI Comfort": 91,
-    Energy: 85,
-    Convenience: 80,
-    Value: 84,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Sugar + Glucose Syrup",
@@ -1404,13 +1226,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 820, unit: "reviews", credibility: "high" },
-    { name: "REI", icon: "🏕️", count: 340, unit: "reviews", credibility: "high" },
-    { name: "Skratch Labs website", icon: "🏪", count: 290, unit: "reviews", credibility: "medium" },
-    { name: "road.cc", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Trail Run Magazine", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/running", icon: "💬", count: 180, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 2, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 842, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -1421,9 +1237,9 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "skratchlabs.com",
   logo: "/logo/skratch.png",
   category: "Energy Bar",
-  rating: 4.5,
-  reviewCount: 1380,
-  price: 30,                       // 12-bar box
+  rating: 4.8,
+  reviewCount: 426,
+  price: 32.95,                    // Box of 12 on The Feed
   servingsPerContainer: 12,
   carbsPerServing: 31,
   sodiumPerServing: 140,
@@ -1442,13 +1258,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "🍫",
   transparencyScore: 90,
-  sentiment: {
-    Taste: 91,
-    Texture: 93,
-    "GI Comfort": 89,
-    Value: 82,
-    Energy: 84,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Oats + Nuts + Nut Butters",
@@ -1471,13 +1281,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 680, unit: "reviews", credibility: "high" },
-    { name: "REI", icon: "🏕️", count: 290, unit: "reviews", credibility: "high" },
-    { name: "Skratch Labs website", icon: "🏪", count: 240, unit: "reviews", credibility: "medium" },
-    { name: "Road Bike Rider", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Road Trail Run", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/cycling", icon: "💬", count: 160, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 2, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 426, unit: "reviews", credibility: "medium" },
+    { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -1490,22 +1295,16 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "formula369.com",
   logo: "/logo/369.png",
   category: "Carbohydrate Mix",
-  rating: 4.7,
-  reviewCount: 890,
-  price: 35,                       // 3lb bag, 45 servings (~$0.78/serving)
-  servingsPerContainer: 45,
+  rating: 0,
+  reviewCount: 0,
+  price: 44.99,                    // 5 lb bag, 73 servings (confirmed)
+  servingsPerContainer: 73,
   glucoseFructoseRatio: "1:1",
   carbsPerServing: 30,
   goals: ["endurance", "recovery"],
   imageEmoji: "🧪",
   transparencyScore: 96,
-  sentiment: {
-    "GI Comfort": 95,
-    Value: 98,
-    Energy: 88,
-    Mixability: 91,
-    Taste: 72,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Maltodextrin + Fructose (1:1 ratio)",
@@ -1536,15 +1335,7 @@ const CURATED_PRODUCTS: Product[] = [
       examineUrl: "https://examine.com/supplements/caffeine/",
     },
   ],
-  sources: [
-    { name: "Amazon", icon: "🛒", count: 480, unit: "reviews", credibility: "high" },
-    { name: "Formula 369 website", icon: "🏪", count: 220, unit: "reviews", credibility: "medium" },
-    { name: "Fuel Goods", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Backcountry", icon: "🏕️", count: 95, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/ultrarunning", icon: "💬", count: 90, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
-  ],
+  sources: [],
 },
 
 // ── FIRST ENDURANCE ──────────────────────────────────────────
@@ -1556,9 +1347,9 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Energy Gel",
   logoDomain: "firstendurance.com",
   logo: "/logo/first-endurance.png",
-  rating: 4.6,
-  reviewCount: 980,
-  price: 48,                       // tray of 24 x 30g shots
+  rating: 4.3,
+  reviewCount: 55,
+  price: 57.27,                    // Box of 24 on The Feed
   servingsPerContainer: 24,
   carbsPerServing: 30,
   sodiumPerServing: 75,
@@ -1576,13 +1367,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "⚡",
   transparencyScore: 91,
-  sentiment: {
-    "GI Comfort": 90,
-    Energy: 92,
-    Taste: 74,
-    Value: 72,
-    Electrolytes: 88,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Dextrose + Maltodextrin",
@@ -1620,13 +1405,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 140, unit: "reviews", credibility: "high" },
-    { name: "Amazon", icon: "🛒", count: 480, unit: "reviews", credibility: "high" },
-    { name: "Slowtwitch", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 220, unit: "posts", credibility: "medium" },
-    { name: "PezCycling News", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 55, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -1638,8 +1417,8 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "firstendurance.com",
   logo: "/logo/first-endurance.png",
   rating: 4.6,
-  reviewCount: 1240,
-  price: 42,                       // 30-serving bag
+  reviewCount: 157,
+  price: 34.99,                    // 30 Serving on The Feed
   servingsPerContainer: 30,
   glucoseFructoseRatio: "2:1",
   carbsPerServing: 30,
@@ -1659,13 +1438,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "💧",
   transparencyScore: 93,
-  sentiment: {
-    "GI Comfort": 91,
-    Electrolytes: 95,
-    Taste: 76,
-    Value: 80,
-    Energy: 88,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Cane Sugar + Dextrose + Maltodextrin (2:1 ratio)",
@@ -1704,14 +1477,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 140, unit: "reviews", credibility: "high" },
-    { name: "Amazon", icon: "🛒", count: 620, unit: "reviews", credibility: "high" },
-    { name: "Excel Sports", icon: "🏪", count: 180, unit: "reviews", credibility: "medium" },
-    { name: "Slowtwitch", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 210, unit: "posts", credibility: "medium" },
-    { name: "PezCycling News", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 157, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -1722,10 +1488,10 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Carbohydrate Mix",
   logoDomain: "firstendurance.com",
   logo: "/logo/first-endurance.png",
-  rating: 4.7,
-  reviewCount: 860,
-  price: 52,                       // 20-serving bag
-  servingsPerContainer: 20,
+  rating: 4.8,
+  reviewCount: 41,
+  price: 54.95,                    // 18 Servings on The Feed
+  servingsPerContainer: 18,
   glucoseFructoseRatio: "2:1",
   carbsPerServing: 60,
   sodiumPerServing: 380,
@@ -1743,13 +1509,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "🔷",
   transparencyScore: 94,
-  sentiment: {
-    "GI Comfort": 93,
-    Electrolytes: 97,
-    Energy: 91,
-    Value: 74,
-    Taste: 78,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Maltodextrin + Dextrose + Cane Sugar (2:1 ratio)",
@@ -1786,13 +1546,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 95, unit: "reviews", credibility: "high" },
-    { name: "Amazon", icon: "🛒", count: 380, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/ultrarunning", icon: "💬", count: 240, unit: "posts", credibility: "medium" },
-    { name: "Slowtwitch", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Road Trail Run", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 41, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -1805,9 +1559,9 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Energy Gel",
   logoDomain: "cadencenutrition.com",
   logo: "/logo/cadence.png",
-  rating: 4.5,
-  reviewCount: 380,
-  price: 34,                       // ~$2.83/gel, 12-pack
+  rating: 4.3,
+  reviewCount: 32,
+  price: 34.99,                    // Box of 12 on The Feed
   servingsPerContainer: 12,
   carbsPerServing: 24,
   sodiumPerServing: 200,
@@ -1825,13 +1579,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "⚪",
   transparencyScore: 90,
-  sentiment: {
-    "GI Comfort": 92,
-    Energy: 88,
-    Electrolytes: 90,
-    Taste: 80,
-    Texture: 85,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Glucose + Fructose (5:4 ratio)",
@@ -1855,11 +1603,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Cadence website", icon: "🏪", count: 180, unit: "reviews", credibility: "medium" },
-    { name: "Fuel Goods", icon: "📝", count: 45, unit: "reviews", credibility: "medium" },
-    { name: "Stack3D", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/running", icon: "💬", count: 88, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 32, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -1870,21 +1614,15 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Energy Bar",
   logoDomain: "cadencenutrition.com",
   logo: "/logo/cadence.png",
-  rating: 4.4,
-  reviewCount: 520,
-  price: 32,                       // 12-bar box
+  rating: 0,
+  reviewCount: 0,
+  price: 36,                       // box of 12 (confirmed)
   servingsPerContainer: 12,
   carbsPerServing: 40,
   goals: ["endurance", "recovery"],
   imageEmoji: "🍫",
   transparencyScore: 92,
-  sentiment: {
-    "GI Comfort": 91,
-    Taste: 88,
-    Energy: 85,
-    Texture: 90,
-    Value: 80,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Puffed White Rice + Organic Dates + Organic Honey",
@@ -1912,14 +1650,7 @@ const CURATED_PRODUCTS: Product[] = [
       note: "Clean whole-food label developed with nutrition advisor Matt Jones (Boston Celtics, EPL teams)",
     },
   ],
-  sources: [
-    { name: "Cadence website", icon: "🏪", count: 210, unit: "reviews", credibility: "medium" },
-    { name: "Running Warehouse", icon: "🏃", count: 148, unit: "reviews", credibility: "high" },
-    { name: "Fuel Goods", icon: "📝", count: 82, unit: "reviews", credibility: "medium" },
-    { name: "Vitacost", icon: "🛒", count: 55, unit: "reviews", credibility: "medium" },
-    { name: "Wellworthy", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 2, unit: "studies", credibility: "high" },
-  ],
+  sources: [],
 },
 
 // ── MAURTEN ──────────────────────────────────────────────────
@@ -1931,9 +1662,9 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Energy Bar",
   logoDomain: "maurten.com",
   logo: "/logo/maurten.png",
-  rating: 4.4,
-  reviewCount: 740,
-  price: 36,                       // box of 12 mini bars (6 packs of 2)
+  rating: 4.8,
+  reviewCount: 452,
+  price: 36,                       // Box of 12 on The Feed
   servingsPerContainer: 12,
   carbsPerServing: 42.2,
   sodiumPerServing: 250,
@@ -1952,13 +1683,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "🟡",
   transparencyScore: 94,
-  sentiment: {
-    "GI Comfort": 91,
-    Taste: 82,
-    Energy: 87,
-    Texture: 85,
-    Value: 52,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Fructose-Glucose Syrup + Maltodextrin",
@@ -1993,12 +1718,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Running Warehouse", icon: "🏃", count: 320, unit: "reviews", credibility: "high" },
-    { name: "The Feed", icon: "📝", count: 180, unit: "reviews", credibility: "high" },
-    { name: "Amazon", icon: "🛒", count: 155, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/running", icon: "💬", count: 62, unit: "posts", credibility: "medium" },
-    { name: "FueledByLOLZ", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 452, unit: "reviews", credibility: "medium" },
+    { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -2009,9 +1730,9 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Energy Gel",
   logoDomain: "maurten.com",
   logo: "/logo/maurten.png",
-  rating: 4.5,
-  reviewCount: 1120,
-  price: 52,                       // box of 12 x 65g sachets
+  rating: 4.9,
+  reviewCount: 493,
+  price: 55,                       // Box of 12 on The Feed
   servingsPerContainer: 12,
   carbsPerServing: 40,
   sodiumPerServing: 30,
@@ -2029,13 +1750,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "🟡",
   transparencyScore: 96,
-  sentiment: {
-    "GI Comfort": 94,
-    Energy: 92,
-    Taste: 58,
-    Texture: 50,
-    Value: 42,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Glucose + Fructose (0.8:1 ratio)",
@@ -2060,12 +1775,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Running Warehouse", icon: "🏃", count: 420, unit: "reviews", credibility: "high" },
-    { name: "The Feed", icon: "📝", count: 280, unit: "reviews", credibility: "high" },
-    { name: "Amazon", icon: "🛒", count: 310, unit: "reviews", credibility: "high" },
-    { name: "FueledByLOLZ", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/running", icon: "💬", count: 98, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 493, unit: "reviews", credibility: "medium" },
+    { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -2078,9 +1789,9 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Energy Bar",
   logoDomain: "styrkr.com",
   logo: "/logo/Styrkr.png",
-  rating: 4.5,
-  reviewCount: 890,
-  price: 30,                       // £29.99 for 12 bars
+  rating: 4.9,
+  reviewCount: 269,
+  price: 39.99,                    // Box of 12 on The Feed
   servingsPerContainer: 12,
   carbsPerServing: 50,
   sodiumPerServing: 252,
@@ -2099,13 +1810,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "🍬",
   transparencyScore: 88,
-  sentiment: {
-    Taste: 90,
-    "GI Comfort": 89,
-    Texture: 88,
-    Energy: 84,
-    Value: 87,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Puffed Rice + Glucose Syrup + Golden Syrup",
@@ -2134,12 +1839,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "XMiles", icon: "🛒", count: 380, unit: "reviews", credibility: "medium" },
-    { name: "Sigma Sports", icon: "🏪", count: 210, unit: "reviews", credibility: "medium" },
-    { name: "Amazon UK", icon: "🛒", count: 180, unit: "reviews", credibility: "high" },
-    { name: "Biketart", icon: "📝", count: 55, unit: "reviews", credibility: "medium" },
-    { name: "Cycling Bargains", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 2, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 269, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -2153,10 +1853,10 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "enervit.com",
   logo: "/logo/enervit.png",
   logoSize: "lg",
-  rating: 4.3,
-  reviewCount: 680,
-  price: 32,                       // ~$1.33/gel, 24-pack
-  servingsPerContainer: 24,
+  rating: 4.8,
+  reviewCount: 121,
+  price: 44.99,                    // Box of 12 on The Feed
+  servingsPerContainer: 12,
   carbsPerServing: 30,
   sodiumPerServing: 8,
   proteinPerServing: 0,
@@ -2173,13 +1873,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "🔶",
   transparencyScore: 82,
-  sentiment: {
-    Energy: 88,
-    "GI Comfort": 83,
-    Taste: 75,
-    Value: 84,
-    Convenience: 90,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Glucose Syrup DP4 + Fructose Syrup + Maltodextrin + Trehalose + Isomaltulose",
@@ -2204,11 +1898,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 340, unit: "reviews", credibility: "high" },
-    { name: "Trovaprezzi", icon: "📝", count: 180, unit: "reviews", credibility: "medium" },
-    { name: "XMiles", icon: "🛒", count: 95, unit: "reviews", credibility: "medium" },
-    { name: "Reddit r/cycling", icon: "💬", count: 65, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 121, unit: "reviews", credibility: "medium" },
+    { name: "Cologne List", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -2220,9 +1911,9 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "enervit.com",
   logo: "/logo/enervit.png",
   logoSize: "lg",
-  rating: 4.5,
-  reviewCount: 920,
-  price: 38,                       // 650g can, ~14 servings
+  rating: 4.6,
+  reviewCount: 32,
+  price: 24.99,                    // 14 Servings on The Feed
   servingsPerContainer: 14,
   carbsPerServing: 43,
   sodiumPerServing: 170,
@@ -2241,13 +1932,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "🔷",
   transparencyScore: 93,
-  sentiment: {
-    "GI Comfort": 92,
-    Energy: 91,
-    Taste: 82,
-    Mixability: 88,
-    Value: 85,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "AGENANOVA® DE1 Maltodextrin + Fructose (2:1 ratio)",
@@ -2277,13 +1962,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 380, unit: "reviews", credibility: "high" },
-    { name: "Amazon", icon: "🛒", count: 290, unit: "reviews", credibility: "high" },
-    { name: "road.cc", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Extreme Vital", icon: "🏪", count: 160, unit: "reviews", credibility: "medium" },
-    { name: "Reddit r/cycling", icon: "💬", count: 89, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 5, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 32, unit: "reviews", credibility: "medium" },
+    { name: "Cologne List", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -2295,10 +1975,10 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/enervit.png",
   logoSize: "lg",
   logoDomain: "enervit.com",
-  rating: 4.4,
-  reviewCount: 580,
-  price: 36,                       // ~$2.40/gel, 15-pack
-  servingsPerContainer: 15,
+  rating: 4.8,
+  reviewCount: 202,
+  price: 44.99,                    // Box of 12 on The Feed
+  servingsPerContainer: 12,
   glucoseFructoseRatio: "2:1",
   carbsPerServing: 40,
   sodiumPerServing: 200,
@@ -2315,13 +1995,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "🔶",
   transparencyScore: 86,
-  sentiment: {
-    Energy: 90,
-    "GI Comfort": 86,
-    Taste: 79,
-    Value: 78,
-    Texture: 82,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Maltodextrin + Fructose (2:1 ratio)",
@@ -2350,12 +2024,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 220, unit: "reviews", credibility: "high" },
-    { name: "Amazon", icon: "🛒", count: 195, unit: "reviews", credibility: "high" },
-    { name: "XMiles", icon: "🛒", count: 110, unit: "reviews", credibility: "medium" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 55, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 202, unit: "reviews", credibility: "medium" },
+    { name: "Cologne List", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -2367,10 +2037,10 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "enervit.com",
   logo: "/logo/enervit.png",
   logoSize: "lg",
-  rating: 4.7,
-  reviewCount: 420,
-  price: 44,                       // ~$2.93/gel, 15-pack
-  servingsPerContainer: 15,
+  rating: 4.6,
+  reviewCount: 35,
+  price: 44.99,                    // Box of 12 on The Feed
+  servingsPerContainer: 12,
   glucoseFructoseRatio: "2:1",
   carbsPerServing: 40,
   sodiumPerServing: 200,
@@ -2388,13 +2058,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "🏆",
   transparencyScore: 92,
-  sentiment: {
-    "GI Comfort": 94,
-    Energy: 93,
-    Electrolytes: 96,
-    Taste: 85,
-    Value: 72,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Maltodextrin + Fructose (2:1 ratio)",
@@ -2424,11 +2088,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 210, unit: "reviews", credibility: "high" },
-    { name: "Amazon", icon: "🛒", count: 128, unit: "reviews", credibility: "high" },
-    { name: "XMiles", icon: "🛒", count: 55, unit: "reviews", credibility: "medium" },
-    { name: "Reddit r/cycling", icon: "💬", count: 27, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 35, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -2440,10 +2100,10 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/enervit.png",
   logoSize: "lg",
   logoDomain: "enervit.com",
-  rating: 4.2,
-  reviewCount: 340,
-  price: 28,                       // 12-bar box
-  servingsPerContainer: 12,
+  rating: 5,
+  reviewCount: 7,
+  price: 54.99,                    // Box of 25 on The Feed
+  servingsPerContainer: 25,
   carbsPerServing: 23,
   sodiumPerServing: 72,
   proteinPerServing: 7.2,
@@ -2460,13 +2120,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "🍫",
   transparencyScore: 78,
-  sentiment: {
-    Taste: 84,
-    Texture: 80,
-    Energy: 82,
-    Value: 78,
-    "GI Comfort": 76,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Glucose-Fructose Syrup + Maltodextrin + Dextrose",
@@ -2497,11 +2151,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 175, unit: "reviews", credibility: "high" },
-    { name: "Trovaprezzi", icon: "📝", count: 98, unit: "reviews", credibility: "medium" },
-    { name: "XMiles", icon: "🛒", count: 52, unit: "reviews", credibility: "medium" },
-    { name: "Reddit r/cycling", icon: "💬", count: 15, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 2, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 7, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -2513,10 +2163,10 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/enervit.png",
   logoSize: "lg",
   logoDomain: "enervit.com",
-  rating: 4.3,
-  reviewCount: 290,
-  price: 30,                       // 15-pack
-  servingsPerContainer: 15,
+  rating: 4.7,
+  reviewCount: 96,
+  price: 64.99,                    // Box of 20 on The Feed
+  servingsPerContainer: 20,
   glucoseFructoseRatio: "2:1",
   carbsPerServing: 30,
   sodiumPerServing: 50,
@@ -2535,13 +2185,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "🍊",
   transparencyScore: 84,
-  sentiment: {
-    Taste: 86,
-    "GI Comfort": 88,
-    Energy: 82,
-    Texture: 84,
-    Convenience: 80,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Dextrose + Fructose Syrup + Sucrose (2:1 ratio)",
@@ -2576,11 +2220,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 145, unit: "reviews", credibility: "high" },
-    { name: "Amazon", icon: "🛒", count: 88, unit: "reviews", credibility: "high" },
-    { name: "XMiles", icon: "🛒", count: 42, unit: "reviews", credibility: "medium" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 15, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 96, unit: "reviews", credibility: "medium" },
+    { name: "Cologne List", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -2593,10 +2234,10 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Creatine",
   logoDomain: "amacx.com",
   logo: "/logo/amacx.png",
-  rating: 4.8,
-  reviewCount: 320,
-  price: 22,                       // 400g tub, 80 servings
-  servingsPerContainer: 80,
+  rating: 5,
+  reviewCount: 3,
+  price: 39.99,                    // 60 Servings on The Feed
+  servingsPerContainer: 60,
   servingSize: "1 Scoop",
   isHydrogel: false,
   isBatchTested: false,
@@ -2608,13 +2249,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["muscle", "endurance", "recovery"],
   imageEmoji: "⚡",
   transparencyScore: 98,
-  sentiment: {
-    Purity: 98,
-    Value: 95,
-    Mixability: 88,
-    Effectiveness: 91,
-    Taste: 72,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Creatine Monohydrate",
@@ -2626,11 +2261,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amacx website", icon: "🏪", count: 180, unit: "reviews", credibility: "medium" },
-    { name: "The Feed", icon: "📝", count: 95, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 45, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 8, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 3, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -2642,8 +2273,8 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "amacx.com",
   logo: "/logo/amacx.png",
   rating: 4.7,
-  reviewCount: 480,
-  price: 30,                       // 12-pack of 60ml shots
+  reviewCount: 62,
+  price: 47.99,                    // Box of 12 on The Feed
   servingsPerContainer: 12,
   carbsPerServing: 20.2,
   caloriesPerServing: 81,
@@ -2658,13 +2289,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "health"],
   imageEmoji: "🫀",
   transparencyScore: 94,
-  sentiment: {
-    "GI Comfort": 90,
-    Performance: 88,
-    Taste: 72,
-    Value: 78,
-    Convenience: 95,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Beetroot Concentrate + Extract (15:1)",
@@ -2688,12 +2313,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 210, unit: "reviews", credibility: "high" },
-    { name: "Amacx website", icon: "🏪", count: 160, unit: "reviews", credibility: "medium" },
-    { name: "Reddit r/cycling", icon: "💬", count: 78, unit: "posts", credibility: "medium" },
-    { name: "The Feed Insider", icon: "📝", count: 1, unit: "article", credibility: "high" },
-    { name: "PubMed", icon: "🔬", count: 5, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 62, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -2704,9 +2324,9 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Supplement",
   logo: "/logo/amacx.png",
   logoDomain: "amacx.com",
-  rating: 4.5,
-  reviewCount: 940,
-  price: 48,                       // 12 x 500ml bottles
+  rating: 4.3,
+  reviewCount: 92,
+  price: 74.99,                    // 12 Pack on The Feed
   servingsPerContainer: 12,
   caloriesPerServing: 115,
   servingSize: "1 bottle",
@@ -2721,13 +2341,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["recovery", "health"],
   imageEmoji: "🍒",
   transparencyScore: 92,
-  sentiment: {
-    Recovery: 91,
-    Taste: 88,
-    "GI Comfort": 94,
-    Value: 72,
-    Convenience: 90,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "European Tart Cherry Extract",
@@ -2752,12 +2366,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amacx website", icon: "🏪", count: 520, unit: "reviews", credibility: "medium" },
-    { name: "The Feed", icon: "📝", count: 280, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 95, unit: "posts", credibility: "medium" },
-    { name: "The Feed Insider", icon: "📝", count: 1, unit: "article", credibility: "high" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 92, unit: "reviews", credibility: "medium" },
+    { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -2771,8 +2381,8 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Supplement",
   logo: "/logo/ka-ex.png",
   rating: 4.6,
-  reviewCount: 340,
-  price: 50,                       // 30-pack powder sachets
+  reviewCount: 7,
+  price: 49.99,                    // 30 Pack on The Feed
   servingsPerContainer: 30,
   caffeinePerServing: 105,
   caloriesPerServing: 15,
@@ -2787,13 +2397,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["muscle", "endurance", "recovery"],
   imageEmoji: "💪",
   transparencyScore: 90,
-  sentiment: {
-    Effectiveness: 91,
-    Convenience: 88,
-    Value: 74,
-    Taste: 82,
-    Innovation: 96,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Creapure® Creatine Monohydrate",
@@ -2832,12 +2436,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 180, unit: "reviews", credibility: "high" },
-    { name: "Amazon", icon: "🛒", count: 95, unit: "reviews", credibility: "high" },
-    { name: "BevNet", icon: "📝", count: 1, unit: "article", credibility: "medium" },
-    { name: "Stack3D", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 7, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -2848,10 +2447,10 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "ka-ex.com",
   category: "Supplement",
   logo: "/logo/ka-ex.png",
-  rating: 4.5,
-  reviewCount: 580,
-  price: 45,                       // 30-pack
-  servingsPerContainer: 30,
+  rating: 4.3,
+  reviewCount: 138,
+  price: 49.99,                    // 24 Pack on The Feed
+  servingsPerContainer: 24,
   caloriesPerServing: 95,
   servingSize: "1 Bottle",
   isHydrogel: false,
@@ -2864,13 +2463,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["recovery", "sleep", "health"],
   imageEmoji: "😌",
   transparencyScore: 88,
-  sentiment: {
-    Recovery: 87,
-    "Sleep Quality": 84,
-    Stress: 86,
-    Value: 72,
-    Taste: 80,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Phosphatidylserine",
@@ -2909,12 +2502,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 310, unit: "reviews", credibility: "high" },
-    { name: "Amazon", icon: "🛒", count: 180, unit: "reviews", credibility: "high" },
-    { name: "Earthbar (Equinox)", icon: "🏪", count: 55, unit: "reviews", credibility: "medium" },
-    { name: "Stack3D", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 138, unit: "reviews", credibility: "medium" },
+    { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -2928,8 +2517,8 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "thorne.com",
   logo: "/logo/thorne.png",
   rating: 4.8,
-  reviewCount: 28400,
-  price: 38,                       // 90-serving tub
+  reviewCount: 202,
+  price: 44,                       // 90 Servings on The Feed
   servingsPerContainer: 90,
   servingSize: "One Stick Pack",
   isHydrogel: false,
@@ -2942,13 +2531,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["muscle", "endurance", "recovery"],
   imageEmoji: "⚡",
   transparencyScore: 97,
-  sentiment: {
-    Purity: 97,
-    Mixability: 92,
-    Value: 82,
-    Effectiveness: 93,
-    Taste: 85,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Micronized Creatine Monohydrate",
@@ -2966,13 +2549,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 18200, unit: "reviews", credibility: "high" },
-    { name: "Thorne website", icon: "🏪", count: 6400, unit: "reviews", credibility: "medium" },
-    { name: "Walmart", icon: "🛒", count: 2800, unit: "reviews", credibility: "high" },
-    { name: "Healthline", icon: "📝", count: 1, unit: "review", credibility: "high" },
-    { name: "Reddit r/Fitness", icon: "💬", count: 890, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 8, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 202, unit: "reviews", credibility: "medium" },
+    { name: "NSF Certified for Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -2984,8 +2562,8 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "livemomentous.com",
   logo: "/logo/Momentous.png",
   rating: 4.8,
-  reviewCount: 9200,
-  price: 40,                       // 90-serving tub
+  reviewCount: 212,
+  price: 42.99,                    // 90 Servings on The Feed
   servingsPerContainer: 90,
   servingSize: "1 Packet",
   isHydrogel: false,
@@ -2999,13 +2577,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["muscle", "endurance", "recovery"],
   imageEmoji: "⚡",
   transparencyScore: 97,
-  sentiment: {
-    Purity: 98,
-    Mixability: 94,
-    Value: 80,
-    Effectiveness: 93,
-    Taste: 86,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Creapure® Creatine Monohydrate",
@@ -3023,13 +2595,9 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 5800, unit: "reviews", credibility: "high" },
-    { name: "Momentous website", icon: "🏪", count: 2100, unit: "reviews", credibility: "medium" },
-    { name: "Healthline", icon: "📝", count: 1, unit: "review", credibility: "high" },
-    { name: "Reddit r/Fitness", icon: "💬", count: 620, unit: "posts", credibility: "medium" },
-    { name: "Illuminate Labs", icon: "📝", count: 1, unit: "review", credibility: "high" },
-    { name: "PubMed", icon: "🔬", count: 8, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 212, unit: "reviews", credibility: "medium" },
+    { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
+    { name: "NSF Certified for Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -3042,9 +2610,9 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/thefeedlab.png",
   logoSize: "sm",
   rating: 4.8,
-  reviewCount: 640,
-  price: 35,                       // 90-serving tub
-  servingsPerContainer: 90,
+  reviewCount: 418,
+  price: 29,                       // 60 Servings on The Feed
+  servingsPerContainer: 60,
   servingSize: "1 Scoop",
   isHydrogel: false,
   isBatchTested: true,
@@ -3055,13 +2623,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["muscle", "endurance", "recovery"],
   imageEmoji: "⚡",
   transparencyScore: 96,
-  sentiment: {
-    Purity: 97,
-    Value: 90,
-    Mixability: 92,
-    Effectiveness: 91,
-    Convenience: 88,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Creapure® Creatine Monohydrate",
@@ -3079,11 +2641,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 480, unit: "reviews", credibility: "high" },
-    { name: "Amazon", icon: "🛒", count: 160, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 55, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 8, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 418, unit: "reviews", credibility: "medium" },
+    { name: "NSF Certified for Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -3094,9 +2653,9 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Creatine",
   logoDomain: "rawnutrition.com",
   logo: "/logo/rawnutrition.png",
-  rating: 4.6,
-  reviewCount: 3800,
-  price: 28,                       // 100-serving tub — best value in category
+  rating: 4.8,
+  reviewCount: 25,
+  price: 39.19,                    // 100 Servings on The Feed
   servingsPerContainer: 100,
   carbsPerServing: 0,
   sodiumPerServing: 0,
@@ -3114,13 +2673,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["muscle", "endurance"],
   imageEmoji: "⚡",
   transparencyScore: 88,
-  sentiment: {
-    Value: 98,
-    Purity: 88,
-    Mixability: 85,
-    Effectiveness: 88,
-    Taste: 80,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Creatine Monohydrate",
@@ -3138,11 +2691,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 2800, unit: "reviews", credibility: "high" },
-    { name: "Raw Nutrition website", icon: "🏪", count: 720, unit: "reviews", credibility: "medium" },
-    { name: "Reddit r/bodybuilding", icon: "💬", count: 280, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 8, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 25, unit: "reviews", credibility: "medium" },
+    { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -3157,8 +2707,8 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/SwissRX.png",
   logoSize: "sm",
   rating: 4.7,
-  reviewCount: 820,
-  price: 65,                       // 30-serving tub
+  reviewCount: 380,
+  price: 89,                       // 30 Servings on The Feed
   servingsPerContainer: 30,
   caloriesPerServing: 25,
   servingSize: "1 Scoop",
@@ -3171,13 +2721,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["recovery", "health"],
   imageEmoji: "🦴",
   transparencyScore: 96,
-  sentiment: {
-    "Joint Recovery": 93,
-    "Tendon Health": 90,
-    Value: 68,
-    Taste: 82,
-    Effectiveness: 91,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Fortigel® Collagen Hydrolysate",
@@ -3203,12 +2747,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 480, unit: "reviews", credibility: "high" },
-    { name: "SwissRX website", icon: "🏪", count: 240, unit: "reviews", credibility: "medium" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 78, unit: "posts", credibility: "medium" },
-    { name: "Road Trail Run", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 380, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -3220,10 +2759,10 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "swissrx.com",
   logo: "/logo/SwissRX.png",
   logoSize: "sm",
-  rating: 4.7,
-  reviewCount: 680,
-  price: 75,                       // 30-serving tub
-  servingsPerContainer: 30,
+  rating: 4.8,
+  reviewCount: 243,
+  price: 85,                       // 14 servings on The Feed
+  servingsPerContainer: 14,
   carbsPerServing: 15,
   sodiumPerServing: 40,
   caffeinePerServing: 0,
@@ -3240,13 +2779,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["recovery", "health", "immunity"],
   imageEmoji: "🌿",
   transparencyScore: 94,
-  sentiment: {
-    Recovery: 93,
-    "Gut Health": 90,
-    Taste: 86,
-    Value: 65,
-    Inflammation: 88,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Brown Rice Protein",
@@ -3284,11 +2817,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 380, unit: "reviews", credibility: "high" },
-    { name: "SwissRX website", icon: "🏪", count: 210, unit: "reviews", credibility: "medium" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 68, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 243, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -3389,20 +2918,14 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Supplement",
   logoDomain: "maurten.com",
   logo: "/logo/maurten.png",
-  rating: 4.0,
-  reviewCount: 680,
-  price: 65,                       // box of 6 systems
-  servingsPerContainer: 6,
+  rating: 0,
+  reviewCount: 0,
+  price: 70,                       // 4 servings (confirmed)
+  servingsPerContainer: 4,
   goals: ["endurance"],
   imageEmoji: "🧪",
   transparencyScore: 85,
-  sentiment: {
-    "GI Comfort": 72,
-    Performance: 78,
-    Value: 44,
-    Convenience: 65,
-    Innovation: 90,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Sodium Bicarbonate",
@@ -3426,15 +2949,7 @@ const CURATED_PRODUCTS: Product[] = [
       note: "GI issues remain a real risk even with hydrogel delivery — Cycling Weekly noted potential digestive upset. Always test in training, never first on race day",
     },
   ],
-  sources: [
-    { name: "Running.Reviews", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Cycling Weekly", icon: "📝", count: 1, unit: "review", credibility: "high" },
-    { name: "nutritiontriathlon.com", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "The 5k Runner", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/running", icon: "💬", count: 280, unit: "posts", credibility: "medium" },
-    { name: "Amazon", icon: "🛒", count: 395, unit: "reviews", credibility: "high" },
-    { name: "PubMed", icon: "🔬", count: 5, unit: "studies", credibility: "high" },
-  ],
+  sources: [],
 },
 
 {
@@ -3444,9 +2959,9 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Supplement",
   logoDomain: "flycarb.com",
   logo: "/logo/flycarb.png",
-  rating: 4.3,
-  reviewCount: 240,
-  price: 32,                       // weight-based 4-portion system
+  rating: 4.2,
+  reviewCount: 91,
+  price: 39.99,                    // 4 Pack on The Feed
   servingsPerContainer: 4,
   isHydrogel: false,
   isBatchTested: false,
@@ -3456,13 +2971,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance"],
   imageEmoji: "🧪",
   transparencyScore: 88,
-  sentiment: {
-    "GI Comfort": 82,
-    Value: 90,
-    Performance: 78,
-    Convenience: 85,
-    "Dosing Precision": 92,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Sodium Bicarbonate in gel base",
@@ -3486,10 +2995,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 155, unit: "reviews", credibility: "high" },
-    { name: "Amazon", icon: "🛒", count: 68, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/cycling", icon: "💬", count: 17, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 5, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 91, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -3501,9 +3007,9 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "santamadre.com",
   logo: "/logo/Santamadre.png",
   logoSize: "sm",
-  rating: 4.5,
-  reviewCount: 380,
-  price: 38,                       // box of 6 x 3-dose systems
+  rating: 4.1,
+  reviewCount: 23,
+  price: 34.99,                    // Box of 6 on The Feed
   servingsPerContainer: 6,
   carbsPerServing: 36,
   sodiumPerServing: 0,
@@ -3521,13 +3027,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "health"],
   imageEmoji: "💨",
   transparencyScore: 89,
-  sentiment: {
-    Performance: 88,
-    "GI Comfort": 80,
-    Value: 82,
-    Convenience: 75,
-    Innovation: 92,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Amaranthus Hypochondriacus Extract (9% nitrate)",
@@ -3559,12 +3059,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 195, unit: "reviews", credibility: "high" },
-    { name: "SANTAMADRE website", icon: "🏪", count: 120, unit: "reviews", credibility: "medium" },
-    { name: "i-run.com", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Nutri-Bay", icon: "🏪", count: 55, unit: "reviews", credibility: "medium" },
-    { name: "Reddit r/cycling", icon: "💬", count: 9, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 5, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 23, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -3575,9 +3070,9 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "drinknomio.com",
   category: "Supplement",
   logo: "/logo/nomio.png",
-  rating: 4.4,
-  reviewCount: 520,
-  price: 38,                       // 4-pack of 60ml shots (~$9.50/shot)
+  rating: 4.6,
+  reviewCount: 274,
+  price: 28,                       // 4 Serving Box (60ml per serving) on The Feed
   servingsPerContainer: 4,
   caloriesPerServing: 27,
   servingSize: "1 bottle",
@@ -3590,13 +3085,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "health"],
   imageEmoji: "🥦",
   transparencyScore: 86,
-  sentiment: {
-    Performance: 80,
-    "GI Comfort": 88,
-    Taste: 52,
-    Value: 55,
-    Innovation: 95,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Organic Broccoli Sprout Extract (80%)",
@@ -3619,12 +3108,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 280, unit: "reviews", credibility: "high" },
-    { name: "Nomio website", icon: "🏪", count: 160, unit: "reviews", credibility: "medium" },
-    { name: "Outside Online", icon: "📝", count: 1, unit: "article", credibility: "high" },
-    { name: "The Globe and Mail", icon: "📝", count: 1, unit: "article", credibility: "high" },
-    { name: "Reddit r/running", icon: "💬", count: 48, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 274, unit: "reviews", credibility: "medium" },
+    { name: "Cologne List", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 // ── ELECTROLYTE & HYDRATION ───────────────────────────────────
@@ -3636,9 +3121,9 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Hydration",
   logoDomain: "lmnt.com",
   logo: "/logo/lmnt.png",
-  rating: 4.6,
-  reviewCount: 48200,
-  price: 40,                       // 30-stick box
+  rating: 4.8,
+  reviewCount: 2845,
+  price: 45,                       // Box of 30 on The Feed
   servingsPerContainer: 30,
   carbsPerServing: 1,
   sodiumPerServing: 1000,
@@ -3656,13 +3141,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery", "health"],
   imageEmoji: "🧂",
   transparencyScore: 90,
-  sentiment: {
-    Taste: 88,
-    Electrolytes: 93,
-    "GI Comfort": 91,
-    Value: 78,
-    Mixability: 95,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Sodium Chloride",
@@ -3694,13 +3173,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 28400, unit: "reviews", credibility: "high" },
-    { name: "Walmart", icon: "🛒", count: 8600, unit: "reviews", credibility: "high" },
-    { name: "LMNT website", icon: "🏪", count: 6200, unit: "reviews", credibility: "medium" },
-    { name: "Reddit r/running", icon: "💬", count: 1800, unit: "posts", credibility: "medium" },
-    { name: "Healthline", icon: "📝", count: 1, unit: "review", credibility: "high" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 2845, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -3774,8 +3247,8 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "thefeed.com",
   logo: "/logo/thefeedlab.png",
   rating: 4.6,
-  reviewCount: 520,
-  price: 30,                       // 30-serving bag
+  reviewCount: 290,
+  price: 29,                       // 30 Servings on The Feed
   servingsPerContainer: 30,
   carbsPerServing: 8,
   sodiumPerServing: 450,
@@ -3793,13 +3266,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "💧",
   transparencyScore: 92,
-  sentiment: {
-    Taste: 86,
-    Electrolytes: 90,
-    "GI Comfort": 92,
-    Mixability: 94,
-    Value: 88,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Sodium Citrate + Sodium Chloride",
@@ -3823,11 +3290,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 380, unit: "reviews", credibility: "high" },
-    { name: "Amazon", icon: "🛒", count: 110, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 30, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 290, unit: "reviews", credibility: "medium" },
+    { name: "NSF Certified for Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -3838,10 +3302,10 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Carbohydrate Mix",
   logoDomain: "precisionfuelandhydration.com",
   logo: "/logo/precision.png",
-  rating: 4.5,
-  reviewCount: 1840,
-  price: 38,                       // 16-serving bag
-  servingsPerContainer: 16,
+  rating: 4.6,
+  reviewCount: 171,
+  price: 31.99,                    // 1 Bag on The Feed
+  servingsPerContainer: 15,
   glucoseFructoseRatio: "2:1",
   carbsPerServing: 30,
   sodiumPerServing: 500,
@@ -3859,13 +3323,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "💧",
   transparencyScore: 92,
-  sentiment: {
-    Energy: 90,
-    Electrolytes: 88,
-    "GI Comfort": 89,
-    Taste: 82,
-    Value: 80,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Maltodextrin + Fructose (2:1 ratio)",
@@ -3896,66 +3354,70 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 980, unit: "reviews", credibility: "high" },
-    { name: "Running Warehouse", icon: "🏃", count: 420, unit: "reviews", credibility: "high" },
-    { name: "The Feed", icon: "📝", count: 280, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 120, unit: "posts", credibility: "medium" },
-    { name: "Runivore", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 171, unit: "reviews", credibility: "medium" },
+    { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
 {
   id: "precision-fuel-hydration-tablets",
-  name: "Electrolyte Tablets (PH 500 / 1000 / 1500)",
+  name: "Hydration Tablets (PH 500 / 1000 / 1500)",
   brand: "Precision Fuel & Hydration",
-  category: "Supplement",
+  category: "Hydration",
   logoDomain: "precisionfuelandhydration.com",
   logo: "/logo/precision.png",
-  rating: 4.6,
-  reviewCount: 2240,
-  price: 18,                       // tube of 20 tablets
-  servingsPerContainer: 20,
+  rating: 4.8,                     // all three strengths combined; each has its own below
+  reviewCount: 221,
+  price: 11.99,                    // PH 1000, 10-tablet tube (The Feed)
+  servingsPerContainer: 10,
   carbsPerServing: 3,
+  sodiumPerServing: 500,
+  caffeinePerServing: 0,
+  caloriesPerServing: 10,
+  servingSize: "1 tablet",
+  isHydrogel: false,
+  isBatchTested: true,
+  isVegan: true,
+  certifications: ["NSF Certified for Sport"],
+  imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/products/original_841f7ad8-1be5-43e7-ace9-bf65e68c819b_1200x1200.jpg?v=1762200298",
+  defaultVariantId: "ph-1000",
+  variants: [
+    { id: "ph-500", label: "PH 500", price: 11.99, servingsPerContainer: 15, sodiumPerServing: 250, rating: 4.9, reviewCount: 14,
+      imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/products/original_78041d0b-476f-4b63-b1da-5e3cb604ee53_1200x1200.jpg?v=1762200299" },
+    { id: "ph-1000", label: "PH 1000", price: 11.99, servingsPerContainer: 10, sodiumPerServing: 500, rating: 4.7, reviewCount: 110,
+      imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/products/original_841f7ad8-1be5-43e7-ace9-bf65e68c819b_1200x1200.jpg?v=1762200298" },
+    { id: "ph-1500", label: "PH 1500", price: 11.99, servingsPerContainer: 10, sodiumPerServing: 750, rating: 4.9, reviewCount: 97,
+      imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/PF_Hyd_1500tabs_Clipped_1200x1200.png?v=1756326956" },
+  ],
   goals: ["endurance", "recovery"],
   imageEmoji: "💊",
   transparencyScore: 93,
-  sentiment: {
-    Convenience: 96,
-    Electrolytes: 92,
-    "GI Comfort": 94,
-    Value: 88,
-    Taste: 82,
-  },
+  sentiment: {},
   ingredients: [
     {
-      name: "Sodium (Sodium Bicarbonate + Sodium Carbonate + Sodium Citrate)",
-      dose: "500mg / 1000mg / 1500mg (3 tiers)",
+      name: "Sodium",
+      dose: "250mg / 500mg / 750mg per tablet (PH 500 / 1000 / 1500)",
       verdict: "proven",
-      note: "Three-tier sodium system — PH 500 for light sweaters, PH 1000 for moderate, PH 1500 for heavy sweaters. Only electrolyte tablet system personalised to sweat rate",
-      pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+personalised+hydration+sweat+rate",
+      note: "Sodium is the main electrolyte lost in sweat. The three strengths let you match intake to how much and how salty you sweat — PH 500 for light or low-salt sweaters, PH 1500 for heavy, salty sweaters or long hot events. One tablet is made up in 500ml of water.",
+      pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise+sweat",
     },
     {
-      name: "Potassium + Calcium + Magnesium",
-      dose: "260mg K / 40mg Ca / 20mg Mg per litre",
-      verdict: "proven",
-      note: "Full 4-electrolyte profile — hypotonic formula absorbed faster than isotonic sports drinks. NSF Certified for Sport, vegan, gluten-free",
+      name: "Potassium, Calcium and Magnesium",
+      dose: "130mg / 20mg / 10mg per tablet",
+      verdict: "likely",
+      note: "Smaller amounts of the other electrolytes lost in sweat; losses of these are far lower than sodium, so the amounts here are modest.",
+      pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=electrolyte+sweat+losses+potassium+magnesium",
     },
     {
-      name: "Effervescent tablet format",
-      dose: "10 kcal / 3g carbs per tablet",
-      verdict: "proven",
-      note: "Dissolves in 16oz water — mild citrus flavour, virtually calorie-free. Designed to complement carb intake from gels and drink mixes without adding extra sugars",
+      name: "Dextrose",
+      dose: "3g carbs",
+      verdict: "likely",
+      note: "A small amount of sugar that helps the effervescent tablet dissolve and taste; not a meaningful fuel source.",
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 1480, unit: "reviews", credibility: "high" },
-    { name: "Running Warehouse", icon: "🏃", count: 380, unit: "reviews", credibility: "high" },
-    { name: "The Feed", icon: "📝", count: 240, unit: "reviews", credibility: "high" },
-    { name: "Runivore", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 140, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 221, unit: "reviews", credibility: "medium" },
+    { name: "NSF Certified for Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -3966,9 +3428,9 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Supplement",
   logoDomain: "precisionfuelandhydration.com",
   logo: "/logo/precision.png",
-  rating: 4.5,
-  reviewCount: 980,
-  price: 15,                       // 15-capsule blister pack
+  rating: 5,
+  reviewCount: 48,
+  price: 9.99,                     // 15 Tablets on The Feed
   servingsPerContainer: 15,
   servingSize: "1 Tablet",
   isHydrogel: false,
@@ -3981,13 +3443,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "💊",
   transparencyScore: 95,
-  sentiment: {
-    Convenience: 97,
-    "GI Comfort": 96,
-    Taste: 95,
-    Value: 85,
-    Portability: 98,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Trisodium Citrate + Sodium Chloride",
@@ -4010,11 +3466,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 580, unit: "reviews", credibility: "high" },
-    { name: "The Feed", icon: "📝", count: 240, unit: "reviews", credibility: "high" },
-    { name: "Runivore", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/ultrarunning", icon: "💬", count: 160, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 48, unit: "reviews", credibility: "medium" },
+    { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -4024,10 +3477,10 @@ const CURATED_PRODUCTS: Product[] = [
   brand: "Mortal Hydration",
   category: "Hydration",
   logo: "/logo/mortal.png",
-  rating: 4.5,
-  reviewCount: 1240,
-  price: 32,                       // 30-stick box
-  servingsPerContainer: 30,
+  rating: 4.6,
+  reviewCount: 1475,
+  price: 34.99,                    // 25 Pack on The Feed
+  servingsPerContainer: 25,
   carbsPerServing: 1,
   sodiumPerServing: 300,
   caffeinePerServing: 0,
@@ -4044,13 +3497,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "💀",
   transparencyScore: 85,
-  sentiment: {
-    Taste: 93,
-    Electrolytes: 88,
-    "GI Comfort": 87,
-    Value: 84,
-    Variety: 92,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Evaporated Cane Syrup + Dextrose",
@@ -4080,12 +3527,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 620, unit: "reviews", credibility: "high" },
-    { name: "Amazon", icon: "🛒", count: 380, unit: "reviews", credibility: "high" },
-    { name: "FueledByLOLZ", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 120, unit: "posts", credibility: "medium" },
-    { name: "Mortal website", icon: "🏪", count: 120, unit: "reviews", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 1475, unit: "reviews", credibility: "medium" },
+    { name: "NSF Certified for Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -4096,10 +3539,10 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Supplement",
   logoDomain: "skratchlabs.com",
   logo: "/logo/skratch.png",
-  rating: 4.5,
-  reviewCount: 840,
-  price: 22,                       // 15-serving pouch
-  servingsPerContainer: 15,
+  rating: 4.8,
+  reviewCount: 20,
+  price: 44.95,                    // 60 Servings on The Feed
+  servingsPerContainer: 60,
   carbsPerServing: 1,
   sodiumPerServing: 400,
   caffeinePerServing: 0,
@@ -4116,13 +3559,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "⚡",
   transparencyScore: 94,
-  sentiment: {
-    Convenience: 92,
-    Electrolytes: 91,
-    "GI Comfort": 95,
-    Value: 88,
-    Versatility: 93,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Sodium Citrate + Salt",
@@ -4146,11 +3583,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Skratch Labs website", icon: "🏪", count: 380, unit: "reviews", credibility: "medium" },
-    { name: "Amazon", icon: "🛒", count: 280, unit: "reviews", credibility: "high" },
-    { name: "REI", icon: "🏕️", count: 130, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/ultrarunning", icon: "💬", count: 50, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 20, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -4161,10 +3594,10 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Hydration",
   logoDomain: "guenergy.com",
   logo: "/logo/gu.png",
-  rating: 4.4,
-  reviewCount: 2840,
-  price: 45,                       // 12-serving bag
-  servingsPerContainer: 12,
+  rating: 4.7,
+  reviewCount: 246,
+  price: 40,                       // Box of 10 on The Feed
+  servingsPerContainer: 10,
   carbsPerServing: 60,
   sodiumPerServing: 320,
   proteinPerServing: 0,
@@ -4181,13 +3614,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "muscle"],
   imageEmoji: "🔶",
   transparencyScore: 84,
-  sentiment: {
-    Energy: 92,
-    Electrolytes: 86,
-    Taste: 82,
-    "GI Comfort": 78,
-    Value: 76,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Maltodextrin + Fructose",
@@ -4232,13 +3659,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 1600, unit: "reviews", credibility: "high" },
-    { name: "REI", icon: "🏕️", count: 420, unit: "reviews", credibility: "high" },
-    { name: "The Feed", icon: "📝", count: 380, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 290, unit: "posts", credibility: "medium" },
-    { name: "GU website", icon: "🏪", count: 150, unit: "reviews", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 246, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -4249,9 +3670,9 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Energy Chew",
   logoDomain: "saltstick.com",
   logo: "/logo/saltstick.png",
-  rating: 4.6,
-  reviewCount: 8400,
-  price: 12,                       // 60-count tube
+  rating: 4.8,
+  reviewCount: 594,
+  price: 19.95,                    // 60ct Bottle on The Feed
   servingsPerContainer: 30,
   carbsPerServing: 2,
   sodiumPerServing: 100,
@@ -4268,13 +3689,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "🧂",
   transparencyScore: 93,
-  sentiment: {
-    Convenience: 97,
-    "GI Comfort": 94,
-    Electrolytes: 90,
-    Value: 93,
-    Taste: 82,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Sodium Citrate + Potassium + Calcium + Magnesium",
@@ -4298,12 +3713,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 6200, unit: "reviews", credibility: "high" },
-    { name: "REI", icon: "🏕️", count: 980, unit: "reviews", credibility: "high" },
-    { name: "The Feed", icon: "📝", count: 820, unit: "reviews", credibility: "high" },
-    { name: "Running Warehouse", icon: "🏃", count: 280, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/running", icon: "💬", count: 120, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 594, unit: "reviews", credibility: "medium" },
+    { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -4313,10 +3724,10 @@ const CURATED_PRODUCTS: Product[] = [
   brand: "Fringe",
   category: "Supplement",
   logo: "/logo/fringe.png",
-  rating: 4.6,
-  reviewCount: 380,
-  price: 28,                       // 60-serving tub
-  servingsPerContainer: 60,
+  rating: 4.8,
+  reviewCount: 5,
+  price: 48,                       // 45 Servings on The Feed
+  servingsPerContainer: 45,
   carbsPerServing: 1,
   servingSize: "1 Scoop",
   isHydrogel: false,
@@ -4328,13 +3739,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery", "health"],
   imageEmoji: "🪨",
   transparencyScore: 92,
-  sentiment: {
-    Purity: 95,
-    Versatility: 97,
-    Value: 92,
-    "GI Comfort": 96,
-    Electrolytes: 88,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Ocean Sea Salt (Sodium Chloride)",
@@ -4365,11 +3770,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Recovery For Athletes", icon: "🏃", count: 220, unit: "reviews", credibility: "medium" },
-    { name: "Amazon", icon: "🛒", count: 120, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/ultrarunning", icon: "💬", count: 40, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 5, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -4380,8 +3781,8 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Carbohydrate Mix",
   logoDomain: "styrkr.com",
   logo: "/logo/Styrkr.png",
-  rating: 4.5,
-  reviewCount: 1680,
+  rating: 5,
+  reviewCount: 15,
   price: 28,                       // 12-pack single-serve sachets
   servingsPerContainer: 12,
   glucoseFructoseRatio: "1:0.8",
@@ -4402,13 +3803,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "⚡",
   transparencyScore: 87,
-  sentiment: {
-    Energy: 91,
-    "GI Comfort": 88,
-    Mixability: 82,
-    Value: 94,
-    Taste: 74,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Maltodextrin + Fructose (1:0.8 ratio)",
@@ -4440,13 +3835,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Styrkr website", icon: "🏪", count: 680, unit: "reviews", credibility: "medium" },
-    { name: "Amazon UK", icon: "🛒", count: 540, unit: "reviews", credibility: "high" },
-    { name: "Sigma Sports", icon: "🏪", count: 180, unit: "reviews", credibility: "medium" },
-    { name: "FueledByLOLZ", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "FeedTheHabit", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/cycling", icon: "💬", count: 90, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 15, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -4459,21 +3848,15 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "ascentprotein.com",
   category: "Protein",
   logo: "/logo/ascent.png",
-  rating: 4.4,
-  reviewCount: 18400,
-  price: 55,                       // 2lb bag, ~28 servings
+  rating: 0,
+  reviewCount: 0,
+  price: 54.99,                    // bag, 25–30 servings depending on flavour (confirmed)
   servingsPerContainer: 28,
   proteinPerServing: 25,
   goals: ["muscle", "recovery"],
   imageEmoji: "🥛",
   transparencyScore: 78,
-  sentiment: {
-    Effectiveness: 88,
-    Taste: 74,
-    Mixability: 72,
-    Value: 78,
-    Ingredients: 90,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Native Whey Protein Isolate",
@@ -4511,16 +3894,7 @@ const CURATED_PRODUCTS: Product[] = [
       note: "Mid-2024 formula change quietly introduced soy under 'natural flavours' — allergen warning now reads 'milk and soy'. Some reviewers flag this as a transparency concern. Always check current label if soy is a concern",
     },
   ],
-  sources: [
-    { name: "Amazon", icon: "🛒", count: 12400, unit: "reviews", credibility: "high" },
-    { name: "Ascent website", icon: "🏪", count: 3800, unit: "reviews", credibility: "medium" },
-    { name: "Walmart", icon: "🛒", count: 1200, unit: "reviews", credibility: "high" },
-    { name: "BarBend", icon: "📝", count: 1, unit: "review", credibility: "high" },
-    { name: "Reddit r/Fitness", icon: "💬", count: 620, unit: "posts", credibility: "medium" },
-    { name: "ProteinPowder.com", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
-  ],
+  sources: [],
 },
 // ── PROTEIN ──────────────────────────────────────────────────
 
@@ -4531,10 +3905,10 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Protein",
   logoDomain: "thefeed.com",
   logo: "/logo/thefeedlab.png",
-  rating: 4.7,
-  reviewCount: 840,
-  price: 60,                       // 2lb bag, ~28 servings
-  servingsPerContainer: 28,
+  rating: 4.8,
+  reviewCount: 293,
+  price: 44,                       // 20 Servings on The Feed
+  servingsPerContainer: 20,
   proteinPerServing: 25,
   caffeinePerServing: 0,
   isHydrogel: false,
@@ -4548,13 +3922,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["muscle", "recovery"],
   imageEmoji: "🥛",
   transparencyScore: 94,
-  sentiment: {
-    Effectiveness: 92,
-    Taste: 84,
-    Mixability: 88,
-    Value: 80,
-    Ingredients: 94,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Triple Whey Blend (Concentrate + Isolate + Native Isolate)",
@@ -4578,11 +3946,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 580, unit: "reviews", credibility: "high" },
-    { name: "Amazon", icon: "🛒", count: 180, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 80, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 293, unit: "reviews", credibility: "medium" },
+    { name: "NSF Certified for Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -4594,9 +3959,9 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "enervit.com",
   logo: "/logo/enervit.png",
   logoSize: "lg",
-  rating: 4.6,
-  reviewCount: 620,
-  price: 58,                       // 500g tub, ~20 servings
+  rating: 0,
+  reviewCount: 0,
+  price: 49.99,                    // 20 Servings on The Feed
   servingsPerContainer: 20,
   carbsPerServing: 0,
   sodiumPerServing: 72,
@@ -4615,13 +3980,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["muscle", "recovery"],
   imageEmoji: "🧬",
   transparencyScore: 96,
-  sentiment: {
-    Effectiveness: 93,
-    Taste: 88,
-    Mixability: 85,
-    "GI Comfort": 94,
-    Ingredients: 97,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Beta-Lactoglobulin (BLG-100) Whey Isolate",
@@ -4644,14 +4003,7 @@ const CURATED_PRODUCTS: Product[] = [
       note: "11.2g EAAs per serving — lactose-free, making it suitable for sensitive athletes. Tropical flavour dissolves in cold water for a refreshing post-workout drink rather than a heavy shake",
     },
   ],
-  sources: [
-    { name: "The Feed", icon: "📝", count: 380, unit: "reviews", credibility: "high" },
-    { name: "Enervit website", icon: "🏪", count: 180, unit: "reviews", credibility: "medium" },
-    { name: "XMiles", icon: "🛒", count: 60, unit: "reviews", credibility: "medium" },
-    { name: "Reddit r/cycling", icon: "💬", count: 55, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
-  ],
+  sources: [],
 },
 
 {
@@ -4662,9 +4014,9 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "livemomentous.com",
   logo: "/logo/Momentous.png",
   logoSize: "lg",
-  rating: 4.8,
-  reviewCount: 6400,
-  price: 65,                       // 1.5lb bag, 25 servings
+  rating: 4.5,
+  reviewCount: 133,
+  price: 59.99,                    // 25 Servings on The Feed
   servingsPerContainer: 25,
   carbsPerServing: 2,
   sodiumPerServing: 40,
@@ -4682,13 +4034,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["muscle", "recovery"],
   imageEmoji: "🥛",
   transparencyScore: 97,
-  sentiment: {
-    Effectiveness: 93,
-    Taste: 86,
-    Mixability: 90,
-    Value: 74,
-    Ingredients: 98,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "European Grass-Fed Whey Protein Isolate",
@@ -4718,13 +4064,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 3800, unit: "reviews", credibility: "high" },
-    { name: "Momentous website", icon: "🏪", count: 1600, unit: "reviews", credibility: "medium" },
-    { name: "The Feed", icon: "📝", count: 580, unit: "reviews", credibility: "high" },
-    { name: "Garage Gym Reviews", icon: "📝", count: 1, unit: "review", credibility: "high" },
-    { name: "Reddit r/Fitness", icon: "💬", count: 420, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 133, unit: "reviews", credibility: "medium" },
+    { name: "NSF Certified for Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -4735,9 +4076,9 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Protein",
   logoDomain: "myprotein.com",
   logo: "/logo/myprotein.png",
-  rating: 4.3,
-  reviewCount: 24800,
-  price: 38,                       // 1.1lb bag, 20 servings — best value clear whey
+  rating: 4.4,
+  reviewCount: 34,
+  price: 31.46,                    // 20 Servings on The Feed
   servingsPerContainer: 20,
   carbsPerServing: 1,
   sodiumPerServing: 10,
@@ -4756,13 +4097,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["muscle", "recovery"],
   imageEmoji: "🍹",
   transparencyScore: 80,
-  sentiment: {
-    Taste: 86,
-    Value: 96,
-    "GI Comfort": 84,
-    Effectiveness: 82,
-    Mixability: 72,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Hydrolyzed Whey Protein Isolate",
@@ -4792,13 +4127,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 14200, unit: "reviews", credibility: "high" },
-    { name: "Myprotein website", icon: "🏪", count: 7400, unit: "reviews", credibility: "medium" },
-    { name: "Muscle & Strength", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Lift Vault", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/Fitness", icon: "💬", count: 1800, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 34, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -4809,9 +4138,9 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Protein",
   logoDomain: "amacx.com",
   logo: "/logo/amacx.png",
-  rating: 4.5,
-  reviewCount: 680,
-  price: 42,                       // 880g tub, ~15 servings
+  rating: 4.7,
+  reviewCount: 7,
+  price: 64.99,                    // 15 Servings on The Feed
   servingsPerContainer: 15,
   carbsPerServing: 30,
   sodiumPerServing: 141,
@@ -4829,13 +4158,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["recovery", "muscle"],
   imageEmoji: "🍫",
   transparencyScore: 88,
-  sentiment: {
-    Recovery: 91,
-    Taste: 86,
-    Mixability: 88,
-    "GI Comfort": 84,
-    Value: 80,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Whey Protein Concentrate",
@@ -4872,12 +4195,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amacx website", icon: "🏪", count: 340, unit: "reviews", credibility: "medium" },
-    { name: "The Feed", icon: "📝", count: 220, unit: "reviews", credibility: "high" },
-    { name: "XMiles", icon: "🛒", count: 80, unit: "reviews", credibility: "medium" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 40, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 7, unit: "reviews", credibility: "medium" },
+    { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -4888,9 +4207,9 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Protein",
   logoDomain: "thorne.com",
   logo: "/logo/thorne.png",
-  rating: 4.7,
-  reviewCount: 12800,
-  price: 58,                       // 30-serving tub
+  rating: 3.9,
+  reviewCount: 9,
+  price: 65,                       // 30 Servings on The Feed
   servingsPerContainer: 30,
   carbsPerServing: 4,
   sodiumPerServing: 105,
@@ -4908,13 +4227,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["muscle", "recovery"],
   imageEmoji: "🥛",
   transparencyScore: 96,
-  sentiment: {
-    Effectiveness: 91,
-    Taste: 82,
-    Mixability: 86,
-    "GI Comfort": 92,
-    Value: 78,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Whey Protein Isolate (non-denatured)",
@@ -4945,13 +4258,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 8400, unit: "reviews", credibility: "high" },
-    { name: "Thorne website", icon: "🏪", count: 2600, unit: "reviews", credibility: "medium" },
-    { name: "Walmart", icon: "🛒", count: 980, unit: "reviews", credibility: "high" },
-    { name: "Recovery For Athletes", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/Fitness", icon: "💬", count: 480, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 9, unit: "reviews", credibility: "medium" },
+    { name: "NSF Certified for Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -4964,8 +4272,8 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/promix.png",
   logoSize: "sm",
   rating: 4.7,
-  reviewCount: 8200,
-  price: 62,                       // 2.5lb bag, 30 servings
+  reviewCount: 42,
+  price: 68.99,                    // 2.5 lb Bag on The Feed
   servingsPerContainer: 30,
   carbsPerServing: 9,
   sodiumPerServing: 120,
@@ -4984,13 +4292,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["muscle", "recovery"],
   imageEmoji: "🥛",
   transparencyScore: 97,
-  sentiment: {
-    Effectiveness: 92,
-    Taste: 82,
-    Mixability: 88,
-    Ingredients: 99,
-    Value: 82,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Grass-Fed Whey Protein Isolate (Native, Cold-Processed, Acid-Free)",
@@ -5020,13 +4322,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 5800, unit: "reviews", credibility: "high" },
-    { name: "Promix website", icon: "🏪", count: 1800, unit: "reviews", credibility: "medium" },
-    { name: "The Feed", icon: "📝", count: 380, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/Fitness", icon: "💬", count: 220, unit: "posts", credibility: "medium" },
-    { name: "Healthline", icon: "📝", count: 1, unit: "review", credibility: "high" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 42, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -5037,9 +4333,9 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Protein",
   logoDomain: "transparentlabs.com",
   logo: "/logo/transparentlabs.png",
-  rating: 4.7,
-  reviewCount: 32400,
-  price: 60,                       // 2lb bag, 30 servings
+  rating: 4.8,
+  reviewCount: 26,
+  price: 64.99,                    // 30 Servings on The Feed
   servingsPerContainer: 30,
   carbsPerServing: 1,
   sodiumPerServing: 210,
@@ -5058,13 +4354,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["muscle", "recovery"],
   imageEmoji: "🥛",
   transparencyScore: 98,
-  sentiment: {
-    Effectiveness: 94,
-    Taste: 88,
-    Mixability: 92,
-    Ingredients: 99,
-    Value: 84,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "100% Grass-Fed Whey Protein Isolate",
@@ -5094,14 +4384,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 18400, unit: "reviews", credibility: "high" },
-    { name: "Transparent Labs website", icon: "🏪", count: 8600, unit: "reviews", credibility: "medium" },
-    { name: "The Feed", icon: "📝", count: 3200, unit: "reviews", credibility: "high" },
-    { name: "Garage Gym Reviews", icon: "📝", count: 1, unit: "review", credibility: "high" },
-    { name: "Reddit r/Fitness", icon: "💬", count: 1400, unit: "posts", credibility: "medium" },
-    { name: "Healthline", icon: "📝", count: 1, unit: "review", credibility: "high" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 26, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -5115,9 +4398,9 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "swissrx.com",
   logo: "/logo/SwissRX.png",
   logoSize: "sm",
-  rating: 4.7,
-  reviewCount: 1240,
-  price: 55,                       // 30-capsule bottle
+  rating: 4.6,
+  reviewCount: 51,
+  price: 55,                       // 30 Servings on The Feed
   servingsPerContainer: 30,
   servingSize: "1 Capsule",
   isHydrogel: false,
@@ -5130,13 +4413,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["gut health", "immunity", "health"],
   imageEmoji: "🦠",
   transparencyScore: 88,
-  sentiment: {
-    "Gut Comfort": 91,
-    Immunity: 88,
-    "Bloating Relief": 86,
-    Value: 72,
-    Diversity: 95,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "6-Strain Probiotic Blend",
@@ -5163,12 +4440,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 680, unit: "reviews", credibility: "high" },
-    { name: "SwissRX website", icon: "🏪", count: 420, unit: "reviews", credibility: "medium" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 98, unit: "posts", credibility: "medium" },
-    { name: "Road Trail Run", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 51, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -5181,8 +4453,8 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/SwissRX.png",
   logoSize: "sm",
   rating: 4.7,
-  reviewCount: 820,
-  price: 60,                       // 30-serving capsules
+  reviewCount: 48,
+  price: 119,                      // 30 Servings on The Feed
   servingsPerContainer: 30,
   caloriesPerServing: 10,
   servingSize: "4 Capsules",
@@ -5195,13 +4467,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["gut health", "immunity", "health"],
   imageEmoji: "🛡️",
   transparencyScore: 90,
-  sentiment: {
-    "Gut Barrier": 92,
-    Immunity: 90,
-    "GI Comfort": 88,
-    Value: 68,
-    Recovery: 86,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Serum-Derived Immunoglobulin Concentrate (IgG)",
@@ -5226,11 +4492,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 420, unit: "reviews", credibility: "high" },
-    { name: "SwissRX website", icon: "🏪", count: 280, unit: "reviews", credibility: "medium" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 82, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 48, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -5242,9 +4504,9 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "swissrx.com",
   logo: "/logo/SwissRX.png",
   logoSize: "sm",
-  rating: 4.6,
-  reviewCount: 680,
-  price: 58,                       // 30-serving capsules
+  rating: 4.4,
+  reviewCount: 96,
+  price: 69,                       // 30 Servings on The Feed
   servingsPerContainer: 30,
   caloriesPerServing: 5,
   servingSize: "1 Scoop",
@@ -5257,13 +4519,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["gut health", "recovery", "health"],
   imageEmoji: "🔒",
   transparencyScore: 89,
-  sentiment: {
-    "Gut Barrier": 91,
-    "Leaky Gut": 88,
-    Inflammation: 87,
-    Value: 68,
-    "GI Comfort": 90,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "L-Glutamine",
@@ -5295,11 +4551,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 360, unit: "reviews", credibility: "high" },
-    { name: "SwissRX website", icon: "🏪", count: 220, unit: "reviews", credibility: "medium" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 58, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 96, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -5384,8 +4636,8 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "thorne.com",
   logo: "/logo/thorne.png",
   rating: 4.7,
-  reviewCount: 6800,
-  price: 42,                       // 30-capsule blister pack
+  reviewCount: 80,
+  price: 42,                       // 30 Servings on The Feed
   servingsPerContainer: 30,
   servingSize: "1 Capsule",
   isHydrogel: false,
@@ -5397,13 +4649,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["gut health", "immunity", "health"],
   imageEmoji: "🦠",
   transparencyScore: 97,
-  sentiment: {
-    "Gut Health": 91,
-    Immunity: 90,
-    "Bloating Relief": 86,
-    Value: 82,
-    Convenience: 94,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "HOWARU® Restore II Blend — 4 clinically studied strains",
@@ -5427,14 +4673,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 4200, unit: "reviews", credibility: "high" },
-    { name: "Thorne website", icon: "🏪", count: 1400, unit: "reviews", credibility: "medium" },
-    { name: "Walmart", icon: "🛒", count: 680, unit: "reviews", credibility: "high" },
-    { name: "The Feed", icon: "📝", count: 380, unit: "reviews", credibility: "high" },
-    { name: "Recovery For Athletes", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 140, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 5, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 80, unit: "reviews", credibility: "medium" },
+    { name: "NSF Certified for Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -5445,9 +4685,9 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Probiotic",
   logoDomain: "thorne.com",
   logo: "/logo/thorne.png",
-  rating: 4.7,
-  reviewCount: 2840,
-  price: 48,                       // 30-stick packs
+  rating: 4.9,
+  reviewCount: 7,
+  price: 46,                       // 30 Servings on The Feed
   servingsPerContainer: 30,
   servingSize: "1 Stick Pack",
   isHydrogel: false,
@@ -5460,13 +4700,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["gut health", "immunity", "health"],
   imageEmoji: "🌱",
   transparencyScore: 96,
-  sentiment: {
-    Convenience: 97,
-    "Gut Health": 92,
-    "Bloating Relief": 89,
-    Value: 78,
-    Innovation: 95,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "PreforPro® Bacteriophage Prebiotic",
@@ -5498,13 +4732,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 1680, unit: "reviews", credibility: "high" },
-    { name: "Thorne website", icon: "🏪", count: 620, unit: "reviews", credibility: "medium" },
-    { name: "The Feed", icon: "📝", count: 420, unit: "reviews", credibility: "high" },
-    { name: "Mayo Clinic Store", icon: "🏪", count: 120, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/Fitness", icon: "💬", count: 88, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 7, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -5515,9 +4743,9 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Probiotic",
   logoDomain: "zbiotics.com",
   logo: "/logo/Zbiotics.png",
-  rating: 4.5,
-  reviewCount: 18400,
-  price: 48,                       // 12-pack of 15ml bottles (~$4/bottle)
+  rating: 4.8,
+  reviewCount: 55,
+  price: 108,                      // 12-Pack on The Feed
   servingsPerContainer: 12,
   carbsPerServing: 0,
   sodiumPerServing: 3,
@@ -5534,13 +4762,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["gut health", "health"],
   imageEmoji: "🍺",
   transparencyScore: 86,
-  sentiment: {
-    Effectiveness: 82,
-    Convenience: 95,
-    "Next Day": 84,
-    Value: 72,
-    Innovation: 99,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Bacillus Subtilis ZB183™ (Genetically Engineered)",
@@ -5563,12 +4785,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 12400, unit: "reviews", credibility: "high" },
-    { name: "ZBiotics website", icon: "🏪", count: 4200, unit: "reviews", credibility: "medium" },
-    { name: "The Nutrition Insider", icon: "📝", count: 1, unit: "review", credibility: "high" },
-    { name: "Reddit r/running", icon: "💬", count: 480, unit: "posts", credibility: "medium" },
-    { name: "Alive and Well", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 55, unit: "reviews", credibility: "medium" },
+    { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -5579,9 +4797,9 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Probiotic",
   logoDomain: "promixnutrition.com",
   logo: "/logo/promix.png",
-  rating: 4.6,
-  reviewCount: 3840,
-  price: 35,                       // 30-serving jar
+  rating: 4.7,
+  reviewCount: 39,
+  price: 58,                       // Bag of 30 on The Feed
   servingsPerContainer: 30,
   carbsPerServing: 2,
   caloriesPerServing: 5,
@@ -5597,13 +4815,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["gut health", "immunity", "health"],
   imageEmoji: "🌿",
   transparencyScore: 92,
-  sentiment: {
-    "Bloating Relief": 91,
-    Taste: 86,
-    "GI Comfort": 90,
-    Value: 88,
-    Ingredients: 96,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "3-Strain Probiotic Blend",
@@ -5635,12 +4847,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 2400, unit: "reviews", credibility: "high" },
-    { name: "Promix website", icon: "🏪", count: 980, unit: "reviews", credibility: "medium" },
-    { name: "The Feed", icon: "📝", count: 320, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/Fitness", icon: "💬", count: 140, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 39, unit: "reviews", credibility: "medium" },
   ],
 },
 // ── ENERGY CHEWS ─────────────────────────────────────────────
@@ -5653,8 +4860,8 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "amacx.com",
   logo: "/logo/amacx.png",
   rating: 4.5,
-  reviewCount: 1240,
-  price: 28,                       // 12-pack
+  reviewCount: 112,
+  price: 37.99,                    // Box of 12 on The Feed
   servingsPerContainer: 12,
   carbsPerServing: 30,
   sodiumPerServing: 100,
@@ -5673,13 +4880,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "🍬",
   transparencyScore: 92,
-  sentiment: {
-    Taste: 92,
-    "GI Comfort": 91,
-    Energy: 85,
-    Convenience: 94,
-    Value: 84,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Fruit Pulp (51%) + Glucose + Sugar",
@@ -5709,12 +4910,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amacx website", icon: "🏪", count: 580, unit: "reviews", credibility: "medium" },
-    { name: "Running.Reviews", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "The Feed", icon: "📝", count: 380, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 180, unit: "posts", credibility: "medium" },
-    { name: "XMiles", icon: "🛒", count: 100, unit: "reviews", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 112, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -5725,9 +4921,9 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Energy Chew",
   logoDomain: "amacx.com",
   logo: "/logo/amacx.png",
-  rating: 4.6,
-  reviewCount: 820,
-  price: 30,                       // 12-pack
+  rating: 4.4,
+  reviewCount: 123,
+  price: 44.99,                    // Box of 12 on The Feed
   servingsPerContainer: 12,
   carbsPerServing: 40,
   sodiumPerServing: 100,
@@ -5746,13 +4942,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "⚡",
   transparencyScore: 91,
-  sentiment: {
-    Energy: 93,
-    "GI Comfort": 90,
-    Taste: 89,
-    Convenience: 92,
-    Value: 82,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Fruit Pulp (51%) + Glucose Syrup + Sugar",
@@ -5782,11 +4972,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amacx website", icon: "🏪", count: 420, unit: "reviews", credibility: "medium" },
-    { name: "The Feed", icon: "📝", count: 280, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 88, unit: "posts", credibility: "medium" },
-    { name: "XMiles", icon: "🛒", count: 34, unit: "reviews", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 123, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -5797,9 +4983,9 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Energy Chew",
   logoDomain: "clifbar.com",
   logo: "/logo/clif.png",
-  rating: 4.4,
-  reviewCount: 18400,
-  price: 22,                       // 18-pack box
+  rating: 4.8,
+  reviewCount: 708,
+  price: 46.74,                    // Box of 18 on The Feed
   servingsPerContainer: 18,
   carbsPerServing: 21,
   sodiumPerServing: 55,
@@ -5816,13 +5002,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "🍬",
   transparencyScore: 86,
-  sentiment: {
-    Taste: 88,
-    Convenience: 91,
-    "GI Comfort": 82,
-    Value: 88,
-    Variety: 92,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Organic Tapioca Syrup + Organic Cane Sugar + Organic Maltodextrin",
@@ -5852,13 +5032,9 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 9400, unit: "reviews", credibility: "high" },
-    { name: "REI", icon: "🏕️", count: 3800, unit: "reviews", credibility: "high" },
-    { name: "Running Warehouse", icon: "🏃", count: 2600, unit: "reviews", credibility: "high" },
-    { name: "Running.Reviews", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/running", icon: "💬", count: 1400, unit: "posts", credibility: "medium" },
-    { name: "road.cc", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 708, unit: "reviews", credibility: "medium" },
+    { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
+    { name: "USDA Organic", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -5869,9 +5045,9 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Energy Chew",
   logoDomain: "noogs.com",
   logo: "/logo/noogs.png",
-  rating: 4.5,
-  reviewCount: 680,
-  price: 28,                       // 12-pack
+  rating: 4.9,
+  reviewCount: 101,
+  price: 36.99,                    // Box of 12 on The Feed
   servingsPerContainer: 12,
   carbsPerServing: 19,
   sodiumPerServing: 150,
@@ -5889,13 +5065,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "🍋",
   transparencyScore: 88,
-  sentiment: {
-    Taste: 92,
-    "Flavour Fatigue": 95,
-    "GI Comfort": 88,
-    Energy: 84,
-    Value: 82,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Glucose + Sugar + Fructose",
@@ -5924,10 +5094,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 480, unit: "reviews", credibility: "high" },
-    { name: "Amazon", icon: "🛒", count: 140, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/running", icon: "💬", count: 60, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 2, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 101, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -5938,10 +5105,10 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Energy Chew",
   logoDomain: "precisionfuelandhydration.com",
   logo: "/logo/precision.png",
-  rating: 4.5,
-  reviewCount: 1840,
-  price: 30,                       // 20-pack box
-  servingsPerContainer: 20,
+  rating: 4.7,
+  reviewCount: 362,
+  price: 42.99,                    // 15 Packets on The Feed
+  servingsPerContainer: 15,
   glucoseFructoseRatio: "2:1",
   carbsPerServing: 30,
   sodiumPerServing: 0,
@@ -5960,13 +5127,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "⚪",
   transparencyScore: 93,
-  sentiment: {
-    "GI Comfort": 91,
-    Energy: 88,
-    Convenience: 90,
-    Value: 80,
-    Taste: 84,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Maltodextrin + Fructose (2:1 ratio)",
@@ -5990,12 +5151,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 920, unit: "reviews", credibility: "high" },
-    { name: "Running Warehouse", icon: "🏃", count: 480, unit: "reviews", credibility: "high" },
-    { name: "Amazon", icon: "🛒", count: 280, unit: "reviews", credibility: "high" },
-    { name: "FTP Endurance Fuel", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 160, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 362, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -6007,8 +5163,8 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "precisionfuelandhydration.com",
   logo: "/logo/precision.png",
   rating: 4.6,
-  reviewCount: 920,
-  price: 36,                       // 20-pack box
+  reviewCount: 68,
+  price: 86.6,                     // 20 Packets on The Feed
   servingsPerContainer: 20,
   glucoseFructoseRatio: "2:1",
   carbsPerServing: 60,
@@ -6028,13 +5184,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "⚪",
   transparencyScore: 94,
-  sentiment: {
-    Energy: 93,
-    "GI Comfort": 90,
-    Convenience: 88,
-    Value: 78,
-    Taste: 86,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Maltodextrin + Fructose (2:1 ratio)",
@@ -6058,11 +5208,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 480, unit: "reviews", credibility: "high" },
-    { name: "Running Warehouse", icon: "🏃", count: 240, unit: "reviews", credibility: "high" },
-    { name: "Amazon", icon: "🛒", count: 150, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/cycling", icon: "💬", count: 50, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 68, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -6073,10 +5219,10 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Energy Chew",
   logoDomain: "scienceinsport.com",
   logo: "/logo/sis.png",
-  rating: 4.4,
-  reviewCount: 2840,
-  price: 32,                       // 20-pack box
-  servingsPerContainer: 20,
+  rating: 4.8,
+  reviewCount: 233,
+  price: 68.97,                    // Box of 18 on The Feed
+  servingsPerContainer: 18,
   glucoseFructoseRatio: "1:0.8",
   carbsPerServing: 45,
   sodiumPerServing: 40,
@@ -6095,13 +5241,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "🔵",
   transparencyScore: 84,
-  sentiment: {
-    Energy: 91,
-    "GI Comfort": 84,
-    Taste: 86,
-    Convenience: 80,
-    Value: 78,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Maltodextrin + Fructose Syrup + Glucose Syrup (1:0.8 ratio)",
@@ -6131,13 +5271,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "SiS website", icon: "🏪", count: 1400, unit: "reviews", credibility: "medium" },
-    { name: "Amazon", icon: "🛒", count: 820, unit: "reviews", credibility: "high" },
-    { name: "Running.Reviews", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Centurion Running", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/running", icon: "💬", count: 340, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 5, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 233, unit: "reviews", credibility: "medium" },
+    { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -6148,9 +5283,9 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Energy Chew",
   logoDomain: "honeystinger.com",
   logo: "/logo/honeystinger.png",
-  rating: 4.4,
-  reviewCount: 8400,
-  price: 24,                       // 12-pack box
+  rating: 4.7,
+  reviewCount: 323,
+  price: 31.66,                    // Box of 12 on The Feed
   servingsPerContainer: 12,
   carbsPerServing: 23,
   sodiumPerServing: 40,
@@ -6168,13 +5303,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "🍯",
   transparencyScore: 84,
-  sentiment: {
-    Taste: 92,
-    "GI Comfort": 86,
-    Energy: 80,
-    Value: 84,
-    Convenience: 88,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Organic Tapioca Syrup + Organic Sugar + Organic Honey",
@@ -6205,13 +5334,9 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 5200, unit: "reviews", credibility: "high" },
-    { name: "REI", icon: "🏕️", count: 1400, unit: "reviews", credibility: "high" },
-    { name: "Fleet Feet", icon: "🏃", count: 820, unit: "reviews", credibility: "high" },
-    { name: "Trailspace", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/running", icon: "💬", count: 480, unit: "posts", credibility: "medium" },
-    { name: "WeeViews", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 2, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 323, unit: "reviews", credibility: "medium" },
+    { name: "USDA Organic", icon: "✅", count: 1, unit: "certification", credibility: "high" },
+    { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -6222,9 +5347,9 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Energy Chew",
   logoDomain: "guenergy.com",
   logo: "/logo/gu.png",
-  rating: 4.3,
-  reviewCount: 6800,
-  price: 22,                       // 12-pack box
+  rating: 4.7,
+  reviewCount: 159,
+  price: 30,                       // Box of 12 on The Feed
   servingsPerContainer: 12,
   carbsPerServing: 24,
   sodiumPerServing: 40,
@@ -6242,13 +5367,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "🔶",
   transparencyScore: 82,
-  sentiment: {
-    Taste: 90,
-    "GI Comfort": 82,
-    Energy: 84,
-    Value: 86,
-    Variety: 91,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Organic Tapioca Syrup + Organic Cane Sugar + Maltodextrin",
@@ -6279,13 +5398,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 3800, unit: "reviews", credibility: "high" },
-    { name: "REI", icon: "🏕️", count: 1200, unit: "reviews", credibility: "high" },
-    { name: "Running Warehouse", icon: "🏃", count: 920, unit: "reviews", credibility: "high" },
-    { name: "Garage Gym Reviews", icon: "📝", count: 1, unit: "review", credibility: "high" },
-    { name: "Reddit r/running", icon: "💬", count: 480, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 159, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -6297,10 +5410,10 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "enervit.com",
   logo: "/logo/enervit.png",
   logoSize: "lg",
-  rating: 4.3,
-  reviewCount: 480,
-  price: 30,                       // 25-pack box
-  servingsPerContainer: 25,
+  rating: 5,
+  reviewCount: 20,
+  price: 109.99,                   // Box of 30 on The Feed
+  servingsPerContainer: 30,
   glucoseFructoseRatio: "2:1",
   carbsPerServing: 30,
   sodiumPerServing: 0,
@@ -6319,13 +5432,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "🔶",
   transparencyScore: 84,
-  sentiment: {
-    Taste: 86,
-    "GI Comfort": 88,
-    Energy: 82,
-    Texture: 84,
-    Convenience: 80,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Dextrose + Fructose Syrup + Sucrose (2:1 ratio)",
@@ -6354,11 +5461,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 245, unit: "reviews", credibility: "high" },
-    { name: "Amazon", icon: "🛒", count: 142, unit: "reviews", credibility: "high" },
-    { name: "XMiles", icon: "🛒", count: 68, unit: "reviews", credibility: "medium" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 25, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 20, unit: "reviews", credibility: "medium" },
+    { name: "Cologne List", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -6369,10 +5473,10 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Energy Chew",
   logoDomain: "santamadre.com",
   logo: "/logo/Santamadre.png",
-  rating: 4.5,
-  reviewCount: 620,
-  price: 26,                       // 20-pack box (~$1.30/bar)
-  servingsPerContainer: 20,
+  rating: 4.8,
+  reviewCount: 46,
+  price: 29.99,                    // 10 Pack on The Feed
+  servingsPerContainer: 10,
   carbsPerServing: 37,
   sodiumPerServing: 4,
   proteinPerServing: 0,
@@ -6389,13 +5493,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["endurance", "recovery"],
   imageEmoji: "🍭",
   transparencyScore: 85,
-  sentiment: {
-    Taste: 93,
-    "GI Comfort": 90,
-    Energy: 86,
-    Convenience: 88,
-    Value: 85,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Sugar + Glucose Syrup + Fructose",
@@ -6425,12 +5523,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 380, unit: "reviews", credibility: "high" },
-    { name: "i-run.com", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Sportbenzin", icon: "🏪", count: 120, unit: "reviews", credibility: "medium" },
-    { name: "Reddit r/cycling", icon: "💬", count: 58, unit: "posts", credibility: "medium" },
-    { name: "Nutri-Bay", icon: "🏪", count: 62, unit: "reviews", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 46, unit: "reviews", credibility: "medium" },
   ],
 },
 // ── SLEEP & RECOVERY ─────────────────────────────────────────
@@ -6442,9 +5535,9 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Supplement",
   logoDomain: "transparentlabs.com",
   logo: "/logo/transparentlabs.png",
-  rating: 4.6,
-  reviewCount: 2840,
-  price: 30,                       // 30-serving bottle (4 capsules/serving)
+  rating: 4,
+  reviewCount: 5,
+  price: 29.99,                    // 30 Servings on The Feed
   servingsPerContainer: 30,
   servingSize: "4 Capsules",
   isHydrogel: false,
@@ -6456,13 +5549,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["sleep", "recovery"],
   imageEmoji: "😴",
   transparencyScore: 97,
-  sentiment: {
-    "Sleep Quality": 91,
-    "No Grogginess": 94,
-    Recovery: 88,
-    Value: 82,
-    Ingredients: 98,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "L-Glycine",
@@ -6504,13 +5591,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 1200, unit: "reviews", credibility: "high" },
-    { name: "Transparent Labs website", icon: "🏪", count: 980, unit: "reviews", credibility: "medium" },
-    { name: "Amazon", icon: "🛒", count: 480, unit: "reviews", credibility: "high" },
-    { name: "Garage Gym Reviews", icon: "📝", count: 1, unit: "review", credibility: "high" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 180, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 5, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 5, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -6683,9 +5764,9 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Supplement",
   logoDomain: "livemomentous.com",
   logo: "/logo/Momentous.png",
-  rating: 4.6,
-  reviewCount: 3840,
-  price: 40,                       // 30-serving bottle (2 capsules/serving)
+  rating: 4.4,
+  reviewCount: 76,
+  price: 44.99,                    // 30 Servings on The Feed
   servingsPerContainer: 30,
   servingSize: "2 Capsules",
   isHydrogel: false,
@@ -6698,13 +5779,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["sleep", "recovery"],
   imageEmoji: "😴",
   transparencyScore: 96,
-  sentiment: {
-    "Sleep Quality": 90,
-    "No Grogginess": 88,
-    Recovery: 86,
-    Value: 80,
-    Convenience: 94,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Melatonin",
@@ -6744,14 +5819,9 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 2200, unit: "reviews", credibility: "high" },
-    { name: "Momentous website", icon: "🏪", count: 980, unit: "reviews", credibility: "medium" },
-    { name: "The Feed", icon: "📝", count: 480, unit: "reviews", credibility: "high" },
-    { name: "Sleep Doctor", icon: "📝", count: 1, unit: "review", credibility: "high" },
-    { name: "Sleep Foundation", icon: "📝", count: 1, unit: "review", credibility: "high" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 180, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 76, unit: "reviews", credibility: "medium" },
+    { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
+    { name: "NSF Certified for Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -6762,9 +5832,9 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Supplement",
   logoDomain: "cheribundi.com",
   logo: "/logo/cheribundi.png",
-  rating: 4.4,
-  reviewCount: 2840,
-  price: 22,                       // 60-count bottle (30 servings)
+  rating: 4.5,
+  reviewCount: 55,
+  price: 60,                       // 30 Serving on The Feed
   servingsPerContainer: 30,
   carbsPerServing: 5,
   sodiumPerServing: 15,
@@ -6778,13 +5848,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["sleep", "recovery"],
   imageEmoji: "🍒",
   transparencyScore: 82,
-  sentiment: {
-    Taste: 91,
-    "Sleep Quality": 85,
-    Recovery: 82,
-    Value: 88,
-    Convenience: 93,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Tart Cherry Juice Concentrate",
@@ -6809,12 +5873,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 1800, unit: "reviews", credibility: "high" },
-    { name: "Cheribundi website", icon: "🏪", count: 680, unit: "reviews", credibility: "medium" },
-    { name: "Reddit r/running", icon: "💬", count: 220, unit: "posts", credibility: "medium" },
-    { name: "The Feed", icon: "📝", count: 140, unit: "reviews", credibility: "high" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 55, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -6826,8 +5885,8 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "pillarperformance.com",
   logo: "/logo/pillar.png",
   rating: 4.7,
-  reviewCount: 2480,
-  price: 42,                       // 40-serving tub or sachets
+  reviewCount: 1067,
+  price: 49.99,                    // 40 Servings on The Feed
   servingsPerContainer: 40,
   caloriesPerServing: 10,
   servingSize: "1 Packet",
@@ -6842,13 +5901,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["sleep", "recovery", "health"],
   imageEmoji: "🌙",
   transparencyScore: 94,
-  sentiment: {
-    "Sleep Quality": 92,
-    "Muscle Recovery": 90,
-    "GI Comfort": 91,
-    Value: 82,
-    Taste: 86,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "TRAACS® Magnesium Bisglycinate (Magnesium Glycinate Dihydrate)",
@@ -6879,14 +5932,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 980, unit: "reviews", credibility: "high" },
-    { name: "Fleet Feet", icon: "🏃", count: 420, unit: "reviews", credibility: "high" },
-    { name: "XMiles", icon: "🛒", count: 380, unit: "reviews", credibility: "medium" },
-    { name: "Running.Reviews", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Run4It", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 280, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 1067, unit: "reviews", credibility: "medium" },
+    { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -6897,9 +5944,9 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Supplement",
   logoDomain: "cadencenutrition.com",
   logo: "/logo/cadence.png",
-  rating: 4.5,
-  reviewCount: 620,
-  price: 34,                       // 30-sachet box
+  rating: 4.7,
+  reviewCount: 16,
+  price: 45,                       // Box of 30 on The Feed
   servingsPerContainer: 30,
   carbsPerServing: 0,
   sodiumPerServing: 100,
@@ -6917,13 +5964,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["sleep", "recovery"],
   imageEmoji: "🍒",
   transparencyScore: 90,
-  sentiment: {
-    "Sleep Quality": 88,
-    Hydration: 91,
-    Recovery: 87,
-    Taste: 85,
-    Convenience: 92,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Sodium (100mg) + Potassium (100mg) + Marine Magnesium Aquamin® (50mg)",
@@ -6957,13 +5998,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 280, unit: "reviews", credibility: "high" },
-    { name: "XMiles", icon: "🛒", count: 180, unit: "reviews", credibility: "medium" },
-    { name: "Run4It", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Vitacost", icon: "🛒", count: 120, unit: "reviews", credibility: "medium" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 40, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 16, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -6974,10 +6009,10 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Supplement",
   logoDomain: "shopbeam.com",
   logo: "/logo/beam.png",
-  rating: 4.0,
-  reviewCount: 12400,
-  price: 45,                       // 30-serving bag
-  servingsPerContainer: 30,
+  rating: 4.8,
+  reviewCount: 153,
+  price: 39.99,                    // 20 Serving on The Feed
+  servingsPerContainer: 20,
   caloriesPerServing: 15,
   servingSize: "1 Scoop",
   isHydrogel: false,
@@ -6991,13 +6026,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["sleep", "recovery"],
   imageEmoji: "☕",
   transparencyScore: 78,
-  sentiment: {
-    Taste: 92,
-    "Sleep Quality": 80,
-    Convenience: 88,
-    Value: 70,
-    Ingredients: 76,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Organic Coconut Milk Powder + Cocoa Powder + Cinnamon",
@@ -7036,13 +6065,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 7200, unit: "reviews", credibility: "high" },
-    { name: "Walmart", icon: "🛒", count: 3400, unit: "reviews", credibility: "high" },
-    { name: "Beam website", icon: "🏪", count: 1400, unit: "reviews", credibility: "medium" },
-    { name: "Live it Up", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/Fitness", icon: "💬", count: 400, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 153, unit: "reviews", credibility: "medium" },
+    { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -7053,8 +6077,8 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Supplement",
   logo: "/logo/nokt.png",
   rating: 4.5,
-  reviewCount: 1840,
-  price: 35,                       // 30-count bottle
+  reviewCount: 30,
+  price: 39,                       // 30 Servings on The Feed
   servingsPerContainer: 30,
   caloriesPerServing: 2,
   servingSize: "1 Gummy",
@@ -7068,13 +6092,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["sleep", "recovery"],
   imageEmoji: "🍒",
   transparencyScore: 84,
-  sentiment: {
-    "Sleep Quality": 91,
-    "No Grogginess": 90,
-    Taste: 88,
-    Value: 80,
-    Convenience: 93,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Phytomelatonin (plant-derived)",
@@ -7108,11 +6126,8 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 980, unit: "reviews", credibility: "high" },
-    { name: "Nokt website", icon: "🏪", count: 680, unit: "reviews", credibility: "medium" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 180, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 30, unit: "reviews", credibility: "medium" },
+    { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -7123,9 +6138,9 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Supplement",
   logoDomain: "swissrx.com",
   logo: "/logo/SwissRX.png",
-  rating: 4.7,
-  reviewCount: 980,
-  price: 58,                       // 15-serving bottle (capsules)
+  rating: 3.6,
+  reviewCount: 25,
+  price: 58,                       // 15 Servings on The Feed
   servingsPerContainer: 15,
   servingSize: "4 Capsules",
   isHydrogel: false,
@@ -7137,13 +6152,7 @@ const CURATED_PRODUCTS: Product[] = [
   goals: ["sleep", "recovery"],
   imageEmoji: "🌙",
   transparencyScore: 92,
-  sentiment: {
-    "Sleep Quality": 93,
-    "Staying Asleep": 91,
-    "No Grogginess": 90,
-    Recovery: 88,
-    Value: 68,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Phosphatidylserine",
@@ -7184,11 +6193,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 620, unit: "reviews", credibility: "high" },
-    { name: "SwissRX website", icon: "🏪", count: 240, unit: "reviews", credibility: "medium" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 120, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 25, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -7202,8 +6207,8 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "drhydrate.com",
 imageEmoji: "💧",
   rating: 4.6,
-  reviewCount: 30,
-  price: 38,                       // ~$38 for box of 15 sachets (~$2.53/serving)
+  reviewCount: 31,
+  price: 31.95,                    // Box of 15 on The Feed
   servingsPerContainer: 15,
   carbsPerServing: 3.6,
   sodiumPerServing: 210,
@@ -7220,13 +6225,7 @@ imageEmoji: "💧",
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/DrHydrate_Pineapple003_1200x1200.png?v=1752515857",
   goals: ["endurance", "recovery", "health"],
   transparencyScore: 90,
-  sentiment: {
-    Electrolytes: 93,
-    "GI Comfort": 88,
-    Taste: 86,
-    Recovery: 85,
-    Value: 80,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Full 4-Electrolyte Blend (Na 210mg, K 160mg, Mg 63mg, Ca 160mg)",
@@ -7282,73 +6281,10 @@ imageEmoji: "💧",
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 30, unit: "reviews", credibility: "high" },
-    { name: "Dr. Hydrate website", icon: "🏪", count: 1, unit: "page", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 31, unit: "reviews", credibility: "medium" },
   ],
 },
 // ── ENERGY GELS ───────────────────────────────────────────────
-
-{
-  id: "clif-shot-gel",
-  name: "Shot Energy Gel",
-  brand: "Clif",
-  category: "Energy Gel",
-  logoDomain: "clifbar.com",
-  logo: "/logo/clif.png",
-  imageEmoji: "⚡",
-  rating: 4.3,
-  reviewCount: 12400,
-  price: 28,                       // 24-pack box
-  servingsPerContainer: 24,
-  carbsPerServing: 25,
-  goals: ["endurance"],
-  transparencyScore: 82,
-  sentiment: {
-    Taste: 84,
-    "GI Comfort": 80,
-    Energy: 82,
-    Value: 90,
-    Variety: 92,
-  },
-  ingredients: [
-    {
-      name: "Organic Maltodextrin + Organic Dried Cane Syrup",
-      dose: "25g carbs",
-      verdict: "proven",
-      note: "Organic maltodextrin as primary carb source — same energy delivery as conventional maltodextrin but with organic certification. Brown rice syrup in older formula replaced by maltodextrin in current reformulation",
-      pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=maltodextrin+carbohydrate+endurance+exercise",
-      examineUrl: "https://examine.com/supplements/maltodextrin/",
-    },
-    {
-      name: "Green Tea Extract (Caffeine)",
-      dose: "25mg or 50mg (select flavours)",
-      verdict: "proven",
-      note: "Natural caffeine from green tea — Double Espresso delivers 100mg, most caffeinated flavours 25-50mg. Natural source preferred over synthetic caffeine by many athletes",
-      examineUrl: "https://examine.com/supplements/caffeine/",
-    },
-    {
-      name: "Electrolytes (Na 40mg, K 30mg, Mg)",
-      dose: "",
-      verdict: "proven",
-      note: "Basic electrolyte support — sodium, potassium and magnesium for fluid balance and muscle function. Modest doses suit shorter efforts; supplement with dedicated electrolytes for long sessions",
-    },
-    {
-      name: "No artificial preservatives or colours",
-      dose: "",
-      verdict: "proven",
-      note: "Organic ingredients, non-GMO — one of the most accessible and affordable gels on the market. 15+ flavours. Best value organic energy gel in the category",
-    },
-  ],
-  sources: [
-    { name: "Amazon", icon: "🛒", count: 8200, unit: "reviews", credibility: "high" },
-    { name: "REI", icon: "🏕️", count: 2400, unit: "reviews", credibility: "high" },
-    { name: "Running Warehouse", icon: "🏃", count: 1200, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/running", icon: "💬", count: 480, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
-  ],
-},
 
 {
   id: "maurten-gel-100-caf-100",
@@ -7358,9 +6294,9 @@ imageEmoji: "💧",
   logoDomain: "maurten.com",
   logo: "/logo/maurten.png",
   imageEmoji: "⚡",
-  rating: 4.6,
-  reviewCount: 4800,
-  price: 50,                       // box of 12
+  rating: 4.8,
+  reviewCount: 679,
+  price: 52,                       // Box of 12 on The Feed
   servingsPerContainer: 12,
   carbsPerServing: 25,
   sodiumPerServing: 22,
@@ -7377,13 +6313,7 @@ imageEmoji: "💧",
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/maurten_caffgel_box_clipped_1200x1200.png?v=1761179846",
   goals: ["endurance"],
   transparencyScore: 96,
-  sentiment: {
-    Energy: 95,
-    "GI Comfort": 90,
-    Focus: 92,
-    Taste: 82,
-    Value: 52,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Glucose + Fructose (0.8:1 ratio) in Hydrogel",
@@ -7409,12 +6339,8 @@ imageEmoji: "💧",
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 1800, unit: "reviews", credibility: "high" },
-    { name: "Amazon", icon: "🛒", count: 1400, unit: "reviews", credibility: "high" },
-    { name: "REI", icon: "🏕️", count: 680, unit: "reviews", credibility: "high" },
-    { name: "Runivore", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 320, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 679, unit: "reviews", credibility: "medium" },
+    { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -7426,9 +6352,9 @@ imageEmoji: "💧",
   logoDomain: "guenergy.com",
   logo: "/logo/gu.png",
   imageEmoji: "🔶",
-  rating: 4.4,
-  reviewCount: 9800,
-  price: 48,                       // box of 24
+  rating: 4.7,
+  reviewCount: 456,
+  price: 64.75,                    // Box of 24 on The Feed
   servingsPerContainer: 24,
   glucoseFructoseRatio: "2:1",
   carbsPerServing: 21,
@@ -7442,13 +6368,7 @@ imageEmoji: "💧",
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/products/gu-energy-gels-cherry-lime-with-caffeine-box-of-24-gu-roctane-gel-25446430152_1200x1200.jpg?v=1764697583",
   goals: ["endurance", "recovery"],
   transparencyScore: 80,
-  sentiment: {
-    Energy: 90,
-    "GI Comfort": 76,
-    Focus: 84,
-    Taste: 86,
-    Value: 78,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Maltodextrin + Fructose (2:1 ratio)",
@@ -7494,13 +6414,7 @@ imageEmoji: "💧",
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 5400, unit: "reviews", credibility: "high" },
-    { name: "REI", icon: "🏕️", count: 2200, unit: "reviews", credibility: "high" },
-    { name: "Running Warehouse", icon: "🏃", count: 1400, unit: "reviews", credibility: "high" },
-    { name: "Coach Levi", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/running", icon: "💬", count: 680, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 3, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 456, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -7512,10 +6426,10 @@ imageEmoji: "💧",
   logoDomain: "precisionfuelandhydration.com",
   logo: "/logo/precision.png",
   imageEmoji: "⚡",
-  rating: 4.5,
-  reviewCount: 1640,
-  price: 38,                       // box of 20
-  servingsPerContainer: 20,
+  rating: 4.8,
+  reviewCount: 286,
+  price: 61.99,                    // 15 Gels on The Feed
+  servingsPerContainer: 15,
   glucoseFructoseRatio: "2:1",
   carbsPerServing: 30,
   sodiumPerServing: 0,
@@ -7532,13 +6446,7 @@ imageEmoji: "💧",
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/products/original_a47b0c64-416c-484a-967a-1a078f839385_1200x1200.jpg?v=1775062467",
   goals: ["endurance"],
   transparencyScore: 92,
-  sentiment: {
-    Energy: 90,
-    Focus: 88,
-    "GI Comfort": 88,
-    Taste: 82,
-    Value: 82,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Maltodextrin + Fructose (2:1 ratio)",
@@ -7570,12 +6478,8 @@ imageEmoji: "💧",
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 820, unit: "reviews", credibility: "high" },
-    { name: "Running Warehouse", icon: "🏃", count: 480, unit: "reviews", credibility: "high" },
-    { name: "Amazon", icon: "🛒", count: 280, unit: "reviews", credibility: "high" },
-    { name: "Runivore", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 60, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 286, unit: "reviews", credibility: "medium" },
+    { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -7589,9 +6493,9 @@ imageEmoji: "💧",
   logoDomain: "clifbar.com",
   logo: "/logo/clif.png",
   imageEmoji: "🍫",
-  rating: 4.3,
-  reviewCount: 28400,
-  price: 28,                       // box of 12 x 68g bars
+  rating: 4.7,
+  reviewCount: 807,
+  price: 17.5,                     // Box of 12 on The Feed
   servingsPerContainer: 12,
   carbsPerServing: 44,
   sodiumPerServing: 220,
@@ -7608,13 +6512,7 @@ imageEmoji: "💧",
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/clif_bar_cookiesandcreme_12pk_1200x1200.png?v=1731959966",
   goals: ["endurance", "health"],
   transparencyScore: 78,
-  sentiment: {
-    Taste: 88,
-    Energy: 82,
-    Value: 94,
-    "GI Comfort": 74,
-    Convenience: 90,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Organic Rolled Oats + Organic Brown Rice Syrup",
@@ -7645,12 +6543,8 @@ imageEmoji: "💧",
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 18400, unit: "reviews", credibility: "high" },
-    { name: "REI", icon: "🏕️", count: 4800, unit: "reviews", credibility: "high" },
-    { name: "Walmart", icon: "🛒", count: 3200, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/running", icon: "💬", count: 1200, unit: "posts", credibility: "medium" },
-    { name: "Eat This Not That", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 2, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 807, unit: "reviews", credibility: "medium" },
+    { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -7661,21 +6555,15 @@ imageEmoji: "💧",
   category: "Energy Bar",
   logoDomain: "larabar.com",
   imageEmoji: "🍎",
-  rating: 4.4,
-  reviewCount: 18200,
-  price: 22,                       // box of 16 bars
+  rating: 0,
+  reviewCount: 0,
+  price: 26.99,                    // box of 16 (confirmed)
   servingsPerContainer: 16,
   carbsPerServing: 24,
   proteinPerServing: 5,
   goals: ["endurance", "health"],
   transparencyScore: 92,
-  sentiment: {
-    Taste: 91,
-    Ingredients: 96,
-    "GI Comfort": 88,
-    Value: 84,
-    Simplicity: 98,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Dates (primary ingredient)",
@@ -7697,14 +6585,7 @@ imageEmoji: "💧",
       note: "Real dried fruit for flavour and natural sugars — no added sugar, no artificial colours or flavours, no preservatives. Certified gluten-free, vegan, non-GMO, kosher",
     },
   ],
-  sources: [
-    { name: "Amazon", icon: "🛒", count: 12400, unit: "reviews", credibility: "high" },
-    { name: "Walmart", icon: "🛒", count: 3600, unit: "reviews", credibility: "high" },
-    { name: "REI", icon: "🏕️", count: 1200, unit: "reviews", credibility: "high" },
-    { name: "Coach Levi", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "Reddit r/running", icon: "💬", count: 340, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 2, unit: "studies", credibility: "high" },
-  ],
+  sources: [],
 },
 
 {
@@ -7714,9 +6595,9 @@ imageEmoji: "💧",
   category: "Energy Bar",
   logoDomain: "rxbar.com",
   imageEmoji: "💪",
-  rating: 4.4,
-  reviewCount: 24800,
-  price: 28,                       // box of 12 bars
+  rating: 4.7,
+  reviewCount: 207,
+  price: 27.99,                    // Box of 12 on The Feed
   servingsPerContainer: 12,
   carbsPerServing: 23,
   sodiumPerServing: 310,
@@ -7734,13 +6615,7 @@ imageEmoji: "💧",
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/RXBAR_PB-choc_002_1200x1200.png?v=1754511297",
   goals: ["recovery", "muscle", "health"],
   transparencyScore: 94,
-  sentiment: {
-    Ingredients: 96,
-    Protein: 92,
-    Taste: 84,
-    Texture: 72,
-    Value: 80,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Dates",
@@ -7770,12 +6645,7 @@ imageEmoji: "💧",
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 16200, unit: "reviews", credibility: "high" },
-    { name: "Walmart", icon: "🛒", count: 5400, unit: "reviews", credibility: "high" },
-    { name: "REI", icon: "🏕️", count: 1800, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/fitness", icon: "💬", count: 620, unit: "posts", credibility: "medium" },
-    { name: "99Boulders", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 2, unit: "studies", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 207, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -7786,21 +6656,15 @@ imageEmoji: "💧",
   category: "Energy Bar",
   logoDomain: "kindsnacks.com",
   imageEmoji: "🥜",
-  rating: 4.3,
-  reviewCount: 32400,
-  price: 22,                       // box of 12 bars
-  servingsPerContainer: 12,
+  rating: 0,
+  reviewCount: 0,
+  price: 12.99,                    // box of 6 (confirmed)
+  servingsPerContainer: 6,
   carbsPerServing: 20,
   proteinPerServing: 6,
   goals: ["health", "endurance"],
   transparencyScore: 84,
-  sentiment: {
-    Taste: 90,
-    Ingredients: 86,
-    "GI Comfort": 88,
-    Value: 86,
-    Convenience: 92,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Almonds + Mixed Nuts (primary ingredient)",
@@ -7828,14 +6692,7 @@ imageEmoji: "💧",
       note: "Gluten-free certified — 30+ flavours. Dark Chocolate Nuts & Sea Salt is the standout. Widely available in grocery stores, airports and convenience stores — highest retail availability of any bar here",
     },
   ],
-  sources: [
-    { name: "Amazon", icon: "🛒", count: 22400, unit: "reviews", credibility: "high" },
-    { name: "Walmart", icon: "🛒", count: 6800, unit: "reviews", credibility: "high" },
-    { name: "REI", icon: "🏕️", count: 2200, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/running", icon: "💬", count: 380, unit: "posts", credibility: "medium" },
-    { name: "99Boulders", icon: "📝", count: 1, unit: "review", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 2, unit: "studies", credibility: "high" },
-  ],
+  sources: [],
 },
 // ── OMEGA-3 ───────────────────────────────────────────────────
 
@@ -7847,9 +6704,9 @@ imageEmoji: "💧",
   logoDomain: "livemomentous.com",
   logo: "/logo/Momentous.png",
   imageEmoji: "🐟",
-  rating: 4.8,
-  reviewCount: 3840,
-  price: 45,                       // 30-serving bottle (2 capsules/serving)
+  rating: 4.9,
+  reviewCount: 30,
+  price: 39.99,                    // 30 Servings on The Feed
   servingsPerContainer: 30,
   caloriesPerServing: 20,
   servingSize: "2 Softgels",
@@ -7861,13 +6718,7 @@ imageEmoji: "💧",
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/momentous_omega3_01_df80970a-5021-4ada-8b33-998c68cd84ff_1200x1200.png?v=1786552735",
   goals: ["recovery", "health", "endurance"],
   transparencyScore: 97,
-  sentiment: {
-    "Inflammation": 93,
-    "Joint Recovery": 91,
-    "No Fishy Taste": 94,
-    "Value": 74,
-    "Purity": 98,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "EPA (Eicosapentaenoic Acid)",
@@ -7899,13 +6750,9 @@ imageEmoji: "💧",
     },
   ],
   sources: [
-    { name: "Momentous website", icon: "🏪", count: 2200, unit: "reviews", credibility: "medium" },
-    { name: "Amazon", icon: "🛒", count: 980, unit: "reviews", credibility: "high" },
-    { name: "The Feed", icon: "📝", count: 480, unit: "reviews", credibility: "high" },
-    { name: "Medical Daily", icon: "📝", count: 1, unit: "review", credibility: "high" },
-    { name: "Reddit r/triathlon", icon: "💬", count: 180, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 6, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 30, unit: "reviews", credibility: "medium" },
+    { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
+    { name: "NSF Certified for Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -7917,9 +6764,9 @@ imageEmoji: "💧",
   logoDomain: "nordicnaturals.com",
   logo: "",
   imageEmoji: "🐟",
-  rating: 4.7,
-  reviewCount: 58400,
-  price: 35,                       // 60 softgels, 30 servings
+  rating: 4.8,
+  reviewCount: 10,
+  price: 22.97,                    // 30 Servings on The Feed
   servingsPerContainer: 30,
   caloriesPerServing: 20,
   servingSize: "2 Soft Gels",
@@ -7933,13 +6780,7 @@ imageEmoji: "💧",
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/NordicNaturals_ultimatemomega_60_1200x1200.png?v=1752163848",
   goals: ["recovery", "health", "endurance"],
   transparencyScore: 96,
-  sentiment: {
-    "Inflammation": 91,
-    "No Fishy Taste": 96,
-    "Purity": 97,
-    "Value": 82,
-    "Absorption": 92,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "EPA + DHA (from purified deep sea fish oil)",
@@ -7957,13 +6798,8 @@ imageEmoji: "💧",
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 42400, unit: "reviews", credibility: "high" },
-    { name: "iHerb", icon: "🛒", count: 8200, unit: "reviews", credibility: "high" },
-    { name: "GNC", icon: "🏪", count: 3800, unit: "reviews", credibility: "medium" },
-    { name: "Healthline", icon: "📝", count: 1, unit: "review", credibility: "high" },
-    { name: "Reddit r/fitness", icon: "💬", count: 1200, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 6, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 10, unit: "reviews", credibility: "medium" },
+    { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -8129,9 +6965,9 @@ imageEmoji: "💧",
   logoDomain: "thorne.com",
   logo: "/logo/thorne.png",
   imageEmoji: "💊",
-  rating: 4.8,
-  reviewCount: 4200,
-  price: 16,                       // 60 capsules
+  rating: 4.7,
+  reviewCount: 108,
+  price: 16,                       // 60 Servings on The Feed
   servingsPerContainer: 60,
   servingSize: "1 Capsule",
   isHydrogel: false,
@@ -8142,13 +6978,7 @@ imageEmoji: "💧",
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/products/thorne-supplements-60-capsules-thorne-iron-bisglycinate-5608332296255_1200x1200.jpg?v=1762198382",
   goals: ["endurance", "health"],
   transparencyScore: 97,
-  sentiment: {
-    "GI Comfort": 94,
-    "Absorption": 96,
-    "Energy": 88,
-    "Value": 90,
-    "Purity": 97,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Ferrous Bisglycinate Chelate (Ferrochel®)",
@@ -8173,14 +7003,8 @@ imageEmoji: "💧",
     },
   ],
   sources: [
-    { name: "Amazon", icon: "🛒", count: 2800, unit: "reviews", credibility: "high" },
-    { name: "Walmart", icon: "🛒", count: 820, unit: "reviews", credibility: "high" },
-    { name: "Thorne website", icon: "🏪", count: 480, unit: "reviews", credibility: "medium" },
-    { name: "Garage Gym Reviews", icon: "📝", count: 1, unit: "review", credibility: "high" },
-    { name: "CNET", icon: "📝", count: 1, unit: "review", credibility: "high" },
-    { name: "Reddit r/running", icon: "💬", count: 280, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 108, unit: "reviews", credibility: "medium" },
+    { name: "NSF Certified for Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 
@@ -8192,10 +7016,10 @@ imageEmoji: "💧",
   logoDomain: "livemomentous.com",
   logo: "/logo/Momentous.png",
   imageEmoji: "💊",
-  rating: 4.7,
-  reviewCount: 1240,
-  price: 25,                       // 30 servings
-  servingsPerContainer: 30,
+  rating: 5,
+  reviewCount: 5,
+  price: 19.99,                    // 60 Servings on The Feed
+  servingsPerContainer: 60,
   servingSize: "1 Capsule",
   isHydrogel: false,
   isBatchTested: true,
@@ -8206,13 +7030,7 @@ imageEmoji: "💧",
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/momentous_ironplus_1200x1200.png?v=1786565487",
   goals: ["endurance", "health"],
   transparencyScore: 96,
-  sentiment: {
-    "GI Comfort": 92,
-    "Absorption": 94,
-    "Energy": 86,
-    "Value": 82,
-    "Vegan-friendly": 98,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Ferrous Bisglycinate Chelate",
@@ -8251,12 +7069,9 @@ imageEmoji: "💧",
     },
   ],
   sources: [
-    { name: "Momentous website", icon: "🏪", count: 680, unit: "reviews", credibility: "medium" },
-    { name: "Amazon", icon: "🛒", count: 380, unit: "reviews", credibility: "high" },
-    { name: "The Feed", icon: "📝", count: 180, unit: "reviews", credibility: "high" },
-    { name: "Reddit r/running", icon: "💬", count: 120, unit: "posts", credibility: "medium" },
-    { name: "PubMed", icon: "🔬", count: 4, unit: "studies", credibility: "high" },
-    { name: "Examine.com", icon: "🧪", count: 1, unit: "analysis", credibility: "high" },
+    { name: "The Feed", icon: "🛒", count: 5, unit: "reviews", credibility: "medium" },
+    { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
+    { name: "NSF Certified for Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
 {
@@ -8267,9 +7082,9 @@ imageEmoji: "💧",
   logoDomain: "santamadre.cc",
   logo: "",
   imageEmoji: "🟠",
-  rating: 4.7,
+  rating: 5,
   reviewCount: 4,
-  price: 31.99,                    // 832g bag, 16 servings (The Feed)
+  price: 31.99,                    // 16 Servings on The Feed
   servingsPerContainer: 16,
   glucoseFructoseRatio: "2:1",
   carbsPerServing: 45,
@@ -8288,13 +7103,7 @@ imageEmoji: "💧",
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/SantaMadre_CarboFuel_Lemon_1200x1200.png?v=1762268946",
   goals: ["endurance"],
   transparencyScore: 82,
-  sentiment: {
-    "GI Comfort": 85,
-    "Energy": 90,
-    "Taste": 88,
-    "Value": 78,
-    "Mixability": 84,
-  },
+  sentiment: {},
   ingredients: [
     {
       name: "Maltodextrin + Fructose (2:1 Ratio)",
@@ -8312,9 +7121,7 @@ imageEmoji: "💧",
     },
   ],
   sources: [
-    { name: "The Feed", icon: "📝", count: 4, unit: "reviews", credibility: "high" },
-    { name: "PubMed", icon: "🔬", count: 12, unit: "studies", credibility: "high" },
-    { name: "SANTAMADRE Website", icon: "🌐", count: 0, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 4, unit: "reviews", credibility: "medium" },
   ],
 },
 ];
