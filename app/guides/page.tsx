@@ -23,7 +23,7 @@ export default function GuidesPage() {
 
       <div className="max-w-3xl mx-auto px-6 py-16">
         <div className="mb-12">
-          <div className="text-xs font-mono text-muted uppercase tracking-widest mb-3">Guides</div>
+          <div className="text-xs text-muted uppercase tracking-widest mb-3">Guides</div>
           <h1 className="font-display font-bold text-4xl tracking-tight mb-4">
             Nutrition guides
           </h1>
@@ -44,7 +44,7 @@ export default function GuidesPage() {
                     <p className="text-muted text-sm leading-relaxed mb-4">{guide.desc}</p>
                     <div className="flex items-center gap-2 flex-wrap">
                       {guide.tags.map((tag) => (
-                        <span key={tag} className="text-xs bg-sand font-mono px-2 py-0.5 rounded-md">{tag}</span>
+                        <span key={tag} className="text-xs bg-sand px-2 py-0.5 rounded-md">{tag}</span>
                       ))}
                       <span className="text-xs text-muted ml-2">{guide.time}</span>
                     </div>

@@ -15,7 +15,7 @@ export default function MethodologyPage() {
 
       <div className="max-w-2xl mx-auto px-6 py-16">
         <div className="mb-12">
-          <div className="text-xs font-mono text-muted uppercase tracking-widest mb-3">Methodology</div>
+          <div className="text-xs text-muted uppercase tracking-widest mb-3">Methodology</div>
           <h1 className="font-display font-bold text-4xl tracking-tight mb-4">
             Pello Score™
           </h1>
@@ -23,8 +23,8 @@ export default function MethodologyPage() {
             A transparent, five-pillar scoring system that evaluates every sports nutrition product on the same objective criteria. Version {FULENS_SCORE_METHODOLOGY.version}.
           </p>
           <div className="flex items-center gap-3">
-            <span className="text-xs font-mono text-muted">Last updated {FULENS_SCORE_METHODOLOGY.lastUpdated}</span>
-            <span className="text-xs bg-moss/10 text-moss font-mono px-2 py-0.5 rounded-md">
+            <span className="text-xs text-muted">Last updated {FULENS_SCORE_METHODOLOGY.lastUpdated}</span>
+            <span className="text-xs bg-moss/10 text-moss px-2 py-0.5 rounded-md">
               {FULENS_SCORE_METHODOLOGY.totalPoints} point scale
             </span>
           </div>
@@ -49,7 +49,7 @@ export default function MethodologyPage() {
               <div key={pillar.name} className={`card border ${PILLAR_COLORS[pillar.name] ?? "border-sand"}`}>
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="font-display font-bold text-lg">{pillar.name}</h3>
-                  <span className="font-mono font-bold text-2xl">{pillar.weight}</span>
+                  <span className="font-bold text-2xl">{pillar.weight}</span>
                 </div>
                 <p className="text-sm text-muted leading-relaxed mb-3">{pillar.description}</p>
                 <ul className="space-y-1.5">
@@ -78,13 +78,13 @@ export default function MethodologyPage() {
               { range: "0-34", label: "Poor", color: "bg-rust/20 text-rust", desc: "Significant concerns — transparency or evidence issues" },
             ].map((item) => (
               <div key={item.range} className="card flex items-center gap-4">
-                <span className={`text-xs font-mono px-2 py-1 rounded-md font-medium flex-shrink-0 ${item.color}`}>
+                <span className={`text-xs px-2 py-1 rounded-md font-medium flex-shrink-0 ${item.color}`}>
                   {item.label}
                 </span>
                 <div className="flex-1">
                   <span className="text-xs text-muted">{item.desc}</span>
                 </div>
-                <span className="text-xs font-mono text-muted flex-shrink-0">{item.range}</span>
+                <span className="text-xs text-muted flex-shrink-0">{item.range}</span>
               </div>
             ))}
           </div>
@@ -104,7 +104,7 @@ export default function MethodologyPage() {
           <div className="space-y-2">
             {FULENS_SCORE_METHODOLOGY.principles.map((principle: string, i: number) => (
               <div key={i} className="flex items-start gap-3 py-2 border-b border-sand last:border-0">
-                <span className="text-moss font-mono text-xs flex-shrink-0 mt-0.5">✓</span>
+                <span className="text-moss text-xs flex-shrink-0 mt-0.5">✓</span>
                 <p className="text-sm text-muted">{principle}</p>
               </div>
             ))}

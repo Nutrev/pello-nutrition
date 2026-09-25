@@ -101,24 +101,24 @@ export default function ExplorePage() {
 
       <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="mb-6">
-          <div className="text-xs font-mono text-muted uppercase tracking-widest mb-1">Explore</div>
+          <div className="text-xs text-muted uppercase tracking-widest mb-1">Explore</div>
           <h1 className="font-display font-bold text-3xl tracking-tight mb-1">Product Database</h1>
           <p className="text-muted text-sm">{PRODUCTS.length} products — filter by carbs, sodium, caffeine, G:F ratio, certifications and more.</p>
         </div>
 
         {/* Example queries */}
         <div className="mb-6">
-          <div className="text-xs font-mono text-muted mb-2">Example queries</div>
+          <div className="text-xs text-muted mb-2">Example queries</div>
           <div className="flex flex-wrap gap-2">
             {EXAMPLE_QUERIES.map((q) => (
               <button key={q.label} onClick={() => applyExampleExplore(q)}
-                className={`text-xs px-3 py-1.5 rounded-lg border font-mono transition-all ${activeExplore === q.label ? "bg-moss text-cream border-moss" : "bg-white/60 border-sand hover:border-muted"}`}>
+                className={`text-xs px-3 py-1.5 rounded-lg border transition-all ${activeExplore === q.label ? "bg-moss text-cream border-moss" : "bg-white/60 border-sand hover:border-muted"}`}>
                 {q.label}
               </button>
             ))}
             {activeFilterCount > 0 && (
               <button onClick={() => { setFilters({}); setActiveExplore(null); }}
-                className="text-xs px-3 py-1.5 rounded-lg border border-rust/30 text-rust bg-rust/5 font-mono">
+                className="text-xs px-3 py-1.5 rounded-lg border border-rust/30 text-rust bg-rust/5">
                 Clear all ({activeFilterCount})
               </button>
             )}
@@ -128,11 +128,11 @@ export default function ExplorePage() {
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Filter panel */}
           <div className="w-full lg:w-56 lg:flex-shrink-0 space-y-5">
-            <div className="text-xs font-mono text-muted uppercase tracking-widest">Filters</div>
+            <div className="text-xs text-muted uppercase tracking-widest">Filters</div>
 
             {/* Search */}
             <div>
-              <div className="text-xs font-mono text-muted mb-1.5">Search</div>
+              <div className="text-xs text-muted mb-1.5">Search</div>
               <input type="text" placeholder="Brand or product..." value={filters.search ?? ""}
                 onChange={(e) => e.target.value ? applyFilter("search", e.target.value) : clearFilter("search")}
                 className="w-full bg-white/60 border border-sand rounded-lg px-3 py-2 text-xs outline-none focus:border-muted" />
@@ -140,7 +140,7 @@ export default function ExplorePage() {
 
             {/* Category */}
             <div>
-              <div className="text-xs font-mono text-muted mb-1.5">Category</div>
+              <div className="text-xs text-muted mb-1.5">Category</div>
               <div className="space-y-1">
                 {ALL_CATEGORIES.map((cat) => (
                   <label key={cat} className="flex items-center gap-2 text-xs cursor-pointer">
@@ -159,11 +159,11 @@ export default function ExplorePage() {
 
             {/* Price per serving */}
             <div>
-              <div className="text-xs font-mono text-muted mb-1.5">Max price/serving</div>
+              <div className="text-xs text-muted mb-1.5">Max price/serving</div>
               <div className="flex gap-1 flex-wrap">
                 {[1.00, 1.50, 2.00, 2.50, 3.00].map((p) => (
                   <button key={p} onClick={() => filters.maxPricePerServing === p ? clearFilter("maxPricePerServing") : applyFilter("maxPricePerServing", p)}
-                    className={`text-xs px-2 py-1 rounded-md border font-mono transition-all ${filters.maxPricePerServing === p ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
+                    className={`text-xs px-2 py-1 rounded-md border transition-all ${filters.maxPricePerServing === p ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
                     ${p.toFixed(2)}
                   </button>
                 ))}
@@ -172,11 +172,11 @@ export default function ExplorePage() {
 
             {/* Carbs */}
             <div>
-              <div className="text-xs font-mono text-muted mb-1.5">Min carbs/serving</div>
+              <div className="text-xs text-muted mb-1.5">Min carbs/serving</div>
               <div className="flex gap-1 flex-wrap">
                 {[15, 25, 40, 60, 80].map((g) => (
                   <button key={g} onClick={() => filters.minCarbsPerServing === g ? clearFilter("minCarbsPerServing") : applyFilter("minCarbsPerServing", g)}
-                    className={`text-xs px-2 py-1 rounded-md border font-mono transition-all ${filters.minCarbsPerServing === g ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
+                    className={`text-xs px-2 py-1 rounded-md border transition-all ${filters.minCarbsPerServing === g ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
                     {g}g+
                   </button>
                 ))}
@@ -185,11 +185,11 @@ export default function ExplorePage() {
 
             {/* Sodium */}
             <div>
-              <div className="text-xs font-mono text-muted mb-1.5">Min sodium</div>
+              <div className="text-xs text-muted mb-1.5">Min sodium</div>
               <div className="flex gap-1 flex-wrap">
                 {[100, 300, 500, 1000].map((mg) => (
                   <button key={mg} onClick={() => filters.minSodiumPerServing === mg ? clearFilter("minSodiumPerServing") : applyFilter("minSodiumPerServing", mg)}
-                    className={`text-xs px-2 py-1 rounded-md border font-mono transition-all ${filters.minSodiumPerServing === mg ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
+                    className={`text-xs px-2 py-1 rounded-md border transition-all ${filters.minSodiumPerServing === mg ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
                     {mg}mg+
                   </button>
                 ))}
@@ -198,11 +198,11 @@ export default function ExplorePage() {
 
             {/* Protein */}
             <div>
-              <div className="text-xs font-mono text-muted mb-1.5">Min protein/serving</div>
+              <div className="text-xs text-muted mb-1.5">Min protein/serving</div>
               <div className="flex gap-1 flex-wrap">
                 {[10, 20, 25, 30].map((g) => (
                   <button key={g} onClick={() => filters.minProteinPerServing === g ? clearFilter("minProteinPerServing") : applyFilter("minProteinPerServing", g)}
-                    className={`text-xs px-2 py-1 rounded-md border font-mono transition-all ${filters.minProteinPerServing === g ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
+                    className={`text-xs px-2 py-1 rounded-md border transition-all ${filters.minProteinPerServing === g ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
                     {g}g+
                   </button>
                 ))}
@@ -211,11 +211,11 @@ export default function ExplorePage() {
 
             {/* Caffeine */}
             <div>
-              <div className="text-xs font-mono text-muted mb-1.5">Caffeine</div>
+              <div className="text-xs text-muted mb-1.5">Caffeine</div>
               <div className="flex gap-1">
                 {[{ label: "Any", val: "" }, { label: "None", val: "no" }, { label: "Yes", val: "yes" }].map((opt) => (
                   <button key={opt.label} onClick={() => opt.val === "" ? clearFilter("hasCaffeine") : applyFilter("hasCaffeine", opt.val)}
-                    className={`text-xs px-2 py-1 rounded-md border font-mono transition-all ${filters.hasCaffeine === opt.val || (!filters.hasCaffeine && opt.val === "") ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
+                    className={`text-xs px-2 py-1 rounded-md border transition-all ${filters.hasCaffeine === opt.val || (!filters.hasCaffeine && opt.val === "") ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
                     {opt.label}
                   </button>
                 ))}
@@ -224,11 +224,11 @@ export default function ExplorePage() {
 
             {/* G:F Ratio */}
             <div>
-              <div className="text-xs font-mono text-muted mb-1.5">Glucose:Fructose ratio</div>
+              <div className="text-xs text-muted mb-1.5">Glucose:Fructose ratio</div>
               <div className="flex gap-1 flex-wrap">
                 {["2:1", "1:0.8", "1:1"].map((ratio) => (
                   <button key={ratio} onClick={() => filters.glucoseFructoseRatio === ratio ? clearFilter("glucoseFructoseRatio") : applyFilter("glucoseFructoseRatio", ratio)}
-                    className={`text-xs px-2 py-1 rounded-md border font-mono transition-all ${filters.glucoseFructoseRatio === ratio ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
+                    className={`text-xs px-2 py-1 rounded-md border transition-all ${filters.glucoseFructoseRatio === ratio ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
                     {ratio}
                   </button>
                 ))}
@@ -237,11 +237,11 @@ export default function ExplorePage() {
 
             {/* Min rating */}
             <div>
-              <div className="text-xs font-mono text-muted mb-1.5">Min rating</div>
+              <div className="text-xs text-muted mb-1.5">Min rating</div>
               <div className="flex gap-1 flex-wrap">
                 {[4.0, 4.3, 4.5, 4.7].map((r) => (
                   <button key={r} onClick={() => filters.minRating === r ? clearFilter("minRating") : applyFilter("minRating", r)}
-                    className={`text-xs px-2 py-1 rounded-md border font-mono transition-all ${filters.minRating === r ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
+                    className={`text-xs px-2 py-1 rounded-md border transition-all ${filters.minRating === r ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
                     {r}★+
                   </button>
                 ))}
@@ -250,11 +250,11 @@ export default function ExplorePage() {
 
             {/* Min transparency */}
             <div>
-              <div className="text-xs font-mono text-muted mb-1.5">Min transparency</div>
+              <div className="text-xs text-muted mb-1.5">Min transparency</div>
               <div className="flex gap-1 flex-wrap">
                 {[70, 80, 90, 95].map((t) => (
                   <button key={t} onClick={() => filters.minTransparencyScore === t ? clearFilter("minTransparencyScore") : applyFilter("minTransparencyScore", t)}
-                    className={`text-xs px-2 py-1 rounded-md border font-mono transition-all ${filters.minTransparencyScore === t ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
+                    className={`text-xs px-2 py-1 rounded-md border transition-all ${filters.minTransparencyScore === t ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
                     {t}%+
                   </button>
                 ))}
@@ -263,7 +263,7 @@ export default function ExplorePage() {
 
             {/* Checkboxes */}
             <div>
-              <div className="text-xs font-mono text-muted mb-1.5">Special filters</div>
+              <div className="text-xs text-muted mb-1.5">Special filters</div>
               <div className="space-y-1.5">
                 {[
                   { key: "isVegan", label: "Vegan" },
@@ -285,14 +285,14 @@ export default function ExplorePage() {
           {/* Results */}
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between mb-4">
-              <div className="text-xs font-mono text-muted">
+              <div className="text-xs text-muted">
                 {filteredProducts.length} of {PRODUCTS.length} products
                 {activeFilterCount > 0 && ` · ${activeFilterCount} filter${activeFilterCount !== 1 ? "s" : ""} active`}
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-xs text-muted">Sort:</span>
                 <select value={sortBy} onChange={(e) => setSortBy(e.target.value as SortKey)}
-                  className="text-xs bg-white/60 border border-sand rounded-lg px-2 py-1 outline-none font-mono">
+                  className="text-xs bg-white/60 border border-sand rounded-lg px-2 py-1 outline-none">
                   <option value="rating">Rating</option>
                   <option value="pricePerServing">Price/serving</option>
                   <option value="carbsPerServing">Carbs</option>
@@ -302,7 +302,7 @@ export default function ExplorePage() {
                   <option value="reviewCount">Review count</option>
                 </select>
                 <button onClick={() => setSortDir(d => d === "desc" ? "asc" : "desc")}
-                  className="text-xs border border-sand rounded-lg px-2 py-1 font-mono hover:border-muted">
+                  className="text-xs border border-sand rounded-lg px-2 py-1 hover:border-muted">
                   {sortDir === "desc" ? "↓" : "↑"}
                 </button>
               </div>
@@ -318,7 +318,7 @@ export default function ExplorePage() {
               <div className="bg-white/60 border border-sand rounded-xl overflow-x-auto">
                 <div className="min-w-[700px]">
                   {/* Header */}
-                  <div className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr_1fr_1fr_1fr] gap-2 px-4 py-2.5 bg-sand/40 border-b border-sand text-xs font-mono text-muted">
+                  <div className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr_1fr_1fr_1fr] gap-2 px-4 py-2.5 bg-sand/40 border-b border-sand text-xs text-muted">
                     <div>Product</div>
                     <div>$/serving</div>
                     <div>Carbs</div>
@@ -344,46 +344,46 @@ export default function ExplorePage() {
                       </div>
 
                       {/* Price */}
-                      <div className="flex items-center text-xs font-mono">
+                      <div className="flex items-center text-xs">
                         ${p.pricePerServing.toFixed(2)}
                       </div>
 
                       {/* Carbs */}
                       <div className="flex items-center">
-                        <span className={`text-xs font-mono ${(p.carbsPerServing ?? 0) >= 40 ? "text-moss font-medium" : "text-muted"}`}>
+                        <span className={`text-xs ${(p.carbsPerServing ?? 0) >= 40 ? "text-moss font-medium" : "text-muted"}`}>
                           {p.carbsPerServing != null ? `${p.carbsPerServing}g` : "—"}
                         </span>
                       </div>
 
                       {/* Sodium */}
                       <div className="flex items-center">
-                        <span className={`text-xs font-mono ${(p.sodiumPerServing ?? 0) >= 500 ? "text-moss font-medium" : "text-muted"}`}>
+                        <span className={`text-xs ${(p.sodiumPerServing ?? 0) >= 500 ? "text-moss font-medium" : "text-muted"}`}>
                           {p.sodiumPerServing != null ? `${p.sodiumPerServing}mg` : "—"}
                         </span>
                       </div>
 
                       {/* Caffeine */}
                       <div className="flex items-center">
-                        <span className={`text-xs font-mono ${p.hasCaffeine ? "text-amber font-medium" : "text-muted"}`}>
+                        <span className={`text-xs ${p.hasCaffeine ? "text-amber font-medium" : "text-muted"}`}>
                           {p.hasCaffeine ? (p.caffeinePerServing != null ? `${p.caffeinePerServing}mg` : "Varies") : "None"}
                         </span>
                       </div>
 
                       {/* G:F ratio */}
                       <div className="flex items-center">
-                        <span className="text-xs font-mono text-muted">
+                        <span className="text-xs text-muted">
                           {p.glucoseFructoseRatio ?? "—"}
                         </span>
                       </div>
 
                       {/* Rating */}
-                      <div className="flex items-center text-xs font-mono font-medium">
+                      <div className="flex items-center text-xs font-medium">
                         {p.reviewCount > 0 ? `${p.rating}★` : "—"}
                       </div>
 
                       {/* Transparency */}
                       <div className="flex items-center">
-                        <span className={`text-xs font-mono ${p.transparencyScore >= 90 ? "text-moss font-medium" : p.transparencyScore >= 75 ? "text-amber" : "text-muted"}`}>
+                        <span className={`text-xs ${p.transparencyScore >= 90 ? "text-moss font-medium" : p.transparencyScore >= 75 ? "text-amber" : "text-muted"}`}>
                           {p.transparencyScore}%
                         </span>
                       </div>

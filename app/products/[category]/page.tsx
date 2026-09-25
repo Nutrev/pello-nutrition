@@ -27,7 +27,7 @@ function ProductCard({ product }: { product: Product }) {
               brand={product.brand} />
           <div className="flex items-center gap-1.5">
             <div className="h-2 w-2 rounded-full" style={{ background: product.transparencyScore >= 85 ? "#2D4A2D" : product.transparencyScore >= 70 ? "#C8860A" : "#B84C2E" }} />
-            <span className="text-xs font-mono text-muted">{product.transparencyScore}% transparent</span>
+            <span className="text-xs text-muted">{product.transparencyScore}% transparent</span>
           </div>
         </div>
         <div className="text-xs text-muted font-body mb-0.5">{product.brand}</div>
@@ -40,7 +40,7 @@ function ProductCard({ product }: { product: Product }) {
             {"★".repeat(Math.round(product.rating))}
             {"☆".repeat(5 - Math.round(product.rating))}
           </div>
-          <span className="text-xs text-muted font-mono">{product.rating}</span>
+          <span className="text-xs text-muted">{product.rating}</span>
           </>) : <span className="text-xs text-muted">No reviews yet</span>}
           <span className="text-xs text-muted">·</span>
           {product.reviewCount > 0 && <span className="text-xs text-muted">{product.reviewCount.toLocaleString()} reviews</span>}
@@ -48,10 +48,10 @@ function ProductCard({ product }: { product: Product }) {
         <div className="flex items-center justify-between">
           <div className="flex gap-1 flex-wrap">
             {product.goals.slice(0, 2).map((g) => (
-              <span key={g} className={`text-xs px-2 py-0.5 rounded-md font-mono ${GOAL_COLORS[g] ?? "bg-sand text-muted"}`}>{g}</span>
+              <span key={g} className={`text-xs px-2 py-0.5 rounded-md ${GOAL_COLORS[g] ?? "bg-sand text-muted"}`}>{g}</span>
             ))}
           </div>
-          <span className="text-xs font-mono text-muted">{formatPrice(product.price)} · {servingsPerContainer(product)} servings</span>
+          <span className="text-xs text-muted">{formatPrice(product.price)} · {servingsPerContainer(product)} servings</span>
         </div>
       </div>
     </Link>
@@ -80,7 +80,7 @@ export default function CategoryPage({ params }: { params: { category: string } 
       <div className="max-w-5xl mx-auto px-6 py-10">
         {/* Header */}
         <div className="mb-8">
-          <div className="text-xs font-mono text-muted uppercase tracking-widest mb-1">Category</div>
+          <div className="text-xs text-muted uppercase tracking-widest mb-1">Category</div>
           <h1 className="font-display font-bold text-3xl tracking-tight mb-2">{matched}</h1>
           <p className="text-muted text-sm">
             {products.length} product{products.length !== 1 ? "s" : ""} · sorted by rating
@@ -92,7 +92,7 @@ export default function CategoryPage({ params }: { params: { category: string } 
           <div className="card bg-moss/5 border-moss/20 flex items-center gap-4 mb-8">
             <BrandLogo logoDomain={topProduct.logoDomain} logo={topProduct.logo} brand={topProduct.brand} size="lg" />
             <div className="flex-1">
-              <div className="text-xs font-mono text-moss mb-0.5">★ Top rated in {matched}</div>
+              <div className="text-xs text-moss mb-0.5">★ Top rated in {matched}</div>
               <div className="font-display font-semibold">{topProduct.name}</div>
               <div className="text-xs text-muted">{topProduct.brand}{topProduct.reviewCount > 0 && ` · ${topProduct.rating}/5 · ${topProduct.reviewCount.toLocaleString()} reviews`}</div>
             </div>
@@ -110,7 +110,7 @@ export default function CategoryPage({ params }: { params: { category: string } 
               <Link
                 key={cat}
                 href={`/products/${cat.toLowerCase().replace(/\s+/g, "-")}`}
-                className="text-xs bg-white/60 border border-sand px-3 py-1.5 rounded-lg font-mono hover:border-muted transition-all"
+                className="text-xs bg-white/60 border border-sand px-3 py-1.5 rounded-lg hover:border-muted transition-all"
               >
                 {cat}
               </Link>

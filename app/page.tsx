@@ -67,7 +67,7 @@ function ProductCard({ product, featured = false }: { product: Product; featured
           <BrandLogo logoDomain={product.logoDomain} logo={product.logo} brand={product.brand} />
           <div className="flex items-center gap-1.5">
             <div className="h-2 w-2 rounded-full" style={{ background: product.transparencyScore >= 85 ? "#2D4A2D" : product.transparencyScore >= 70 ? "#C8860A" : "#B84C2E" }} />
-            <span className="text-xs font-mono text-muted">{product.transparencyScore}%</span>
+            <span className="text-xs text-muted">{product.transparencyScore}%</span>
           </div>
         </div>
         <div className="text-xs text-muted font-body mb-0.5">{product.brand}</div>
@@ -80,7 +80,7 @@ function ProductCard({ product, featured = false }: { product: Product; featured
             {"★".repeat(Math.round(product.rating))}
             {"☆".repeat(5 - Math.round(product.rating))}
           </div>
-          <span className="text-xs text-muted font-mono">{product.rating}</span>
+          <span className="text-xs text-muted">{product.rating}</span>
           </>) : <span className="text-xs text-muted">No reviews yet</span>}
           <span className="text-xs text-muted">·</span>
           {product.reviewCount > 0 && <span className="text-xs text-muted">{product.reviewCount.toLocaleString()} reviews</span>}
@@ -88,10 +88,10 @@ function ProductCard({ product, featured = false }: { product: Product; featured
         <div className="flex items-center justify-between">
           <div className="flex gap-1 flex-wrap">
             {product.goals.slice(0, 2).map((g) => (
-              <span key={g} className={`text-xs px-2 py-0.5 rounded-md font-mono ${GOAL_COLORS[g] ?? "bg-sand text-muted"}`}>{g}</span>
+              <span key={g} className={`text-xs px-2 py-0.5 rounded-md ${GOAL_COLORS[g] ?? "bg-sand text-muted"}`}>{g}</span>
             ))}
           </div>
-          <span className="text-xs font-mono text-muted">{formatPrice(product.price)} · {servingsPerContainer(product)} servings</span>
+          <span className="text-xs text-muted">{formatPrice(product.price)} · {servingsPerContainer(product)} servings</span>
         </div>
       </div>
     </Link>
@@ -115,7 +115,7 @@ export default function HomePage() {
       <div className="max-w-5xl mx-auto px-6 pt-16 pb-10">
         <div className="flex flex-col lg:flex-row gap-12 items-center">
         <div className="flex-1">
-          <div className="inline-flex items-center gap-2 bg-moss/10 text-moss text-xs font-mono font-medium px-3 py-1 rounded-full mb-4">
+          <div className="inline-flex items-center gap-2 bg-moss/10 text-moss text-xs font-medium px-3 py-1 rounded-full mb-4">
             Science-backed · {PRODUCTS.reduce((a, p) => a + p.reviewCount, 0).toLocaleString()} customer reviews
           </div>
           <h1 className="font-display font-bold text-5xl leading-[1.05] tracking-tight mb-4">
@@ -162,17 +162,17 @@ export default function HomePage() {
             <Link key={p.id} href={`/report/${p.id}`}>
               <div className="card hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group"
                 style={{ transform: `rotate(${i % 2 === 0 ? "-1.5" : "1.5"}deg)` }}>
-                <div className="text-xs font-mono text-muted mb-1">{p.brand}</div>
+                <div className="text-xs text-muted mb-1">{p.brand}</div>
                 <div className="font-display font-semibold text-sm group-hover:text-moss transition-colors mb-2">{p.name}</div>
                 <div className="flex items-center justify-between">
                   {p.reviewCount > 0 ? (
-                    <span className="text-xs text-muted font-mono">
+                    <span className="text-xs text-muted">
                       <span className="text-amber">{"★".repeat(Math.round(p.rating))}{"☆".repeat(5 - Math.round(p.rating))}</span> {p.rating}
                     </span>
                   ) : (
                     <span className="text-xs text-muted">No reviews yet</span>
                   )}
-                  <span className="text-xs font-mono bg-moss/10 text-moss px-2 py-0.5 rounded-md">{p.category}</span>
+                  <span className="text-xs bg-moss/10 text-moss px-2 py-0.5 rounded-md">{p.category}</span>
                 </div>
               </div>
             </Link>
@@ -204,7 +204,7 @@ export default function HomePage() {
       <div className="max-w-5xl mx-auto px-6 pb-20">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <div className="text-xs font-mono text-muted uppercase tracking-widest mb-1">Top rated per category</div>
+            <div className="text-xs text-muted uppercase tracking-widest mb-1">Top rated per category</div>
             <h2 className="font-display font-bold text-2xl">Best in category</h2>
           </div>
           <Link href="/products" className="btn-secondary text-xs py-1.5 px-3">
@@ -216,7 +216,7 @@ export default function HomePage() {
           {highlights.map((product) => (
             <div key={product.id} className="relative">
               <div className="absolute -top-2 left-3 z-10">
-                <span className="bg-moss text-cream text-xs font-mono font-medium px-2 py-0.5 rounded-md">
+                <span className="bg-moss text-cream text-xs font-medium px-2 py-0.5 rounded-md">
                   ★ Best {product.category}
                 </span>
               </div>

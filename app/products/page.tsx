@@ -35,7 +35,7 @@ function ProductCard({ product }: { product: Product }) {
             brand={product.brand} />
           <div className="flex items-center gap-1.5">
             <div className="h-2 w-2 rounded-full" style={{ background: product.transparencyScore >= 85 ? "#2D4A2D" : product.transparencyScore >= 70 ? "#C8860A" : "#B84C2E" }} />
-            <span className="text-xs font-mono text-muted">{product.transparencyScore}% transparent</span>
+            <span className="text-xs text-muted">{product.transparencyScore}% transparent</span>
           </div>
         </div>
         <div className="text-xs text-muted font-body mb-0.5">{product.brand}</div>
@@ -48,7 +48,7 @@ function ProductCard({ product }: { product: Product }) {
             {"★".repeat(Math.round(product.rating))}
             {"☆".repeat(5 - Math.round(product.rating))}
           </div>
-          <span className="text-xs text-muted font-mono">{product.rating}</span>
+          <span className="text-xs text-muted">{product.rating}</span>
           </>) : <span className="text-xs text-muted">No reviews yet</span>}
           <span className="text-xs text-muted">·</span>
           {product.reviewCount > 0 && <span className="text-xs text-muted">{product.reviewCount.toLocaleString()} reviews</span>}
@@ -56,10 +56,10 @@ function ProductCard({ product }: { product: Product }) {
         <div className="flex items-center justify-between">
           <div className="flex gap-1 flex-wrap">
             {product.goals.slice(0, 2).map((g) => (
-              <span key={g} className={`text-xs px-2 py-0.5 rounded-md font-mono ${GOAL_COLORS[g] ?? "bg-sand text-muted"}`}>{g}</span>
+              <span key={g} className={`text-xs px-2 py-0.5 rounded-md ${GOAL_COLORS[g] ?? "bg-sand text-muted"}`}>{g}</span>
             ))}
           </div>
-          <span className="text-xs font-mono text-muted">{formatPrice(product.price)} · {servingsPerContainer(product)} servings</span>
+          <span className="text-xs text-muted">{formatPrice(product.price)} · {servingsPerContainer(product)} servings</span>
         </div>
       </div>
     </Link>
@@ -103,7 +103,7 @@ function ProductsContent() {
       <div className="max-w-5xl mx-auto px-6 py-10">
         {/* Header */}
         <div className="mb-8">
-          <div className="text-xs font-mono text-muted uppercase tracking-widest mb-1">Full Explore</div>
+          <div className="text-xs text-muted uppercase tracking-widest mb-1">Full Explore</div>
           <h1 className="font-display font-bold text-3xl tracking-tight mb-2">All products</h1>
           <p className="text-muted text-sm">
             {PRODUCTS.length} products across {allCategories.length} categories — sorted by rating within each group
@@ -120,7 +120,7 @@ function ProductsContent() {
             className="w-full bg-white/60 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-muted font-body placeholder:text-muted"
           />
           {search && (
-            <p className="text-xs text-muted mt-2 font-mono">
+            <p className="text-xs text-muted mt-2">
               {filteredProducts.length} result{filteredProducts.length !== 1 ? "s" : ""} for "{search}"
             </p>
           )}
@@ -133,7 +133,7 @@ function ProductsContent() {
               <Link
                 key={cat}
                 href={`/products/${cat.toLowerCase().replace(/\s+/g, "-").replace(/&/g, "and")}`}
-                className="text-xs bg-white/60 border border-sand px-3 py-1.5 rounded-lg font-mono hover:border-muted transition-all"
+                className="text-xs bg-white/60 border border-sand px-3 py-1.5 rounded-lg hover:border-muted transition-all"
               >
                 {cat}
               </Link>
@@ -148,13 +148,13 @@ function ProductsContent() {
               <div className="flex items-center gap-3">
                 <div>
                   <h2 className="font-display font-bold text-xl">{category}</h2>
-                  <p className="text-xs text-muted font-mono">
+                  <p className="text-xs text-muted">
                     {products.length} product{products.length !== 1 ? "s" : ""} · sorted by rating
                   </p>
                 </div>
               </div>
               <div className="hidden sm:flex items-center gap-1.5 bg-moss/5 border border-moss/20 px-3 py-1.5 rounded-lg">
-                <span className="text-xs font-mono text-moss">
+                <span className="text-xs text-moss">
                   ★ Top rated: {[...products].sort((a, b) => b.rating - a.rating)[0].brand}
                 </span>
               </div>

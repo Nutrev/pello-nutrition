@@ -163,7 +163,6 @@ export default function MiniGraph({ productId, ingredientId, goalId, height = 28
                     fontSize={isRoot ? 10 : 8}
                     fontWeight={isRoot ? "600" : "400"}
                     fill={isRoot ? "#F5F0E8" : "#1A1A1A"}
-                    fontFamily="DM Sans"
                     style={{ pointerEvents: "none", userSelect: "none" }}
                   >
                     {node.label.length > 10 ? node.label.slice(0, 9) + "…" : node.label}

@@ -112,14 +112,14 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         {/* Header */}
         <div className="mb-10">
           <div className="flex items-center gap-3 mb-4">
-            <Link href="/blog" className="text-xs text-muted hover:text-ink transition-colors font-mono">← Blog</Link>
-            <span className={`text-xs font-mono px-2 py-0.5 rounded-md ${CATEGORY_COLORS[post.category] ?? "bg-sand text-muted"}`}>
+            <Link href="/blog" className="text-xs text-muted hover:text-ink transition-colors">← Blog</Link>
+            <span className={`text-xs px-2 py-0.5 rounded-md ${CATEGORY_COLORS[post.category] ?? "bg-sand text-muted"}`}>
               {post.category}
             </span>
           </div>
           <h1 className="font-display font-bold text-4xl leading-tight tracking-tight mb-4">{post.title}</h1>
           <p className="text-muted text-lg leading-relaxed mb-4">{post.description}</p>
-          <div className="flex items-center gap-3 text-xs font-mono text-muted">
+          <div className="flex items-center gap-3 text-xs text-muted">
             <span>{post.author}</span>
             <span>·</span>
             <span>{post.date}</span>
@@ -128,7 +128,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           </div>
           <div className="flex flex-wrap gap-2 mt-3">
             {post.tags.map(tag => (
-              <span key={tag} className="text-xs bg-sand font-mono px-2 py-0.5 rounded-md">{tag}</span>
+              <span key={tag} className="text-xs bg-sand px-2 py-0.5 rounded-md">{tag}</span>
             ))}
           </div>
         </div>
@@ -142,11 +142,11 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
       {relatedProducts.map(p => p && (
           <Link key={p.id} href={`/report/${p.id}`}>
             <div className="card hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group flex items-center gap-4">
-              <div className="w-8 h-8 rounded-lg bg-sand flex items-center justify-center text-xs font-mono flex-shrink-0">
+              <div className="w-8 h-8 rounded-lg bg-sand flex items-center justify-center text-xs flex-shrink-0">
                 {p.brand.charAt(0)}
               </div>
               <div className="flex-1">
-                <div className="text-xs font-mono text-muted mb-0.5">{p.category}</div>
+                <div className="text-xs text-muted mb-0.5">{p.category}</div>
                 <div className="font-display font-semibold text-sm group-hover:text-moss transition-colors">{p.name}</div>
                 <div className="text-xs text-muted">{p.brand}{p.reviewCount > 0 && ` · ${p.rating}★`}</div>
               </div>

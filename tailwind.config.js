@@ -1,4 +1,10 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require("tailwindcss/defaultTheme");
+
+// One typeface site-wide: DM Sans, loaded by next/font in app/layout.tsx as --font-sans.
+// font-display and font-body are kept as aliases so existing class names still work.
+const sans = ["var(--font-sans)", ...defaultTheme.fontFamily.sans];
+
 module.exports = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx}",
@@ -7,9 +13,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        display: ["'Syne'", "sans-serif"],
-        body: ["'DM Sans'", "sans-serif"],
-        mono: ["'DM Mono'", "monospace"],
+        sans,
+        display: sans,
+        body: sans,
       },
       colors: {
         cream: "#F5F0E8",

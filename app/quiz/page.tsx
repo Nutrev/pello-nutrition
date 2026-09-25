@@ -265,7 +265,7 @@ function StepIndicator({ current, total }: { current: number; total: number }) {
     <div className="flex items-center gap-2 mb-8">
       {Array.from({ length: total }).map((_, i) => (
         <div key={i} className="flex items-center gap-2">
-          <div className={`w-6 h-6 rounded-full text-xs font-mono flex items-center justify-center transition-all ${i + 1 === current ? "bg-moss text-cream" : i + 1 < current ? "bg-moss/30 text-moss" : "bg-sand text-muted"}`}>
+          <div className={`w-6 h-6 rounded-full text-xs flex items-center justify-center transition-all ${i + 1 === current ? "bg-moss text-cream" : i + 1 < current ? "bg-moss/30 text-moss" : "bg-sand text-muted"}`}>
             {i + 1 < current ? "✓" : i + 1}
           </div>
           {i < total - 1 && <div className={`h-0.5 w-8 ${i + 1 < current ? "bg-moss/30" : "bg-sand"}`} />}
@@ -334,7 +334,7 @@ function PlanLines({ lines }: { lines: string[] }) {
             return (
               <div key={i} className="flex items-center justify-between py-1 border-b border-sand/50 last:border-0">
                 <span className="text-xs text-muted">{parts[0].trim()}</span>
-                <span className="text-xs font-mono font-medium text-ink">{parts[1].trim()}</span>
+                <span className="text-xs font-medium text-ink">{parts[1].trim()}</span>
               </div>
             );
           }
@@ -362,18 +362,18 @@ function PhaseProductCard({ item, borderColor }: { item: PhaseProduct; borderCol
         <div className="flex items-start gap-3">
           <BrandLogo logoDomain={p.logoDomain} logo={p.logo} brand={p.brand} size="sm" />
           <div className="flex-1 min-w-0">
-            <div className="text-xs font-mono text-muted mb-0.5">{p.category}</div>
+            <div className="text-xs text-muted mb-0.5">{p.category}</div>
             <div className="font-display font-semibold text-sm group-hover:text-moss transition-colors leading-tight">{p.name}</div>
             <div className="text-xs text-muted">{p.brand}</div>
           </div>
           <div className="text-right flex-shrink-0">
             {item.quantity > 1 ? (
               <>
-                <div className="text-xs font-mono font-bold text-ink">x{item.quantity}</div>
-                <div className="text-xs font-mono text-moss">${item.totalCost.toFixed(2)}</div>
+                <div className="text-xs font-bold text-ink">x{item.quantity}</div>
+                <div className="text-xs text-moss">${item.totalCost.toFixed(2)}</div>
               </>
             ) : (
-              <div className="text-xs font-mono text-muted">${pricePerServing}/srv</div>
+              <div className="text-xs text-muted">${pricePerServing}/srv</div>
             )}
           </div>
         </div>
@@ -460,7 +460,7 @@ export default function PlannerPage() {
         {/* Header */}
         {!parsedPlan && !loading && (
           <div className="mb-8">
-            <div className="text-xs font-mono text-muted uppercase tracking-widest mb-2">Pello Planner</div>
+            <div className="text-xs text-muted uppercase tracking-widest mb-2">Pello Planner</div>
             <h1 className="font-display font-bold text-3xl tracking-tight mb-2">Build your nutrition plan</h1>
             <p className="text-muted">Science-backed pre, during and post nutrition — tailored to your event or goal.</p>
           </div>
@@ -498,7 +498,7 @@ export default function PlannerPage() {
                             <div className="font-medium text-sm">{e.label}</div>
                             <div className="text-xs text-muted">{e.desc}</div>
                           </div>
-                          {inputs.eventType === e.id && <span className="text-moss font-mono text-xs">✓</span>}
+                          {inputs.eventType === e.id && <span className="text-moss text-xs">✓</span>}
                         </button>
                       ))}
                     </div>
@@ -508,7 +508,7 @@ export default function PlannerPage() {
                         <div className="grid grid-cols-4 gap-2">
                           {DURATION_OPTIONS.map(d => (
                             <button key={d.value} onClick={() => update("durationHours", d.value)}
-                              className={`py-2 px-2 rounded-xl border text-xs font-mono transition-all ${inputs.durationHours === d.value ? "border-moss bg-moss/5 text-moss font-medium" : "border-sand hover:border-muted text-muted"}`}>
+                              className={`py-2 px-2 rounded-xl border text-xs transition-all ${inputs.durationHours === d.value ? "border-moss bg-moss/5 text-moss font-medium" : "border-sand hover:border-muted text-muted"}`}>
                               {d.label}
                             </button>
                           ))}
@@ -531,8 +531,8 @@ export default function PlannerPage() {
                           </div>
                           <div className="flex-shrink-0 text-right">
                             {inputs.outcomeType === o.id
-                              ? <span className="text-moss font-mono text-xs">✓</span>
-                              : <span className="text-xs font-mono text-muted">{o.timeframe}</span>}
+                              ? <span className="text-moss text-xs">✓</span>
+                              : <span className="text-xs text-muted">{o.timeframe}</span>}
                           </div>
                         </button>
                       ))}
@@ -565,7 +565,7 @@ export default function PlannerPage() {
                             <div className="text-xs text-muted">{opt.desc}</div>
                           </div>
                           <div className="text-right flex-shrink-0 ml-4">
-                            <div className="font-mono text-sm font-medium text-moss">{opt.carbsPerHr}g</div>
+                            <div className="text-sm font-medium text-moss">{opt.carbsPerHr}g</div>
                             <div className="text-xs text-muted">carbs/hr</div>
                           </div>
                         </button>
@@ -615,7 +615,7 @@ export default function PlannerPage() {
 
                 {isEvent && (
                   <div className="bg-moss/5 border border-moss/20 rounded-xl p-4 mb-6">
-                    <div className="text-xs font-mono text-moss uppercase tracking-widest mb-3">Calculated targets</div>
+                    <div className="text-xs text-moss uppercase tracking-widest mb-3">Calculated targets</div>
                     <div className="grid grid-cols-3 gap-4 text-center">
                       <div>
                         <div className="font-display font-bold text-xl">{carbTarget}g</div>
@@ -652,7 +652,7 @@ export default function PlannerPage() {
                   <div className="flex gap-2 flex-wrap">
                     {(["vegan", "gluten-free", "dairy-free"] as DietaryRestriction[]).map(d => (
                       <button key={d} onClick={() => toggleArray("dietary", d)}
-                        className={`text-xs px-3 py-1.5 rounded-lg border font-mono transition-all ${inputs.dietary.includes(d) ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
+                        className={`text-xs px-3 py-1.5 rounded-lg border transition-all ${inputs.dietary.includes(d) ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
                         {d}
                       </button>
                     ))}
@@ -671,7 +671,7 @@ export default function PlannerPage() {
                             <div className="font-medium text-sm">{f.label}</div>
                             <div className="text-xs text-muted">{f.desc}</div>
                           </div>
-                          {inputs.formats.includes(f.id) && <span className="text-moss font-mono text-xs">✓</span>}
+                          {inputs.formats.includes(f.id) && <span className="text-moss text-xs">✓</span>}
                         </button>
                       ))}
                     </div>
@@ -684,7 +684,7 @@ export default function PlannerPage() {
                   <div className="flex gap-2 flex-wrap">
                     {RETAILER_OPTIONS.map(r => (
                       <button key={r} onClick={() => toggleArray("retailers", r)}
-                        className={`text-xs px-3 py-1.5 rounded-lg border font-mono transition-all ${inputs.retailers.includes(r) ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
+                        className={`text-xs px-3 py-1.5 rounded-lg border transition-all ${inputs.retailers.includes(r) ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
                         {r}
                       </button>
                     ))}
@@ -716,14 +716,14 @@ export default function PlannerPage() {
           <div>
             {/* Header */}
             <div className="mb-8">
-              <div className="text-xs font-mono text-muted uppercase tracking-widest mb-2">Your nutrition plan</div>
+              <div className="text-xs text-muted uppercase tracking-widest mb-2">Your nutrition plan</div>
               <h1 className="font-display font-bold text-3xl tracking-tight mb-3">{planTitle}</h1>
               <div className="flex flex-wrap gap-2">
-                {isEvent && <span className="text-xs bg-moss/10 text-moss font-mono px-2 py-0.5 rounded-md">{carbTarget}g carbs</span>}
-                {isEvent && <span className="text-xs bg-sand font-mono px-2 py-0.5 rounded-md">{inputs.intensity} intensity</span>}
-                <span className="text-xs bg-sand font-mono px-2 py-0.5 rounded-md">${inputs.budget} budget</span>
-                {inputs.caffeinePreference === "none" && <span className="text-xs bg-sand font-mono px-2 py-0.5 rounded-md">caffeine-free</span>}
-                {inputs.dietary.map(d => <span key={d} className="text-xs bg-sand font-mono px-2 py-0.5 rounded-md">{d}</span>)}
+                {isEvent && <span className="text-xs bg-moss/10 text-moss px-2 py-0.5 rounded-md">{carbTarget}g carbs</span>}
+                {isEvent && <span className="text-xs bg-sand px-2 py-0.5 rounded-md">{inputs.intensity} intensity</span>}
+                <span className="text-xs bg-sand px-2 py-0.5 rounded-md">${inputs.budget} budget</span>
+                {inputs.caffeinePreference === "none" && <span className="text-xs bg-sand px-2 py-0.5 rounded-md">caffeine-free</span>}
+                {inputs.dietary.map(d => <span key={d} className="text-xs bg-sand px-2 py-0.5 rounded-md">{d}</span>)}
               </div>
             </div>
 
@@ -731,7 +731,7 @@ export default function PlannerPage() {
             <div className="card border-l-4 border-l-moss mb-4">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-8 h-8 rounded-full bg-moss/10 flex items-center justify-center flex-shrink-0">
-                  <span className="text-moss text-xs font-mono font-bold">PRE</span>
+                  <span className="text-moss text-xs font-bold">PRE</span>
                 </div>
                 <div>
                   <h3 className="font-display font-bold text-base">{isEvent ? "Pre-event" : "Before training"}</h3>
@@ -741,7 +741,7 @@ export default function PlannerPage() {
               <PlanLines lines={parsedPlan.preEvent} />
               {phaseRecs.pre.length > 0 && (
                 <div className="mt-4 pt-4 border-t border-sand">
-                  <div className="text-xs font-mono text-muted uppercase tracking-widest mb-2">Recommended products</div>
+                  <div className="text-xs text-muted uppercase tracking-widest mb-2">Recommended products</div>
                   <div className="space-y-2">
                     {phaseRecs.pre.map(item => (
                       <PhaseProductCard key={item.product.id} item={item} borderColor="border-moss/20" />
@@ -755,7 +755,7 @@ export default function PlannerPage() {
             <div className="card border-l-4 border-l-amber mb-4">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-8 h-8 rounded-full bg-amber/10 flex items-center justify-center flex-shrink-0">
-                  <span className="text-amber text-xs font-mono font-bold">DUR</span>
+                  <span className="text-amber text-xs font-bold">DUR</span>
                 </div>
                 <div>
                   <h3 className="font-display font-bold text-base">{isEvent ? "During event" : "During training"}</h3>
@@ -765,7 +765,7 @@ export default function PlannerPage() {
               <PlanLines lines={parsedPlan.duringEvent} />
               {phaseRecs.during.length > 0 && (
                 <div className="mt-4 pt-4 border-t border-sand">
-                  <div className="text-xs font-mono text-muted uppercase tracking-widest mb-2">Recommended products</div>
+                  <div className="text-xs text-muted uppercase tracking-widest mb-2">Recommended products</div>
                   <div className="space-y-2">
                     {phaseRecs.during.map(item => (
                       <PhaseProductCard key={item.product.id} item={item} borderColor="border-amber/20" />
@@ -779,7 +779,7 @@ export default function PlannerPage() {
             <div className="card border-l-4 border-l-blue-400 mb-4">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0">
-                  <span className="text-blue-600 text-xs font-mono font-bold">POST</span>
+                  <span className="text-blue-600 text-xs font-bold">POST</span>
                 </div>
                 <div>
                   <h3 className="font-display font-bold text-base">{isEvent ? "Post-event recovery" : "Recovery protocol"}</h3>
@@ -789,7 +789,7 @@ export default function PlannerPage() {
               <PlanLines lines={parsedPlan.postEvent} />
               {phaseRecs.post.length > 0 && (
                 <div className="mt-4 pt-4 border-t border-sand">
-                  <div className="text-xs font-mono text-muted uppercase tracking-widest mb-2">Recommended products</div>
+                  <div className="text-xs text-muted uppercase tracking-widest mb-2">Recommended products</div>
                   <div className="space-y-2">
                     {phaseRecs.post.map(item => (
                       <PhaseProductCard key={item.product.id} item={item} borderColor="border-blue-100" />
@@ -801,7 +801,7 @@ export default function PlannerPage() {
 
             {/* Cost summary */}
             <div className="card bg-moss/5 border-moss/20 mb-4">
-              <div className="text-xs font-mono text-moss uppercase tracking-widest mb-3">
+              <div className="text-xs text-moss uppercase tracking-widest mb-3">
                 {isEvent ? "Estimated event cost" : "Monthly supplement stack"}
               </div>
               <div className="flex items-center justify-between mb-2">
@@ -809,7 +809,7 @@ export default function PlannerPage() {
                 <span className="font-display font-bold text-xl text-moss">${totalCost.toFixed(2)}</span>
               </div>
               {isEvent && (
-                <div className={`text-xs font-mono ${totalCost <= inputs.budget ? "text-moss" : "text-amber"}`}>
+                <div className={`text-xs ${totalCost <= inputs.budget ? "text-moss" : "text-amber"}`}>
                   {totalCost <= inputs.budget
                     ? `✓ Within your $${inputs.budget} budget`
                     : `⚠ $${(totalCost - inputs.budget).toFixed(2)} over your $${inputs.budget} budget`}
@@ -825,7 +825,7 @@ export default function PlannerPage() {
             {/* Key notes */}
             {parsedPlan.keyNotes.length > 0 && (
               <div className="card bg-sand/30 mb-6">
-                <div className="text-xs font-mono text-muted uppercase tracking-widest mb-3">Key notes</div>
+                <div className="text-xs text-muted uppercase tracking-widest mb-3">Key notes</div>
                 <PlanLines lines={parsedPlan.keyNotes} />
               </div>
             )}

@@ -152,7 +152,7 @@ export default function SearchPage() {
 
         {/* Header */}
         <div className="mb-8">
-          <div className="text-xs font-mono text-muted uppercase tracking-widest mb-2">Universal search</div>
+          <div className="text-xs text-muted uppercase tracking-widest mb-2">Universal search</div>
           <h1 className="font-display font-bold text-3xl tracking-tight mb-2">Search any product</h1>
           <p className="text-muted text-sm">Search across the Pello Explore and 3 million+ products from Open Food Facts. Get an instant AI analysis for any product not yet in our Explore.</p>
         </div>
@@ -170,7 +170,7 @@ export default function SearchPage() {
           <div className="absolute right-2 top-2 flex gap-1">
             <button
               onClick={startScanner}
-              className="px-3 py-1.5 rounded-lg bg-sand text-xs font-mono hover:bg-sand/80 transition-all"
+              className="px-3 py-1.5 rounded-lg bg-sand text-xs hover:bg-sand/80 transition-all"
               title="Scan barcode"
             >
               Scan
@@ -201,7 +201,7 @@ export default function SearchPage() {
             <div className="flex gap-2">
               {["5060219070060", "0722252337618", "0021908503935"].map(code => (
                 <button key={code} onClick={() => lookupBarcode(code)}
-                  className="text-xs bg-sand px-2 py-1 rounded-md font-mono">
+                  className="text-xs bg-sand px-2 py-1 rounded-md">
                   Test: {code.slice(-4)}
                 </button>
               ))}
@@ -213,7 +213,7 @@ export default function SearchPage() {
         {/* Pello Explore results — always shown when Explore matches */}
         {pelloResults.length > 0 && !selectedProduct && (
           <div className="mb-6">
-            <div className="text-xs font-mono text-moss uppercase tracking-widest mb-3">
+            <div className="text-xs text-moss uppercase tracking-widest mb-3">
               In Pello Explore · {pelloResults.length} result{pelloResults.length !== 1 ? "s" : ""}
             </div>
             <div className="space-y-2">
@@ -223,8 +223,8 @@ export default function SearchPage() {
                     <BrandLogo logoDomain={p.logoDomain} logo={p.logo} brand={p.brand} />
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-0.5">
-                        <span className="text-xs font-mono bg-moss/10 text-moss px-1.5 py-0.5 rounded">Pello</span>
-                        <span className="text-xs font-mono text-muted">{p.category}</span>
+                        <span className="text-xs bg-moss/10 text-moss px-1.5 py-0.5 rounded">Pello</span>
+                        <span className="text-xs text-muted">{p.category}</span>
                       </div>
                       <div className="font-display font-semibold text-sm group-hover:text-moss transition-colors">{p.name}</div>
                       <div className="text-xs text-muted">{p.brand}{p.reviewCount > 0 ? ` · ${p.rating}★ · ${p.reviewCount.toLocaleString()} reviews` : " · No reviews yet"}</div>
@@ -243,12 +243,12 @@ export default function SearchPage() {
             {pelloResults.length > 0 && (
               <div className="flex items-center gap-3 mb-4">
                 <div className="flex-1 h-px bg-sand" />
-                <span className="text-xs font-mono text-muted">External results</span>
+                <span className="text-xs text-muted">External results</span>
                 <div className="flex-1 h-px bg-sand" />
               </div>
             )}
             <div className="flex items-center justify-between mb-3">
-              <div className="text-xs font-mono text-muted uppercase tracking-widest">
+              <div className="text-xs text-muted uppercase tracking-widest">
                 {searching ? "Searching Open Food Facts..." : `${results.length} external results`}
               </div>
               {results.length > 0 && (
@@ -288,7 +288,7 @@ export default function SearchPage() {
                     </div>
                     <div className="text-xs text-muted">{product.brands ?? "Unknown brand"}</div>
                     {product.nutriments?.carbohydrates_100g && (
-                      <div className="text-xs font-mono text-muted mt-0.5">
+                      <div className="text-xs text-muted mt-0.5">
                         {product.nutriments.carbohydrates_100g}g carbs/100g
                         {product.nutriments?.sodium_100g ? ` · ${Math.round(product.nutriments.sodium_100g * 1000)}mg sodium` : ""}
                       </div>
@@ -317,29 +317,29 @@ export default function SearchPage() {
                   className="w-20 h-20 object-contain rounded-xl bg-sand flex-shrink-0" />
               )}
               <div className="flex-1">
-                <div className="text-xs font-mono text-muted mb-1">External product</div>
+                <div className="text-xs text-muted mb-1">External product</div>
                 <h2 className="font-display font-bold text-xl mb-1">{selectedProduct.product_name}</h2>
                 <div className="text-sm text-muted">{selectedProduct.brands}</div>
 
                 {/* Quick nutrition */}
                 <div className="flex flex-wrap gap-2 mt-3">
                   {getNutrient(selectedProduct, "energy-kcal") && (
-                    <span className="text-xs font-mono bg-sand px-2 py-0.5 rounded-md">
+                    <span className="text-xs bg-sand px-2 py-0.5 rounded-md">
                       {Math.round(getNutrient(selectedProduct, "energy-kcal") ?? 0)} kcal
                     </span>
                   )}
                   {getNutrient(selectedProduct, "carbohydrates") && (
-                    <span className="text-xs font-mono bg-sand px-2 py-0.5 rounded-md">
+                    <span className="text-xs bg-sand px-2 py-0.5 rounded-md">
                       {Math.round(getNutrient(selectedProduct, "carbohydrates") ?? 0)}g carbs
                     </span>
                   )}
                   {getNutrient(selectedProduct, "proteins") && (
-                    <span className="text-xs font-mono bg-sand px-2 py-0.5 rounded-md">
+                    <span className="text-xs bg-sand px-2 py-0.5 rounded-md">
                       {Math.round(getNutrient(selectedProduct, "proteins") ?? 0)}g protein
                     </span>
                   )}
                   {getNutrient(selectedProduct, "sodium") && (
-                    <span className="text-xs font-mono bg-sand px-2 py-0.5 rounded-md">
+                    <span className="text-xs bg-sand px-2 py-0.5 rounded-md">
                       {Math.round((getNutrient(selectedProduct, "sodium") ?? 0) * 1000)}mg sodium
                     </span>
                   )}
@@ -363,7 +363,7 @@ export default function SearchPage() {
                 <div className="card bg-moss/5 border-moss/20">
                   <div className="flex items-start justify-between gap-4 mb-4">
                     <div className="flex-1">
-                      <div className="text-xs font-mono text-muted uppercase tracking-widest mb-1">Pello Analysis</div>
+                      <div className="text-xs text-muted uppercase tracking-widest mb-1">Pello Analysis</div>
                       <p className="text-sm leading-relaxed font-medium">{analysis.verdict}</p>
                     </div>
                     <div className="text-right flex-shrink-0">
@@ -372,12 +372,12 @@ export default function SearchPage() {
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    <span className={`text-xs font-mono px-2 py-0.5 rounded-md ${SCIENCE_COLORS[analysis.scienceRating] ?? "bg-sand text-muted"}`}>
+                    <span className={`text-xs px-2 py-0.5 rounded-md ${SCIENCE_COLORS[analysis.scienceRating] ?? "bg-sand text-muted"}`}>
                       {analysis.scienceRating}
                     </span>
-                    <span className="text-xs font-mono bg-sand px-2 py-0.5 rounded-md">{analysis.pelloCategoryGuess}</span>
+                    <span className="text-xs bg-sand px-2 py-0.5 rounded-md">{analysis.pelloCategoryGuess}</span>
                     {analysis.suitableFor?.map(s => (
-                      <span key={s} className="text-xs font-mono bg-moss/10 text-moss px-2 py-0.5 rounded-md">{s}</span>
+                      <span key={s} className="text-xs bg-moss/10 text-moss px-2 py-0.5 rounded-md">{s}</span>
                     ))}
                   </div>
                 </div>
@@ -385,7 +385,7 @@ export default function SearchPage() {
                 {/* Pros & cons */}
                 <div className="grid grid-cols-2 gap-3">
                   <div className="card bg-moss/5 border-moss/20">
-                    <div className="text-xs font-mono text-moss uppercase tracking-widest mb-3">Strengths</div>
+                    <div className="text-xs text-moss uppercase tracking-widest mb-3">Strengths</div>
                     <ul className="space-y-1.5">
                       {analysis.pros?.map((pro, i) => (
                         <li key={i} className="flex items-start gap-2 text-xs text-muted">
@@ -395,7 +395,7 @@ export default function SearchPage() {
                     </ul>
                   </div>
                   <div className="card bg-rust/5 border-rust/20">
-                    <div className="text-xs font-mono text-rust uppercase tracking-widest mb-3">Watch out for</div>
+                    <div className="text-xs text-rust uppercase tracking-widest mb-3">Watch out for</div>
                     {analysis.cons?.length > 0 ? (
                       <ul className="space-y-1.5">
                         {analysis.cons.map((con, i) => (
@@ -413,10 +413,10 @@ export default function SearchPage() {
                 {/* Flags */}
                 {analysis.flags?.length > 0 && (
                   <div className="bg-amber/10 border border-amber/20 rounded-xl p-4">
-                    <div className="text-xs font-mono text-amber uppercase tracking-widest mb-2">Flagged ingredients</div>
+                    <div className="text-xs text-amber uppercase tracking-widest mb-2">Flagged ingredients</div>
                     <div className="flex flex-wrap gap-2">
                       {analysis.flags.map((flag, i) => (
-                        <span key={i} className="text-xs bg-amber/10 text-amber font-mono px-2 py-0.5 rounded-md">⚠ {flag}</span>
+                        <span key={i} className="text-xs bg-amber/10 text-amber px-2 py-0.5 rounded-md">⚠ {flag}</span>
                       ))}
                     </div>
                   </div>
@@ -426,7 +426,7 @@ export default function SearchPage() {
                 <div className="card">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <div className="text-xs font-mono text-muted uppercase tracking-widest mb-2">Key ingredients</div>
+                      <div className="text-xs text-muted uppercase tracking-widest mb-2">Key ingredients</div>
                       <ul className="space-y-1">
                         {analysis.keyIngredients?.map((ing, i) => (
                           <li key={i} className="text-xs text-muted flex items-center gap-1.5">
@@ -436,7 +436,7 @@ export default function SearchPage() {
                       </ul>
                     </div>
                     <div>
-                      <div className="text-xs font-mono text-muted uppercase tracking-widest mb-2">When to use</div>
+                      <div className="text-xs text-muted uppercase tracking-widest mb-2">When to use</div>
                       <p className="text-xs text-muted leading-relaxed">{analysis.whenToUse}</p>
                     </div>
                   </div>
@@ -445,7 +445,7 @@ export default function SearchPage() {
                 {/* Ingredients text */}
                 {selectedProduct.ingredients_text && (
                   <div className="card bg-sand/30">
-                    <div className="text-xs font-mono text-muted uppercase tracking-widest mb-2">Full ingredients</div>
+                    <div className="text-xs text-muted uppercase tracking-widest mb-2">Full ingredients</div>
                     <p className="text-xs text-muted leading-relaxed">{selectedProduct.ingredients_text}</p>
                   </div>
                 )}

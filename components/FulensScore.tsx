@@ -31,7 +31,7 @@ function ScoreRing({ score, size = 80 }: { score: number; size?: number }) {
         strokeDasharray={circ} strokeDashoffset={offset}
         strokeLinecap="round" transform={`rotate(-90 ${size/2} ${size/2})`} />
       <text x={size/2} y={size/2 + 4} textAnchor="middle" fontSize={size * 0.22}
-        fontWeight="600" fill="#1A1A1A" fontFamily="DM Mono">{score}</text>
+        fontWeight="600" fill="#1A1A1A">{score}</text>
     </svg>
   );
 }
@@ -45,7 +45,7 @@ export default function FulensScoreDisplay({ score, compact = false }: FulensSco
       <div className="flex items-center gap-2">
         <ScoreRing score={score.overall} size={48} />
         <div>
-          <div className="text-xs font-mono font-medium">{label}</div>
+          <div className="text-xs font-medium">{label}</div>
           <div className="text-xs text-muted">Fulens Score™</div>
         </div>
       </div>
@@ -56,7 +56,7 @@ export default function FulensScoreDisplay({ score, compact = false }: FulensSco
     <div className="card bg-moss/5 border-moss/20">
       <div className="flex items-start justify-between mb-4">
         <div>
-          <div className="text-sm font-mono text-moss uppercase tracking-widest mb-1">
+          <div className="text-sm text-moss uppercase tracking-widest mb-1">
             Fulens Score™
           </div>
           <h2 className="font-display font-bold text-2xl">{label}</h2>
@@ -74,7 +74,7 @@ export default function FulensScoreDisplay({ score, compact = false }: FulensSco
             <div key={pillar.key}>
               <div className="flex items-center justify-between mb-1">
                 <span className="text-xs text-muted">{pillar.label}</span>
-                <span className="text-xs font-mono">
+                <span className="text-xs">
                   {raw}<span className="text-muted">/{pillar.max}</span>
                 </span>
               </div>

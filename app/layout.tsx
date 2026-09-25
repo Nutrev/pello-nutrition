@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
-import { Syne, DM_Sans, DM_Mono } from "next/font/google";
+import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import SiteNav from "@/components/SiteNav";
 
-const syne = Syne({ subsets: ["latin"], variable: "--font-display", weight: ["400", "500", "600", "700", "800"] });
-const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-body" });
-const dmMono = DM_Mono({ subsets: ["latin"], variable: "--font-mono", weight: ["400", "500"] });
+const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.pellonutrition.com"),
@@ -42,12 +40,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${syne.variable} ${dmSans.variable} ${dmMono.variable}`}>
+    <html lang="en" className={dmSans.variable}>
       <body className="bg-cream text-ink antialiased">
         <SiteNav />
         {children}
         <footer className="border-t border-sand py-6 mt-auto">
-          <div className="max-w-5xl mx-auto px-6 flex flex-wrap justify-center gap-4 text-xs text-muted font-mono">
+          <div className="max-w-5xl mx-auto px-6 flex flex-wrap justify-center gap-4 text-xs text-muted">
             <span>© 2026 Pello Nutrition</span>
             <Link href="/legal/privacy">Privacy Policy</Link>
             <Link href="/legal/terms">Terms of Service</Link>

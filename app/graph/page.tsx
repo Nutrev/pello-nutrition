@@ -209,7 +209,7 @@ export default function GraphPage() {
 
           {/* Filter */}
           <div className="p-3 border-b border-sand">
-            <div className="text-xs font-mono text-muted uppercase tracking-widest mb-2">Filter by type</div>
+            <div className="text-xs text-muted uppercase tracking-widest mb-2">Filter by type</div>
             <div className="space-y-1">
               {FILTER_OPTIONS.map((opt) => (
                 <button
@@ -221,7 +221,7 @@ export default function GraphPage() {
                     <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: NODE_COLORS[opt.type as NodeType] }} />
                   )}
                   {opt.label}
-                  <span className="ml-auto font-mono text-xs">
+                  <span className="ml-auto text-xs">
                     {opt.type === "all" ? GRAPH_NODES.length : GRAPH_NODES.filter((n) => n.type === opt.type).length}
                   </span>
                 </button>
@@ -231,7 +231,7 @@ export default function GraphPage() {
 
           {/* Legend */}
           <div className="p-3 border-b border-sand">
-            <div className="text-xs font-mono text-muted uppercase tracking-widest mb-2">Legend</div>
+            <div className="text-xs text-muted uppercase tracking-widest mb-2">Legend</div>
             <div className="space-y-1.5">
               {Object.entries(NODE_COLORS).map(([type, color]) => (
                 <div key={type} className="flex items-center gap-2 text-xs text-muted">
@@ -245,11 +245,11 @@ export default function GraphPage() {
           {/* Selected node info */}
           {selectedNode && (
             <div className="p-3 flex-1 overflow-y-auto">
-              <div className="text-xs font-mono text-muted uppercase tracking-widest mb-2">Selected</div>
+              <div className="text-xs text-muted uppercase tracking-widest mb-2">Selected</div>
               <div className="card bg-white/60 p-3 mb-3">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: NODE_COLORS[selectedNode.type] }} />
-                  <span className="text-xs font-mono text-muted">{TYPE_LABELS[selectedNode.type]}</span>
+                  <span className="text-xs text-muted">{TYPE_LABELS[selectedNode.type]}</span>
                 </div>
                 <div className="font-display font-semibold text-sm">{selectedNode.label}</div>
                 {selectedNode.sublabel && (
@@ -259,7 +259,7 @@ export default function GraphPage() {
 
               {selectedConnections && selectedConnections.connected.length > 0 && (
                 <div>
-                  <div className="text-xs font-mono text-muted uppercase tracking-widest mb-2">
+                  <div className="text-xs text-muted uppercase tracking-widest mb-2">
                     {selectedConnections.connected.length} connections
                   </div>
                   <div className="space-y-1">
@@ -372,7 +372,6 @@ export default function GraphPage() {
                       fontSize={Math.max(9, Math.min(12, r * 0.38))}
                       fontWeight={isSelected ? "600" : "400"}
                       fill={isSelected ? "#F5F0E8" : "#1A1A1A"}
-                      fontFamily="DM Sans"
                       style={{ pointerEvents: "none", userSelect: "none" }}
                     >
                       {node.label.length > 12 ? node.label.slice(0, 11) + "…" : node.label}
@@ -385,7 +384,6 @@ export default function GraphPage() {
                         y={r + 16}
                         fontSize={9}
                         fill="#8A8478"
-                        fontFamily="DM Mono"
                         style={{ pointerEvents: "none", userSelect: "none" }}
                       >
                         {node.sublabel}
@@ -400,7 +398,7 @@ export default function GraphPage() {
           {/* Instructions overlay */}
           {!selectedNode && (
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/80 backdrop-blur-sm border border-sand rounded-xl px-4 py-2">
-              <p className="text-xs text-muted font-mono">Click a node to explore connections · Drag to rearrange</p>
+              <p className="text-xs text-muted">Click a node to explore connections · Drag to rearrange</p>
             </div>
           )}
         </div>

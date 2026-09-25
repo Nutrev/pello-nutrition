@@ -22,7 +22,7 @@ function ScoreBar({ value }: { value: number }) {
           }}
         />
       </div>
-      <span className="text-xs font-mono text-muted w-8 text-right">{value}%</span>
+      <span className="text-xs text-muted w-8 text-right">{value}%</span>
     </div>
   );
 }
@@ -126,7 +126,7 @@ const filteredProducts = PRODUCTS.filter((p) => {
       <div className="max-w-6xl mx-auto px-6 py-10">
         {/* Header */}
         <div className="mb-8">
-          <div className="text-xs font-mono text-muted uppercase tracking-widest mb-1">
+          <div className="text-xs text-muted uppercase tracking-widest mb-1">
             Side by side
           </div>
           <h1 className="font-display font-bold text-3xl tracking-tight mb-2">
@@ -237,7 +237,7 @@ const filteredProducts = PRODUCTS.filter((p) => {
                         <div className="font-display font-semibold text-sm leading-tight mb-1">
                           {p.name}
                         </div>
-                        <div className="text-xs bg-moss/10 text-moss font-mono px-2 py-0.5 rounded-md inline-block mb-2">
+                        <div className="text-xs bg-moss/10 text-moss px-2 py-0.5 rounded-md inline-block mb-2">
                           {p.category}
                         </div>
                         <IngredientFlags
@@ -259,7 +259,7 @@ const filteredProducts = PRODUCTS.filter((p) => {
               <tbody className="divide-y divide-sand">
                 {/* Rating */}
                 <tr>
-                  <td className="py-4 pr-4 text-xs font-mono text-muted uppercase tracking-wide">
+                  <td className="py-4 pr-4 text-xs text-muted uppercase tracking-wide">
                     Rating
                   </td>
                   {selectedProducts.map((p) => (
@@ -267,7 +267,7 @@ const filteredProducts = PRODUCTS.filter((p) => {
                       {p.reviewCount > 0 ? (
                         <>
                           <StarRating rating={p.rating} />
-                          <div className="text-sm font-mono font-medium mt-0.5">{p.rating} / 5</div>
+                          <div className="text-sm font-medium mt-0.5">{p.rating} / 5</div>
                           <div className="text-xs text-muted">{p.reviewCount.toLocaleString()} reviews</div>
                         </>
                       ) : (
@@ -279,7 +279,7 @@ const filteredProducts = PRODUCTS.filter((p) => {
 
                 {/* Price */}
                 <tr>
-                  <td className="py-4 pr-4 text-xs font-mono text-muted uppercase tracking-wide">
+                  <td className="py-4 pr-4 text-xs text-muted uppercase tracking-wide">
                     Price
                   </td>
                   {selectedProducts.map((p) => {
@@ -293,9 +293,9 @@ const filteredProducts = PRODUCTS.filter((p) => {
                           ${perServing(p).toFixed(2)}
                         </span>
                         <span className="text-xs text-muted"> / serving</span>
-                        <div className="text-xs text-muted font-mono mt-0.5">{formatPrice(p.price)} for {servingsPerContainer(p)}</div>
+                        <div className="text-xs text-muted mt-0.5">{formatPrice(p.price)} for {servingsPerContainer(p)}</div>
                         {isBest && selectedProducts.length > 1 && (
-                          <div className="text-xs text-moss font-mono mt-0.5">Best value</div>
+                          <div className="text-xs text-moss mt-0.5">Best value</div>
                         )}
                       </td>
                     );
@@ -304,7 +304,7 @@ const filteredProducts = PRODUCTS.filter((p) => {
 
                 {/* Transparency */}
                 <tr>
-                  <td className="py-4 pr-4 text-xs font-mono text-muted uppercase tracking-wide">
+                  <td className="py-4 pr-4 text-xs text-muted uppercase tracking-wide">
                     Transparency
                   </td>
                   {selectedProducts.map((p) => {
@@ -312,14 +312,14 @@ const filteredProducts = PRODUCTS.filter((p) => {
                     return (
                       <td key={p.id} className="px-4 py-4">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className={`font-mono font-bold text-lg ${p.transparencyScore === maxScore ? "text-moss" : ""}`}>
+                          <span className={`font-bold text-lg ${p.transparencyScore === maxScore ? "text-moss" : ""}`}>
                             {p.transparencyScore}
                           </span>
                           <span className="text-xs text-muted">/ 100</span>
                         </div>
                         <ScoreBar value={p.transparencyScore} />
                         {p.transparencyScore === maxScore && selectedProducts.length > 1 && (
-                          <div className="text-xs text-moss font-mono mt-1">Most transparent</div>
+                          <div className="text-xs text-moss mt-1">Most transparent</div>
                         )}
                       </td>
                     );
@@ -328,7 +328,7 @@ const filteredProducts = PRODUCTS.filter((p) => {
 
                 {/* Goals */}
                 <tr>
-                  <td className="py-4 pr-4 text-xs font-mono text-muted uppercase tracking-wide">
+                  <td className="py-4 pr-4 text-xs text-muted uppercase tracking-wide">
                     Best for
                   </td>
                   {selectedProducts.map((p) => (
@@ -337,7 +337,7 @@ const filteredProducts = PRODUCTS.filter((p) => {
                         {p.goals.map((g) => (
                           <span
                             key={g}
-                            className="text-xs bg-sand font-mono px-2 py-0.5 rounded-md"
+                            className="text-xs bg-sand px-2 py-0.5 rounded-md"
                           >
                             {g}
                           </span>
@@ -352,7 +352,7 @@ const filteredProducts = PRODUCTS.filter((p) => {
                   <tr>
                     <td
                       colSpan={selectedProducts.length + 1}
-                      className="pt-6 pb-2 text-xs font-mono text-muted uppercase tracking-wide"
+                      className="pt-6 pb-2 text-xs text-muted uppercase tracking-wide"
                     >
                       Sentiment breakdown
                     </td>
@@ -366,7 +366,7 @@ const filteredProducts = PRODUCTS.filter((p) => {
                         {p.sentiment[key] !== undefined ? (
                           <ScoreBar value={p.sentiment[key]} />
                         ) : (
-                          <span className="text-xs text-muted font-mono">—</span>
+                          <span className="text-xs text-muted">—</span>
                         )}
                       </td>
                     ))}
@@ -377,7 +377,7 @@ const filteredProducts = PRODUCTS.filter((p) => {
                 <tr>
                   <td
                     colSpan={selectedProducts.length + 1}
-                    className="pt-6 pb-2 text-xs font-mono text-muted uppercase tracking-wide"
+                    className="pt-6 pb-2 text-xs text-muted uppercase tracking-wide"
                   >
                     Key ingredients
                   </td>
@@ -390,7 +390,7 @@ const filteredProducts = PRODUCTS.filter((p) => {
                         {p.ingredients.map((ing, i) => (
                           <div key={i} className="flex items-start gap-2">
                             <span
-                              className={`text-xs font-mono px-1.5 py-0.5 rounded flex-shrink-0 ${
+                              className={`text-xs px-1.5 py-0.5 rounded flex-shrink-0 ${
                                 ing.verdict === "proven"
                                   ? "bg-moss/10 text-moss"
                                   : ing.verdict === "likely"
@@ -413,7 +413,7 @@ const filteredProducts = PRODUCTS.filter((p) => {
 
                 {/* Sources */}
                 <tr>
-                  <td className="py-4 pr-4 text-xs font-mono text-muted uppercase tracking-wide">
+                  <td className="py-4 pr-4 text-xs text-muted uppercase tracking-wide">
                     Reviews & certifications
                   </td>
                   {selectedProducts.map((p) => (
@@ -445,7 +445,7 @@ const filteredProducts = PRODUCTS.filter((p) => {
                 <button
                   key={brand}
                   onClick={() => setSearch(brand)}
-                  className="text-xs bg-sand px-3 py-1.5 rounded-lg font-mono hover:bg-sand/80 transition-all"
+                  className="text-xs bg-sand px-3 py-1.5 rounded-lg hover:bg-sand/80 transition-all"
                 >
                   {brand}
                 </button>

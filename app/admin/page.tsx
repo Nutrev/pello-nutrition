@@ -134,7 +134,7 @@ export default function AdminPage() {
 
       <div className="max-w-3xl mx-auto px-6 py-10">
         <div className="mb-8">
-          <div className="text-xs font-mono text-muted uppercase tracking-widest mb-2">Admin tool</div>
+          <div className="text-xs text-muted uppercase tracking-widest mb-2">Admin tool</div>
           <h1 className="font-display font-bold text-3xl tracking-tight mb-2">Product enrichment</h1>
           <p className="text-muted text-sm">Add new products to the Pello Explore. Paste a product URL, enter label data, or fill in manually — Claude generates the TypeScript code ready to paste into <code className="font-mono text-xs bg-sand px-1 py-0.5 rounded">lib/products.ts</code>.</p>
         </div>
@@ -211,56 +211,56 @@ Fat: 0g`}
             <div className="space-y-3">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs font-mono text-muted mb-1 block">Product name</label>
+                  <label className="text-xs text-muted mb-1 block">Product name</label>
                   <input value={manualData.name} onChange={e => setManualData(p => ({ ...p, name: e.target.value }))}
                     placeholder="Gel 100" className="w-full bg-white/60 border border-sand rounded-lg px-3 py-2 text-sm outline-none focus:border-muted" />
                 </div>
                 <div>
-                  <label className="text-xs font-mono text-muted mb-1 block">Brand</label>
+                  <label className="text-xs text-muted mb-1 block">Brand</label>
                   <input value={manualData.brand} onChange={e => setManualData(p => ({ ...p, brand: e.target.value }))}
                     placeholder="Maurten" className="w-full bg-white/60 border border-sand rounded-lg px-3 py-2 text-sm outline-none focus:border-muted" />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs font-mono text-muted mb-1 block">Category</label>
+                  <label className="text-xs text-muted mb-1 block">Category</label>
                   <select value={manualData.category} onChange={e => setManualData(p => ({ ...p, category: e.target.value }))}
                     className="w-full bg-white/60 border border-sand rounded-lg px-3 py-2 text-sm outline-none focus:border-muted">
                     {CATEGORIES.map(c => <option key={c}>{c}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs font-mono text-muted mb-1 block">Price (box/bottle)</label>
+                  <label className="text-xs text-muted mb-1 block">Price (box/bottle)</label>
                   <input value={manualData.price} onChange={e => setManualData(p => ({ ...p, price: e.target.value }))}
                     placeholder="$38" className="w-full bg-white/60 border border-sand rounded-lg px-3 py-2 text-sm outline-none focus:border-muted" />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs font-mono text-muted mb-1 block">Carbs per serving (g)</label>
+                  <label className="text-xs text-muted mb-1 block">Carbs per serving (g)</label>
                   <input value={manualData.carbs} onChange={e => setManualData(p => ({ ...p, carbs: e.target.value }))}
                     placeholder="25" className="w-full bg-white/60 border border-sand rounded-lg px-3 py-2 text-sm outline-none focus:border-muted" />
                 </div>
                 <div>
-                  <label className="text-xs font-mono text-muted mb-1 block">Sodium per serving (mg)</label>
+                  <label className="text-xs text-muted mb-1 block">Sodium per serving (mg)</label>
                   <input value={manualData.sodium} onChange={e => setManualData(p => ({ ...p, sodium: e.target.value }))}
                     placeholder="55" className="w-full bg-white/60 border border-sand rounded-lg px-3 py-2 text-sm outline-none focus:border-muted" />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs font-mono text-muted mb-1 block">Caffeine per serving (mg)</label>
+                  <label className="text-xs text-muted mb-1 block">Caffeine per serving (mg)</label>
                   <input value={manualData.caffeine} onChange={e => setManualData(p => ({ ...p, caffeine: e.target.value }))}
                     placeholder="0 or 100" className="w-full bg-white/60 border border-sand rounded-lg px-3 py-2 text-sm outline-none focus:border-muted" />
                 </div>
                 <div>
-                  <label className="text-xs font-mono text-muted mb-1 block">Certifications</label>
+                  <label className="text-xs text-muted mb-1 block">Certifications</label>
                   <input value={manualData.certifications} onChange={e => setManualData(p => ({ ...p, certifications: e.target.value }))}
                     placeholder="Informed Sport, NSF" className="w-full bg-white/60 border border-sand rounded-lg px-3 py-2 text-sm outline-none focus:border-muted" />
                 </div>
               </div>
               <div>
-                <label className="text-xs font-mono text-muted mb-1 block">Ingredients list</label>
+                <label className="text-xs text-muted mb-1 block">Ingredients list</label>
                 <textarea value={manualData.ingredients} onChange={e => setManualData(p => ({ ...p, ingredients: e.target.value }))}
                   placeholder="Maltodextrin, Fructose, Sodium Alginate, Calcium Carbonate..."
                   rows={3}
@@ -294,9 +294,9 @@ Fat: 0g`}
         {result && !loading && (
           <div className="mb-6">
             <div className="flex items-center justify-between mb-3">
-              <div className="text-xs font-mono text-moss uppercase tracking-widest">Generated code</div>
+              <div className="text-xs text-moss uppercase tracking-widest">Generated code</div>
               <button onClick={copyToClipboard}
-                className={`text-xs px-3 py-1.5 rounded-lg border font-mono transition-all ${copied ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
+                className={`text-xs px-3 py-1.5 rounded-lg border transition-all ${copied ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
                 {copied ? "✓ Copied!" : "Copy code"}
               </button>
             </div>
@@ -313,7 +313,7 @@ Fat: 0g`}
         {/* Instructions */}
         {!result && !loading && (
           <div className="card bg-sand/30 mt-8">
-            <div className="text-xs font-mono text-muted uppercase tracking-widest mb-3">How it works</div>
+            <div className="text-xs text-muted uppercase tracking-widest mb-3">How it works</div>
             <div className="space-y-2">
               {[
                 "Paste a product URL, label text or fill in manually",
@@ -323,7 +323,7 @@ Fat: 0g`}
                 "The product instantly appears on pellonutrition.com",
               ].map((step, i) => (
                 <div key={i} className="flex items-start gap-3 text-sm text-muted">
-                  <span className="font-mono text-moss flex-shrink-0">{i + 1}.</span>
+                  <span className="text-moss flex-shrink-0">{i + 1}.</span>
                   {step}
                 </div>
               ))}

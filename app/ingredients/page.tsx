@@ -78,11 +78,11 @@ function IngredientCard({ ingredient }: { ingredient: TaxonomyIngredient }) {
         <div className="flex-1">
           <div className="flex items-center gap-2 flex-wrap mb-1">
             <span className="font-display font-semibold text-sm">{ingredient.name}</span>
-            <span className={`text-xs font-mono px-2 py-0.5 rounded-md ${EVIDENCE_COLORS[ingredient.evidenceLevel]}`}>
+            <span className={`text-xs px-2 py-0.5 rounded-md ${EVIDENCE_COLORS[ingredient.evidenceLevel]}`}>
               {ingredient.evidenceLevel}
             </span>
             {ingredient.flags.map((flag) => (
-              <span key={flag} className="text-xs font-mono px-2 py-0.5 rounded-md bg-rust/10 text-rust">
+              <span key={flag} className="text-xs px-2 py-0.5 rounded-md bg-rust/10 text-rust">
                 ⚠ {FLAG_LABELS[flag]}
               </span>
             ))}
@@ -96,25 +96,25 @@ function IngredientCard({ ingredient }: { ingredient: TaxonomyIngredient }) {
         <div className="mt-4 pt-4 border-t border-sand space-y-3">
           {ingredient.mechanismOfAction && (
             <div>
-              <div className="text-xs font-mono text-muted uppercase tracking-widest mb-1">How it works</div>
+              <div className="text-xs text-muted uppercase tracking-widest mb-1">How it works</div>
               <p className="text-xs text-muted leading-relaxed">{ingredient.mechanismOfAction}</p>
             </div>
           )}
           {ingredient.optimalDose && (
             <div>
-              <div className="text-xs font-mono text-muted uppercase tracking-widest mb-1">Optimal dose</div>
+              <div className="text-xs text-muted uppercase tracking-widest mb-1">Optimal dose</div>
               <p className="text-xs text-muted">{ingredient.optimalDose}</p>
             </div>
           )}
           {ingredient.safetyNotes && (
             <div>
-              <div className="text-xs font-mono text-muted uppercase tracking-widest mb-1">Safety notes</div>
+              <div className="text-xs text-muted uppercase tracking-widest mb-1">Safety notes</div>
               <p className="text-xs text-muted leading-relaxed">{ingredient.safetyNotes}</p>
             </div>
           )}
           {ingredient.preferredForms && ingredient.preferredForms.length > 0 && (
             <div>
-              <div className="text-xs font-mono text-muted uppercase tracking-widest mb-1">Preferred forms</div>
+              <div className="text-xs text-muted uppercase tracking-widest mb-1">Preferred forms</div>
               <div className="flex flex-wrap gap-1">
                 {ingredient.preferredForms.map((f) => (
                   <span key={f} className="text-xs bg-moss/10 text-moss px-2 py-0.5 rounded-md">{f}</span>
@@ -124,7 +124,7 @@ function IngredientCard({ ingredient }: { ingredient: TaxonomyIngredient }) {
           )}
           {ingredient.inferiorForms && ingredient.inferiorForms.length > 0 && (
             <div>
-              <div className="text-xs font-mono text-muted uppercase tracking-widest mb-1">Inferior forms to avoid</div>
+              <div className="text-xs text-muted uppercase tracking-widest mb-1">Inferior forms to avoid</div>
               <div className="flex flex-wrap gap-1">
                 {ingredient.inferiorForms.map((f) => (
                   <span key={f} className="text-xs bg-rust/10 text-rust px-2 py-0.5 rounded-md">{f}</span>
@@ -134,16 +134,16 @@ function IngredientCard({ ingredient }: { ingredient: TaxonomyIngredient }) {
           )}
           {ingredient.aliases.length > 0 && (
             <div>
-              <div className="text-xs font-mono text-muted uppercase tracking-widest mb-1">Also known as</div>
+              <div className="text-xs text-muted uppercase tracking-widest mb-1">Also known as</div>
               <p className="text-xs text-muted">{ingredient.aliases.join(", ")}</p>
             </div>
           )}
           <div className="flex items-center gap-3">
             {!ingredient.isVegan && (
-              <span className="text-xs bg-amber/10 text-amber px-2 py-0.5 rounded-md font-mono">Not vegan</span>
+              <span className="text-xs bg-amber/10 text-amber px-2 py-0.5 rounded-md">Not vegan</span>
             )}
             {!ingredient.isGlutenFree && (
-              <span className="text-xs bg-rust/10 text-rust px-2 py-0.5 rounded-md font-mono">Contains gluten</span>
+              <span className="text-xs bg-rust/10 text-rust px-2 py-0.5 rounded-md">Contains gluten</span>
             )}
             {ingredient.pubmedUrl && (
               <a href={ingredient.pubmedUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-moss underline underline-offset-2">
@@ -193,7 +193,7 @@ export default function IngredientsPage() {
 
       <div className="max-w-3xl mx-auto px-6 py-10">
         <div className="mb-8">
-          <div className="text-xs font-mono text-muted uppercase tracking-widest mb-1">Reference</div>
+          <div className="text-xs text-muted uppercase tracking-widest mb-1">Reference</div>
           <h1 className="font-display font-bold text-3xl tracking-tight mb-2">Ingredient encyclopedia</h1>
           <p className="text-muted text-sm">
             {INGREDIENT_TAXONOMY.length} ingredients — evidence ratings, optimal doses, preferred forms and flag alerts for {flaggedCount} commonly avoided additives.
@@ -212,7 +212,7 @@ export default function IngredientsPage() {
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setSelectedCategory("all")}
-              className={`text-xs px-3 py-1.5 rounded-lg border font-mono transition-all ${selectedCategory === "all" ? "bg-moss text-cream border-moss" : "bg-white/60 border-sand hover:border-muted"}`}
+              className={`text-xs px-3 py-1.5 rounded-lg border transition-all ${selectedCategory === "all" ? "bg-moss text-cream border-moss" : "bg-white/60 border-sand hover:border-muted"}`}
             >
               All
             </button>
@@ -220,7 +220,7 @@ export default function IngredientsPage() {
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`text-xs px-3 py-1.5 rounded-lg border font-mono transition-all ${selectedCategory === cat ? "bg-moss text-cream border-moss" : "bg-white/60 border-sand hover:border-muted"}`}
+                className={`text-xs px-3 py-1.5 rounded-lg border transition-all ${selectedCategory === cat ? "bg-moss text-cream border-moss" : "bg-white/60 border-sand hover:border-muted"}`}
               >
                 {CATEGORY_LABELS[cat]}
               </button>
@@ -240,7 +240,7 @@ export default function IngredientsPage() {
         {/* Results */}
         {Object.entries(grouped).map(([category, ingredients]) => (
           <div key={category} className="mb-8">
-            <div className="text-xs font-mono text-muted uppercase tracking-widest mb-3 pb-2 border-b border-sand">
+            <div className="text-xs text-muted uppercase tracking-widest mb-3 pb-2 border-b border-sand">
               {CATEGORY_LABELS[category as IngredientCategory]} · {ingredients.length}
             </div>
             <div className="space-y-3">

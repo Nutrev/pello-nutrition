@@ -123,7 +123,7 @@ export default function CarbCalculatorPage() {
 
       <div className="max-w-2xl mx-auto px-6 py-16">
         <div className="mb-10">
-          <div className="text-xs font-mono text-muted uppercase tracking-widest mb-3">
+          <div className="text-xs text-muted uppercase tracking-widest mb-3">
             <Link href="/guides" className="hover:text-ink transition-colors">Guides</Link>
             <span className="mx-2">·</span>
             Calculator
@@ -144,7 +144,7 @@ export default function CarbCalculatorPage() {
                 <button
                   key={d.value}
                   onClick={() => { setDuration(d.value); setCalculated(false); }}
-                  className={`py-2.5 px-3 rounded-xl border text-sm font-mono transition-all ${duration === d.value ? "border-moss bg-moss/5 text-moss font-medium" : "border-sand hover:border-muted text-muted"}`}
+                  className={`py-2.5 px-3 rounded-xl border text-sm transition-all ${duration === d.value ? "border-moss bg-moss/5 text-moss font-medium" : "border-sand hover:border-muted text-muted"}`}
                 >
                   {d.label}
                 </button>
@@ -167,7 +167,7 @@ export default function CarbCalculatorPage() {
                     <div className="text-xs text-muted">{val.desc}</div>
                   </div>
                   <div className="text-right flex-shrink-0 ml-4">
-                    <div className="font-mono text-sm font-medium text-moss">{val.carbs}g</div>
+                    <div className="text-sm font-medium text-moss">{val.carbs}g</div>
                     <div className="text-xs text-muted">carbs/hr</div>
                   </div>
                 </button>
@@ -180,8 +180,8 @@ export default function CarbCalculatorPage() {
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-display font-semibold">Body weight</h2>
               <div className="flex gap-1 bg-sand rounded-lg p-0.5">
-                <button onClick={() => setUnit("kg")} className={`px-3 py-1 rounded-md text-xs font-mono transition-all ${unit === "kg" ? "bg-white text-ink" : "text-muted"}`}>kg</button>
-                <button onClick={() => setUnit("lbs")} className={`px-3 py-1 rounded-md text-xs font-mono transition-all ${unit === "lbs" ? "bg-white text-ink" : "text-muted"}`}>lbs</button>
+                <button onClick={() => setUnit("kg")} className={`px-3 py-1 rounded-md text-xs transition-all ${unit === "kg" ? "bg-white text-ink" : "text-muted"}`}>kg</button>
+                <button onClick={() => setUnit("lbs")} className={`px-3 py-1 rounded-md text-xs transition-all ${unit === "lbs" ? "bg-white text-ink" : "text-muted"}`}>lbs</button>
               </div>
             </div>
             <div className="flex items-center gap-3 mb-2">
@@ -214,12 +214,12 @@ export default function CarbCalculatorPage() {
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
                       <span className="font-medium text-sm">{f.label}</span>
-                      <span className="text-xs font-mono text-muted">{f.carbsPerUnit}g per {f.unit}</span>
+                      <span className="text-xs text-muted">{f.carbsPerUnit}g per {f.unit}</span>
                     </div>
                     <div className="text-xs text-muted mt-0.5">{f.example}</div>
                   </div>
                   {selectedFormats.includes(f.id) && (
-                    <span className="text-moss font-mono text-xs flex-shrink-0 mt-0.5">✓</span>
+                    <span className="text-moss text-xs flex-shrink-0 mt-0.5">✓</span>
                   )}
                 </button>
               ))}
@@ -243,7 +243,7 @@ export default function CarbCalculatorPage() {
         {/* Results */}
         {calculated && (
           <div className="space-y-4">
-            <div className="text-xs font-mono text-muted uppercase tracking-widest mb-2">Your fuelling plan</div>
+            <div className="text-xs text-muted uppercase tracking-widest mb-2">Your fuelling plan</div>
 
             {/* Main output */}
             <div className="card bg-moss/5 border-moss/20">
@@ -297,7 +297,7 @@ export default function CarbCalculatorPage() {
                             <div className="text-xs text-muted">{format.example}</div>
                           </div>
                           <div className="text-right flex-shrink-0 ml-4">
-                            <div className="font-mono font-bold text-moss text-lg">{unitsNeeded} {unitsNeeded === 1 ? format.unit : format.unitPlural}</div>
+                            <div className="font-bold text-moss text-lg">{unitsNeeded} {unitsNeeded === 1 ? format.unit : format.unitPlural}</div>
                             <div className="text-xs text-muted">{actualCarbs}g carbs</div>
                           </div>
                         </div>
@@ -325,7 +325,7 @@ export default function CarbCalculatorPage() {
                           <div className="text-sm font-medium">{format.label}</div>
                           <div className="text-xs text-muted">{format.example}</div>
                         </div>
-                        <div className="font-mono font-bold text-moss text-right flex-shrink-0 ml-4">
+                        <div className="font-bold text-moss text-right flex-shrink-0 ml-4">
                           ~{unitsNeeded} {unitsNeeded === 1 ? format.unit : format.unitPlural}
                         </div>
                       </div>
@@ -345,7 +345,7 @@ export default function CarbCalculatorPage() {
                     return (
                       <div key={format.id} className="flex items-center justify-between py-2 border-b border-sand last:border-0">
                         <span className="text-sm text-muted">{format.label}</span>
-                        <span className="font-mono text-sm font-medium">
+                        <span className="text-sm font-medium">
                           {perHour} {perHour === 1 ? format.unit : format.unitPlural} / hr
                         </span>
                       </div>

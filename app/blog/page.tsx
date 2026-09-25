@@ -27,7 +27,7 @@ export default function BlogPage() {
 
       <div className="max-w-3xl mx-auto px-6 py-16">
         <div className="mb-12">
-          <div className="text-xs font-mono text-muted uppercase tracking-widest mb-3">Pello Blog</div>
+          <div className="text-xs text-muted uppercase tracking-widest mb-3">Pello Blog</div>
           <h1 className="font-display font-bold text-4xl tracking-tight mb-4">Sports Nutrition</h1>
           <p className="text-muted text-lg leading-relaxed">
             Science-backed guides, product comparisons and race nutrition advice for endurance athletes.
@@ -39,19 +39,19 @@ export default function BlogPage() {
             <Link key={post.slug} href={`/blog/${post.slug}`}>
               <div className="card hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group">
                 <div className="flex items-start justify-between gap-4 mb-3">
-                  <span className={`text-xs font-mono px-2 py-0.5 rounded-md ${CATEGORY_COLORS[post.category] ?? "bg-sand text-muted"}`}>
+                  <span className={`text-xs px-2 py-0.5 rounded-md ${CATEGORY_COLORS[post.category] ?? "bg-sand text-muted"}`}>
                     {post.category}
                   </span>
-                  <span className="text-xs font-mono text-muted flex-shrink-0">{post.readingTime} min read</span>
+                  <span className="text-xs text-muted flex-shrink-0">{post.readingTime} min read</span>
                 </div>
                 <h2 className="font-display font-bold text-xl mb-2 group-hover:text-moss transition-colors leading-tight">
                   {post.title}
                 </h2>
                 <p className="text-muted text-sm leading-relaxed mb-4">{post.description}</p>
                 <div className="flex items-center gap-3">
-                  <span className="text-xs text-muted font-mono">{post.date}</span>
+                  <span className="text-xs text-muted">{post.date}</span>
                   {post.tags.slice(0, 3).map(tag => (
-                    <span key={tag} className="text-xs bg-sand font-mono px-2 py-0.5 rounded-md">{tag}</span>
+                    <span key={tag} className="text-xs bg-sand px-2 py-0.5 rounded-md">{tag}</span>
                   ))}
                 </div>
               </div>

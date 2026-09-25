@@ -92,7 +92,7 @@ function AttributeBar({ label, value }: { label: string; value: number | null })
     <div>
       <div className="flex items-center justify-between mb-1">
         <span className="text-xs text-muted">{label}</span>
-        <span className="text-xs font-mono font-medium">{value.toFixed(1)}/5</span>
+        <span className="text-xs font-medium">{value.toFixed(1)}/5</span>
       </div>
       <div className="h-1.5 bg-sand rounded-full overflow-hidden">
         <div className="h-full rounded-full transition-all" style={{ width: `${pct}%`, background: color }} />
@@ -220,13 +220,13 @@ export default function ReviewSection({ productId, category }: ReviewSectionProp
             <div className="space-y-1.5">
               {ratingCounts.map(({ star, count }) => (
                 <div key={star} className="flex items-center gap-2">
-                  <span className="text-xs font-mono text-muted w-4">{star}</span>
+                  <span className="text-xs text-muted w-4">{star}</span>
                   <span className="text-amber text-xs">★</span>
                   <div className="flex-1 h-1.5 bg-sand rounded-full overflow-hidden">
                     <div className="h-full bg-amber rounded-full transition-all"
                       style={{ width: reviews.length ? `${(count / reviews.length) * 100}%` : "0%" }} />
                   </div>
-                  <span className="text-xs font-mono text-muted w-4">{count}</span>
+                  <span className="text-xs text-muted w-4">{count}</span>
                 </div>
               ))}
             </div>
@@ -234,7 +234,7 @@ export default function ReviewSection({ productId, category }: ReviewSectionProp
             {/* Attribute averages */}
             {hasAttributeData && (
               <div className="space-y-2">
-                <div className="text-xs font-mono text-muted uppercase tracking-widest mb-2">Community ratings</div>
+                <div className="text-xs text-muted uppercase tracking-widest mb-2">Community ratings</div>
                 {attributes.map((attr) => (
                   <AttributeBar
                     key={attr.key}
@@ -261,14 +261,14 @@ export default function ReviewSection({ productId, category }: ReviewSectionProp
 
             {/* Overall rating */}
             <div className="mb-4">
-              <label className="text-xs text-muted font-mono mb-1 block">Overall rating</label>
+              <label className="text-xs text-muted mb-1 block">Overall rating</label>
               <StarRating rating={rating} onRate={setRating} interactive />
             </div>
 
             {/* Attribute ratings */}
             {attributes.length > 0 && (
               <div className="mb-4">
-                <label className="text-xs text-muted font-mono mb-2 block">Rate specific aspects (optional)</label>
+                <label className="text-xs text-muted mb-2 block">Rate specific aspects (optional)</label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {attributes.map((attr) => (
                     <div key={attr.key} className="flex items-center justify-between bg-white/60 rounded-lg px-3 py-2">
@@ -287,7 +287,7 @@ export default function ReviewSection({ productId, category }: ReviewSectionProp
 
             {/* Name */}
             <div className="mb-3">
-              <label className="text-xs text-muted font-mono mb-1 block">Your name</label>
+              <label className="text-xs text-muted mb-1 block">Your name</label>
               <input
                 type="text"
                 value={name}
@@ -301,7 +301,7 @@ export default function ReviewSection({ productId, category }: ReviewSectionProp
 
             {/* Comment */}
             <div className="mb-4">
-              <label className="text-xs text-muted font-mono mb-1 block">Your review</label>
+              <label className="text-xs text-muted mb-1 block">Your review</label>
               <textarea
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
@@ -349,7 +349,7 @@ export default function ReviewSection({ productId, category }: ReviewSectionProp
                     <span className="font-medium text-sm">{review.name}</span>
                     <StarRating rating={review.rating} size="sm" />
                   </div>
-                  <span className="text-xs font-mono text-muted">{timeAgo(review.created_at)}</span>
+                  <span className="text-xs text-muted">{timeAgo(review.created_at)}</span>
                 </div>
 
                 {/* Attribute ratings on individual review */}
@@ -359,7 +359,7 @@ export default function ReviewSection({ productId, category }: ReviewSectionProp
                       const val = (review as any)[`${attr.key}_rating`];
                       if (!val) return null;
                       return (
-                        <span key={attr.key} className="text-xs bg-sand px-2 py-0.5 rounded-md font-mono">
+                        <span key={attr.key} className="text-xs bg-sand px-2 py-0.5 rounded-md">
                           {attr.label}: {val}/5
                         </span>
                       );

@@ -23,7 +23,7 @@ function ScoreCircle({ score }: { score: number }) {
       <circle cx="26" cy="26" r={r} fill="none" stroke={color} strokeWidth="5"
         strokeDasharray={circ} strokeDashoffset={offset}
         strokeLinecap="round" transform="rotate(-90 26 26)" />
-      <text x="26" y="31" textAnchor="middle" fontSize="12" fontWeight="600" fill="#1A1A1A" fontFamily="DM Mono">{score}</text>
+      <text x="26" y="31" textAnchor="middle" fontSize="12" fontWeight="600" fill="#1A1A1A">{score}</text>
     </svg>
   );
 }
@@ -180,7 +180,7 @@ export default function ReportPage({ params }: { params: { id: string } }) {
         {/* Ingredient warning banner */}
         {disputedIngredients.length > 0 && (
           <div className="bg-amber/10 border border-amber/20 rounded-xl px-5 py-3 mb-6 flex items-start gap-3">
-            <span className="text-amber font-mono text-xs flex-shrink-0 mt-0.5">⚠ Note</span>
+            <span className="text-amber text-xs flex-shrink-0 mt-0.5">⚠ Note</span>
             <p className="text-xs text-muted leading-relaxed">
               This product contains {disputedIngredients.length} disputed ingredient{disputedIngredients.length > 1 ? "s" : ""}:{" "}
               <strong>{disputedIngredients.map((i) => i.name).join(", ")}</strong>.{" "}
@@ -202,14 +202,14 @@ export default function ReportPage({ params }: { params: { id: string } }) {
               {shown.reviewCount > 0 ? (
                 <>
                   <div className="flex text-amber text-lg">{"★".repeat(Math.round(shown.rating))}{"☆".repeat(5 - Math.round(shown.rating))}</div>
-                  <span className="font-mono text-sm text-muted">{shown.rating} / 5</span>
+                  <span className="text-sm text-muted">{shown.rating} / 5</span>
                   <span className="text-muted">·</span>
                   <span className="text-sm text-muted">{shown.reviewCount.toLocaleString()} reviews{variant ? ` for ${variant.label}` : ""}</span>
                 </>
               ) : (
                 <span className="text-sm text-muted">No reviews yet</span>
               )}
-              <span className="text-xs bg-moss/10 text-moss font-mono px-2 py-0.5 rounded-md">{product.category}</span>
+              <span className="text-xs bg-moss/10 text-moss px-2 py-0.5 rounded-md">{product.category}</span>
             </div>
             {product.variants && product.variants.length > 1 && (
               <div className="flex flex-wrap gap-2 mb-3" role="radiogroup" aria-label="Choose a version">
@@ -225,7 +225,7 @@ export default function ReportPage({ params }: { params: { id: string } }) {
                     }`}
                   >
                     {v.label}
-                    {v.sodiumPerServing != null && <span className="font-mono text-xs"> · {v.sodiumPerServing}mg sodium</span>}
+                    {v.sodiumPerServing != null && <span className="text-xs"> · {v.sodiumPerServing}mg sodium</span>}
                   </button>
                 ))}
               </div>
@@ -234,7 +234,7 @@ export default function ReportPage({ params }: { params: { id: string } }) {
               <span className="font-display font-bold text-xl">{formatPrice(shown.price)}</span>
               <span className="text-sm text-muted">for {servingsPerContainer(shown)} servings</span>
               {pricePerServing && (
-                <span className="text-base font-mono font-medium text-ink">· {pricePerServing}</span>
+                <span className="text-base font-medium text-ink">· {pricePerServing}</span>
               )}
               <PriceAlert
                  productId={product.id}
@@ -243,7 +243,7 @@ export default function ReportPage({ params }: { params: { id: string } }) {
               />
             </div>
             <div className="inline-flex items-center gap-2 bg-moss/10 text-moss px-3 py-1.5 rounded-lg mt-1">
-              <span className="text-xs font-mono font-medium">{bestFor}</span>
+              <span className="text-xs font-medium">{bestFor}</span>
             </div>
           </div>
          <div className="flex flex-col gap-2 flex-shrink-0">
@@ -260,7 +260,7 @@ export default function ReportPage({ params }: { params: { id: string } }) {
         {(pros.length > 0 || cons.length > 0) && (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
             <div className="card bg-moss/5 border-moss/20">
-              <div className="text-xs font-mono text-moss uppercase tracking-widest mb-3">Strengths</div>
+              <div className="text-xs text-moss uppercase tracking-widest mb-3">Strengths</div>
               <ul className="space-y-2">
                 {pros.length > 0 ? pros.map((pro, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm">
@@ -271,7 +271,7 @@ export default function ReportPage({ params }: { params: { id: string } }) {
               </ul>
             </div>
             <div className="card bg-rust/5 border-rust/20">
-              <div className="text-xs font-mono text-rust uppercase tracking-widest mb-3">Watch out for</div>
+              <div className="text-xs text-rust uppercase tracking-widest mb-3">Watch out for</div>
               <ul className="space-y-2">
                 {cons.length > 0 ? cons.map((con, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm">
@@ -311,7 +311,7 @@ export default function ReportPage({ params }: { params: { id: string } }) {
             {summary ? (
               <div>
                 <p className="text-sm leading-relaxed">{summary}</p>
-                <div className="mt-3 text-xs text-muted font-mono">
+                <div className="mt-3 text-xs text-muted">
                   AI-generated from this product's label, ingredient and rating data
                 </div>
               </div>
@@ -331,7 +331,7 @@ export default function ReportPage({ params }: { params: { id: string } }) {
                     </div>
                     <div className="flex flex-wrap gap-4 mt-3">
                       {["Overall verdict", "Key strengths", "Weaknesses", "Who it's best for"].map((label) => (
-                        <div key={label} className="text-xs text-muted font-mono flex items-center gap-1.5">
+                        <div key={label} className="text-xs text-muted flex items-center gap-1.5">
                           <span className="w-1.5 h-1.5 rounded-full bg-moss inline-block" />
                           {label}
                         </div>
@@ -354,7 +354,7 @@ export default function ReportPage({ params }: { params: { id: string } }) {
                 <div key={key}>
                   <div className="flex justify-between text-sm mb-1">
                     <span>{key}</span>
-                    <span className="font-mono font-medium">{val}%</span>
+                    <span className="font-medium">{val}%</span>
                   </div>
                   <div className="h-1.5 bg-sand rounded-full overflow-hidden">
                     <div className="h-full rounded-full" style={{ width: `${val}%`, background: val >= 80 ? "#2D4A2D" : val >= 60 ? "#C8860A" : "#B84C2E" }} />
@@ -375,9 +375,9 @@ export default function ReportPage({ params }: { params: { id: string } }) {
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1">
                       <span className="text-sm font-medium">{ing.name}</span>
-                      {ing.dose && <span className="text-xs font-mono text-muted ml-2">{ing.dose}</span>}
+                      {ing.dose && <span className="text-xs text-muted ml-2">{ing.dose}</span>}
                     </div>
-                    <span className={`text-xs font-mono px-2 py-0.5 rounded-md flex-shrink-0 ${
+                    <span className={`text-xs px-2 py-0.5 rounded-md flex-shrink-0 ${
                       ing.verdict === "proven" ? "bg-moss/10 text-moss" :
                       ing.verdict === "likely" ? "bg-amber/10 text-amber" :
                       "bg-rust/10 text-rust"
@@ -418,8 +418,8 @@ export default function ReportPage({ params }: { params: { id: string } }) {
                 <div key={i} className="flex items-center justify-between py-2.5 text-sm">
                   <span>{src.icon} {src.name}</span>
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-xs text-muted">{src.count.toLocaleString()} {src.unit}</span>
-                    <span className={`text-xs px-2 py-0.5 rounded-md font-mono ${src.credibility === "high" ? "bg-moss/10 text-moss" : "bg-amber/10 text-amber"}`}>
+                    <span className="text-xs text-muted">{src.count.toLocaleString()} {src.unit}</span>
+                    <span className={`text-xs px-2 py-0.5 rounded-md ${src.credibility === "high" ? "bg-moss/10 text-moss" : "bg-amber/10 text-amber"}`}>
                       {src.credibility}
                     </span>
                   </div>
@@ -445,11 +445,11 @@ export default function ReportPage({ params }: { params: { id: string } }) {
                   <div className="card hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group">
                     <div className="flex items-start justify-between mb-3">
                       <BrandLogo logoDomain={p.logoDomain} logo={p.logo} brand={p.brand} />
-                      <span className="text-xs font-mono text-muted">{p.reviewCount > 0 ? `${p.rating} ★` : "No reviews"}</span>
+                      <span className="text-xs text-muted">{p.reviewCount > 0 ? `${p.rating} ★` : "No reviews"}</span>
                     </div>
                     <div className="text-xs text-muted mb-0.5">{p.brand}</div>
                     <div className="font-display font-semibold text-sm group-hover:text-moss transition-colors">{p.name}</div>
-                    <div className="text-xs font-mono text-muted mt-1">{formatPrice(p.price)} · {servingsPerContainer(p)} servings</div>
+                    <div className="text-xs text-muted mt-1">{formatPrice(p.price)} · {servingsPerContainer(p)} servings</div>
                   </div>
                 </Link>
               ))}

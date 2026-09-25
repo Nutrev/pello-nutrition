@@ -50,7 +50,7 @@ export default function IngredientFlags({ ingredientNames, compact = false }: In
 
   if (flags.length === 0) {
     return compact ? null : (
-      <div className="flex items-center gap-2 text-xs text-moss font-mono">
+      <div className="flex items-center gap-2 text-xs text-moss">
         <span>✓</span><span>No flagged ingredients detected</span>
       </div>
     );
@@ -63,7 +63,7 @@ export default function IngredientFlags({ ingredientNames, compact = false }: In
           const config = FLAG_CONFIG[flag];
           return (
             <span key={flag} title={config.note}
-              className={`text-xs font-mono px-1.5 py-0.5 rounded ${config.severity === "warn" ? "bg-rust/10 text-rust" : "bg-amber/10 text-amber"}`}>
+              className={`text-xs px-1.5 py-0.5 rounded ${config.severity === "warn" ? "bg-rust/10 text-rust" : "bg-amber/10 text-amber"}`}>
               ⚠ {config.label}
             </span>
           );
@@ -79,7 +79,7 @@ export default function IngredientFlags({ ingredientNames, compact = false }: In
     <div className="space-y-2">
       {warnings.length > 0 && (
         <div className="bg-rust/5 border border-rust/20 rounded-xl p-4">
-          <div className="text-xs font-mono text-rust uppercase tracking-widest mb-2">Watch out for</div>
+          <div className="text-xs text-rust uppercase tracking-widest mb-2">Watch out for</div>
           <div className="space-y-1.5">
             {warnings.map((flag) => {
               const config = FLAG_CONFIG[flag];
@@ -98,7 +98,7 @@ export default function IngredientFlags({ ingredientNames, compact = false }: In
       )}
       {info.length > 0 && (
         <div className="bg-amber/5 border border-amber/20 rounded-xl p-4">
-          <div className="text-xs font-mono text-amber uppercase tracking-widest mb-2">Also noted</div>
+          <div className="text-xs text-amber uppercase tracking-widest mb-2">Also noted</div>
           <div className="space-y-1.5">
             {info.map((flag) => {
               const config = FLAG_CONFIG[flag];

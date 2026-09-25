@@ -13,7 +13,7 @@ export default function TermsPage() {
 
       <div className="max-w-2xl mx-auto px-6 py-16">
         <div className="mb-10">
-          <div className="text-xs font-mono text-muted uppercase tracking-widest mb-2">Legal</div>
+          <div className="text-xs text-muted uppercase tracking-widest mb-2">Legal</div>
           <h1 className="font-display font-bold text-4xl tracking-tight mb-2">Terms of Service</h1>
           <p className="text-muted text-sm">Last updated: September 2026</p>
         </div>

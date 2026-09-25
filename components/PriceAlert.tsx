@@ -38,7 +38,7 @@ export default function PriceAlert({ productId, productName, currentPrice }: Pri
 
   if (status === "success") {
     return (
-      <div className="flex items-center gap-2 text-xs text-moss font-mono">
+      <div className="flex items-center gap-2 text-xs text-moss">
         <span>✓</span>
         <span>We'll email you if the price drops below ${currentPrice}</span>
       </div>
@@ -47,7 +47,7 @@ export default function PriceAlert({ productId, productName, currentPrice }: Pri
 
   if (status === "already") {
     return (
-      <div className="flex items-center gap-2 text-xs text-muted font-mono">
+      <div className="flex items-center gap-2 text-xs text-muted">
         <span>✓</span>
         <span>You're already tracking this price</span>
       </div>
@@ -58,7 +58,7 @@ export default function PriceAlert({ productId, productName, currentPrice }: Pri
     return (
       <button
         onClick={() => setShowForm(true)}
-        className="flex items-center gap-1.5 text-xs bg-sand border border-sand hover:border-muted px-3 py-1.5 rounded-lg transition-all font-mono text-ink"
+        className="flex items-center gap-1.5 text-xs bg-sand border border-sand hover:border-muted px-3 py-1.5 rounded-lg transition-all text-ink"
 >
     <span>🔔</span>
     <span>Track price</span>

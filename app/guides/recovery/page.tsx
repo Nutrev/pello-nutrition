@@ -136,7 +136,7 @@ export default function RecoveryGuidePage() {
 
       <div className="max-w-2xl mx-auto px-6 py-16">
         <div className="mb-10">
-          <div className="text-xs font-mono text-muted uppercase tracking-widest mb-3">
+          <div className="text-xs text-muted uppercase tracking-widest mb-3">
             <Link href="/guides" className="hover:text-ink transition-colors">Guides</Link>
             <span className="mx-2">·</span>
             Recovery
@@ -167,7 +167,7 @@ export default function RecoveryGuidePage() {
                       <div className="font-medium text-sm">{w.label}</div>
                       <div className="text-xs text-muted">{w.desc}</div>
                     </div>
-                    {workoutType === w.id && <span className="text-moss font-mono text-xs">✓</span>}
+                    {workoutType === w.id && <span className="text-moss text-xs">✓</span>}
                   </button>
                 ))}
               </div>
@@ -204,7 +204,7 @@ export default function RecoveryGuidePage() {
                       <div className="font-medium text-sm">{g.label}</div>
                       <div className="text-xs text-muted">{g.desc}</div>
                     </div>
-                    {recoveryGoal === g.id && <span className="text-moss font-mono text-xs">✓</span>}
+                    {recoveryGoal === g.id && <span className="text-moss text-xs">✓</span>}
                   </button>
                 ))}
               </div>
@@ -215,8 +215,8 @@ export default function RecoveryGuidePage() {
               <div className="flex items-center justify-between mb-4">
                 <h2 className="font-display font-semibold">Body weight</h2>
                 <div className="flex gap-1 bg-sand rounded-lg p-0.5">
-                  <button onClick={() => setWeightUnit("kg")} className={`px-3 py-1 rounded-md text-xs font-mono transition-all ${weightUnit === "kg" ? "bg-white text-ink" : "text-muted"}`}>kg</button>
-                  <button onClick={() => setWeightUnit("lbs")} className={`px-3 py-1 rounded-md text-xs font-mono transition-all ${weightUnit === "lbs" ? "bg-white text-ink" : "text-muted"}`}>lbs</button>
+                  <button onClick={() => setWeightUnit("kg")} className={`px-3 py-1 rounded-md text-xs transition-all ${weightUnit === "kg" ? "bg-white text-ink" : "text-muted"}`}>kg</button>
+                  <button onClick={() => setWeightUnit("lbs")} className={`px-3 py-1 rounded-md text-xs transition-all ${weightUnit === "lbs" ? "bg-white text-ink" : "text-muted"}`}>lbs</button>
                 </div>
               </div>
               <div className="flex items-center gap-3 mb-2">
@@ -251,7 +251,7 @@ export default function RecoveryGuidePage() {
         {calculated && (
           <div className="space-y-4">
             <div className="flex items-center justify-between mb-2">
-              <div className="text-xs font-mono text-muted uppercase tracking-widest">Your recovery protocol</div>
+              <div className="text-xs text-muted uppercase tracking-widest">Your recovery protocol</div>
               <button onClick={() => setCalculated(false)} className="text-xs text-moss underline underline-offset-2">
                 Recalculate
               </button>
@@ -271,7 +271,7 @@ export default function RecoveryGuidePage() {
                 </div>
               </div>
               <div className="bg-white/60 rounded-xl p-4">
-                <div className="text-xs font-mono text-muted mb-1">Daily protein target</div>
+                <div className="text-xs text-muted mb-1">Daily protein target</div>
                 <div className="font-display font-bold text-xl text-moss">{Math.round(1.6 * weightKg)}–{Math.round(2.2 * weightKg)}g</div>
                 <div className="text-xs text-muted mt-0.5">spread across 4–5 meals throughout the day</div>
               </div>
@@ -282,7 +282,7 @@ export default function RecoveryGuidePage() {
               {protocol.map((step, i) => (
                 <div key={i} className="card">
                   <div className="flex items-center gap-3 mb-3">
-                    <span className={`text-xs font-mono px-2 py-0.5 rounded-md ${priorityStyles[step.priority]}`}>
+                    <span className={`text-xs px-2 py-0.5 rounded-md ${priorityStyles[step.priority]}`}>
                       {step.window}
                     </span>
                     <h3 className="font-display font-semibold text-base">{step.title}</h3>
@@ -290,7 +290,7 @@ export default function RecoveryGuidePage() {
                   <ul className="space-y-2">
                     {step.items.map((item, j) => (
                       <li key={j} className="flex items-start gap-2 text-xs text-muted">
-                        <span className="text-moss font-mono flex-shrink-0 mt-0.5">→</span>
+                        <span className="text-moss flex-shrink-0 mt-0.5">→</span>
                         {item}
                       </li>
                     ))}
@@ -319,11 +319,11 @@ export default function RecoveryGuidePage() {
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-0.5">
                         <span className="font-medium text-sm">{supp.name}</span>
-                        <span className={`text-xs font-mono px-1.5 py-0.5 rounded ${supp.verdict === "proven" ? "bg-moss/10 text-moss" : "bg-amber/10 text-amber"}`}>
+                        <span className={`text-xs px-1.5 py-0.5 rounded ${supp.verdict === "proven" ? "bg-moss/10 text-moss" : "bg-amber/10 text-amber"}`}>
                           {supp.verdict === "proven" ? "✓ Proven" : "~ Likely"}
                         </span>
                       </div>
-                      <div className="text-xs font-mono text-muted mb-1">{supp.dose}</div>
+                      <div className="text-xs text-muted mb-1">{supp.dose}</div>
                       <p className="text-xs text-muted leading-relaxed">{supp.note}</p>
                     </div>
                   </div>
@@ -342,7 +342,7 @@ export default function RecoveryGuidePage() {
                   ...(isUrgent ? [{ item: "Heavy fats or fibre before next session", reason: "Slow gastric emptying and can cause GI issues — keep meals lighter and easily digestible" }] : []),
                 ].map((item, i) => (
                   <div key={i} className="flex items-start gap-3 p-3 bg-rust/5 rounded-xl border border-rust/10">
-                    <span className="text-xs font-mono bg-rust/10 text-rust px-2 py-0.5 rounded-md flex-shrink-0 mt-0.5">Avoid</span>
+                    <span className="text-xs bg-rust/10 text-rust px-2 py-0.5 rounded-md flex-shrink-0 mt-0.5">Avoid</span>
                     <div>
                       <div className="font-medium text-sm mb-0.5">{item.item}</div>
                       <p className="text-xs text-muted leading-relaxed">{item.reason}</p>
