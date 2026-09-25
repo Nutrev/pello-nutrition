@@ -4564,10 +4564,11 @@ export const THE_FEED_PRODUCTS: Product[] = [
     name: "Bicarb 3.0",
     brand: "Bicarb",
     category: "Supplement",
-    rating: 4.5,
-    reviewCount: 15,
-    price: 90,      // 10 Pack on The Feed
+    rating: 4.6,
+    reviewCount: 16,
+    price: 90,      // 10 Pack (15g sachets) on The Feed
     servingsPerContainer: 10,
+    servingSize: "1 sachet (15g)",
     isHydrogel: false,
     isBatchTested: false,
     certifications: [],
@@ -4578,10 +4579,10 @@ export const THE_FEED_PRODUCTS: Product[] = [
     transparencyScore: 0,
     sentiment: {},
     ingredients: [
-      { name: "Sodium Bicarbonate", dose: "", verdict: "proven", note: "Buffers acid build-up during hard efforts of roughly 1–10 minutes; newer delivery systems reduce the stomach upset it's known for.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+bicarbonate+supplementation+exercise+performance" },
+      { name: "Sodium Bicarbonate", dose: "15g", verdict: "proven", note: "One of the most researched performance aids: it buffers the acid produced during hard efforts, and meta-analyses show improvements of around 2% in time-trial and repeated-sprint performance at 0.2–0.3g per kg of body weight. The main drawback is stomach upset, which newer formulations like this one aim to reduce. The 15g sachet suits roughly a 50–75kg athlete; heavier athletes would need a larger dose.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+bicarbonate+supplementation+exercise+performance" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 15, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 16, unit: "reviews", credibility: "medium" },
     ],
   },
 ];
