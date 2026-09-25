@@ -18,16 +18,16 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "best-energy-gels-cycling-2026",
     title: "Best Energy Gels for Cycling 2026",
-    description: "We tested and analysed 15+ energy gels for cyclists. Here are the top picks across price, performance, GI comfort and ingredient quality.",
+    description: "We compared 15+ energy gels for cyclists. Here are the top picks across price, carbohydrate science and ingredient quality.",
     date: "2026-09-22",
     author: "Pello Nutrition",
     category: "Reviews",
     tags: ["energy gels", "cycling", "endurance", "fuelling"],
-    relatedProducts: ["maurten-gel-100", "maurten-gel-100-caf-100", "sis-beta-fuel-gel", "precision-fuel-pf30", "clif-shot-gel", "gu-roctane-gel"],
+    relatedProducts: ["maurten-gel-100", "maurten-gel-100-caf-100", "science-in-sport-go-energy-gel", "sis-beta-fuel-gel", "precision-fuel-pf30", "gu-roctane-gel"],
     readingTime: 6,
     content: `Energy gels are the cornerstone of endurance cycling nutrition. Get them right and you can sustain effort for hours. Get them wrong and you're dealing with GI distress, energy crashes or simply running out of fuel.
 
-We analysed 15+ gels across ingredient quality, carbohydrate science, GI comfort ratings from thousands of real athlete reviews, and value for money. Here are the best options for cyclists in 2026.
+We compared 15+ gels on ingredient quality, carbohydrate science, customer ratings and price per gel. Here are the best options for cyclists in 2026.
 
 ## What makes a good energy gel?
 
@@ -45,21 +45,23 @@ Before getting into picks, here's what actually matters in a gel:
 
 ### Best overall: Maurten Gel 100
 
-Maurten's hydrogel technology encapsulates carbohydrates in a polymer matrix that passes through the stomach quickly. The result is exceptional GI comfort scores — consistently the highest in our Explore.
+Maurten's hydrogel technology encapsulates carbohydrates in a gel matrix designed to pass through the stomach smoothly, and it's a favourite of athletes who struggle with GI issues. It's rated 4.8 out of 5 from over 1,400 reviews on The Feed.
 
-At 25g carbs per gel with a clean 7-ingredient label, it's not the most carb-dense option but the tolerance makes it a reliable choice for long events. The main drawback is price — at $3.17/gel it's among the most expensive on the market.
+At 25g carbs per gel with a short six-ingredient label, it's not the most carb-dense option, but its reputation for tolerance makes it a reliable choice for long events. The main drawback is price — at $3.75/gel it's among the most expensive on the market.
 
 Best for: Cyclists who've had GI issues with other gels, long sportives and gran fondos.
 
-### Best value: Clif Shot Gel
+### Best value: SiS GO Energy + Electrolyte Gel
 
-At under $1.50/gel, Clif Shot delivers 25g of organic carbs with a good range of caffeine options. It won't match Maurten's GI comfort scores but the organic maltodextrin base is solid and the 15+ flavour range keeps things interesting on long rides.
+At about $1.17/gel, this is the cheapest proper energy gel we list. Each gel has 22g of carbs from maltodextrin plus 100mg of sodium, so it tops up electrolytes as well as fuel. It's Informed Sport certified, vegan, and rated 4.6 out of 5 from nearly 600 reviews on The Feed.
+
+With a single carb source it's best at moderate intakes (up to around 60g per hour) rather than race-pace fuelling.
 
 Best for: Training rides, budget-conscious athletes, high-volume use.
 
 ### Best high-carb: SiS Beta Fuel Gel
 
-Science in Sport's Beta Fuel delivers 40g of carbs per gel at a 1:0.8 maltodextrin:fructose ratio — one of the highest per-gel doses available. It's isotonic so can be taken without water.
+Science in Sport's Beta Fuel delivers 40g of carbs per gel at a 1:0.8 maltodextrin:fructose ratio — one of the highest per-gel doses available — so fewer gels cover a high hourly target. It's Informed Sport certified.
 
 Best for: High-intensity efforts, athletes pushing 80-90g carbs/hr.
 
@@ -88,7 +90,7 @@ Start fuelling at 30-45 minutes into the ride. Don't wait until you feel hungry 
 
 ## The bottom line
 
-For most cyclists, a combination of Maurten Gel 100 for GI-sensitive moments and a cheaper gel like Clif Shot for training is the most practical approach. Reserve the expensive gels for race day and key training sessions.
+For most cyclists, a combination of Maurten Gel 100 for GI-sensitive moments and a cheaper gel like SiS GO Energy + Electrolyte for training is the most practical approach. Reserve the expensive gels for race day and key training sessions.
 
 Use our [Pello Planner](/quiz) to get a personalised gel recommendation based on your specific event duration and intensity.`,
   },
@@ -153,7 +155,7 @@ The counter-argument: that water is inside muscle cells and may actually improve
 
 ## Our recommended products
 
-Thorne Creatine and Momentous Creatine are both NSF Certified for Sport and trusted by professional sports teams, and Momentous uses Creapure monohydrate. Both represent excellent value at under $0.50 per serving.
+Thorne Creatine and Momentous Creatine are both NSF Certified for Sport, and Momentous uses Creapure monohydrate. Both represent excellent value at under $0.50 per serving.
 
 View full analysis and community reviews on each product page linked below.
 
@@ -182,9 +184,9 @@ So which one is actually better — and for whom?
 
 The fundamental difference between Maurten and SiS Beta Fuel comes down to delivery mechanism and carbohydrate ratio.
 
-Maurten uses a hydrogel system — sodium alginate and calcium carbonate form a gel that encapsulates the carbohydrates and carries them through the stomach quickly. The result is reduced gastric emptying time and lower gut stress.
+Maurten uses a hydrogel system — sodium alginate reacts with stomach acid to form a gel around the carbohydrates, which Maurten says helps them pass through the stomach with less gut stress. Independent studies have found mixed results so far, but many athletes with sensitive stomachs rely on it.
 
-SiS Beta Fuel uses a 1:0.8 maltodextrin to fructose ratio — refined from the older 2:1 standard. Research from Jeukendrup and colleagues showed this ratio maximises dual-transporter absorption, allowing up to 90g of carbs per hour with significantly less GI distress than the 2:1 ratio.
+SiS Beta Fuel uses a 1:0.8 maltodextrin to fructose ratio — refined from the older 2:1 standard. Research suggests a ratio closer to 1:1 can improve carbohydrate absorption and comfort at high intakes, supporting up to 90g of carbs per hour.
 
 Both approaches are scientifically valid. They're solving the same problem — getting more carbs in faster with less gut trouble — from different angles.
 
@@ -197,36 +199,34 @@ This is where SiS Beta Fuel has a clear advantage.
 
 For athletes pushing 80-90g carbs per hour, SiS delivers more per unit. You need 3-4 Maurten gels per hour versus 2-3 SiS Beta Fuel gels. Fewer items to carry, fewer moments to fumble with packaging mid-race.
 
-The drink mixes tell a similar story. SiS Beta Fuel drink provides 80g carbs per serving versus Maurten 320's 80g — similar at the top end, but SiS is isotonic while Maurten is hypotonic.
+The drink mixes are level: SiS Beta Fuel drink and Maurten Drink Mix 320 both provide 80g of carbs per serving.
 
 ## GI comfort
 
-This is Maurten's strongest suit. The hydrogel system consistently produces the highest GI comfort scores in our Explore — across thousands of real athlete reviews.
+Both are built for gut comfort, from different angles: Maurten through its hydrogel, SiS through its 1:0.8 carb ratio. Customers rate them equally — both gels score 4.8 out of 5 on The Feed, from over 1,400 reviews for Maurten Gel 100 and nearly 1,300 for Beta Fuel.
 
-SiS Beta Fuel's 1:0.8 ratio is a genuine improvement over older formulations, and GI comfort scores are high. But Maurten scores higher, particularly for athletes with sensitive stomachs or those racing at very high intensities where gut stress is amplified.
-
-If you've had GI issues with other products and tried both, most athletes report Maurten sits better.
+Gut tolerance is highly individual, so the only reliable test is trying each in training at race intensity before you commit to one on race day.
 
 ## Ingredient cleanliness
 
-Maurten wins here decisively. 7 ingredients total. No artificial colours, flavours, preservatives or sweeteners. The label is about as clean as a sports nutrition product gets.
+Maurten wins here. Gel 100 has six ingredients — water, glucose, fructose, calcium carbonate, gluconic acid and sodium alginate — with no flavourings, colours, preservatives or sweeteners.
 
-SiS Beta Fuel contains more ingredients including some athletes prefer to avoid. It's still a reasonably clean product by industry standards but doesn't match Maurten's simplicity.
+SiS Beta Fuel adds flavourings, gums (gellan and xanthan) and preservatives (sodium benzoate and potassium sorbate). These are common, approved ingredients, but some athletes prefer to avoid them.
 
 ## Price
 
 Both are expensive. SiS Beta Fuel is slightly more affordable per gram of carbohydrate delivered.
 
-- Maurten Gel 100: ~$3.17/gel, 25g carbs = $0.127/g carb
-- SiS Beta Fuel Gel: ~$2.80/gel, 40g carbs = $0.070/g carb
+- Maurten Gel 100: ~$3.75/gel (box of 12), 25g carbs = $0.150/g carb
+- SiS Beta Fuel Gel: ~$3.39/gel (box of 18), 40g carbs = $0.085/g carb
 
-SiS delivers nearly twice the carbs per dollar. For athletes doing high-volume training and racing, this adds up significantly over a season.
+SiS delivers about 1.8 times the carbs per dollar. For athletes doing high-volume training and racing, this adds up significantly over a season.
 
 ## Who should use each
 
 **Choose Maurten if:**
-- You have a sensitive stomach or history of GI issues during racing
-- You prioritise ingredient cleanliness above all else
+- You have a sensitive stomach or history of GI issues during racing and the hydrogel works for you
+- You want the shortest ingredient list, with no flavourings or preservatives
 - You're racing at very high intensities where gut tolerance is critical
 - Budget is secondary to performance reliability
 
@@ -234,13 +234,12 @@ SiS delivers nearly twice the carbs per dollar. For athletes doing high-volume t
 - You need to hit 80-90g carbs per hour and want fewer gels to carry
 - You want better value per gram of carbohydrate
 - Your stomach tolerates most products well
-- You prefer an isotonic formulation
 
 ## The verdict
 
 There's no universal winner. For athletes with cast-iron stomachs who want maximum carb density and value, SiS Beta Fuel is the better choice. For athletes who've struggled with GI issues or want the cleanest possible label, Maurten is worth the premium.
 
-Many professional athletes use both — Maurten for racing and key sessions, SiS Beta Fuel for high-volume training where cost matters. That's a sensible approach.
+A sensible middle ground is to use both — Maurten for racing and key sessions, SiS Beta Fuel for high-volume training where cost matters.
 
 Use the Pello Planner to get a personalised recommendation based on your specific event and goals.`,
   },
@@ -253,7 +252,7 @@ Use the Pello Planner to get a personalised recommendation based on your specifi
     author: "Pello Nutrition",
     category: "Guides",
     tags: ["marathon", "running", "race nutrition", "carb loading", "gels"],
-    relatedProducts: ["maurten-gel-100", "precision-fuel-pf30", "clif-shot-gel", "lmnt-electrolyte-mix", "momentous-whey-isolate"],
+    relatedProducts: ["maurten-gel-100", "precision-fuel-pf30", "lmnt-electrolyte-mix", "momentous-whey-isolate"],
     readingTime: 9,
     content: `The marathon is 26.2 miles. At race pace, you'll burn through your glycogen stores in roughly 90-120 minutes. The race is twice as long. That gap is where nutrition becomes the difference between a strong finish and hitting the wall.
 
