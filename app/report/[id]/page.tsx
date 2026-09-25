@@ -49,8 +49,14 @@ const SERVING_UNIT: Record<string, string> = {
   "Energy Gel": "gel", "Energy Chew": "pack", "Energy Bar": "bar", "Probiotic": "capsule",
 };
 
+// "1 stick pack (4g)" -> "stick pack". Only used for single-unit servings, so "1/2 bar" isn't shown as "per bar".
+function servingUnit(product: Product): string {
+  const m = product.servingSize?.match(/^\s*1\s+([a-z][a-z ]*?)\s*(?:\(|$)/i);
+  return m ? m[1].toLowerCase() : SERVING_UNIT[product.category] ?? "serving";
+}
+
 function getPricePerServing(product: Product): string {
-  return `$${calcPricePerServing(product).toFixed(2)} per ${SERVING_UNIT[product.category] ?? "serving"}`;
+  return `$${calcPricePerServing(product).toFixed(2)} per ${servingUnit(product)}`;
 }
 
 function getBestForStatement(product: typeof PRODUCTS[0]): string {
