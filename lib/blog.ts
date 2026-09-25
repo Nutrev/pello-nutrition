@@ -23,7 +23,7 @@ export const BLOG_POSTS: BlogPost[] = [
     author: "Pello Nutrition",
     category: "Reviews",
     tags: ["energy gels", "cycling", "endurance", "fuelling"],
-    relatedProducts: ["maurten-gel-100", "sis-beta-fuel-gel", "precision-fuel-pf30-gel", "clif-shot-gel", "gu-roctane-gel"],
+    relatedProducts: ["maurten-gel-100", "maurten-gel-100-caf-100", "sis-beta-fuel-gel", "precision-fuel-pf30", "clif-shot-gel", "gu-roctane-gel"],
     readingTime: 6,
     content: `Energy gels are the cornerstone of endurance cycling nutrition. Get them right and you can sustain effort for hours. Get them wrong and you're dealing with GI distress, energy crashes or simply running out of fuel.
 
@@ -69,6 +69,12 @@ Best for: High-intensity efforts, athletes pushing 80-90g carbs/hr.
 
 Best for: Late-race use, sportives over 3 hours, athletes who respond well to caffeine.
 
+### Best for sensitive stomachs: Maurten Gel 100 CAF 100
+
+Same hydrogel formula as the standard Gel 100 but with 100mg caffeine. The hydrogel delivery system appears to reduce caffeine-related GI issues compared to standard caffeinated gels.
+
+Best for: Athletes who want caffeine but struggle with GI distress from standard caffeinated gels.
+
 ## How many gels do you need?
 
 A rough guide based on intensity:
@@ -82,7 +88,9 @@ Start fuelling at 30-45 minutes into the ride. Don't wait until you feel hungry 
 
 ## The bottom line
 
-For most cyclists, a combination of Maurten Gel 100 for GI-sensitive moments and a cheaper gel like Clif Shot for training is the most practical approach. Reserve the expensive gels for race day and key training sessions.`,
+For most cyclists, a combination of Maurten Gel 100 for GI-sensitive moments and a cheaper gel like Clif Shot for training is the most practical approach. Reserve the expensive gels for race day and key training sessions.
+
+Use our [Pello Planner](/quiz) to get a personalised gel recommendation based on your specific event duration and intensity.`,
   },
   {
     slug: "creatine-endurance-athletes",
@@ -126,6 +134,10 @@ Emerging research shows creatine supplementation improves cognitive performance,
 
 Creatine has demonstrated anti-inflammatory effects and may reduce muscle damage markers after intense exercise. Faster recovery between hard training sessions is valuable for any athlete.
 
+**Muscle mass (if desired)**
+
+Creatine increases intramuscular water retention and, over time, lean muscle mass. For power-to-weight sport this is a trade-off — some cyclists avoid it for this reason.
+
 ## The weight concern
 
 The most common reason endurance athletes avoid creatine is the 1-2kg water weight gain from intramuscular hydration. For road cyclists where watts per kilogram matters, this is a real consideration.
@@ -138,6 +150,12 @@ The counter-argument: that water is inside muscle cells and may actually improve
 - Form: Creatine monohydrate. Specifically Creapure — a German-manufactured pharmaceutical-grade monohydrate.
 - Timing: Timing matters less than consistency. Daily use is what matters.
 - Certified: Look for NSF Certified for Sport or Informed Sport certification.
+
+## Our recommended products
+
+Thorne Creatine and Momentous Creatine are both NSF Certified for Sport and trusted by professional sports teams, and Momentous uses Creapure monohydrate. Both represent excellent value at under $0.50 per serving.
+
+View full analysis and community reviews on each product page linked below.
 
 ## The bottom line
 
@@ -235,7 +253,7 @@ Use the Pello Planner to get a personalised recommendation based on your specifi
     author: "Pello Nutrition",
     category: "Guides",
     tags: ["marathon", "running", "race nutrition", "carb loading", "gels"],
-    relatedProducts: ["maurten-gel-100", "precision-fuel-pf30-gel", "clif-shot-gel", "lmnt-electrolyte-mix", "momentous-whey-isolate"],
+    relatedProducts: ["maurten-gel-100", "precision-fuel-pf30", "clif-shot-gel", "lmnt-electrolyte-mix", "momentous-whey-isolate"],
     readingTime: 9,
     content: `The marathon is 26.2 miles. At race pace, you'll burn through your glycogen stores in roughly 90-120 minutes. The race is twice as long. That gap is where nutrition becomes the difference between a strong finish and hitting the wall.
 
