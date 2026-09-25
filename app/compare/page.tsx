@@ -4,7 +4,6 @@ import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { PRODUCTS, Product } from "@/lib/products";
 import Link from "next/link";
-import Logo from "@/components/Logo";
 import BrandLogo from "@/components/BrandLogo";
 import IngredientFlags from "@/components/IngredientFlags";
 
@@ -122,23 +121,6 @@ const filteredProducts = PRODUCTS.filter((p) => {
 
   return (
     <div className="min-h-screen">
-      {/* Nav */}
-      <nav className="border-b border-sand bg-cream/80 backdrop-blur-sm sticky top-0 z-50">
-  <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
-    <Link href="/" className="font-display font-bold text-lg tracking-tight">
-      <Logo />
-    </Link>
-    <div className="flex items-center gap-3">
-      <Link href="/products" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">All products</Link>
-<Link href="/search" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Search</Link>
-            <Link href="/search" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Search</Link>
-<Link href="/compare" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Compare</Link>
-      <Link href="/query" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Explore</Link>
-      <Link href="/ingredients" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Ingredients</Link>
-            <Link href="/quiz" className="btn-secondary text-xs py-1.5 px-3">Build my plan →</Link>
-    </div>
-  </div>
-</nav>
 
       <div className="max-w-6xl mx-auto px-6 py-10">
         {/* Header */}

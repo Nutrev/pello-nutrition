@@ -3,7 +3,6 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
-import Logo from "@/components/Logo";
 import { PRODUCTS } from "@/lib/products";
 import { servingsPerContainer } from "@/lib/servings";
 import {
@@ -459,18 +458,6 @@ export default function PlannerPage() {
 
   return (
     <div className="min-h-screen">
-      <nav className="border-b border-sand bg-cream/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
-          <Link href="/"><Logo /></Link>
-          <div className="flex items-center gap-3">
-            <Link href="/products" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">All products</Link>
-            <Link href="/search" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Search</Link>
-            <Link href="/compare" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Compare</Link>
-            <Link href="/query" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Explore</Link>
-            <Link href="/ingredients" className="hidden lg:block text-sm text-muted hover:text-ink transition-colors">Ingredients</Link>
-          </div>
-        </div>
-      </nav>
 
       <div className="max-w-2xl mx-auto px-6 py-12">
 

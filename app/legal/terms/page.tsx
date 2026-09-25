@@ -1,6 +1,5 @@
 // app/legal/terms/page.tsx
 
-import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,14 +10,6 @@ export const metadata: Metadata = {
 export default function TermsPage() {
   return (
     <div className="min-h-screen">
-      <nav className="border-b border-sand bg-cream/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
-          <Link href="/" className="font-display font-bold text-lg tracking-tight">
-            Pel<span className="text-moss">lo</span>
-          </Link>
-          <Link href="/" className="text-sm text-muted hover:text-ink transition-colors">← Back to site</Link>
-        </div>
-      </nav>
 
       <div className="max-w-2xl mx-auto px-6 py-16">
         <div className="mb-10">
