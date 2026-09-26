@@ -55,12 +55,12 @@ const RETAILER_OPTIONS: Retailer[] = ["REI", "Amazon", "The Feed", "Running Ware
 const OUTCOME_CATEGORY_PRIORITY: Record<OutcomeType, string[]> = {
   "finish-first-marathon": ["Energy Gel", "Energy Chew", "Hydration", "Carbohydrate Mix", "Energy Bar"],
   "finish-first-triathlon": ["Energy Gel", "Carbohydrate Mix", "Hydration", "Energy Chew", "Protein"],
-  "improve-cycling-endurance": ["Energy Gel", "Carbohydrate Mix", "Hydration", "Energy Chew", "Creatine"],
-  "improve-recovery": ["Protein", "Omega-3", "Supplement", "Mineral", "Probiotic"],
-  "build-muscle-endurance": ["Protein", "Creatine", "Energy Gel", "Supplement", "Mineral"],
-  "lose-weight-perform": ["Protein", "Hydration", "Energy Gel", "Supplement", "Omega-3"],
-  "race-faster": ["Energy Gel", "Carbohydrate Mix", "Hydration", "Creatine", "Supplement"],
-  "gut-health": ["Probiotic", "Supplement", "Hydration", "Energy Gel", "Omega-3"],
+  "improve-cycling-endurance": ["Energy Gel", "Carbohydrate Mix", "Hydration", "Energy Chew", "Performance", "Creatine"],
+  "improve-recovery": ["Protein", "Recovery", "Sleep", "Omega-3", "Mineral"],
+  "build-muscle-endurance": ["Protein", "Creatine", "Performance", "Energy Gel", "Recovery"],
+  "lose-weight-perform": ["Protein", "Hydration", "Energy Gel", "Sleep", "Omega-3"],
+  "race-faster": ["Energy Gel", "Carbohydrate Mix", "Hydration", "Performance", "Creatine"],
+  "gut-health": ["Probiotic", "Gut Health", "Hydration", "Energy Gel", "Omega-3"],
 };
 
 // ── PHASE → CATEGORY MAP ──────────────────────────────────────
@@ -68,7 +68,7 @@ const OUTCOME_CATEGORY_PRIORITY: Record<OutcomeType, string[]> = {
 const PHASE_CATEGORIES = {
   pre: ["Energy Bar", "Carbohydrate Mix", "Hydration"],
   during: ["Energy Gel", "Energy Chew", "Carbohydrate Mix", "Hydration"],
-  post: ["Protein", "Supplement", "Omega-3", "Mineral", "Probiotic"],
+  post: ["Protein", "Recovery", "Sleep", "Omega-3", "Mineral"],
 };
 
 // ── HELPERS ───────────────────────────────────────────────────
@@ -183,7 +183,9 @@ function buildPhaseRecommendations(PRODUCTS: ProductSummary[], inputs: PlannerIn
       totalCost: parseFloat((p.price / servingsPerContainer(p)).toFixed(2)),
       reason: p.category === "Protein"
         ? `30-min recovery window — protein synthesis peaks immediately post-event`
-        : `Recovery support — reduce inflammation and restore balance`,
+        : p.category === "Sleep"
+        ? `Sleep support — sleep is one of the biggest drivers of recovery after a hard event`
+        : `Recovery support in the days after the event`,
     }));
 
     return { pre: prePhase, during: duringPhase, post: postPhase };
@@ -219,7 +221,9 @@ function buildPhaseRecommendations(PRODUCTS: ProductSummary[], inputs: PlannerIn
       }));
 
     const post = allProducts
-      .filter(p => ["Protein", "Creatine", "Omega-3", "Supplement", "Mineral", "Probiotic"].includes(p.category))
+      .filter(p => ["Protein", "Creatine", "Performance", "Recovery", "Sleep", "Omega-3", "Supplement", "Mineral", "Probiotic", "Gut Health"].includes(p.category))
+      // One product per category first, so three picks cover three kinds of support.
+      .filter((p, i, list) => list.findIndex(q => q.category === p.category) === i)
       .slice(0, 3)
       .map(p => ({
         product: p,
@@ -232,6 +236,14 @@ function buildPhaseRecommendations(PRODUCTS: ProductSummary[], inputs: PlannerIn
           ? "Daily anti-inflammatory — reduces DOMS and accelerates tissue repair"
           : outcomeType === "gut-health" && p.category === "Probiotic"
           ? "Daily gut support — diversifies microbiome and reduces GI distress during exercise"
+          : p.category === "Performance"
+          ? "Performance supplement — check its doses against the research on its page"
+          : p.category === "Recovery"
+          ? "Recovery support between hard sessions"
+          : p.category === "Sleep"
+          ? "Sleep support — sleep is one of the biggest drivers of recovery"
+          : p.category === "Gut Health"
+          ? "Daily gut support"
           : "Daily supplement to support your goal",
       }));
 
