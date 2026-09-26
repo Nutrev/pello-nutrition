@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
+import { DM_Sans, Montserrat } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import SiteNav from "@/components/SiteNav";
 import { LogoMark } from "@/components/Logo";
 
 const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-sans" });
+// Used only by the logo (components/Logo.tsx).
+const montserrat = Montserrat({ subsets: ["latin"], weight: ["600", "700"], variable: "--font-logo" });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.pellonutrition.com"),
@@ -39,7 +41,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={dmSans.variable}>
+    <html lang="en" className={`${dmSans.variable} ${montserrat.variable}`}>
       <body className="bg-cream text-ink antialiased">
         <SiteNav />
         {children}
