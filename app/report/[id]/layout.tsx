@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { PRODUCTS } from "@/lib/products";
+import { getProduct } from "@/lib/catalog";
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const product = PRODUCTS.find(p => p.id === params.id);
+  const product = getProduct(params.id);
   if (!product) return { title: "Product not found" };
 
   const title = `${product.name} by ${product.brand} Review`;

@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import { getCatalogStats } from "@/lib/catalog";
 
 // Social preview image (link previews on social media and messaging apps), generated at
 // build time. Next adds the og:image tags automatically; X falls back to it too.
@@ -114,7 +115,7 @@ export default async function OpengraphImage() {
           </div>
         </div>
         <div style={{ display: "flex", gap: 14 }}>
-          <Chip>240+ products</Chip>
+          <Chip>{`${getCatalogStats().productCount} products`}</Chip>
           <Chip>Label-verified data</Chip>
           <Chip>Pello Score™</Chip>
         </div>

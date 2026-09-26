@@ -126,7 +126,7 @@ export default function AdminPage() {
   const CATEGORIES = [
     "Energy Gel", "Energy Chew", "Energy Bar", "Carbohydrate Mix",
     "Hydration", "Protein", "Creatine", "Supplement", "Probiotic",
-    "Omega-3", "Vitamin", "Mineral",
+    "Omega-3", "Vitamin", "Mineral", "Performance", "Recovery", "Sleep", "Gut Health",
   ];
 
   return (

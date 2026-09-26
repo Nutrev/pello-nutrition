@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
+import { getCatalogStats } from "@/lib/catalog";
+
+const { productCount } = getCatalogStats();
 
 export const metadata: Metadata = {
   title: "All Sports Nutrition Products",
-  description: "Browse 240+ sports nutrition products — energy gels, drink mixes, protein, creatine and supplements. Science-backed reviews and Pello Score™ ratings for endurance athletes.",
+  description: `Browse ${productCount} sports nutrition products — energy gels, drink mixes, protein, creatine and supplements. Science-backed reviews and Pello Score™ ratings for endurance athletes.`,
   openGraph: {
     title: "All Sports Nutrition Products | Pello",
-    description: "Browse 240+ sports nutrition products with science-backed reviews and Pello Score™ ratings.",
+    description: `Browse ${productCount} sports nutrition products with science-backed reviews and Pello Score™ ratings.`,
     url: "https://www.pellonutrition.com/products",
   },
 };

@@ -4,6 +4,7 @@
 // towards the site-wide average until it has enough reviews to stand on its own
 // (a Bayesian average, as used by IMDb's top lists).
 
+import "server-only";
 import { PRODUCTS, type Product } from "./products";
 
 // Reviews needed before a product's own rating counts as much as the site average.
@@ -17,9 +18,4 @@ const SITE_AVERAGE =
 export function weightedRating(p: Pick<Product, "rating" | "reviewCount">): number {
   if (p.reviewCount <= 0) return -1;
   return (p.rating * p.reviewCount + SITE_AVERAGE * PRIOR_REVIEWS) / (p.reviewCount + PRIOR_REVIEWS);
-}
-
-// Comparator for Array.sort: best-rated first.
-export function byWeightedRating(a: Pick<Product, "rating" | "reviewCount">, b: Pick<Product, "rating" | "reviewCount">): number {
-  return weightedRating(b) - weightedRating(a);
 }

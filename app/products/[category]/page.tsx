@@ -1,7 +1,5 @@
-"use client";
-
-import { PRODUCTS, Product } from "@/lib/products";
-import { byWeightedRating } from "@/lib/ratings";
+import { getProductSummaries } from "@/lib/catalog";
+import { byWeightedRating, type ProductSummary } from "@/lib/catalog-types";
 import { servingsPerContainer, formatPrice } from "@/lib/servings";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -17,7 +15,7 @@ const GOAL_COLORS: Record<string, string> = {
   immunity: "bg-moss/10 text-moss",
 };
 
-function ProductCard({ product }: { product: Product }) {
+function ProductCard({ product }: { product: ProductSummary }) {
   return (
     <Link href={`/report/${product.id}`}>
       <div className="card hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group h-full">
@@ -64,6 +62,7 @@ function ProductCard({ product }: { product: Product }) {
 }
 
 export default function CategoryPage({ params }: { params: { category: string } }) {
+  const PRODUCTS = getProductSummaries();
   // Convert URL slug back to category name e.g. "energy-gel" → "Energy Gel"
   const slug = params.category;
   const allCategories = Array.from(new Set(PRODUCTS.map((p) => p.category)));

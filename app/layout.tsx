@@ -4,6 +4,9 @@ import "./globals.css";
 import Link from "next/link";
 import SiteNav from "@/components/SiteNav";
 import { LogoMark } from "@/components/Logo";
+import { getCatalogStats } from "@/lib/catalog";
+
+const { productCount } = getCatalogStats();
 
 const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-sans" });
 // Used only by the logo (components/Logo.tsx).
@@ -15,7 +18,7 @@ export const metadata: Metadata = {
     default: "Pello — Sports Nutrition Research for Endurance Athletes",
     template: "%s | Pello Nutrition",
   },
-  description: "Science-backed reviews, ingredient analysis and AI-powered nutrition plans for endurance athletes. Compare energy gels, drink mixes, protein and supplements across 240+ products.",
+  description: `Science-backed reviews, ingredient analysis and AI-powered nutrition plans for endurance athletes. Compare energy gels, drink mixes, protein and supplements across ${productCount} products.`,
   keywords: ["sports nutrition", "energy gels", "endurance nutrition", "nutrition research", "sports supplements", "cycling nutrition", "marathon nutrition", "triathlon nutrition"],
   authors: [{ name: "Pello Nutrition" }],
   creator: "Pello Nutrition",

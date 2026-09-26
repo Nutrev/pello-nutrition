@@ -17,7 +17,7 @@ function getAttributesForCategory(category?: Category): {
 }[] {
   const isFuelling = ["Energy Gel", "Energy Chew", "Energy Bar", "Carbohydrate Mix", "Hydration"].includes(category ?? "");
   const isProtein = category === "Protein";
-  const isSupplement = ["Creatine", "Supplement", "Probiotic", "Omega-3", "Vitamin", "Mineral", "Recovery & Sleep"].includes(category ?? "");
+  const isSupplement = ["Creatine", "Supplement", "Probiotic", "Omega-3", "Vitamin", "Mineral", "Performance", "Recovery", "Sleep", "Gut Health"].includes(category ?? "");
 
   if (isFuelling) {
     return [

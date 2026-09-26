@@ -2,11 +2,15 @@
 // Central data store. In production, replace with a Explore (e.g. Supabase)
 // and a scraping pipeline that populates it from Amazon, Reddit, Trustpilot, etc.
 
+// Product data is server-only: pages read it through lib/catalog.ts. Importing this file from a
+// client component fails the build, so the full catalogue never ships to the browser.
+import "server-only";
 import { THE_FEED_PRODUCTS } from "./products-thefeed";
+import { THE_FEED_SUPPLEMENTS } from "./products-supplements";
 
 export type Verdict = "proven" | "likely" | "disputed";
 export type Goal = "muscle" | "endurance" | "recovery" | "health" | "sleep" | "immunity" | "gut health";
-export type Category = "Creatine" | "Energy" | "Energy Gel" | "Carbohydrate Mix" | "Energy Chew" | "Energy Bar" | "Supplement" | "Hydration" | "Protein" | "Probiotic" | "Omega-3" | "Vitamin" | "Mineral";
+export type Category = "Creatine" | "Energy" | "Energy Gel" | "Carbohydrate Mix" | "Energy Chew" | "Energy Bar" | "Supplement" | "Hydration" | "Protein" | "Probiotic" | "Omega-3" | "Vitamin" | "Mineral" | "Performance" | "Recovery" | "Sleep" | "Gut Health";
 export interface Ingredient {
   name: string;
   dose?: string;
@@ -6680,4 +6684,4 @@ imageEmoji: "💧",
 },
 ];
 
-export const PRODUCTS: Product[] = [...CURATED_PRODUCTS, ...THE_FEED_PRODUCTS];
+export const PRODUCTS: Product[] = [...CURATED_PRODUCTS, ...THE_FEED_PRODUCTS, ...THE_FEED_SUPPLEMENTS];
