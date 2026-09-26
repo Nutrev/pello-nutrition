@@ -3,6 +3,7 @@ import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import SiteNav from "@/components/SiteNav";
+import { LogoMark } from "@/components/Logo";
 
 const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -42,7 +43,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-cream text-ink antialiased">
         <SiteNav />
         {children}
-        <footer className="border-t border-sand py-6 mt-auto">
+        <footer className="border-t border-sand py-8 mt-auto">
+          <Link href="/" aria-label="Pello Nutrition home" className="block w-fit mx-auto mb-5">
+            <LogoMark className="w-20 h-auto" />
+          </Link>
           <div className="max-w-5xl mx-auto px-6 flex flex-wrap justify-center gap-4 text-xs text-muted">
             <span>© 2026 Pello Nutrition</span>
             <Link href="/legal/privacy">Privacy Policy</Link>
