@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
 import { PRODUCTS } from "@/lib/products";
+import { getAllPosts } from "@/lib/blog";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://www.pellonutrition.com";
@@ -11,13 +12,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/quiz`, priority: 0.9, changeFrequency: "monthly" as const },
     { url: `${base}/compare`, priority: 0.8, changeFrequency: "weekly" as const },
     { url: `${base}/search`, priority: 0.8, changeFrequency: "weekly" as const },
-    { url: `${base}/Explore`, priority: 0.8, changeFrequency: "weekly" as const },
+    { url: `${base}/query`, priority: 0.8, changeFrequency: "weekly" as const },
     { url: `${base}/ingredients`, priority: 0.7, changeFrequency: "monthly" as const },
     { url: `${base}/guides`, priority: 0.7, changeFrequency: "monthly" as const },
     { url: `${base}/guides/carb-calculator`, priority: 0.7, changeFrequency: "monthly" as const },
     { url: `${base}/guides/recovery`, priority: 0.7, changeFrequency: "monthly" as const },
     { url: `${base}/methodology`, priority: 0.6, changeFrequency: "monthly" as const },
-    { url: `${base}/about`, priority: 0.5, changeFrequency: "monthly" as const },
+    { url: `${base}/graph`, priority: 0.5, changeFrequency: "monthly" as const },
+    { url: `${base}/blog`, priority: 0.7, changeFrequency: "weekly" as const },
   ];
 
   // Category pages
@@ -35,5 +37,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "weekly" as const,
   }));
 
-  return [...staticPages, ...categoryPages, ...productPages];
+  // Blog posts
+  const blogPages = getAllPosts().map((post) => ({
+    url: `${base}/blog/${post.slug}`,
+    lastModified: new Date(post.date),
+    priority: 0.7,
+    changeFrequency: "monthly" as const,
+  }));
+
+  return [...staticPages, ...categoryPages, ...blogPages, ...productPages];
 }
