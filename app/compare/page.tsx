@@ -308,7 +308,15 @@ const filteredProducts = PRODUCTS.filter((p) => {
                     Transparency
                   </td>
                   {selectedProducts.map((p) => {
-                    const maxScore = Math.max(...selectedProducts.map((x) => x.transparencyScore));
+                    const scores = selectedProducts.map((x) => x.transparencyScore).filter((x): x is number => x != null);
+                    const maxScore = scores.length ? Math.max(...scores) : null;
+                    if (p.transparencyScore == null) {
+                      return (
+                        <td key={p.id} className="px-4 py-4">
+                          <div className="text-sm text-muted">Not yet scored</div>
+                        </td>
+                      );
+                    }
                     return (
                       <td key={p.id} className="px-4 py-4">
                         <div className="flex items-center gap-2 mb-1">
@@ -318,7 +326,7 @@ const filteredProducts = PRODUCTS.filter((p) => {
                           <span className="text-xs text-muted">/ 100</span>
                         </div>
                         <ScoreBar value={p.transparencyScore} />
-                        {p.transparencyScore === maxScore && selectedProducts.length > 1 && (
+                        {p.transparencyScore === maxScore && scores.length > 1 && (
                           <div className="text-xs text-moss mt-1">Most transparent</div>
                         )}
                       </td>

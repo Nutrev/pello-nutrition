@@ -20,7 +20,7 @@ function enrichProduct(p: any) {
     hasCaffeine, isHydrogel, glucoseFructoseRatio, isBatchTested, isVegan,
   } = productNutrition(p);
 
-  const isCleanLabel = p.transparencyScore >= 85;
+  const isCleanLabel = (p.transparencyScore ?? 0) >= 85;
   const costPerGramCarb = carbsPerServing ? pricePerServing / carbsPerServing : null;
 
   return {
@@ -82,7 +82,7 @@ export default function ExplorePage() {
       if (filters.isCleanLabel && !p.isCleanLabel) return false;
       if (filters.isBatchTested && !p.isBatchTested) return false;
       if (filters.isHydrogel && !p.isHydrogel) return false;
-      if (filters.minTransparencyScore && p.transparencyScore < filters.minTransparencyScore) return false;
+      if (filters.minTransparencyScore && (p.transparencyScore == null || p.transparencyScore < filters.minTransparencyScore)) return false;
       if (filters.minRating && p.rating < filters.minRating) return false;
       if (filters.glucoseFructoseRatio && p.glucoseFructoseRatio !== filters.glucoseFructoseRatio) return false;
       if (filters.search && !`${p.name} ${p.brand} ${p.category}`.toLowerCase().includes(filters.search.toLowerCase())) return false;
@@ -384,7 +384,7 @@ export default function ExplorePage() {
                       {/* Transparency */}
                       <div className="flex items-center">
                         <span className={`text-xs ${p.transparencyScore >= 90 ? "text-moss font-medium" : p.transparencyScore >= 75 ? "text-amber" : "text-muted"}`}>
-                          {p.transparencyScore}%
+                          {p.transparencyScore != null ? `${p.transparencyScore}%` : "—"}
                         </span>
                       </div>
                     </div>
@@ -407,7 +407,7 @@ export default function ExplorePage() {
                   },
                   {
                     label: "Avg transparency",
-                    value: Math.round(filteredProducts.reduce((a: number, p: any) => a + p.transparencyScore, 0) / filteredProducts.length) + "%"
+                    value: (() => { const s = filteredProducts.filter((p: any) => p.transparencyScore != null); return s.length ? Math.round(s.reduce((a: number, p: any) => a + p.transparencyScore, 0) / s.length) + "%" : "—"; })()
                   },
                   {
                     label: "Batch tested",

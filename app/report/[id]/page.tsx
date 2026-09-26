@@ -399,14 +399,19 @@ export default function ReportPage({ params }: { params: { id: string } }) {
           <div className="card lg:col-span-2">
             <h2 className="font-display font-semibold text-base mb-4">Transparency & Sources</h2>
             <div className="flex items-center gap-4 mb-5 p-4 bg-sand/40 rounded-xl">
-              <ScoreCircle score={product.transparencyScore} />
+              {product.transparencyScore != null ? (
+                <ScoreCircle score={product.transparencyScore} />
+              ) : (
+                <div className="h-14 w-14 rounded-full border-4 border-sand flex items-center justify-center text-muted text-lg flex-shrink-0" aria-hidden="true">?</div>
+              )}
               <div>
                 <div className="lg:col-span-2">
             </div>
             <div className="lg:col-span-2">
               </div>
                 <div className="font-semibold">
-                  {product.transparencyScore >= 85 ? "High transparency" : product.transparencyScore >= 70 ? "Good transparency" : "Moderate transparency"}
+                  {product.transparencyScore == null ? "Not yet scored — full label not available"
+                    : product.transparencyScore >= 85 ? "High transparency" : product.transparencyScore >= 70 ? "Good transparency" : "Moderate transparency"}
                 </div>
                 <div className="text-xs text-muted mt-0.5">
                   {product.certifications?.length ?? 0} certification{(product.certifications?.length ?? 0) === 1 ? "" : "s"} · {product.reviewCount > 0 ? `${product.reviewCount.toLocaleString()} reviews on The Feed` : "no reviews yet"}

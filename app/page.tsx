@@ -65,10 +65,14 @@ function ProductCard({ product, featured = false }: { product: Product; featured
       <div className={`card hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group h-full ${featured ? "border-moss/30" : ""}`}>
         <div className="flex items-start justify-between mb-3">
           <BrandLogo logoDomain={product.logoDomain} logo={product.logo} brand={product.brand} />
-          <div className="flex items-center gap-1.5">
-            <div className="h-2 w-2 rounded-full" style={{ background: product.transparencyScore >= 85 ? "#2D4A2D" : product.transparencyScore >= 70 ? "#C8860A" : "#B84C2E" }} />
-            <span className="text-xs text-muted">{product.transparencyScore}%</span>
-          </div>
+          {product.transparencyScore != null ? (
+            <div className="flex items-center gap-1.5">
+              <div className="h-2 w-2 rounded-full" style={{ background: product.transparencyScore! >= 85 ? "#2D4A2D" : product.transparencyScore! >= 70 ? "#C8860A" : "#B84C2E" }} />
+              <span className="text-xs text-muted">{product.transparencyScore}%</span>
+            </div>
+          ) : (
+            <span className="text-xs text-muted">Not yet scored</span>
+          )}
         </div>
         <div className="text-xs text-muted font-body mb-0.5">{product.brand}</div>
         <h3 className="font-display font-semibold text-base leading-tight mb-2 group-hover:text-moss transition-colors">

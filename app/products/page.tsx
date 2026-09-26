@@ -33,10 +33,14 @@ function ProductCard({ product }: { product: Product }) {
             logoDomain={product.logoDomain}
             logo={product.logo}
             brand={product.brand} />
-          <div className="flex items-center gap-1.5">
-            <div className="h-2 w-2 rounded-full" style={{ background: product.transparencyScore >= 85 ? "#2D4A2D" : product.transparencyScore >= 70 ? "#C8860A" : "#B84C2E" }} />
-            <span className="text-xs text-muted">{product.transparencyScore}% transparent</span>
-          </div>
+          {product.transparencyScore != null ? (
+            <div className="flex items-center gap-1.5">
+              <div className="h-2 w-2 rounded-full" style={{ background: product.transparencyScore! >= 85 ? "#2D4A2D" : product.transparencyScore! >= 70 ? "#C8860A" : "#B84C2E" }} />
+              <span className="text-xs text-muted">{product.transparencyScore}% transparent</span>
+            </div>
+          ) : (
+            <span className="text-xs text-muted">Not yet scored</span>
+          )}
         </div>
         <div className="text-xs text-muted font-body mb-0.5">{product.brand}</div>
         <h3 className="font-display font-semibold text-base leading-tight mb-2 group-hover:text-moss transition-colors">

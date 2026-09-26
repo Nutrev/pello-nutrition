@@ -80,7 +80,7 @@ export interface ScoringInput {
   rating: number;
 
   // Legacy transparency score (used as input)
-  transparencyScore: number;
+  transparencyScore: number | null;
 }
 
 // ── PILLAR 1: SCIENCE (0-25) ─────────────────────────────────
@@ -162,7 +162,9 @@ function scoreTransparency(input: ScoringInput): { score: number; notes: string[
   let score = 0;
 
   // Base from existing transparency score (0-10)
-  const baseScore = Math.round((input.transparencyScore / 100) * 10);
+  // Not yet scored (full label unavailable): neutral midpoint rather than a penalty.
+  const baseScore = input.transparencyScore == null ? 5 : Math.round((input.transparencyScore / 100) * 10);
+  if (input.transparencyScore == null) notes.push("Label transparency not yet scored — neutral value used");
   score += baseScore;
 
   // Proprietary blend penalty (-5)
