@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import type { Category } from "@/lib/products";
-import { byWeightedRating, type ProductSummary } from "@/lib/catalog-types";
+import { byWeightedRating, categorySlug, type ProductSummary } from "@/lib/catalog-types";
 import { servingsPerContainer, formatPrice } from "@/lib/servings";
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
@@ -138,7 +138,7 @@ export default function ProductsClient({ catalog }: { catalog: ProductSummary[] 
             {allCategories.map((cat) => (
               <Link
                 key={cat}
-                href={`/products/${cat.toLowerCase().replace(/\s+/g, "-").replace(/&/g, "and")}`}
+                href={`/products/${categorySlug(cat)}`}
                 className="text-xs bg-white/60 border border-sand px-3 py-1.5 rounded-lg hover:border-muted transition-all"
               >
                 {cat}

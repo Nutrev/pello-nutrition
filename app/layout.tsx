@@ -4,7 +4,7 @@ import "./globals.css";
 import Link from "next/link";
 import SiteNav from "@/components/SiteNav";
 import { LogoMark } from "@/components/Logo";
-import { getCatalogStats } from "@/lib/catalog";
+import { getCatalogStats, getCategoryCounts } from "@/lib/catalog";
 
 const { productCount } = getCatalogStats();
 
@@ -46,7 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${dmSans.variable} ${montserrat.variable}`}>
       <body className="bg-cream text-ink antialiased">
-        <SiteNav />
+        <SiteNav categories={getCategoryCounts()} />
         {children}
         <footer className="border-t border-sand py-8 mt-auto">
           <Link href="/" aria-label="Pello Nutrition home" className="block w-fit mx-auto mb-5">

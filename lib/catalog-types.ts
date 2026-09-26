@@ -25,3 +25,8 @@ export type ProductSummary = Pick<
 export function byWeightedRating(a: { weightedRating: number }, b: { weightedRating: number }): number {
   return b.weightedRating - a.weightedRating;
 }
+
+// URL slug for a category page, e.g. "Energy Gel" → "energy-gel" (/products/energy-gel).
+export function categorySlug(category: string): string {
+  return category.toLowerCase().replace(/\s+/g, "-").replace(/&/g, "and");
+}

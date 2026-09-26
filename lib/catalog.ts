@@ -52,3 +52,10 @@ export function getCatalogStats() {
     reviewTotal: PRODUCTS.reduce((sum, p) => sum + p.reviewCount, 0),
   };
 }
+
+// Every category that has products, with how many, for the site nav.
+export function getCategoryCounts(): { name: string; count: number }[] {
+  const counts = new Map<string, number>();
+  for (const p of PRODUCTS) counts.set(p.category, (counts.get(p.category) ?? 0) + 1);
+  return Array.from(counts, ([name, count]) => ({ name, count }));
+}

@@ -4,16 +4,27 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Logo from "@/components/Logo";
-import NavDropdown, { NavItem } from "@/components/NavDropdown";
+import NavDropdown, { NavItem, NavSection, isItemActive } from "@/components/NavDropdown";
+import { categorySlug } from "@/lib/catalog-types";
 
 // The site-wide top navigation, rendered once in app/layout.tsx.
-// From md up: Products and Learn dropdowns. Below md: a menu button that opens a
+// From md up: Products, Tools and Learn dropdowns. Below md: a menu button that opens a
 // full-width panel listing the same links. "Build my plan" shows at every size.
-const MENUS: { label: string; items: NavItem[] }[] = [
+
+// How product categories are grouped in the Products menu. A category that isn't
+// listed here still appears, under "Other", so new categories never go missing.
+const CATEGORY_GROUPS: { label: string; categories: string[] }[] = [
+  { label: "Fuel & hydration", categories: ["Energy Gel", "Energy Chew", "Energy Bar", "Energy", "Carbohydrate Mix", "Hydration"] },
+  { label: "Strength & recovery", categories: ["Protein", "Creatine", "Recovery", "Performance"] },
+  { label: "Health & wellbeing", categories: ["Vitamin", "Mineral", "Omega-3", "Probiotic", "Gut Health", "Sleep", "Supplement"] },
+];
+
+const ALL_PRODUCTS: NavItem = { href: "/products", label: "All products", exact: true };
+
+const OTHER_MENUS: { label: string; items: NavItem[] }[] = [
   {
-    label: "Products",
+    label: "Tools",
     items: [
-      { href: "/products", label: "All products" },
       { href: "/search", label: "Search" },
       { href: "/compare", label: "Compare" },
       { href: "/query", label: "Explore" },
@@ -30,12 +41,25 @@ const MENUS: { label: string; items: NavItem[] }[] = [
   },
 ];
 
+export type CategoryCount = { name: string; count: number };
+
+function categorySections(categories: CategoryCount[]): NavSection[] {
+  const toItem = ({ name, count }: CategoryCount): NavItem => ({ href: `/products/${categorySlug(name)}`, label: name, count });
+  const grouped = new Set(CATEGORY_GROUPS.flatMap((g) => g.categories));
+  const sections = CATEGORY_GROUPS.map((group) => ({
+    label: group.label,
+    items: group.categories.flatMap((name) => categories.filter((c) => c.name === name)).map(toItem),
+  }));
+  const other = categories.filter((c) => !grouped.has(c.name)).map(toItem);
+  return [...sections, ...(other.length ? [{ label: "Other", items: other }] : [])].filter((s) => s.items.length);
+}
+
 // Open-state key for the mobile panel; the dropdowns use their labels.
 const MOBILE = "mobile";
 
-export default function SiteNav() {
+export default function SiteNav({ categories }: { categories: CategoryCount[] }) {
   const pathname = usePathname();
-  const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
+  const productSections = categorySections(categories);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const toggle = (key: string) => setOpenMenu((current) => (current === key ? null : key));
   const mobileOpen = openMenu === MOBILE;
@@ -79,6 +103,22 @@ export default function SiteNav() {
     };
   }, [mobileOpen]);
 
+  // A row in the mobile panel; `compact` is for the two-column category grid.
+  const mobileLink = (item: NavItem, compact = false) => {
+    const active = isItemActive(pathname, item);
+    return (
+      <Link
+        key={item.href}
+        href={item.href}
+        aria-current={active ? "page" : undefined}
+        className={`flex items-baseline justify-between gap-2 rounded-lg transition-colors hover:bg-sand/50 ${compact ? "-mx-2 px-2 py-2 text-sm" : "-mx-3 px-3 py-3 text-base"} ${active ? "text-moss font-medium bg-moss/5" : "text-ink"}`}
+      >
+        {item.label}
+        {item.count != null && <span className="text-xs text-muted tabular-nums">{item.count}</span>}
+      </Link>
+    );
+  };
+
   return (
     <nav className="border-b border-sand bg-cream/80 backdrop-blur-sm sticky top-0 z-50">
       <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between gap-3">
@@ -88,14 +128,22 @@ export default function SiteNav() {
 
         <div className="flex items-center gap-2 md:gap-5">
           <div className="hidden md:flex items-center gap-5">
-            {MENUS.map(({ label, items }) => (
+            <NavDropdown
+              label="Products"
+              lead={ALL_PRODUCTS}
+              sections={productSections}
+              open={openMenu === "Products"}
+              onToggle={() => toggle("Products")}
+              pathname={pathname}
+            />
+            {OTHER_MENUS.map(({ label, items }) => (
               <NavDropdown
                 key={label}
                 label={label}
-                items={items}
+                sections={[{ items }]}
                 open={openMenu === label}
                 onToggle={() => toggle(label)}
-                isActive={isActive}
+                pathname={pathname}
               />
             ))}
           </div>
@@ -131,19 +179,22 @@ export default function SiteNav() {
             className="md:hidden absolute inset-x-0 top-full bg-cream border-b border-sand shadow-md max-h-[calc(100dvh-3.5rem)] overflow-y-auto"
           >
             <div className="px-6 py-4 space-y-5">
-              {MENUS.map(({ label, items }) => (
+              <div>
+                <div className="text-xs text-muted uppercase tracking-widest mb-1">Products</div>
+                {mobileLink(ALL_PRODUCTS)}
+                {productSections.map((section) => (
+                  <div key={section.label} className="mt-3">
+                    <div className="text-xs text-muted mb-1">{section.label}</div>
+                    <div className="grid grid-cols-2 gap-x-4">
+                      {section.items.map((item) => mobileLink(item, true))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {OTHER_MENUS.map(({ label, items }) => (
                 <div key={label}>
                   <div className="text-xs text-muted uppercase tracking-widest mb-1">{label}</div>
-                  {items.map(({ href, label }) => (
-                    <Link
-                      key={href}
-                      href={href}
-                      aria-current={isActive(href) ? "page" : undefined}
-                      className={`block -mx-3 px-3 py-3 rounded-lg text-base transition-colors hover:bg-sand/50 ${isActive(href) ? "text-moss font-medium bg-moss/5" : "text-ink"}`}
-                    >
-                      {label}
-                    </Link>
-                  ))}
+                  {items.map((item) => mobileLink(item))}
                 </div>
               ))}
               <Link href="/quiz" className="btn-primary block text-center py-3">Build my plan →</Link>

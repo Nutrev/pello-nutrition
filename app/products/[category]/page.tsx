@@ -1,5 +1,5 @@
 import { getProductSummaries } from "@/lib/catalog";
-import { byWeightedRating, type ProductSummary } from "@/lib/catalog-types";
+import { byWeightedRating, categorySlug, type ProductSummary } from "@/lib/catalog-types";
 import { servingsPerContainer, formatPrice } from "@/lib/servings";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -67,7 +67,7 @@ export default function CategoryPage({ params }: { params: { category: string } 
   const slug = params.category;
   const allCategories = Array.from(new Set(PRODUCTS.map((p) => p.category)));
   const matched = allCategories.find(
-    (cat) => cat.toLowerCase().replace(/\s+/g, "-").replace(/&/g, "and") === slug
+    (cat) => categorySlug(cat) === slug
   );
 
   if (!matched) notFound();
@@ -113,7 +113,7 @@ export default function CategoryPage({ params }: { params: { category: string } 
             .map((cat) => (
               <Link
                 key={cat}
-                href={`/products/${cat.toLowerCase().replace(/\s+/g, "-")}`}
+                href={`/products/${categorySlug(cat)}`}
                 className="text-xs bg-white/60 border border-sand px-3 py-1.5 rounded-lg hover:border-muted transition-all"
               >
                 {cat}
