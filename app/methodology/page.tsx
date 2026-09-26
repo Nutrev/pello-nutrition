@@ -117,7 +117,7 @@ export default function MethodologyPage() {
           <p className="text-xs text-muted mb-4">Browse products and see their Pello Scores across all five pillars</p>
           <div className="flex gap-3 justify-center">
             <Link href="/products" className="btn-primary">Browse products</Link>
-            <Link href="/query" className="btn-secondary">Explore Explore</Link>
+            <Link href="/query" className="btn-secondary">Explore</Link>
           </div>
         </div>
       </div>
