@@ -10,9 +10,12 @@
 // - rating / reviewCount are The Feed's own customer ratings, credited as "The Feed".
 // - sentiment is left empty: there's no per-attribute data (taste, GI comfort) to use.
 // - Ingredient verdicts and notes are Pello's own summaries of the research.
-// - transparencyScore is calculated from what the listing discloses:
-//   full ingredient list 35 + nutrition panel 25 + carb sources 15 +
-//   caffeine content 10 + third-party testing (Informed Sport, NSF, Cologne List) 15.
+// - transparencyScore is calculated from what the label/listing discloses, the same way for
+//   every product: full ingredient list 35 + nutrition/supplement facts panel 25 +
+//   no hidden amounts 15 (carb products state sugar types; others have no proprietary
+//   blend) + caffeine clear 10 (stated, or the ingredient list shows none) +
+//   third-party testing (Informed Sport, NSF, Cologne List) 15. null = not yet scored,
+//   because the full label (ingredient list and panel) isn't available.
 
 import type { Product } from "./products";
 
@@ -113,7 +116,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/Fixx_Crampfix_Box_Lemon_81360714-04cf-4d59-9f7f-4d80a201569e_1200x1200.png?v=1749162128",
     goals: ["endurance"],
     imageEmoji: "⚡",
-    transparencyScore: 70,
+    transparencyScore: 85,
     sentiment: {},
     ingredients: [
       { name: "Carbohydrate", dose: "29g carbs", verdict: "likely", note: "The listing doesn't specify the sugar types; check the label if you rely on a glucose-fructose mix for high intakes." },
@@ -480,7 +483,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/maurten_gel480_box_1200x1200.png?v=1784071579",
     goals: ["endurance"],
     imageEmoji: "⚡",
-    transparencyScore: 75,
+    transparencyScore: 85,
     sentiment: {},
     ingredients: [
       { name: "Maltodextrin + Fructose", dose: "121g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
@@ -876,7 +879,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/43269871337535-12_feed-generated_1200x1200.png?v=1782238592",
     goals: ["endurance"],
     imageEmoji: "⚡",
-    transparencyScore: 75,
+    transparencyScore: 85,
     sentiment: {},
     ingredients: [
       { name: "Fructose + Maltodextrin", dose: "30g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
@@ -911,7 +914,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/thefeedlab_energygel_updated_12_1200x1200.png?v=1788474913",
     goals: ["endurance"],
     imageEmoji: "⚡",
-    transparencyScore: 75,
+    transparencyScore: 85,
     sentiment: {},
     ingredients: [
       { name: "Glucose + Fructose + Sucrose", dose: "25g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
@@ -978,7 +981,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/beet-it-sportgel_box_1200x1200.png?v=1760458949",
     goals: ["endurance"],
     imageEmoji: "⚡",
-    transparencyScore: 90,
+    transparencyScore: 100,
     sentiment: {},
     ingredients: [
       { name: "Fructose + Glucose", dose: "30g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
@@ -1302,7 +1305,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/lecka_ultragel_passionfruit_mango_1200x1200.png?v=1777071081",
     goals: ["endurance"],
     imageEmoji: "⚡",
-    transparencyScore: 75,
+    transparencyScore: 85,
     sentiment: {},
     ingredients: [
       { name: "Fructose + Glucose", dose: "65g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
@@ -1410,7 +1413,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/datefix_originial_box_1200x1200.png?v=1764784916",
     goals: ["endurance"],
     imageEmoji: "⚡",
-    transparencyScore: 70,
+    transparencyScore: 85,
     sentiment: {},
     ingredients: [
       { name: "Carbohydrate", dose: "20g carbs", verdict: "likely", note: "The listing doesn't specify the sugar types; check the label if you rely on a glucose-fructose mix for high intakes." },
@@ -2307,7 +2310,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/TL_cylicdextrin_unflav_1200x1200.png?v=1770401956",
     goals: ["endurance"],
     imageEmoji: "🥤",
-    transparencyScore: 75,
+    transparencyScore: 85,
     sentiment: {},
     ingredients: [
       { name: "Cluster Dextrin", dose: "24g carbs", verdict: "likely", note: "Highly branched cyclic dextrin leaves the stomach quickly; early studies suggest good tolerance, but the evidence base is still small.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=highly+branched+cyclic+dextrin+exercise" },
@@ -2742,7 +2745,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/SantaMadre_UnusualFuel_Lemon_box_1080x1080_48470867-ef77-4e44-ad14-3f08c306120a_1200x1200.webp?v=1788287514",
     goals: ["endurance"],
     imageEmoji: "🥤",
-    transparencyScore: 70,
+    transparencyScore: 85,
     sentiment: {},
     ingredients: [
       { name: "Carbohydrate", dose: "100g carbs", verdict: "likely", note: "The listing doesn't specify the sugar types; check the label if you rely on a glucose-fructose mix for high intakes." },
@@ -2853,7 +2856,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/maurten_additions_cola_1200x1200.png?v=1776958351",
     goals: ["endurance"],
     imageEmoji: "🥤",
-    transparencyScore: 90,
+    transparencyScore: 100,
     sentiment: {},
     ingredients: [
       { name: "Maltodextrin", dose: "2g carbs", verdict: "proven", note: "A single glucose-type carb absorbs at up to ~60g/hr; above that, pair it with a fructose source.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=carbohydrate+intake+endurance+performance+60+g+per+hour" },
@@ -3289,7 +3292,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/Fixx_FuelXPro_LemonLime_03_1200x1200.png?v=1749506901",
     goals: ["endurance"],
     imageEmoji: "🥤",
-    transparencyScore: 70,
+    transparencyScore: 85,
     sentiment: {},
     ingredients: [
       { name: "Carbohydrate", dose: "47g carbs", verdict: "likely", note: "The listing doesn't specify the sugar types; check the label if you rely on a glucose-fructose mix for high intakes." },
@@ -3510,7 +3513,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/products/Veloforte_Bars_DiBosco_1200x1200.png?v=1693598054",
     goals: ["endurance"],
     imageEmoji: "🍫",
-    transparencyScore: 70,
+    transparencyScore: 85,
     sentiment: {},
     ingredients: [
       { name: "Carbohydrate", dose: "40g carbs", verdict: "likely", note: "The listing doesn't specify the sugar types; check the label if you rely on a glucose-fructose mix for high intakes." },
@@ -3547,7 +3550,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/TL_PB_chocchip_box_1200x1200.png?v=1770334139",
     goals: ["endurance", "recovery", "muscle"],
     imageEmoji: "🍫",
-    transparencyScore: 60,
+    transparencyScore: 85,
     sentiment: {},
     ingredients: [
       { name: "Carbohydrate", dose: "23g carbs", verdict: "likely", note: "The listing doesn't specify the sugar types; check the label if you rely on a glucose-fructose mix for high intakes." },
@@ -3621,7 +3624,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/BPN_GoBar_NSF_box_1200x1200.png?v=1739401649",
     goals: ["endurance"],
     imageEmoji: "🍫",
-    transparencyScore: 85,
+    transparencyScore: 100,
     sentiment: {},
     ingredients: [
       { name: "Carbohydrate", dose: "36g carbs", verdict: "likely", note: "The listing doesn't specify the sugar types; check the label if you rely on a glucose-fructose mix for high intakes." },
@@ -3659,7 +3662,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/AAAA_styrkr_bar__seasaltcaramel_12pk_1200x1200.png?v=1752098809",
     goals: ["endurance", "recovery", "muscle"],
     imageEmoji: "🍫",
-    transparencyScore: 70,
+    transparencyScore: 85,
     sentiment: {},
     ingredients: [
       { name: "Carbohydrate", dose: "46g carbs", verdict: "likely", note: "The listing doesn't specify the sugar types; check the label if you rely on a glucose-fructose mix for high intakes." },
@@ -3735,7 +3738,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/amacx_energynougat_12_spec_1200x1200.png?v=1768413767",
     goals: ["endurance"],
     imageEmoji: "🍫",
-    transparencyScore: 70,
+    transparencyScore: 85,
     sentiment: {},
     ingredients: [
       { name: "Carbohydrate", dose: "30g carbs", verdict: "likely", note: "The listing doesn't specify the sugar types; check the label if you rely on a glucose-fructose mix for high intakes." },
@@ -3772,7 +3775,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/41591189045311-12_feed-generated_1200x1200.png?v=1756416691",
     goals: ["endurance"],
     imageEmoji: "🍫",
-    transparencyScore: 70,
+    transparencyScore: 85,
     sentiment: {},
     ingredients: [
       { name: "Carbohydrate", dose: "30g carbs", verdict: "likely", note: "The listing doesn't specify the sugar types; check the label if you rely on a glucose-fructose mix for high intakes." },
@@ -3809,7 +3812,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/41599625887807-16_feed-generated_1200x1200.png?v=1753997513",
     goals: ["endurance", "recovery", "muscle"],
     imageEmoji: "🍫",
-    transparencyScore: 70,
+    transparencyScore: 85,
     sentiment: {},
     ingredients: [
       { name: "Carbohydrate", dose: "12g carbs", verdict: "likely", note: "The listing doesn't specify the sugar types; check the label if you rely on a glucose-fructose mix for high intakes." },
@@ -3847,7 +3850,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/promix_proteinpuff_birthdaycake_12pk_1200x1200.png?v=1738863388",
     goals: ["endurance"],
     imageEmoji: "🍫",
-    transparencyScore: 70,
+    transparencyScore: 85,
     sentiment: {},
     ingredients: [
       { name: "Carbohydrate", dose: "", verdict: "likely", note: "The listing doesn't specify the sugar types; check the label if you rely on a glucose-fructose mix for high intakes." },
@@ -3882,7 +3885,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/peakprotein_chocpb_12pk_1200x1200.png?v=1728066463",
     goals: ["endurance", "recovery", "muscle"],
     imageEmoji: "🍫",
-    transparencyScore: 70,
+    transparencyScore: 85,
     sentiment: {},
     ingredients: [
       { name: "Carbohydrate", dose: "17g carbs", verdict: "likely", note: "The listing doesn't specify the sugar types; check the label if you rely on a glucose-fructose mix for high intakes." },
@@ -3920,7 +3923,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/Styrkrthon_box_open_1200x1200.jpg?v=1714757152",
     goals: ["endurance", "recovery", "muscle"],
     imageEmoji: "🍫",
-    transparencyScore: 70,
+    transparencyScore: 85,
     sentiment: {},
     ingredients: [
       { name: "Carbohydrate", dose: "17g carbs", verdict: "likely", note: "The listing doesn't specify the sugar types; check the label if you rely on a glucose-fructose mix for high intakes." },
@@ -3958,7 +3961,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/sis_proteinbar_milkchocpeanut_12pk_1200x1200.png?v=1738108583",
     goals: ["endurance", "recovery"],
     imageEmoji: "🍫",
-    transparencyScore: 85,
+    transparencyScore: 100,
     sentiment: {},
     ingredients: [
       { name: "Carbohydrate", dose: "12g carbs", verdict: "likely", note: "The listing doesn't specify the sugar types; check the label if you rely on a glucose-fructose mix for high intakes." },
@@ -4401,7 +4404,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/vafels_updated_stroops_gf_caramel_box_c4ffc8e6-d8a0-4199-bb27-e109850501e5_1200x1200.png?v=1752690241",
     goals: ["endurance"],
     imageEmoji: "🧇",
-    transparencyScore: 70,
+    transparencyScore: 85,
     sentiment: {},
     ingredients: [
       { name: "Carbohydrate", dose: "23g carbs", verdict: "likely", note: "The listing doesn't specify the sugar types; check the label if you rely on a glucose-fructose mix for high intakes." },
@@ -4437,7 +4440,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/Podium_Stroopwafel_Caramel_Box_1200x1200.png?v=1762269542",
     goals: ["endurance"],
     imageEmoji: "🧇",
-    transparencyScore: 70,
+    transparencyScore: 85,
     sentiment: {},
     ingredients: [
       { name: "Carbohydrate", dose: "15g carbs", verdict: "likely", note: "The listing doesn't specify the sugar types; check the label if you rely on a glucose-fructose mix for high intakes." },
@@ -4546,7 +4549,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/3bros_protein_box_ss_1200x1200.png?v=1786474816",
     goals: ["endurance"],
     imageEmoji: "🧇",
-    transparencyScore: 70,
+    transparencyScore: 85,
     sentiment: {},
     ingredients: [
       { name: "Carbohydrate", dose: "22g carbs", verdict: "likely", note: "The listing doesn't specify the sugar types; check the label if you rely on a glucose-fructose mix for high intakes." },
@@ -4576,7 +4579,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/bicarb_15g_10_1200x1200.png?v=1783958261",
     goals: ["endurance"],
     imageEmoji: "🧂",
-    transparencyScore: 0,
+    transparencyScore: null,                 // not yet scored: full label not available
     sentiment: {},
     ingredients: [
       { name: "Sodium Bicarbonate", dose: "15g", verdict: "proven", note: "One of the most researched performance aids: it buffers the acid produced during hard efforts, and meta-analyses show improvements of around 2% in time-trial and repeated-sprint performance at 0.2–0.3g per kg of body weight. The main drawback is stomach upset, which newer formulations like this one aim to reduce. The 15g sachet suits roughly a 50–75kg athlete; heavier athletes would need a larger dose.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+bicarbonate+supplementation+exercise+performance" },

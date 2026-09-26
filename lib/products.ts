@@ -49,7 +49,9 @@ export interface Product {
   sentiment: Record<string, number>;
   ingredients: Ingredient[];
   sources: Source[];
-  transparencyScore: number;
+  // 0-100 from what the label discloses (formula in the lib/products-thefeed.ts header); null = not yet
+  // scored because the full label (ingredient list and facts panel) isn't available.
+  transparencyScore: number | null;
   imageEmoji: string;
   logo?: string;
   logoSize?: "sm" | "md" | "lg";
@@ -111,7 +113,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/upd_amacx_drinkgel_stwbry_12pk_1200x1200.png?v=1752003560",
   goals: ["endurance", "recovery"],
   imageEmoji: "⚡",
-  transparencyScore: 88,
+  transparencyScore: 85,
 
   sentiment: {},
 
@@ -170,7 +172,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/products/gel_100_1200x1200.png?v=1759500492",
   goals: ["endurance", "recovery"],
   imageEmoji: "🟡",
-  transparencyScore: 96,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -220,7 +222,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/SiS_betafuel_orange_18pk_6f6a7f40-7c8e-4c2c-a06f-9f098be7c8b3_1200x1200.png?v=1784142148",
   goals: ["endurance", "muscle"],
   imageEmoji: "🔵",
-  transparencyScore: 84,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -265,7 +267,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/Gu_sourpeach_box_real_1200x1200.png?v=1772469260",
   goals: ["endurance", "recovery"],
   imageEmoji: "🟠",
-  transparencyScore: 78,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -320,7 +322,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/products/original_a86d3519-665c-4a2a-8fb5-0e2ab06593b0_1200x1200.jpg?v=1757621599",
   goals: ["endurance", "recovery"],
   imageEmoji: "⚪",
-  transparencyScore: 91,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -363,7 +365,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/honeystinger_strawberrykiwi_gel_box_2_1200x1200.png?v=1785259207",
   goals: ["endurance", "recovery"],
   imageEmoji: "🍯",
-  transparencyScore: 80,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -423,7 +425,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/Maurten_DM_320reg_v2_box_1200x1200.png?v=1744756316",
   goals: ["endurance", "recovery"],
   imageEmoji: "🫙",
-  transparencyScore: 94,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -480,7 +482,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/tailwind_blueberrylemon_12pk_1200x1200.png?v=1718993396",
   goals: ["endurance", "recovery"],
   imageEmoji: "💧",
-  transparencyScore: 88,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -538,7 +540,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/sis_betafuel_drinkmix_orange_15pk_1200x1200.png?v=1738103062",
   goals: ["endurance", "muscle"],
   imageEmoji: "🔷",
-  transparencyScore: 83,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -581,7 +583,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/SiS_isotonic_apple_18pk_1200x1200.png?v=1784324047",
   goals: ["endurance", "recovery"],
   imageEmoji: "🔵",
-  transparencyScore: 80,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -623,7 +625,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/Victus_gel_stroop_12_1200x1200.png?v=1777480161",
   goals: ["endurance", "recovery"],
   imageEmoji: "🟣",
-  transparencyScore: 93,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -667,7 +669,7 @@ const CURATED_PRODUCTS: Product[] = [
   carbsPerServing: 30,
   goals: ["endurance", "recovery"],
   imageEmoji: "🌿",
-  transparencyScore: 82,
+  transparencyScore: null,                 // not yet scored: full label not available
   sentiment: {},
   ingredients: [
     {
@@ -707,7 +709,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/thorne-magnesium-glycinate-90-servings_1200x1200.png?v=1785352214",
   goals: ["recovery", "endurance"],
   imageEmoji: "💊",
-  transparencyScore: 95,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -744,7 +746,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/carbs-fuel-box-v2_1200x1200.png?v=1729181677",
   goals: ["endurance", "recovery"],
   imageEmoji: "⚡",
-  transparencyScore: 96,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -791,7 +793,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/PureEncapsulations_magnesium_glyc_1200x1200.png?v=1771002495",
   goals: ["recovery", "endurance"],
   imageEmoji: "💜",
-  transparencyScore: 97,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -832,7 +834,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/skratch_hydration_mango_box20_1200x1200.png?v=1774390092",
   goals: ["endurance", "recovery"],
   imageEmoji: "💧",
-  transparencyScore: 91,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -897,7 +899,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/skratch_unsweetened_marg_box_1200x1200.png?v=1756224036",
   goals: ["endurance", "recovery"],
   imageEmoji: "🫧",
-  transparencyScore: 95,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -948,7 +950,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/Skratch_SuperHighCarb_DrinkMix_LemonLime_004_1200x1200.png?v=1750781002",
   goals: ["endurance", "muscle"],
   imageEmoji: "⚡",
-  transparencyScore: 92,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -1000,7 +1002,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/skratch_sourapple_energychews_box_ff360192-2edc-4be8-ba73-6d645b31671b_1200x1200.png?v=1777325680",
   goals: ["endurance", "recovery"],
   imageEmoji: "🍬",
-  transparencyScore: 93,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -1057,7 +1059,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/Skratch_EnergyBar_CherriesPistachio_006_1200x1200.png?v=1750781937",
   goals: ["endurance", "recovery"],
   imageEmoji: "🍫",
-  transparencyScore: 90,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -1107,7 +1109,7 @@ const CURATED_PRODUCTS: Product[] = [
   allergens: [],
   goals: ["endurance", "recovery"],
   imageEmoji: "🧪",
-  transparencyScore: 96,
+  transparencyScore: null,                 // not yet scored: full label not available
   sentiment: {},
   ingredients: [
     {
@@ -1155,7 +1157,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/efs_liquidshot_wildberry_ss_412588c6-222f-4b66-8b2f-69c3fccfeb47_1200x1200.png?v=1727812568",
   goals: ["endurance", "recovery"],
   imageEmoji: "⚡",
-  transparencyScore: 91,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -1212,7 +1214,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/EFS-LL-30_1200x1200.png?v=1717707871",
   goals: ["endurance", "recovery"],
   imageEmoji: "💧",
-  transparencyScore: 93,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -1268,7 +1270,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/efs-pro-watermelon_1200x1200.png?v=1762198923",
   goals: ["endurance", "recovery"],
   imageEmoji: "🔷",
-  transparencyScore: 94,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -1326,7 +1328,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/Cadence_Core24_Gel_Box2_1200x1200.png?v=1758130659",
   goals: ["endurance", "recovery"],
   imageEmoji: "⚪",
-  transparencyScore: 90,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -1378,7 +1380,7 @@ const CURATED_PRODUCTS: Product[] = [
   flavours: ["Chocolate"],
   goals: ["endurance", "recovery"],
   imageEmoji: "🍫",
-  transparencyScore: 92,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -1441,7 +1443,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/Maurten_Solid_160_C_12Pack_OPT_1200x1200.png?v=1711039015",
   goals: ["endurance", "recovery"],
   imageEmoji: "🟡",
-  transparencyScore: 94,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -1491,7 +1493,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/maurten_gel160_updatedbox_05_1200x1200.png?v=1770738265",
   goals: ["endurance", "recovery"],
   imageEmoji: "🟡",
-  transparencyScore: 96,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -1543,7 +1545,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/AAA_StyrkrBar50_teal_9bbfff03-9148-4b81-80fe-eee360bc28ec_1200x1200.png?v=1752100100",
   goals: ["endurance", "recovery"],
   imageEmoji: "🍬",
-  transparencyScore: 88,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -1595,7 +1597,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/Enervit_LiquidGel_Citrus_Box_1200x1200.png?v=1756831558",
   goals: ["endurance", "recovery"],
   imageEmoji: "🔶",
-  transparencyScore: 82,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -1647,7 +1649,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/Enervit_Updated25_CarboDrink_MildLemon_1200x1200.png?v=1742943812",
   goals: ["endurance", "recovery"],
   imageEmoji: "🔷",
-  transparencyScore: 93,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -1698,7 +1700,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/enervit_secretgel_sodium_neutral_box_1200x1200.png?v=1784236803",
   goals: ["endurance", "recovery"],
   imageEmoji: "🔶",
-  transparencyScore: 86,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -1756,7 +1758,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/enervit_secretgel_sodium_neutral_box_31e6fc36-858a-48be-bf2c-6f4b391042fc_1200x1200.png?v=1784237674",
   goals: ["endurance", "recovery"],
   imageEmoji: "🏆",
-  transparencyScore: 92,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -1806,7 +1808,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/enervit_powercrunch_crispyrice_box_1200x1200.png?v=1775248120",
   goals: ["endurance", "recovery"],
   imageEmoji: "🍫",
-  transparencyScore: 78,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -1865,7 +1867,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/enervit_chewable_gel_box_1200x1200.png?v=1760377165",
   goals: ["endurance", "recovery"],
   imageEmoji: "🍊",
-  transparencyScore: 84,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -1912,7 +1914,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/amacx_creatine_1200x1200.png?v=1773700774",
   goals: ["muscle", "endurance", "recovery"],
   imageEmoji: "⚡",
-  transparencyScore: 98,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -1951,7 +1953,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/amacx_beetshot_box_2_1200x1200.png?v=1771283760",
   goals: ["endurance", "health"],
   imageEmoji: "🫀",
-  transparencyScore: 94,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -2013,7 +2015,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/amacx_cherryplus_12pk_1200x1200.png?v=1773703133",
   goals: ["recovery", "health"],
   imageEmoji: "🍒",
-  transparencyScore: 92,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -2062,7 +2064,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/kaex_creatinebooster_12pk_1200x1200.png?v=1777392225",
   goals: ["muscle", "endurance", "recovery"],
   imageEmoji: "💪",
-  transparencyScore: 90,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -2184,7 +2186,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/ka-ex_pwd_24er_usa_2026_1200x1200.png?v=1780508307",
   goals: ["recovery", "sleep", "health"],
   imageEmoji: "😌",
-  transparencyScore: 88,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -2371,7 +2373,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/thorne_creatine_30bag_1200x1200.png?v=1780413509",
   goals: ["muscle", "endurance", "recovery"],
   imageEmoji: "⚡",
-  transparencyScore: 97,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -2410,7 +2412,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/momentous_creatine_packs_unflavored_updated_1200x1200.png?v=1785863992",
   goals: ["muscle", "endurance", "recovery"],
   imageEmoji: "⚡",
-  transparencyScore: 97,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -2449,7 +2451,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/TheFeedLab_Creatine_Creapure_1200x1200.png?v=1780593903",
   goals: ["muscle", "endurance", "recovery"],
   imageEmoji: "⚡",
-  transparencyScore: 96,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -2492,7 +2494,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/raw_creatine_150g_1200x1200.png?v=1762268615",
   goals: ["muscle", "endurance"],
   imageEmoji: "⚡",
-  transparencyScore: 88,
+  transparencyScore: null,                 // not yet scored: full label not available
   sentiment: {},
   ingredients: [
     {
@@ -2533,7 +2535,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/SwissRX_Collagen_Transp_1200x1200.png?v=1750957338",
   goals: ["recovery", "health"],
   imageEmoji: "🦴",
-  transparencyScore: 96,
+  transparencyScore: null,                 // not yet scored: full label not available
   sentiment: {},
   ingredients: [
     {
@@ -2604,7 +2606,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/SwissRX_TR_ehclipjobfm_Strawberry_1200x1200.png?v=1751487554",
   goals: ["recovery", "health", "immunity"],
   imageEmoji: "🌿",
-  transparencyScore: 94,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -2767,7 +2769,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/foundation_openbox_1200x1200.png?v=1765576405",
   goals: ["recovery", "muscle", "health", "gut health"],
   imageEmoji: "🏋️",
-  transparencyScore: 82,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -2860,7 +2862,7 @@ const CURATED_PRODUCTS: Product[] = [
   ],
   goals: ["endurance"],
   imageEmoji: "🧪",
-  transparencyScore: 85,
+  transparencyScore: null,                 // not yet scored: full label not available
   sentiment: {},
   ingredients: [
     {
@@ -2899,7 +2901,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/42659748413503-4_42659748479039-4_feed-generated_1200x1200.png?v=1773761510",
   goals: ["endurance"],
   imageEmoji: "🧪",
-  transparencyScore: 88,
+  transparencyScore: null,                 // not yet scored: full label not available
   sentiment: {},
   ingredients: [
     {
@@ -2943,7 +2945,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/UnusualNitrous_Box-SS_1_1200x1200.png?v=1762201789",
   goals: ["endurance", "health"],
   imageEmoji: "💨",
-  transparencyScore: 89,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -3016,7 +3018,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/nomio_updated_box_fa609cb4-00b3-42c9-bbc3-854975297418_1200x1200.png?v=1760630918",
   goals: ["endurance", "health"],
   imageEmoji: "🥦",
-  transparencyScore: 86,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -3059,7 +3061,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/lmnt_lemonadesalt_box_1200x1200.png?v=1757540857",
   goals: ["endurance", "recovery", "health"],
   imageEmoji: "🧂",
-  transparencyScore: 90,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -3108,7 +3110,7 @@ const CURATED_PRODUCTS: Product[] = [
   flavours: ["Peach Iced Tea", "Raspberry Iced Tea", "Blue Ice", "Iced Tea Lemonade", "Blood Orange", "Lemon Lime", "Mint Lemonade", "Watermelon Lime", "Pure Magna", "Apple Juice", "Island Punch"],
   goals: ["endurance", "recovery", "health", "sleep"],
   imageEmoji: "💧",
-  transparencyScore: 72,
+  transparencyScore: null,                 // not yet scored: full label not available
   sentiment: {},
   ingredients: [
     {
@@ -3177,7 +3179,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/thefeedlab_hydration_mango_7297ec5d-523c-43e7-bb99-b0ee401e3ac2_1200x1200.png?v=1758648319",
   goals: ["endurance", "recovery"],
   imageEmoji: "💧",
-  transparencyScore: 92,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -3234,7 +3236,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/PF60_DrinkMix_Clipped_1200x1200.png?v=1762200295",
   goals: ["endurance", "recovery"],
   imageEmoji: "💧",
-  transparencyScore: 92,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -3297,7 +3299,7 @@ const CURATED_PRODUCTS: Product[] = [
   ],
   goals: ["endurance", "recovery"],
   imageEmoji: "💊",
-  transparencyScore: 93,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -3349,7 +3351,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/products/Precision_capsules_Trans_1_1200x1200.png?v=1762200600",
   goals: ["endurance", "recovery"],
   imageEmoji: "💊",
-  transparencyScore: 95,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -3398,7 +3400,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/Mortal-Everyday_Box_Packet_Berry_alt_bd4365d6-985c-44ce-8a88-38ad07baad5e_1200x1200.png?v=1779144697",
   goals: ["endurance", "recovery"],
   imageEmoji: "💀",
-  transparencyScore: 85,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -3448,7 +3450,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/skratch_electrolytebooster_1200x1200.png?v=1755618303",
   goals: ["endurance", "recovery"],
   imageEmoji: "⚡",
-  transparencyScore: 94,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -3497,7 +3499,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/GU_roctane_tropicalfruit_24s_1200x1200.png?v=1723484435",
   goals: ["endurance", "muscle"],
   imageEmoji: "🔶",
-  transparencyScore: 84,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -3559,7 +3561,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/saltstick_pink-lemonade_box_1200x1200.png?v=1766075452",
   goals: ["endurance", "recovery"],
   imageEmoji: "🧂",
-  transparencyScore: 93,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -3603,7 +3605,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/Fringe_electrolyte_Tub_1200x1200.png?v=1753382502",
   goals: ["endurance", "recovery", "health"],
   imageEmoji: "🪨",
-  transparencyScore: 92,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -3681,7 +3683,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/styrkr_mix60_1080x1080_a112b5ee-1a26-4fb2-9a38-3bc151a28503_1200x1200.webp?v=1788287614",
   goals: ["endurance", "recovery"],
   imageEmoji: "⚡",
-  transparencyScore: 87,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -3720,7 +3722,7 @@ const CURATED_PRODUCTS: Product[] = [
   proteinPerServing: 25,
   goals: ["muscle", "recovery"],
   imageEmoji: "🥛",
-  transparencyScore: 78,
+  transparencyScore: null,                 // not yet scored: full label not available
   sentiment: {},
   ingredients: [
     {
@@ -3757,7 +3759,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/thefeedlab_wheyprotein_chocolate_updated_1200x1200.png?v=1788382100",
   goals: ["muscle", "recovery"],
   imageEmoji: "🥛",
-  transparencyScore: 94,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -3801,7 +3803,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/Enervit_PurePro_WheyProtein_Tropical_1200x1200.png?v=1762269676",
   goals: ["muscle", "recovery"],
   imageEmoji: "🧬",
-  transparencyScore: 96,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -3849,7 +3851,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/13763163193407-24_feed-generated_1200x1200.png?v=1782326785",
   goals: ["muscle", "recovery"],
   imageEmoji: "🥛",
-  transparencyScore: 97,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -3900,7 +3902,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/Myprotein_ClearWhey_PeachMango_1200x1200.png?v=1735849189",
   goals: ["muscle", "recovery"],
   imageEmoji: "🍹",
-  transparencyScore: 80,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -3942,7 +3944,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/Amacx_recoveryshake_chocolate_1200x1200.png?v=1773262814",
   goals: ["recovery", "muscle"],
   imageEmoji: "🍫",
-  transparencyScore: 88,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -3999,7 +4001,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/thorne_proteinisolate_chocolate_1200x1200.png?v=1762269563",
   goals: ["muscle", "recovery"],
   imageEmoji: "🥛",
-  transparencyScore: 96,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -4057,7 +4059,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/promix_whey_dutchchocolate_591ca253-80a6-47b5-a32d-9244ce05c4b8_1200x1200.png?v=1762269319",
   goals: ["muscle", "recovery"],
   imageEmoji: "🥛",
-  transparencyScore: 97,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -4114,7 +4116,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/TL_Protein_005_1200x1200.png?v=1769625118",
   goals: ["muscle", "recovery"],
   imageEmoji: "🥛",
-  transparencyScore: 98,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -4161,7 +4163,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/swissrx_probiotic_1200x1200.png?v=1770745616",
   goals: ["gut health", "immunity", "health"],
   imageEmoji: "🦠",
-  transparencyScore: 88,
+  transparencyScore: 70,
   sentiment: {},
   ingredients: [
     {
@@ -4198,7 +4200,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/swissrx_guthealth_120_1200x1200.png?v=1774453435",
   goals: ["gut health", "immunity", "health"],
   imageEmoji: "🛡️",
-  transparencyScore: 90,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -4243,7 +4245,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/swissrx_gutdefense_1200x1200.png?v=1756853753",
   goals: ["gut health", "recovery", "health"],
   imageEmoji: "🔒",
-  transparencyScore: 89,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -4316,7 +4318,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/swissrx_happytummy_set_updated_1200x1200.png?v=1784157358",
   goals: ["gut health", "health", "recovery"],
   imageEmoji: "🌿",
-  transparencyScore: 82,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -4387,7 +4389,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/Thorne_FloraSport_updates25_1200x1200.png?v=1762198356",
   goals: ["gut health", "immunity", "health"],
   imageEmoji: "🦠",
-  transparencyScore: 97,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -4425,7 +4427,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/thorne_completeBiotic_1200x1200.png?v=1772490556",
   goals: ["gut health", "immunity", "health"],
   imageEmoji: "🌱",
-  transparencyScore: 96,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -4480,7 +4482,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/ZBiotics03_de51b70c-9a76-4005-8597-3ce57359550c_1200x1200.png?v=1732740296",
   goals: ["gut health", "health"],
   imageEmoji: "🍺",
-  transparencyScore: 86,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -4520,7 +4522,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/promix_debloat_bag_1200x1200.png?v=1739230651",
   goals: ["gut health", "immunity", "health"],
   imageEmoji: "🌿",
-  transparencyScore: 92,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -4571,7 +4573,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/amacx_fruitchew_orange_12pk_1200x1200.png?v=1742939844",
   goals: ["endurance", "recovery"],
   imageEmoji: "🍬",
-  transparencyScore: 92,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -4621,7 +4623,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/41378766946367-12_feed-generated_1200x1200.png?v=1743178611",
   goals: ["endurance", "recovery"],
   imageEmoji: "⚡",
-  transparencyScore: 91,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -4669,7 +4671,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/SourGreenApple-box_1200x1200.png?v=1711572614",
   goals: ["endurance", "recovery"],
   imageEmoji: "🍬",
-  transparencyScore: 86,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -4727,7 +4729,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/Noogs_LemonZinger_Box_1200x1200.png?v=1739827391",
   goals: ["endurance", "recovery"],
   imageEmoji: "🍋",
-  transparencyScore: 88,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -4784,7 +4786,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/products/PF_Chews_OG_15pack_Opt_1200x1200.png?v=1675277610",
   goals: ["endurance", "recovery"],
   imageEmoji: "⚪",
-  transparencyScore: 93,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -4827,7 +4829,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/PF_60Chew_Original_20_1200x1200.png?v=1743442758",
   goals: ["endurance", "recovery"],
   imageEmoji: "⚪",
-  transparencyScore: 94,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -4870,7 +4872,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/SiS_betafuel_chews_lemon_18pk_1200x1200.png?v=1784245743",
   goals: ["endurance", "recovery"],
   imageEmoji: "🔵",
-  transparencyScore: 84,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -4913,7 +4915,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/honeystinger_fruitsmoothie_box_1200x1200.png?v=1777073543",
   goals: ["endurance", "recovery"],
   imageEmoji: "🍯",
-  transparencyScore: 84,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -4964,7 +4966,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/GUEnergy_rainbow_caddyopen._1200x1200.png?v=1759943354",
   goals: ["endurance", "recovery"],
   imageEmoji: "🔶",
-  transparencyScore: 82,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -5023,7 +5025,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/enervit_chews_12pk_1200x1200.png?v=1759852130",
   goals: ["endurance", "recovery"],
   imageEmoji: "🔶",
-  transparencyScore: 84,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -5117,7 +5119,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/TL_sleep--recover_1200x1200.png?v=1769626299",
   goals: ["sleep", "recovery"],
   imageEmoji: "😴",
-  transparencyScore: 97,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -5195,7 +5197,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/TheFeed_DreamShot_12pk_UPDATED_1_1200x1200.png?v=1765835971",
   goals: ["recovery", "sleep", "health"],
   imageEmoji: "🍒",
-  transparencyScore: 91,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -5272,7 +5274,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/TheFeed_DreamShot_12pk_UPDATED_1_1200x1200.png?v=1765835971",
   goals: ["recovery", "sleep", "health"],
   imageEmoji: "🍒",
-  transparencyScore: 88,
+  transparencyScore: 70,
   sentiment: {},
   ingredients: [
     {
@@ -5358,7 +5360,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/momentous_elite_sleep_01_1200x1200.png?v=1786552328",
   goals: ["sleep", "recovery"],
   imageEmoji: "😴",
-  transparencyScore: 96,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -5426,7 +5428,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/Cheribundi_gummies_Tub_1200x1200.png?v=1762269326",
   goals: ["sleep", "recovery"],
   imageEmoji: "🍒",
-  transparencyScore: 82,
+  transparencyScore: null,                 // not yet scored: full label not available
   sentiment: {},
   ingredients: [
     {
@@ -5479,7 +5481,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/Pillar_mag_Berry_Box_1200x1200.png?v=1763582800",
   goals: ["sleep", "recovery", "health"],
   imageEmoji: "🌙",
-  transparencyScore: 94,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -5536,7 +5538,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/cadence_recovery_box_clipped_1200x1200.png?v=1758218786",
   goals: ["sleep", "recovery"],
   imageEmoji: "🍒",
-  transparencyScore: 90,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -5610,7 +5612,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/beam_dream_cinncocoa_1200x1200.png?v=1775172225",
   goals: ["sleep", "recovery"],
   imageEmoji: "☕",
-  transparencyScore: 78,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -5704,7 +5706,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/nokt_sleepgummies_1200x1200.png?v=1759500519",
   goals: ["sleep", "recovery"],
   imageEmoji: "🍒",
-  transparencyScore: 84,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -5790,7 +5792,7 @@ const CURATED_PRODUCTS: Product[] = [
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/SwissRX_Nighttime_60_1200x1200.png?v=1773248808",
   goals: ["sleep", "recovery"],
   imageEmoji: "🌙",
-  transparencyScore: 92,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -5903,7 +5905,7 @@ imageEmoji: "💧",
   flavours: ["Pineapple", "Lychee Lime", "Raspberry", "Mango Passionfruit", "Grape", "Strawberry Kiwi", "Watermelon", "Green Apple", "Yuzu Lemon"],
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/DrHydrate_Pineapple003_1200x1200.png?v=1752515857",
   goals: ["endurance", "recovery", "health"],
-  transparencyScore: 90,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -5981,7 +5983,7 @@ imageEmoji: "💧",
   allergens: [],
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/maurten_caffgel_box_clipped_1200x1200.png?v=1761179846",
   goals: ["endurance"],
-  transparencyScore: 96,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -6032,7 +6034,7 @@ imageEmoji: "💧",
   flavours: ["Cherry Lime", "Salted Lime", "Sea Salt Chocolate", "Lemonade", "Strawberry Kiwi", "Blueberry Pomegranate", "Vanilla Orange", "Cold Brew Coffee", "Pineapple", "Chocolate Coconut"],
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/products/gu-energy-gels-cherry-lime-with-caffeine-box-of-24-gu-roctane-gel-25446430152_1200x1200.jpg?v=1764697583",
   goals: ["endurance", "recovery"],
-  transparencyScore: 80,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -6087,7 +6089,7 @@ imageEmoji: "💧",
   allergens: [],
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/products/original_a47b0c64-416c-484a-967a-1a078f839385_1200x1200.jpg?v=1775062467",
   goals: ["endurance"],
-  transparencyScore: 92,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -6139,7 +6141,7 @@ imageEmoji: "💧",
   flavours: ["Cookies & Creme", "Crunchy Peanut Butter", "Cool Mint Chocolate", "Vanilla Almond", "Chocolate Chip", "Chocolate Brownie", "Oatmeal Raisin Walnut", "Blueberry Almond Crisp", "Peanut Butter Banana Dark Chocolate", "White Chocolate Macadamia", "Chocolate Chip Peanut Crunch", "Trail Mix", "Chocolate Berry"],
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/clif_bar_cookiesandcreme_12pk_1200x1200.png?v=1731959966",
   goals: ["endurance", "health"],
-  transparencyScore: 78,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -6203,7 +6205,7 @@ imageEmoji: "💧",
   flavours: ["Peanut Butter Chocolate", "Peanut Butter", "Coconut Chocolate", "Blueberry", "Chocolate Sea Salt", "Vanilla Almond", "Strawberry"],
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/RXBAR_PB-choc_002_1200x1200.png?v=1754511297",
   goals: ["recovery", "muscle", "health"],
-  transparencyScore: 94,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -6256,7 +6258,7 @@ imageEmoji: "💧",
   allergens: [],
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/momentous_omega3_01_df80970a-5021-4ada-8b33-998c68cd84ff_1200x1200.png?v=1786552735",
   goals: ["recovery", "health", "endurance"],
-  transparencyScore: 97,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -6304,7 +6306,7 @@ imageEmoji: "💧",
   flavours: ["Lemon"],
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/NordicNaturals_ultimatemomega_60_1200x1200.png?v=1752163848",
   goals: ["recovery", "health", "endurance"],
-  transparencyScore: 96,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -6357,7 +6359,7 @@ imageEmoji: "💧",
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/products/thorne-supplements-d-5000-thorne-vitamin-d-14270759305279_1200x1200.jpg?v=1762198622",
   goals: ["health", "immunity", "recovery"],
   imageEmoji: "☀️",
-  transparencyScore: 94,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -6400,7 +6402,7 @@ imageEmoji: "💧",
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/momentous_v3_vitamin_d3_2000iu_bottle_01_1200x1200.png?v=1785874872",
   goals: ["health", "immunity", "recovery"],
   imageEmoji: "☀️",
-  transparencyScore: 92,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -6432,7 +6434,7 @@ imageEmoji: "💧",
   price: 54.99,                    // 40-serving tub (The Feed)
   servingsPerContainer: 40,
   goals: ["immunity", "health", "recovery"],
-  transparencyScore: 92,
+  transparencyScore: 100,
   carbsPerServing: 3,
   caloriesPerServing: 10,
   servingSize: "1 scoop",
@@ -6509,7 +6511,7 @@ imageEmoji: "💧",
   allergens: [],
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/products/thorne-supplements-60-capsules-thorne-iron-bisglycinate-5608332296255_1200x1200.jpg?v=1762198382",
   goals: ["endurance", "health"],
-  transparencyScore: 97,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -6547,7 +6549,7 @@ imageEmoji: "💧",
   allergens: [],
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/momentous_ironplus_1200x1200.png?v=1786565487",
   goals: ["endurance", "health"],
-  transparencyScore: 96,
+  transparencyScore: 100,
   sentiment: {},
   ingredients: [
     {
@@ -6654,7 +6656,7 @@ imageEmoji: "💧",
   flavours: ["Orange", "Lemon"],
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/SantaMadre_CarboFuel_Lemon_1200x1200.png?v=1762268946",
   goals: ["endurance"],
-  transparencyScore: 82,
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
