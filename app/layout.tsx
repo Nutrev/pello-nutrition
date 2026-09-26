@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     default: "Pello — Sports Nutrition Research for Endurance Athletes",
     template: "%s | Pello Nutrition",
   },
-  description: "Science-backed reviews, ingredient analysis and AI-powered nutrition plans for endurance athletes. Compare energy gels, drink mixes, protein and supplements across 120+ products.",
+  description: "Science-backed reviews, ingredient analysis and AI-powered nutrition plans for endurance athletes. Compare energy gels, drink mixes, protein and supplements across 240+ products.",
   keywords: ["sports nutrition", "energy gels", "endurance nutrition", "nutrition research", "sports supplements", "cycling nutrition", "marathon nutrition", "triathlon nutrition"],
   authors: [{ name: "Pello Nutrition" }],
   creator: "Pello Nutrition",
@@ -23,13 +23,11 @@ export const metadata: Metadata = {
     siteName: "Pello Nutrition",
     title: "Pello — Sports Nutrition Research for Endurance Athletes",
     description: "Science-backed reviews, ingredient analysis and AI-powered nutrition plans for endurance athletes.",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Pello Nutrition" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Pello — Sports Nutrition Research",
     description: "Science-backed reviews and AI-powered nutrition plans for endurance athletes.",
-    images: ["/og-image.png"],
   },
   robots: {
     index: true,
