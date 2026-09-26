@@ -1,6 +1,7 @@
 "use client";
 
 import { PRODUCTS, Product } from "@/lib/products";
+import { byWeightedRating } from "@/lib/ratings";
 import { servingsPerContainer, formatPrice } from "@/lib/servings";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -74,7 +75,7 @@ export default function CategoryPage({ params }: { params: { category: string } 
 
   const products = PRODUCTS
     .filter((p) => p.category === matched)
-    .sort((a, b) => b.rating - a.rating);
+    .sort(byWeightedRating);
 
   const topProduct = products[0];
 

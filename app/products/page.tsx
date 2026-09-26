@@ -3,6 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { PRODUCTS, Category, Product } from "@/lib/products";
+import { byWeightedRating } from "@/lib/ratings";
 import { servingsPerContainer, formatPrice } from "@/lib/servings";
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
@@ -159,13 +160,13 @@ function ProductsContent() {
               </div>
               <div className="hidden sm:flex items-center gap-1.5 bg-moss/5 border border-moss/20 px-3 py-1.5 rounded-lg">
                 <span className="text-xs text-moss">
-                  ★ Top rated: {[...products].sort((a, b) => b.rating - a.rating)[0].brand}
+                  ★ Top rated: {[...products].sort(byWeightedRating)[0].brand}
                 </span>
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {[...products].sort((a, b) => b.rating - a.rating).map((product) => (
+              {[...products].sort(byWeightedRating).map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>

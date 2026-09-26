@@ -1,6 +1,7 @@
 "use client";
 
 import { PRODUCTS, Product } from "@/lib/products";
+import { weightedRating } from "@/lib/ratings";
 import { servingsPerContainer, formatPrice } from "@/lib/servings";
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
@@ -52,7 +53,7 @@ function getBestPerCategory(): Product[] {
   const seen = new Map<string, Product>();
   for (const p of PRODUCTS) {
     const existing = seen.get(p.category);
-    if (!existing || p.rating > existing.rating) {
+    if (!existing || weightedRating(p) > weightedRating(existing)) {
       seen.set(p.category, p);
     }
   }

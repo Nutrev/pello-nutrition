@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
 import { PRODUCTS } from "@/lib/products";
+import { byWeightedRating } from "@/lib/ratings";
 import { servingsPerContainer } from "@/lib/servings";
 import { productNutrition } from "@/lib/nutrition";
 import {
@@ -124,7 +125,7 @@ function buildPhaseRecommendations(inputs: PlannerInputs, carbTarget: number): {
             if (aHasCaf && !bHasCaf) return -1;
             if (!aHasCaf && bHasCaf) return 1;
           }
-          return b.rating - a.rating;
+          return byWeightedRating(a, b);
         })
         .slice(0, maxPerCat);
       results.push(...inCat);

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { PRODUCTS, Product } from "@/lib/products";
+import { byWeightedRating } from "@/lib/ratings";
 import Link from "next/link";
 import ReviewSection from "@/components/ReviewSection";
 import BrandLogo from "@/components/BrandLogo";
@@ -439,7 +440,7 @@ export default function ReportPage({ params }: { params: { id: string } }) {
       {(() => {
         const similar = PRODUCTS
           .filter((p) => p.category === product.category && p.id !== product.id)
-          .sort((a, b) => b.rating - a.rating)
+          .sort(byWeightedRating)
           .slice(0, 3);
         return similar.length > 0 ? (
           <div className="max-w-5xl mx-auto px-6 mt-6">
