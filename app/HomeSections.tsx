@@ -74,9 +74,13 @@ function ProductCard({ product }: { product: ProductSummary }) {
 }
 
 // Nine picks by default (the top three in each main group); a group chip shows the
-// best product in every category of that group.
+// best product in every category of that group. Phones show the first few, with a
+// button for the rest, so the list doesn't become a long column.
+const PHONE_PICKS = 3;
+
 export function TopPicks({ groups, productCount }: { groups: PickGroup[]; productCount: number }) {
   const [selected, setSelected] = useState<string | null>(null);
+  const [expanded, setExpanded] = useState(false);
   const shown = selected
     ? groups.find((g) => g.label === selected)?.products ?? []
     : groups.slice(0, 3).flatMap((g) => g.products.slice(0, 3));
@@ -85,7 +89,10 @@ export function TopPicks({ groups, productCount }: { groups: PickGroup[]; produc
     <button
       key={label}
       type="button"
-      onClick={() => setSelected(key)}
+      onClick={() => {
+        setSelected(key);
+        setExpanded(false);
+      }}
       aria-pressed={selected === key}
       className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${selected === key ? "bg-moss text-cream border-moss" : "border-sand bg-white/50 text-muted hover:text-ink"}`}
     >
@@ -101,8 +108,17 @@ export function TopPicks({ groups, productCount }: { groups: PickGroup[]; produc
         {groups.map((g) => chip(g.short, g.label))}
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 gap-y-6">
-        {shown.map((p) => <ProductCard key={p.id} product={p} />)}
+        {shown.map((p, i) => (
+          <div key={p.id} className={!expanded && i >= PHONE_PICKS ? "hidden sm:block" : undefined}>
+            <ProductCard product={p} />
+          </div>
+        ))}
       </div>
+      {!expanded && shown.length > PHONE_PICKS && (
+        <button type="button" onClick={() => setExpanded(true)} className="sm:hidden btn-secondary w-full mt-5">
+          Show all {shown.length} picks
+        </button>
+      )}
     </section>
   );
 }
