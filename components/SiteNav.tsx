@@ -6,18 +6,11 @@ import { useEffect, useState } from "react";
 import Logo from "@/components/Logo";
 import NavDropdown, { NavItem, NavSection, isItemActive } from "@/components/NavDropdown";
 import { categorySlug } from "@/lib/catalog-types";
+import { CATEGORY_GROUPS, OTHER_GROUP } from "@/lib/category-groups";
 
 // The site-wide top navigation, rendered once in app/layout.tsx.
 // From md up: Products, Tools and Learn dropdowns. Below md: a menu button that opens a
 // full-width panel listing the same links. "Build my plan" shows at every size.
-
-// How product categories are grouped in the Products menu. A category that isn't
-// listed here still appears, under "Other", so new categories never go missing.
-const CATEGORY_GROUPS: { label: string; categories: string[] }[] = [
-  { label: "Fuel & hydration", categories: ["Energy Gel", "Energy Chew", "Energy Bar", "Energy", "Carbohydrate Mix", "Hydration"] },
-  { label: "Strength & recovery", categories: ["Protein", "Creatine", "Recovery", "Performance"] },
-  { label: "Health & wellbeing", categories: ["Vitamin", "Mineral", "Omega-3", "Probiotic", "Gut Health", "Sleep", "Supplement"] },
-];
 
 const ALL_PRODUCTS: NavItem = { href: "/products", label: "All products", exact: true };
 
@@ -51,7 +44,7 @@ function categorySections(categories: CategoryCount[]): NavSection[] {
     items: group.categories.flatMap((name) => categories.filter((c) => c.name === name)).map(toItem),
   }));
   const other = categories.filter((c) => !grouped.has(c.name)).map(toItem);
-  return [...sections, ...(other.length ? [{ label: "Other", items: other }] : [])].filter((s) => s.items.length);
+  return [...sections, ...(other.length ? [{ label: OTHER_GROUP, items: other }] : [])].filter((s) => s.items.length);
 }
 
 // Open-state key for the mobile panel; the dropdowns use their labels.
