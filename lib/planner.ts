@@ -12,6 +12,8 @@ export type CaffeinePreference = "none" | "moderate" | "high";
 export type DietaryRestriction = "vegan" | "gluten-free" | "dairy-free";
 export type FormatPreference = "Energy Gel" | "Energy Chew" | "Energy Bar" | "Carbohydrate Mix" | "Hydration";
 export type Retailer = "REI" | "Amazon" | "The Feed" | "Running Warehouse";
+export type WeightUnit = "kg" | "lbs";
+export type Sex = "male" | "female";
 
 export interface PlannerInputs {
   mode: PlanMode;
@@ -24,8 +26,19 @@ export interface PlannerInputs {
   dietary: DietaryRestriction[];
   formats: FormatPreference[];
   retailers: Retailer[];
-  weightKg: number;
+  weightKg: number;              // always kg; weightUnit only changes how it's shown
+  weightUnit: WeightUnit;
+  age: number;
+  sex: Sex;
+  trainingDaysPerWeek: number;
 }
+
+export const DEFAULT_INPUTS: PlannerInputs = {
+  mode: "event", eventType: null, outcomeType: null,
+  durationHours: 2, intensity: "moderate", caffeinePreference: "moderate",
+  budget: 50, dietary: [], formats: [], retailers: [],
+  weightKg: 70, weightUnit: "kg", age: 30, sex: "male", trainingDaysPerWeek: 4,
+};
 
 // ── CONSTANTS ─────────────────────────────────────────────────
 
@@ -60,15 +73,29 @@ export const INTENSITY_OPTIONS = [
 
 // ── HELPERS ───────────────────────────────────────────────────
 
+export const KG_PER_LB = 1 / 2.205;
+
+// Body weight in the athlete's chosen unit, e.g. "70kg" or "154lbs".
+export function formatWeight(weightKg: number, unit: WeightUnit): string {
+  return unit === "lbs" ? `${Math.round(weightKg * 2.205)}lbs` : `${Math.round(weightKg)}kg`;
+}
+
 export function carbsNeeded(durationHours: number, intensity: Intensity): number {
   const rates: Record<Intensity, number> = { easy: 30, moderate: 50, hard: 70, race: 90 };
   if (durationHours < 1) return Math.round(rates[intensity] * durationHours * 0.5);
   return Math.round(rates[intensity] * durationHours);
 }
 
-export function sodiumNeeded(durationHours: number, intensity: Intensity, weightKg: number): number {
-  const sweat: Record<Intensity, number> = { easy: 0.5, moderate: 0.8, hard: 1.1, race: 1.4 };
-  return Math.round(sweat[intensity] * weightKg * 500 * durationHours);
+// Estimated sodium lost in sweat (mg). Sweat rates are litres per hour for a 70kg athlete,
+// scaled by body weight; 500mg of sodium per litre of sweat. An average, not a personal figure
+// (a sweat test gives the real one).
+export function sodiumNeeded(durationHours: number, intensity: Intensity, weightKg: number, sex: Sex = "male"): number {
+  const sweatLitresPerHour: Record<Intensity, number> = { easy: 0.5, moderate: 0.8, hard: 1.1, race: 1.4 };
+  const SODIUM_MG_PER_LITRE = 500;
+  // Women sweat less on average, so lose roughly 15% less sodium.
+  const sexFactor = sex === "female" ? 0.85 : 1;
+  const litres = sweatLitresPerHour[intensity] * (weightKg / 70) * durationHours;
+  return Math.round(litres * SODIUM_MG_PER_LITRE * sexFactor);
 }
 
 // ── VALIDATION ────────────────────────────────────────────────
@@ -78,6 +105,8 @@ const CAFFEINE_PREFERENCES: CaffeinePreference[] = ["none", "moderate", "high"];
 const DIETARY_RESTRICTIONS: DietaryRestriction[] = ["vegan", "gluten-free", "dairy-free"];
 const FORMAT_PREFERENCES: FormatPreference[] = ["Energy Gel", "Energy Chew", "Energy Bar", "Carbohydrate Mix", "Hydration"];
 const RETAILERS: Retailer[] = ["REI", "Amazon", "The Feed", "Running Warehouse"];
+const WEIGHT_UNITS: WeightUnit[] = ["kg", "lbs"];
+const SEXES: Sex[] = ["male", "female"];
 
 function oneOf<T>(value: unknown, allowed: readonly T[]): value is T {
   return allowed.includes(value as T);
@@ -105,6 +134,7 @@ export function parsePlannerInputs(raw: unknown): PlannerInputs | null {
   if (r.mode === "event" ? eventType === null : outcomeType === null) return null;
   if (!INTENSITY_OPTIONS.some((i) => i.id === r.intensity)) return null;
   if (!oneOf(r.caffeinePreference, CAFFEINE_PREFERENCES)) return null;
+  if (!oneOf(r.weightUnit, WEIGHT_UNITS) || !oneOf(r.sex, SEXES)) return null;
 
   const durationHours = numberIn(r.durationHours, 0.25, 24);
   const budget = numberIn(r.budget, 0, 10000);
@@ -112,7 +142,10 @@ export function parsePlannerInputs(raw: unknown): PlannerInputs | null {
   const dietary = listOf(r.dietary, DIETARY_RESTRICTIONS);
   const formats = listOf(r.formats, FORMAT_PREFERENCES);
   const retailers = listOf(r.retailers, RETAILERS);
+  const age = numberIn(r.age, 16, 70);
+  const trainingDaysPerWeek = numberIn(r.trainingDaysPerWeek, 1, 7);
   if (durationHours === null || budget === null || weightKg === null || !dietary || !formats || !retailers) return null;
+  if (age === null || trainingDaysPerWeek === null || !Number.isInteger(trainingDaysPerWeek)) return null;
 
   return {
     mode: r.mode,
@@ -126,6 +159,10 @@ export function parsePlannerInputs(raw: unknown): PlannerInputs | null {
     formats,
     retailers,
     weightKg,
+    weightUnit: r.weightUnit,
+    age: Math.round(age),
+    sex: r.sex,
+    trainingDaysPerWeek,
   };
 }
 
@@ -136,7 +173,14 @@ export function buildPlanPrompt(inputs: PlannerInputs): string {
   const outcomeData = OUTCOME_TYPES.find(o => o.id === inputs.outcomeType);
   const eventData = EVENT_TYPES.find(e => e.id === inputs.eventType);
   const carbTarget = carbsNeeded(inputs.durationHours, inputs.intensity);
-  const sodiumTarget = sodiumNeeded(inputs.durationHours, inputs.intensity, inputs.weightKg);
+  const sodiumTarget = sodiumNeeded(inputs.durationHours, inputs.intensity, inputs.weightKg, inputs.sex);
+  const weight = inputs.weightUnit === "lbs"
+    ? `${formatWeight(inputs.weightKg, "lbs")} (${Math.round(inputs.weightKg)}kg)`
+    : formatWeight(inputs.weightKg, "kg");
+  const athlete = `- Age: ${inputs.age}
+- Sex: ${inputs.sex}
+- Training days per week: ${inputs.trainingDaysPerWeek}`;
+  const personalise = `Tailor amounts to this athlete's age, sex, body weight and training load only where sports nutrition evidence supports a difference (for example, older athletes' higher protein needs for recovery, or more recovery emphasis with more training days). State quantities in ${inputs.weightUnit === "lbs" ? "pounds and ounces where natural, with metric in brackets" : "metric units"}.`;
 
   return isEvent
     ? `You are Pello's expert sports nutrition AI. Generate a complete, science-backed nutrition plan.
@@ -145,14 +189,17 @@ ATHLETE PROFILE:
 - Event: ${eventData?.label}
 - Duration: ${inputs.durationHours} hours
 - Intensity: ${inputs.intensity}
-- Body weight: ${inputs.weightKg}kg
+- Body weight: ${weight}
+${athlete}
 - Budget: $${inputs.budget}
 - Caffeine preference: ${inputs.caffeinePreference}
 - Dietary: ${inputs.dietary.length > 0 ? inputs.dietary.join(", ") : "none"}
 
 CALCULATED TARGETS:
 - Total carbs: ${carbTarget}g (${INTENSITY_OPTIONS.find(i => i.id === inputs.intensity)?.carbsPerHr}g/hr)
-- Total sodium: ${sodiumTarget}mg
+- Total sodium: ${sodiumTarget}mg${inputs.sex === "female" ? " (adjusted 15% lower for average female sweat sodium losses)" : ""}
+
+${personalise}
 
 Use ONLY these exact section headers. No markdown, no tables, no asterisks, no hashtags. Plain text only.
 
@@ -186,10 +233,13 @@ Write exactly 3 numbered tips as plain sentences. No bullet points, no asterisks
     : `You are Pello's expert sports nutrition AI. Generate a complete outcome-based nutrition protocol.
 
 ATHLETE GOAL: ${outcomeData?.label}
-- Body weight: ${inputs.weightKg}kg
+- Body weight: ${weight}
+${athlete}
 - Budget: $${inputs.budget}/month
 - Caffeine: ${inputs.caffeinePreference}
 - Dietary: ${inputs.dietary.length > 0 ? inputs.dietary.join(", ") : "none"}
+
+${personalise} Calibrate recovery and supplement recommendations to ${inputs.trainingDaysPerWeek} training day${inputs.trainingDaysPerWeek === 1 ? "" : "s"} a week: more training days need more emphasis on recovery nutrition.
 
 Use ONLY these exact section headers. No markdown, no tables, no asterisks. Plain text only.
 

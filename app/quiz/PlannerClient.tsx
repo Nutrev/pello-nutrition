@@ -8,7 +8,8 @@ import { servingsPerContainer } from "@/lib/servings";
 import {
   type PlannerInputs, type EventType, type OutcomeType, type Intensity,
   type CaffeinePreference, type DietaryRestriction, type FormatPreference, type Retailer,
-  EVENT_TYPES, OUTCOME_TYPES, INTENSITY_OPTIONS, carbsNeeded, sodiumNeeded,
+  type WeightUnit, type Sex,
+  EVENT_TYPES, OUTCOME_TYPES, INTENSITY_OPTIONS, DEFAULT_INPUTS, KG_PER_LB, carbsNeeded, sodiumNeeded, formatWeight,
 } from "@/lib/planner";
 
 // ── TYPES ─────────────────────────────────────────────────────
@@ -394,15 +395,27 @@ function PhaseProductCard({ item, borderColor }: { item: PhaseProduct; borderCol
   );
 }
 
+// Two-option toggle used in card headers (e.g. kg | lbs).
+function SegmentedControl<T extends string>({ label, options, value, onChange }: {
+  label: string; options: { id: T; label: string }[]; value: T; onChange: (v: T) => void;
+}) {
+  return (
+    <div role="radiogroup" aria-label={label} className="inline-flex rounded-lg border border-sand bg-white/40 p-0.5">
+      {options.map(o => (
+        <button key={o.id} type="button" role="radio" aria-checked={value === o.id} onClick={() => onChange(o.id)}
+          className={`px-3 py-1 text-xs rounded-md transition-colors ${value === o.id ? "bg-moss text-cream font-medium" : "text-muted hover:text-ink"}`}>
+          {o.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 // ── MAIN COMPONENT ────────────────────────────────────────────
 
 export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }) {
   const [step, setStep] = useState(1);
-  const [inputs, setInputs] = useState<PlannerInputs>({
-    mode: "event", eventType: null, outcomeType: null,
-    durationHours: 2, intensity: "moderate", caffeinePreference: "moderate",
-    budget: 50, dietary: [], formats: [], retailers: [], weightKg: 70,
-  });
+  const [inputs, setInputs] = useState<PlannerInputs>(DEFAULT_INPUTS);
   const [loading, setLoading] = useState(false);
   const [parsedPlan, setParsedPlan] = useState<ParsedPlan | null>(null);
 
@@ -415,7 +428,8 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
   };
 
   const carbTarget = carbsNeeded(inputs.durationHours, inputs.intensity);
-  const sodiumTarget = sodiumNeeded(inputs.durationHours, inputs.intensity, inputs.weightKg);
+  const sodiumTarget = sodiumNeeded(inputs.durationHours, inputs.intensity, inputs.weightKg, inputs.sex);
+  const inLbs = inputs.weightUnit === "lbs";
   const isEvent = inputs.mode === "event";
 
   // Build phase-specific recommendations
@@ -452,11 +466,7 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
   const reset = () => {
     setParsedPlan(null);
     setStep(1);
-    setInputs({
-      mode: "event", eventType: null, outcomeType: null,
-      durationHours: 2, intensity: "moderate", caffeinePreference: "moderate",
-      budget: 50, dietary: [], formats: [], retailers: [], weightKg: 70,
-    });
+    setInputs(DEFAULT_INPUTS);
   };
 
   const planTitle = isEvent
@@ -586,14 +596,55 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
                 )}
 
                 <div className="card mb-4">
-                  <h3 className="font-display font-semibold mb-4">Body weight</h3>
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="text-sm text-muted">40kg</span>
-                    <input type="range" min={40} max={120} step={1} value={inputs.weightKg}
-                      onChange={e => update("weightKg", Number(e.target.value))} className="flex-1 accent-moss" />
-                    <span className="text-sm text-muted">120kg</span>
+                  <div className="flex items-center justify-between gap-3 mb-4">
+                    <h3 className="font-display font-semibold">Body weight</h3>
+                    <SegmentedControl<WeightUnit>
+                      label="Weight unit"
+                      options={[{ id: "kg", label: "kg" }, { id: "lbs", label: "lbs" }]}
+                      value={inputs.weightUnit}
+                      onChange={v => update("weightUnit", v)}
+                    />
                   </div>
-                  <div className="text-center font-display font-bold text-2xl text-moss">{inputs.weightKg}kg</div>
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="text-sm text-muted">{inLbs ? "88lbs" : "40kg"}</span>
+                    <input type="range" aria-label={`Body weight in ${inputs.weightUnit}`}
+                      min={inLbs ? 88 : 40} max={inLbs ? 264 : 120} step={1}
+                      value={inLbs ? Math.round(inputs.weightKg * 2.205) : Math.round(inputs.weightKg)}
+                      onChange={e => {
+                        const v = Number(e.target.value);
+                        // Stored in kg for every calculation; lbs are converted on the way in.
+                        update("weightKg", inLbs ? Math.round(v * KG_PER_LB * 10) / 10 : v);
+                      }}
+                      className="flex-1 accent-moss" />
+                    <span className="text-sm text-muted">{inLbs ? "264lbs" : "120kg"}</span>
+                  </div>
+                  <div className="text-center font-display font-bold text-2xl text-moss">{formatWeight(inputs.weightKg, inputs.weightUnit)}</div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                  <div className="card">
+                    <h3 className="font-display font-semibold mb-4">Age</h3>
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="text-sm text-muted">16</span>
+                      <input type="range" aria-label="Age" min={16} max={70} step={1} value={inputs.age}
+                        onChange={e => update("age", Number(e.target.value))} className="flex-1 accent-moss" />
+                      <span className="text-sm text-muted">70</span>
+                    </div>
+                    <div className="text-center font-display font-bold text-2xl text-moss">{inputs.age}</div>
+                  </div>
+
+                  <div className="card">
+                    <h3 className="font-display font-semibold mb-4">Sex</h3>
+                    <div className="grid grid-cols-2 gap-2">
+                      {([{ id: "male", label: "Male" }, { id: "female", label: "Female" }] as { id: Sex; label: string }[]).map(opt => (
+                        <button key={opt.id} onClick={() => update("sex", opt.id)} aria-pressed={inputs.sex === opt.id}
+                          className={`p-3 rounded-xl border text-sm transition-all ${inputs.sex === opt.id ? "border-moss bg-moss/5 text-moss font-medium" : "border-sand hover:border-muted text-muted"}`}>
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                    <p className="text-xs text-muted mt-3">Used to estimate sweat sodium losses, which are lower for women on average.</p>
+                  </div>
                 </div>
 
                 <div className="card mb-4">
@@ -608,6 +659,20 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
                         className={`p-3 rounded-xl border text-left transition-all ${inputs.caffeinePreference === opt.id ? "border-moss bg-moss/5" : "border-sand hover:border-muted"}`}>
                         <div className="font-medium text-sm">{opt.label}</div>
                         <div className="text-xs text-muted">{opt.desc}</div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="card mb-4">
+                  <h3 className="font-display font-semibold mb-1">Training days per week</h3>
+                  <p className="text-xs text-muted mb-4">More training days put more weight on recovery nutrition.</p>
+                  <div className="grid grid-cols-7 gap-1.5 sm:gap-2">
+                    {[1, 2, 3, 4, 5, 6, 7].map(d => (
+                      <button key={d} onClick={() => update("trainingDaysPerWeek", d)} aria-pressed={inputs.trainingDaysPerWeek === d}
+                        aria-label={`${d} day${d === 1 ? "" : "s"} a week`}
+                        className={`py-2 rounded-xl border text-sm transition-all ${inputs.trainingDaysPerWeek === d ? "border-moss bg-moss/5 text-moss font-medium" : "border-sand hover:border-muted text-muted"}`}>
+                        {d}
                       </button>
                     ))}
                   </div>
@@ -633,7 +698,7 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
                         <div className="text-xs text-muted">total carbs</div>
                       </div>
                       <div>
-                        <div className="font-display font-bold text-xl">{Math.round(sodiumTarget / 100) / 10}g</div>
+                        <div className="font-display font-bold text-xl">{sodiumTarget}mg</div>
                         <div className="text-xs text-muted">sodium</div>
                       </div>
                       <div>
@@ -732,6 +797,9 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
               <div className="flex flex-wrap gap-2">
                 {isEvent && <span className="text-xs bg-moss/10 text-moss px-2 py-0.5 rounded-md">{carbTarget}g carbs</span>}
                 {isEvent && <span className="text-xs bg-sand px-2 py-0.5 rounded-md">{inputs.intensity} intensity</span>}
+                <span className="text-xs bg-sand px-2 py-0.5 rounded-md">{formatWeight(inputs.weightKg, inputs.weightUnit)}</span>
+                <span className="text-xs bg-sand px-2 py-0.5 rounded-md">{inputs.age} · {inputs.sex}</span>
+                <span className="text-xs bg-sand px-2 py-0.5 rounded-md">{inputs.trainingDaysPerWeek} training day{inputs.trainingDaysPerWeek === 1 ? "" : "s"}/week</span>
                 <span className="text-xs bg-sand px-2 py-0.5 rounded-md">${inputs.budget} budget</span>
                 {inputs.caffeinePreference === "none" && <span className="text-xs bg-sand px-2 py-0.5 rounded-md">caffeine-free</span>}
                 {inputs.dietary.map(d => <span key={d} className="text-xs bg-sand px-2 py-0.5 rounded-md">{d}</span>)}
