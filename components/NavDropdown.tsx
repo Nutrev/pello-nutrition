@@ -14,8 +14,8 @@ export function isItemActive(pathname: string, { href, exact }: NavItem): boolea
 
 interface NavDropdownProps {
   label: string;
-  // Shown above the sections, across the full width of the menu.
-  lead?: NavItem;
+  // Shown above the sections, side by side across the full width of the menu.
+  lead?: NavItem[];
   // One section renders as a list; several render side by side as labelled columns.
   sections: NavSection[];
   open: boolean;
@@ -27,7 +27,7 @@ interface NavDropdownProps {
 // menu is open at a time and a single listener handles outside clicks and Escape.
 export default function NavDropdown({ label, lead, sections, open, onToggle, pathname }: NavDropdownProps) {
   const menuId = useId();
-  const allItems = [...(lead ? [lead] : []), ...sections.flatMap((s) => s.items)];
+  const allItems = [...(lead ?? []), ...sections.flatMap((s) => s.items)];
   const containsActive = allItems.some((item) => isItemActive(pathname, item));
   const wide = sections.length > 1;
 
@@ -75,7 +75,9 @@ export default function NavDropdown({ label, lead, sections, open, onToggle, pat
           id={menuId}
           className={`absolute top-full mt-2 bg-cream border border-sand rounded-xl shadow-md py-2 ${wide ? "left-1/2 -translate-x-1/2" : "left-0 min-w-[160px]"}`}
         >
-          {lead && <div className="border-b border-sand mb-2 pb-2 font-medium">{itemLink(lead)}</div>}
+          {lead && lead.length > 0 && (
+            <div className="border-b border-sand mb-2 pb-2 font-medium flex">{lead.map(itemLink)}</div>
+          )}
           {wide ? (
             <div className="grid grid-flow-col auto-cols-[minmax(180px,1fr)]">
               {sections.map((section) => (

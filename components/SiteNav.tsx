@@ -13,6 +13,7 @@ import { CATEGORY_GROUPS, OTHER_GROUP } from "@/lib/category-groups";
 // full-width panel listing the same links. "Build my plan" shows at every size.
 
 const ALL_PRODUCTS: NavItem = { href: "/products", label: "All products", exact: true };
+const BRANDS: NavItem = { href: "/brands", label: "Brands" };
 
 const OTHER_MENUS: { label: string; items: NavItem[] }[] = [
   {
@@ -123,7 +124,7 @@ export default function SiteNav({ categories }: { categories: CategoryCount[] })
           <div className="hidden md:flex items-center gap-5">
             <NavDropdown
               label="Products"
-              lead={ALL_PRODUCTS}
+              lead={[ALL_PRODUCTS, BRANDS]}
               sections={productSections}
               open={openMenu === "Products"}
               onToggle={() => toggle("Products")}
@@ -175,6 +176,7 @@ export default function SiteNav({ categories }: { categories: CategoryCount[] })
               <div>
                 <div className="text-xs text-muted uppercase tracking-widest mb-1">Products</div>
                 {mobileLink(ALL_PRODUCTS)}
+                {mobileLink(BRANDS)}
                 {productSections.map((section) => (
                   <div key={section.label} className="mt-3">
                     <div className="text-xs text-muted mb-1">{section.label}</div>

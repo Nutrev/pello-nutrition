@@ -7,8 +7,9 @@ import Link from "next/link";
 import ReviewSection, { getAttributesForCategory } from "@/components/ReviewSection";
 import type { AttributeAverages } from "@/lib/supabase";
 import BrandLogo from "@/components/BrandLogo";
+import { PRICE_POSITION_LABEL, PRICE_POSITION_STYLE, type Brand } from "@/lib/brand-types";
 import IngredientFlags from "@/components/IngredientFlags";
-import { calculatePelloScore } from "@/lib/fulens-score";
+import { productPelloScore } from "@/lib/product-score";
 import { pricePerServing as calcPricePerServing, servingsPerContainer, formatPrice } from "@/lib/servings";
 import { productNutrition } from "@/lib/nutrition";
 import FulensScoreDisplay from "@/components/FulensScore";
@@ -82,13 +83,19 @@ function getDisputedIngredients(ingredients: Product["ingredients"]) {
 // Just enough to show a product in the "Recently viewed" strip.
 export type DirectoryEntry = Pick<ProductSummary, "id" | "name" | "brand" | "logo" | "logoDomain">;
 
+// The product's brand, for the brand card under the header.
+export interface ReportBrand extends Pick<Brand, "slug" | "name" | "founded" | "hq" | "pricePosition" | "productCount"> {
+  line: string;  // one sentence about the brand
+}
+
 interface ReportClientProps {
   product: Product;
   similar: ProductSummary[];
   directory: DirectoryEntry[];
+  brand: ReportBrand;
 }
 
-export default function ReportClient({ product, similar: similarProducts, directory }: ReportClientProps) {
+export default function ReportClient({ product, similar: similarProducts, directory, brand }: ReportClientProps) {
   const [summary, setSummary] = useState("");
   const [loading, setLoading] = useState(false);
   const [generated, setGenerated] = useState(false);
@@ -99,30 +106,7 @@ export default function ReportClient({ product, similar: similarProducts, direct
   const [variantId, setVariantId] = useState(product.defaultVariantId ?? product.variants?.[0]?.id);
 
   const nutrition = product ? productNutrition(product) : null;
-  const PelloScore = product && nutrition ? calculatePelloScore({
-    category: product.category,
-    ingredients: product.ingredients.map((i) => ({
-      name: i.name,
-      verdict: i.verdict as "proven" | "likely" | "disputed",
-      dose: i.dose,
-    })),
-    hasProprietaryBlend: false,
-    isCleanLabel: true,
-    certifications: nutrition.certifications,
-    isBatchTested: nutrition.isBatchTested,
-    bannedSubstanceTested: false,
-    pricePerServing: calcPricePerServing(product),
-    carbsPerServing: nutrition.carbsPerServing ?? undefined,
-    proteinPerServing: nutrition.proteinPerServing ?? undefined,
-    sodiumPerServing: nutrition.sodiumPerServing ?? undefined,
-    isVegan: nutrition.isVegan,
-    isGlutenFree: nutrition.isGlutenFree ?? true, // unknown keeps the previous default
-    allergens: product.allergens ?? [],
-    sentiment: product.sentiment,
-    reviewCount: product.reviewCount,
-    rating: product.rating,
-    transparencyScore: product.transparencyScore,
-  }) : null;
+  const PelloScore = productPelloScore(product);
 
   useEffect(() => {
     const key = "Pello_recently_viewed";
@@ -250,6 +234,24 @@ export default function ReportClient({ product, similar: similarProducts, direct
               Compare this product
           </Link>
           </div>
+        </div>
+
+        {/* Brand */}
+        <div className="card flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
+          <BrandLogo logoDomain={product.logoDomain} logo={product.logo} brand={brand.name} size="md" />
+          <div className="flex-1 min-w-0">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="font-display font-semibold">{brand.name}</span>
+              <span className={`text-xs px-2 py-0.5 rounded-md ${PRICE_POSITION_STYLE[brand.pricePosition]}`}>{PRICE_POSITION_LABEL[brand.pricePosition]}</span>
+              {(brand.founded || brand.hq) && (
+                <span className="text-xs text-muted">{[brand.founded && `Founded ${brand.founded}`, brand.hq].filter(Boolean).join(" · ")}</span>
+              )}
+            </div>
+            <p className="text-sm text-muted mt-0.5">{brand.line}</p>
+          </div>
+          <Link href={`/brands/${brand.slug}`} className="text-sm text-moss hover:underline whitespace-nowrap">
+            {brand.productCount > 1 ? `View all ${brand.productCount} ${brand.name} products →` : `About ${brand.name} →`}
+          </Link>
         </div>
 
         {/* Pros & Cons */}

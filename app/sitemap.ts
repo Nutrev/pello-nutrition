@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
 import { PRODUCTS } from "@/lib/products";
 import { getAllPosts } from "@/lib/blog";
+import { getBrands } from "@/lib/brands";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://www.pellonutrition.com";
@@ -20,6 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/methodology`, priority: 0.6, changeFrequency: "monthly" as const },
     { url: `${base}/graph`, priority: 0.5, changeFrequency: "monthly" as const },
     { url: `${base}/blog`, priority: 0.7, changeFrequency: "weekly" as const },
+    { url: `${base}/brands`, priority: 0.8, changeFrequency: "weekly" as const },
   ];
 
   // Category pages
@@ -37,6 +39,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "weekly" as const,
   }));
 
+  // Brand pages
+  const brandPages = getBrands().map((b) => ({
+    url: `${base}/brands/${b.slug}`,
+    priority: 0.6,
+    changeFrequency: "weekly" as const,
+  }));
+
   // Blog posts
   const blogPages = getAllPosts().map((post) => ({
     url: `${base}/blog/${post.slug}`,
@@ -45,5 +54,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "monthly" as const,
   }));
 
-  return [...staticPages, ...categoryPages, ...blogPages, ...productPages];
+  return [...staticPages, ...categoryPages, ...brandPages, ...blogPages, ...productPages];
 }

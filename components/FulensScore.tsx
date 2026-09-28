@@ -46,7 +46,7 @@ export default function FulensScoreDisplay({ score, compact = false }: FulensSco
         <ScoreRing score={score.overall} size={48} />
         <div>
           <div className="text-xs font-medium">{label}</div>
-          <div className="text-xs text-muted">Fulens Score™</div>
+          <div className="text-xs text-muted">Pello Score™</div>
         </div>
       </div>
     );
@@ -57,7 +57,7 @@ export default function FulensScoreDisplay({ score, compact = false }: FulensSco
       <div className="flex items-start justify-between mb-4">
         <div>
           <div className="text-sm text-moss uppercase tracking-widest mb-1">
-            Fulens Score™
+            Pello Score™
           </div>
           <h2 className="font-display font-bold text-2xl">{label}</h2>
           <p className="text-xs text-muted mt-0.5">{description}</p>
@@ -108,7 +108,7 @@ export default function FulensScoreDisplay({ score, compact = false }: FulensSco
         )}
         <div className="mt-2">
           <Link href="/methodology" className="text-xs text-muted underline underline-offset-2">
-            How is the Fulens Score calculated? →
+            How is the Pello Score calculated? →
           </Link>
         </div>
       </div>
