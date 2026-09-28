@@ -220,7 +220,7 @@ Generate a complete TypeScript object that matches this exact structure. Be thor
 
 Rules:
 - id: lowercase-hyphenated slug from brand + product name
-- category: must be exactly one of: "Energy Gel" | "Energy Chew" | "Energy Bar" | "Carbohydrate Mix" | "Hydration" | "Protein" | "Creatine" | "Supplement" | "Probiotic" | "Omega-3" | "Vitamin" | "Mineral" | "Performance" | "Recovery" | "Sleep" | "Gut Health"
+- category: must be exactly one of: "Energy Gel" | "Energy Chew" | "Energy Bar" | "Carbohydrate Mix" | "Hydration" | "Protein" | "Creatine" | "Supplement" | "Probiotic" | "Omega-3" | "Vitamin" | "Mineral" | "Performance" | "Recovery" | "Sleep" | "Gut Health" | "Immune" | "Greens"
 - rating / reviewCount: the store's customer rating and number of reviews from the product information. If none is given, use 0 for both — never estimate.
 - price: price in USD for one pack (not per serving). If the structured data has a primaryPack, use its price and set servingsPerContainer to its servings, and take servingSize, doses and nutrition from that pack's details (they're already listed first). Otherwise use a standard multi-serving pack (e.g. a box of 12 gels, or a 30–40 serving tub) and set servingsPerContainer to match
 - transparencyScore: 0-100 based on label clarity, dose disclosure, certifications, no proprietary blends

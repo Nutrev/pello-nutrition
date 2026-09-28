@@ -221,7 +221,7 @@ function buildPhaseRecommendations(PRODUCTS: ProductSummary[], inputs: PlannerIn
       }));
 
     const post = allProducts
-      .filter(p => ["Protein", "Creatine", "Performance", "Recovery", "Sleep", "Omega-3", "Supplement", "Mineral", "Probiotic", "Gut Health"].includes(p.category))
+      .filter(p => ["Protein", "Creatine", "Performance", "Recovery", "Sleep", "Omega-3", "Supplement", "Mineral", "Probiotic", "Gut Health", "Immune", "Greens"].includes(p.category))
       // One product per category first, so three picks cover three kinds of support.
       .filter((p, i, list) => list.findIndex(q => q.category === p.category) === i)
       .slice(0, 3)

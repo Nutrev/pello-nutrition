@@ -23,6 +23,8 @@ export const DEFAULT_SERVINGS: Record<Category, number> = {
   "Recovery": 30,
   "Sleep": 30,
   "Gut Health": 30,
+  "Immune": 30,
+  "Greens": 30,
 };
 
 export function servingsPerContainer(p: Pick<Product, "category" | "servingsPerContainer">): number {

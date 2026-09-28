@@ -10,7 +10,7 @@ import { THE_FEED_SUPPLEMENTS } from "./products-supplements";
 
 export type Verdict = "proven" | "likely" | "disputed";
 export type Goal = "muscle" | "endurance" | "recovery" | "health" | "sleep" | "immunity" | "gut health";
-export type Category = "Creatine" | "Energy" | "Energy Gel" | "Carbohydrate Mix" | "Energy Chew" | "Energy Bar" | "Supplement" | "Hydration" | "Protein" | "Probiotic" | "Omega-3" | "Vitamin" | "Mineral" | "Performance" | "Recovery" | "Sleep" | "Gut Health";
+export type Category = "Creatine" | "Energy" | "Energy Gel" | "Carbohydrate Mix" | "Energy Chew" | "Energy Bar" | "Supplement" | "Hydration" | "Protein" | "Probiotic" | "Omega-3" | "Vitamin" | "Mineral" | "Performance" | "Recovery" | "Sleep" | "Gut Health" | "Immune" | "Greens";
 export interface Ingredient {
   name: string;
   dose?: string;

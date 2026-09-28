@@ -6,7 +6,7 @@
 export const CATEGORY_GROUPS: { label: string; short: string; categories: string[] }[] = [
   { label: "Fuel & hydration", short: "Fuel", categories: ["Energy Gel", "Energy Chew", "Energy Bar", "Energy", "Carbohydrate Mix", "Hydration"] },
   { label: "Strength & recovery", short: "Strength & recovery", categories: ["Protein", "Creatine", "Recovery", "Performance"] },
-  { label: "Health & wellbeing", short: "Health", categories: ["Vitamin", "Mineral", "Omega-3", "Probiotic", "Gut Health", "Sleep", "Supplement"] },
+  { label: "Health & wellbeing", short: "Health", categories: ["Vitamin", "Mineral", "Omega-3", "Immune", "Greens", "Probiotic", "Gut Health", "Sleep", "Supplement"] },
 ];
 
 export const OTHER_GROUP = "Other";
