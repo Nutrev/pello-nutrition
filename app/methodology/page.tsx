@@ -70,12 +70,12 @@ export default function MethodologyPage() {
           <h2 className="font-display font-bold text-2xl mb-5">Score labels</h2>
           <div className="space-y-2">
             {[
-              { range: "85-100", label: "Exceptional", color: "bg-moss/10 text-moss", desc: "Best in class — top science, transparency and athlete experience" },
-              { range: "75-84", label: "Excellent", color: "bg-moss/5 text-moss", desc: "Strong across all pillars — highly recommended" },
-              { range: "65-74", label: "Good", color: "bg-amber/10 text-amber", desc: "Above average — minor trade-offs worth knowing about" },
-              { range: "50-64", label: "Average", color: "bg-sand text-muted", desc: "Meets the basics — check individual pillar scores" },
-              { range: "35-49", label: "Below average", color: "bg-rust/10 text-rust", desc: "Notable weaknesses in one or more pillars" },
-              { range: "0-34", label: "Poor", color: "bg-rust/20 text-rust", desc: "Significant concerns — transparency or evidence issues" },
+              { range: "90-100", label: "Exceptional", color: "bg-moss/10 text-moss", desc: "Best in class — top science, transparency and athlete experience" },
+              { range: "75-89", label: "Excellent", color: "bg-moss/5 text-moss", desc: "Strong across all pillars — highly recommended" },
+              { range: "60-74", label: "Good", color: "bg-amber/10 text-amber", desc: "Above average — minor trade-offs worth knowing about" },
+              { range: "45-59", label: "Average", color: "bg-sand text-muted", desc: "Meets the basics — check individual pillar scores" },
+              { range: "25-44", label: "Below average", color: "bg-rust/10 text-rust", desc: "Notable weaknesses in one or more pillars" },
+              { range: "0-24", label: "Poor", color: "bg-rust/20 text-rust", desc: "Significant concerns — transparency or evidence issues" },
             ].map((item) => (
               <div key={item.range} className="card flex items-center gap-4">
                 <span className={`text-xs px-2 py-1 rounded-md font-medium flex-shrink-0 ${item.color}`}>

@@ -378,7 +378,7 @@ export function getFulensScoreLabel(score: number): {
   color: string;
   description: string;
 } {
-  if (score >= 85) return {
+  if (score >= 90) return {
     label: "Exceptional",
     color: "#2D4A2D",
     description: "Best in class — top science, transparency and athlete experience",
@@ -388,17 +388,17 @@ export function getFulensScoreLabel(score: number): {
     color: "#3B6D11",
     description: "Strong across all pillars — highly recommended",
   };
-  if (score >= 65) return {
+  if (score >= 60) return {
     label: "Good",
     color: "#C8860A",
     description: "Above average — minor trade-offs worth knowing about",
   };
-  if (score >= 50) return {
+  if (score >= 45) return {
     label: "Average",
     color: "#8A8478",
     description: "Meets the basics — check individual pillar scores",
   };
-  if (score >= 35) return {
+  if (score >= 25) return {
     label: "Below average",
     color: "#B84C2E",
     description: "Notable weaknesses in one or more pillars",

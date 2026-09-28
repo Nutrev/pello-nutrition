@@ -7,10 +7,12 @@ import { Category } from "@/lib/products";
 interface ReviewSectionProps {
   productId: string;
   category?: Category;
+  // Called after each load with the community reviews, so the page can show their sentiment.
+  onLoaded?: (reviewCount: number, averages: AttributeAverages | null) => void;
 }
 
 // Which attributes to show based on category
-function getAttributesForCategory(category?: Category): {
+export function getAttributesForCategory(category?: Category): {
   key: string;
   label: string;
   field: string;
@@ -110,7 +112,7 @@ function timeAgo(dateStr: string) {
   return new Date(dateStr).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 }
 
-export default function ReviewSection({ productId, category }: ReviewSectionProps) {
+export default function ReviewSection({ productId, category, onLoaded }: ReviewSectionProps) {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [attributeAverages, setAttributeAverages] = useState<AttributeAverages | null>(null);
   const [loading, setLoading] = useState(true);
@@ -134,13 +136,25 @@ export default function ReviewSection({ productId, category }: ReviewSectionProp
       const data = await res.json();
       setReviews(data.reviews ?? []);
       setAttributeAverages(data.attributeAverages ?? null);
+      onLoaded?.((data.reviews ?? []).length, data.attributeAverages ?? null);
     } catch {
       setReviews([]);
+      onLoaded?.(0, null);
     }
     setLoading(false);
-  }, [productId]);
+  }, [productId, onLoaded]);
 
   useEffect(() => { fetchReviews(); }, [fetchReviews]);
+
+  // "Write the first review" links elsewhere on the page point at #reviews: open the form.
+  useEffect(() => {
+    const openIfTargeted = () => {
+      if (window.location.hash === "#reviews") { setShowForm(true); setSubmitted(false); }
+    };
+    openIfTargeted();
+    window.addEventListener("hashchange", openIfTargeted);
+    return () => window.removeEventListener("hashchange", openIfTargeted);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -190,7 +204,7 @@ export default function ReviewSection({ productId, category }: ReviewSectionProp
     .some(([k, v]) => k !== "count" && v !== null);
 
   return (
-    <div className="max-w-5xl mx-auto px-6 mt-6">
+    <div id="reviews" className="max-w-5xl mx-auto px-6 mt-6 scroll-mt-20">
       <div className="card">
         {/* Header */}
         <div className="flex items-start justify-between mb-6">

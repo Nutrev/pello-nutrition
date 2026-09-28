@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import type { Product } from "@/lib/products";
 import type { ProductSummary } from "@/lib/catalog-types";
 import Link from "next/link";
-import ReviewSection from "@/components/ReviewSection";
+import ReviewSection, { getAttributesForCategory } from "@/components/ReviewSection";
+import type { AttributeAverages } from "@/lib/supabase";
 import BrandLogo from "@/components/BrandLogo";
 import IngredientFlags from "@/components/IngredientFlags";
 import { calculatePelloScore } from "@/lib/fulens-score";
@@ -92,6 +93,9 @@ export default function ReportClient({ product, similar: similarProducts, direct
   const [loading, setLoading] = useState(false);
   const [generated, setGenerated] = useState(false);
   const [recentIds, setRecentIds] = useState<string[]>([]);
+  // Pello community reviews (loaded by ReviewSection); null until they've loaded.
+  const [community, setCommunity] = useState<{ count: number; averages: AttributeAverages | null } | null>(null);
+  const onReviewsLoaded = useCallback((count: number, averages: AttributeAverages | null) => setCommunity({ count, averages }), []);
   const [variantId, setVariantId] = useState(product.defaultVariantId ?? product.variants?.[0]?.id);
 
   const nutrition = product ? productNutrition(product) : null;
@@ -338,22 +342,57 @@ export default function ReportClient({ product, similar: similarProducts, direct
             )}
           </div>
 
-          {/* Sentiment */}
+          {/* Sentiment: only from Pello community reviews. Estimated values are shown greyed out. */}
           <div className="card">
             <h2 className="font-display font-semibold text-base mb-4">Sentiment breakdown</h2>
-            <div className="space-y-3">
-              {Object.entries(product.sentiment).map(([key, val]) => (
-                <div key={key}>
-                  <div className="flex justify-between text-sm mb-1">
-                    <span>{key}</span>
-                    <span className="font-medium">{val}%</span>
-                  </div>
-                  <div className="h-1.5 bg-sand rounded-full overflow-hidden">
-                    <div className="h-full rounded-full" style={{ width: `${val}%`, background: val >= 80 ? "#2D4A2D" : val >= 60 ? "#C8860A" : "#B84C2E" }} />
-                  </div>
-                </div>
-              ))}
-            </div>
+            {(() => {
+              const communityBars = community && community.count > 0 && community.averages
+                ? getAttributesForCategory(product.category)
+                    .map(({ key, label }) => ({ label, value: community.averages![key as keyof AttributeAverages] }))
+                    .filter((b): b is { label: string; value: number } => b.value != null)
+                    .map((b) => ({ label: b.label, pct: Math.round((b.value / 5) * 100) }))
+                : [];
+              const estimated = Object.entries(product.sentiment).map(([label, pct]) => ({ label, pct }));
+              const bars = communityBars.length > 0 ? communityBars : estimated;
+              const isCommunity = communityBars.length > 0;
+              if (community === null) return <p className="text-sm text-muted">Loading community reviews…</p>;
+              return (
+                <>
+                  {bars.length > 0 && (
+                    <div className={isCommunity ? "" : "opacity-40"}>
+                      {!isCommunity && <div className="font-mono text-[10px] uppercase tracking-widest text-muted mb-2">Estimated</div>}
+                      <div className="space-y-3">
+                        {bars.map(({ label, pct }) => (
+                          <div key={label}>
+                            <div className="flex justify-between text-sm mb-1">
+                              <span>{label}</span>
+                              <span className="font-medium">{pct}%</span>
+                            </div>
+                            <div className="h-1.5 bg-sand rounded-full overflow-hidden">
+                              <div className="h-full rounded-full" style={{ width: `${pct}%`, background: pct >= 80 ? "#2D4A2D" : pct >= 60 ? "#C8860A" : "#B84C2E" }} />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {isCommunity ? (
+                    <p className="text-xs text-muted mt-3">From {community.count} Pello community review{community.count !== 1 ? "s" : ""}.</p>
+                  ) : (
+                    <div className={bars.length > 0 ? "mt-4" : ""}>
+                      <p className="text-sm text-muted mb-3">
+                        {community.count > 0
+                          ? "Community reviews for this product don't include attribute ratings yet. Sentiment data will appear here as athletes rate them."
+                          : "No community reviews yet for this product. Sentiment data will appear here as athletes submit reviews."}
+                      </p>
+                      <a href="#reviews" className="btn-secondary text-xs py-1.5 px-3 inline-block">
+                        {community.count > 0 ? "Write a review →" : "Write the first review →"}
+                      </a>
+                    </div>
+                  )}
+                </>
+              );
+            })()}
           </div>
 
           {/* Ingredients */}
@@ -473,7 +512,7 @@ export default function ReportClient({ product, similar: similarProducts, direct
         </div>
       )}
 
-      <ReviewSection productId={product.id} category={product.category} />
+      <ReviewSection productId={product.id} category={product.category} onLoaded={onReviewsLoaded} />
     </div>
   );
 }
