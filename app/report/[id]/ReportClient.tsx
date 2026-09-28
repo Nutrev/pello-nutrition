@@ -49,7 +49,7 @@ function getProsAndCons(sentiment: Record<string, number>, ingredients: { verdic
 }
 
 const SERVING_UNIT: Record<string, string> = {
-  "Energy Gel": "gel", "Energy Chew": "pack", "Energy Bar": "bar", "Probiotic": "capsule",
+  "Energy Gel": "gel", "Energy Chew": "pack", "Energy Bar": "bar",
 };
 
 // "1 stick pack (4g)" -> "stick pack". Only used for single-unit servings, so "1/2 bar" isn't shown as "per bar".
@@ -62,6 +62,8 @@ function getPricePerServing(product: Product): string {
   return `$${calcPricePerServing(product).toFixed(2)} per ${servingUnit(product)}`;
 }
 
+// What the product is used for, from its goals (for supplements, The Feed's classification).
+// Empty when no goal is known.
 function getBestForStatement(product: Product): string {
   const goalMap: Record<string, string> = {
     muscle: "building muscle",
@@ -72,8 +74,9 @@ function getBestForStatement(product: Product): string {
     immunity: "immune support",
     "gut health": "gut health",
   };
+  if (product.goals.length === 0) return "";
   const goalStr = product.goals.map((g) => goalMap[g] ?? g).join(" and ");
-  return `Best for: ${goalStr}`;
+  return `Used for: ${goalStr}`;
 }
 
 function getDisputedIngredients(ingredients: Product["ingredients"]) {
@@ -222,9 +225,11 @@ export default function ReportClient({ product, similar: similarProducts, direct
                 currentPrice={shown.price}
               />
             </div>
-            <div className="inline-flex items-center gap-2 bg-moss/10 text-moss px-3 py-1.5 rounded-lg mt-1">
-              <span className="text-xs font-medium">{bestFor}</span>
-            </div>
+            {bestFor && (
+              <div className="inline-flex items-center gap-2 bg-moss/10 text-moss px-3 py-1.5 rounded-lg mt-1">
+                <span className="text-xs font-medium">{bestFor}</span>
+              </div>
+            )}
           </div>
          <div className="flex flex-col gap-2 flex-shrink-0">
             <Link

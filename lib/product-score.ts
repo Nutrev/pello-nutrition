@@ -16,18 +16,22 @@ export function productPelloScore(product: Product): FulensScoreBreakdown {
       verdict: i.verdict as "proven" | "likely" | "disputed",
       dose: i.dose,
     })),
-    hasProprietaryBlend: false,
-    isCleanLabel: true,
+    // From the label: a proprietary blend line means some amounts aren't disclosed.
+    hasProprietaryBlend: product.ingredients.some((i) => /proprietary/i.test(i.name)),
+    // Additives can't be checked: the other-ingredients list isn't stored. Scored neutrally.
+    isCleanLabel: null,
     certifications: nutrition.certifications,
     isBatchTested: nutrition.isBatchTested,
-    bannedSubstanceTested: false,
+    // Informed Sport / NSF Certified for Sport / Cologne List certification is banned-substance testing.
+    bannedSubstanceTested: nutrition.isBatchTested,
     pricePerServing: pricePerServing(product),
     carbsPerServing: nutrition.carbsPerServing ?? undefined,
     proteinPerServing: nutrition.proteinPerServing ?? undefined,
     sodiumPerServing: nutrition.sodiumPerServing ?? undefined,
     isVegan: nutrition.isVegan,
-    isGlutenFree: nutrition.isGlutenFree ?? true, // unknown keeps the previous default
+    isGlutenFree: nutrition.isGlutenFree ?? null,
     allergens: product.allergens ?? [],
+    allergensKnown: product.allergens !== undefined,
     sentiment: product.sentiment,
     reviewCount: product.reviewCount,
     rating: product.rating,

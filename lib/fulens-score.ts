@@ -56,7 +56,8 @@ export interface ScoringInput {
     dose?: string;
   }[];
   hasProprietaryBlend: boolean;
-  isCleanLabel: boolean;
+  // null = not assessed (the full list of other ingredients isn't stored), scored neutrally
+  isCleanLabel: boolean | null;
 
   // Certifications
   certifications: string[];
@@ -71,8 +72,9 @@ export interface ScoringInput {
 
   // Dietary
   isVegan: boolean;
-  isGlutenFree: boolean;
+  isGlutenFree: boolean | null;   // null = not stated
   allergens: string[];
+  allergensKnown: boolean;        // false when the label's allergen information isn't available
 
   // Sentiment
   sentiment: Record<string, number>;
@@ -173,10 +175,13 @@ function scoreTransparency(input: ScoringInput): { score: number; notes: string[
     notes.push("Proprietary blend — heavy transparency penalty");
   }
 
-  // Clean label bonus (0-5)
-  if (input.isCleanLabel) {
+  // Clean label bonus (0-5); neutral when additives haven't been assessed
+  if (input.isCleanLabel === true) {
     score += 5;
     notes.push("Clean label — no artificial additives");
+  } else if (input.isCleanLabel === null) {
+    score += 2;
+    notes.push("Additives not assessed — neutral value used");
   }
 
   // Certifications (0-5)
@@ -186,11 +191,13 @@ function scoreTransparency(input: ScoringInput): { score: number; notes: string[
     notes.push(`${input.certifications.length} certification${input.certifications.length > 1 ? "s" : ""} — bonus applied`);
   }
 
-  // Allergen clarity (0-5)
-  // Give full points if allergens array is populated (shows brand discloses allergens)
-  score += 5;
-  if (input.allergens.length > 0) {
-    notes.push("Allergens clearly disclosed");
+  // Allergen clarity (0-5): full points when the label's allergen information is known
+  if (input.allergensKnown) {
+    score += 5;
+    notes.push(input.allergens.length > 0 ? `Allergens disclosed: ${input.allergens.join(", ")}` : "Allergen information available — no major allergens listed");
+  } else {
+    score += 2;
+    notes.push("Allergen information not available — neutral value used");
   }
 
   return { score: Math.max(0, Math.min(25, score)), notes };
@@ -329,8 +336,9 @@ function scoreQuality(input: ScoringInput): { score: number; notes: string[] } {
   }
 
   // Clean manufacturing (0-3)
-  if (input.isCleanLabel) score += 2;
-  if (input.isGlutenFree) score += 1;
+  if (input.isCleanLabel === true) score += 2;
+  else if (input.isCleanLabel === null) score += 1;
+  if (input.isGlutenFree === true) score += 1;
 
   return { score: Math.max(0, Math.min(10, score)), notes };
 }

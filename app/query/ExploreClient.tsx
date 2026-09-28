@@ -42,7 +42,7 @@ function enrichProduct(p: ProductSummary) {
 const EXAMPLE_QUERIES = [
   { label: "Gels under $2.50, 25g+ carbs, no caffeine", filters: { category: ["Energy Gel"], maxPricePerServing: 2.50, minCarbsPerServing: 25, hasCaffeine: "no" } },
   { label: "Batch-tested products only", filters: { isBatchTested: true } },
-  { label: "Vegan & clean label only", filters: { isVegan: true, isCleanLabel: true } },
+  { label: "Vegan & high transparency", filters: { isVegan: true, isCleanLabel: true } },
   { label: "Highest sodium hydration", filters: { category: ["Hydration"], minSodiumPerServing: 300 } },
   { label: "Hydrogel gels only", filters: { category: ["Energy Gel"], isHydrogel: true } },
   { label: "High carb drink mixes 60g+", filters: { category: ["Carbohydrate Mix"], minCarbsPerServing: 60 } },
@@ -266,7 +266,7 @@ export default function ExploreClient({ catalog }: { catalog: ProductSummary[] }
               <div className="space-y-1.5">
                 {[
                   { key: "isVegan", label: "Vegan" },
-                  { key: "isCleanLabel", label: "Clean label (90%+ transparency)" },
+                  { key: "isCleanLabel", label: "High transparency (85%+)" },
                   { key: "isBatchTested", label: "Batch tested" },
                   { key: "isHydrogel", label: "Hydrogel delivery" },
                 ].map(({ key, label }) => (
