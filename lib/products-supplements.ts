@@ -1275,7 +1275,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     rating: 5.0,
     reviewCount: 1,
     price: 23.79,      // Box of 8 on The Feed
-    servingsPerContainer: 4,
+    servingsPerContainer: 32,
     carbsPerServing: 3,
     caloriesPerServing: 12,
     caffeinePerServing: 25,
@@ -1737,7 +1737,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     rating: 4.8,
     reviewCount: 46,
     price: 27.99,      // Box of 6 on The Feed
-    servingsPerContainer: 8,
+    servingsPerContainer: 48,
     carbsPerServing: 1,
     caffeinePerServing: 50,
     servingSize: "1 piece",
@@ -3843,7 +3843,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     rating: 5.0,
     reviewCount: 1,
     price: 55,      // 20 Servings on The Feed
-    servingsPerContainer: 24,
+    servingsPerContainer: 20,
     carbsPerServing: 2,
     proteinPerServing: 0,
     caloriesPerServing: 15,
@@ -9671,7 +9671,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     rating: 0,
     reviewCount: 0,
     price: 24.99,      // 15 Servings on The Feed
-    servingsPerContainer: 30,
+    servingsPerContainer: 15,
     caffeinePerServing: 0,
     servingSize: "2 Capsules",
     isBatchTested: false,
@@ -10409,7 +10409,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     rating: 5.0,
     reviewCount: 8,
     price: 14,      // 60 Servings on The Feed
-    servingsPerContainer: 30,
+    servingsPerContainer: 60,
     caffeinePerServing: 0,
     servingSize: "1 Capsule",
     isBatchTested: false,
@@ -10468,7 +10468,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     rating: 4.5,
     reviewCount: 8,
     price: 36.95,      // 21 Servings on The Feed
-    servingsPerContainer: 28,
+    servingsPerContainer: 21,
     caffeinePerServing: 0,
     servingSize: "2 Vegetarian Capsules",
     isBatchTested: false,
@@ -11184,7 +11184,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     rating: 0,
     reviewCount: 0,
     price: 59.49,      // 30 Servings on The Feed
-    servingsPerContainer: 40,
+    servingsPerContainer: 30,
     caffeinePerServing: 0,
     servingSize: "4 Tablets",
     isBatchTested: false,
@@ -11647,7 +11647,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     rating: 4.9,
     reviewCount: 7,
     price: 29.99,      // 60 Servings on The Feed
-    servingsPerContainer: 30,
+    servingsPerContainer: 60,
     caffeinePerServing: 0,
     servingSize: "1 Veggie Softgel",
     isBatchTested: false,
