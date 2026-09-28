@@ -1576,7 +1576,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     ],
     sources: [],
   },
-  // ── PERFORMANCE (116) ───────────────────────────────────────
+  // ── PERFORMANCE (115) ───────────────────────────────────────
   {
     id: "swissrx-nitric-oxide-pro",
     name: "Nitric Oxide",
@@ -1830,8 +1830,8 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Performance",
     rating: 4.7,
     reviewCount: 124,
-    price: 949.95,      // 24 Pack on The Feed (out of stock)
-    servingsPerContainer: 240,
+    price: 42.5,      // Single Bottle (10 Servings) on The Feed (out of stock)
+    servingsPerContainer: 10,
     caloriesPerServing: 70,
     caffeinePerServing: 0,
     servingSize: "1.2 fl oz",
@@ -1840,7 +1840,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     isGlutenFree: true,
     certifications: ["Non-GMO Project Verified", "NSF Certified for Sport"],
     allergens: [],
-    imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/ketoneIQ_multiserve_updated_24_1200x1200.png?v=1768506548",
+    imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/ketoneIQ_multiserve_updated_01_1200x1200.png?v=1768506185",
     goals: ["endurance"],
     imageEmoji: "⚡",
     transparencyScore: 100,
@@ -4385,35 +4385,6 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     sentiment: {},
     ingredients: [
       { name: "Organic Performance Blend", dose: "2g", verdict: "likely", note: "A blend whose individual ingredient amounts aren't disclosed on the label, so the dose of each can't be checked against the research." },
-    ],
-    sources: [
-      { name: "The Feed", icon: "🛒", count: 4, unit: "reviews", credibility: "medium" },
-    ],
-  },
-  {
-    id: "maui-nui-velvet-antler-capsules",
-    name: "Velvet Antler Capsules",
-    brand: "Maui Nui",
-    logoDomain: "mauinuivenison.com",
-    category: "Performance",
-    rating: 3.5,
-    reviewCount: 4,
-    price: 79,      // 30 Servings on The Feed
-    servingsPerContainer: 30,
-    caffeinePerServing: 0,
-    servingSize: "2 Capsules",
-    isBatchTested: false,
-    isVegan: false,
-    isGlutenFree: true,
-    certifications: [],
-    allergens: [],
-    imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/MauiNui_Velvet_Main_1200x1200.png?v=1761864839",
-    goals: [],
-    imageEmoji: "⚡",
-    transparencyScore: 85,
-    sentiment: {},
-    ingredients: [
-      { name: "Wild-Harvested Axis Deer Velvet Antler", dose: "500mg", verdict: "disputed", note: "Deer antler velvet is marketed for recovery and strength; studies show little benefit, and it may contain IGF-1, which is prohibited in sport, so tested athletes should avoid it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=deer+antler+velvet+athletes" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 4, unit: "reviews", credibility: "medium" },
