@@ -4566,12 +4566,20 @@ export const THE_FEED_PRODUCTS: Product[] = [
     id: "bicarb-3-0",
     name: "Bicarb 3.0",
     brand: "Bicarb",
+    logoDomain: "bicarb.shop",
     category: "Supplement",
     rating: 4.6,
     reviewCount: 16,
     price: 90,      // 10 Pack (15g sachets) on The Feed
     servingsPerContainer: 10,
-    servingSize: "1 sachet (15g)",
+    // Carb "matrix" packet label (bicarb30_original_nfs on The Feed): 135 kcal, 34g carbs (19g added sugar),
+    // 0g protein; sucrose, maltodextrin, sodium alginate, natural flavors. Its 150mg sodium is the matrix
+    // only, not the sodium bicarbonate beadlets, so sodiumPerServing is left out. Still unscored: the
+    // beadlet packet's label isn't available.
+    caloriesPerServing: 135,
+    carbsPerServing: 34,
+    proteinPerServing: 0,
+    servingSize: "1 sachet (15g beadlets) + 1 matrix packet (35g)",
     isHydrogel: false,
     isBatchTested: false,
     certifications: [],
@@ -4583,6 +4591,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     sentiment: {},
     ingredients: [
       { name: "Sodium Bicarbonate", dose: "15g", verdict: "proven", note: "One of the most researched performance aids: it buffers the acid produced during hard efforts, and meta-analyses show improvements of around 2% in time-trial and repeated-sprint performance at 0.2–0.3g per kg of body weight. The main drawback is stomach upset, which newer formulations like this one aim to reduce. The 15g sachet suits roughly a 50–75kg athlete; heavier athletes would need a larger dose.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+bicarbonate+supplementation+exercise+performance" },
+      { name: "Carbohydrate matrix (sucrose, maltodextrin)", dose: "34g carbs", verdict: "proven", note: "A fast-digesting carbohydrate; useful fuel for long or hard exercise.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=carbohydrate+supplementation+endurance" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 16, unit: "reviews", credibility: "medium" },
