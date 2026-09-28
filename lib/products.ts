@@ -668,7 +668,7 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Energy Gel",
   rating: 0,
   reviewCount: 0,
-  price: 72.99,                    // box of 18 (confirmed)
+  price: 51.27,                    // box of 18: A$72.99 (confirmed), at 0.70239 USD/AUD (ECB, 2026-09-28)
   servingsPerContainer: 18,
   carbsPerServing: 30,
   goals: ["endurance", "recovery"],
