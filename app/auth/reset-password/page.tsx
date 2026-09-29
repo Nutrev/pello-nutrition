@@ -29,7 +29,7 @@ export default function ResetPasswordPage() {
           <p className="text-sm leading-relaxed mb-4">
             If there&apos;s an account for <strong>{email.trim()}</strong>, a reset link is on its way. It expires after an hour.
           </p>
-          <Link href="/auth/login" className="btn-secondary w-full justify-center flex">Back to sign in</Link>
+          <Link href="/auth/login" className="btn-secondary w-full justify-center flex">Back to log in</Link>
         </>
       ) : (
         <form onSubmit={submit} noValidate>
@@ -40,7 +40,7 @@ export default function ResetPasswordPage() {
           <button type="submit" disabled={busy || !email} className="btn-primary w-full justify-center flex disabled:opacity-50">
             {busy ? "Sending…" : "Send reset link"}
           </button>
-          <p className="text-sm text-muted text-center mt-5"><Link href="/auth/login" className="text-moss hover:underline">Back to sign in</Link></p>
+          <p className="text-sm text-muted text-center mt-5"><Link href="/auth/login" className="text-moss hover:underline">Back to log in</Link></p>
         </form>
       )}
     </AuthShell>

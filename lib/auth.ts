@@ -28,7 +28,7 @@ export function friendlyAuthError(message: string | undefined): string {
   const m = (message ?? "").toLowerCase();
   if (m.includes("invalid login credentials")) return "That email and password don't match an account.";
   if (m.includes("email not confirmed")) return "Please confirm your email first. Check your inbox for the link we sent.";
-  if (m.includes("already registered") || m.includes("already been registered")) return "An account with this email already exists. Try signing in instead.";
+  if (m.includes("already registered") || m.includes("already been registered")) return "An account with this email already exists. Try logging in instead.";
   if (m.includes("password should be") || m.includes("weak password")) return "Please choose a stronger password (at least 8 characters).";
   if (m.includes("provider is not enabled") || m.includes("unsupported provider")) return "Google sign-in isn't available yet. Please use email and password.";
   if (m.includes("rate limit") || m.includes("too many")) return "Too many attempts. Please wait a minute and try again.";

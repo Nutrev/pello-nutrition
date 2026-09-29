@@ -157,10 +157,7 @@ export default function SiteNav({ categories }: { categories: CategoryCount[] })
                 Account
               </Link>
             ) : (
-              <>
-                <Link href="/auth/login" className="text-sm text-muted hover:text-ink transition-colors whitespace-nowrap">Sign in</Link>
-                <Link href="/auth/signup" className="btn-primary text-xs py-1.5 px-3 whitespace-nowrap">Sign up free</Link>
-              </>
+              <Link href="/auth/login" className="btn-primary text-xs py-1.5 px-3 whitespace-nowrap">Log in</Link>
             )}
           </div>
 
@@ -215,10 +212,7 @@ export default function SiteNav({ categories }: { categories: CategoryCount[] })
                 {user ? (
                   mobileLink({ href: "/account", label: "Your account" })
                 ) : (
-                  <>
-                    {mobileLink({ href: "/auth/login", label: "Sign in" })}
-                    {mobileLink({ href: "/auth/signup", label: "Sign up free" })}
-                  </>
+                  mobileLink({ href: "/auth/login", label: "Log in" })
                 )}
               </div>
               <Link href="/quiz" className="btn-primary block text-center py-3">Build my plan →</Link>
