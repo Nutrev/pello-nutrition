@@ -1,8 +1,14 @@
 // "Where to buy" buttons for a product. Links open in a new tab and go straight to the
 // retailer (never through Pello's domain); tracked links get rel="sponsored".
 import type { Product } from "@/lib/products";
-import { getRetailerLinks, linkRel } from "@/lib/retailers";
+import { getRetailerLinks, linkRel, type RetailerLink } from "@/lib/retailers";
 import { AMAZON_ASSOCIATE_STATEMENT } from "@/lib/affiliate";
+
+// Button text for a retailer: "Buy at The Feed", "Buy on Amazon".
+export function buyLabel(l: RetailerLink, brand: string): string {
+  return l.id === "amazon" ? "Buy on Amazon" : l.id === "brandWebsite" ? `${brand} site` : `Buy at ${l.name}`;
+}
+
 
 export default function BuyButtons({ retailerLinks, productName, brand, logoDomain, layout = "stack" }: {
   retailerLinks: Product["retailerLinks"];
@@ -44,7 +50,7 @@ export default function BuyButtons({ retailerLinks, productName, brand, logoDoma
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={`https://www.google.com/s2/favicons?domain=${l.domain}&sz=32`} alt="" width={16} height={16}
                 className="h-4 w-4 rounded-sm bg-white flex-shrink-0" loading="lazy" />
-              {l.id === "amazon" ? "Buy on Amazon" : l.id === "brandWebsite" ? `${brand} site` : `Buy at ${l.name}`}
+              {buyLabel(l, brand)}
               <span aria-hidden="true">↗</span>
             </a>
           ))}

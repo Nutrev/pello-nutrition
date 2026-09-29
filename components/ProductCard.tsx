@@ -1,10 +1,12 @@
-// A product in a grid: logo, transparency, rating, goals and pack price. Used on category
-// and brand pages. `pelloScore`, when given, is shown in place of the transparency score.
+// A product in a grid: logo, transparency, rating, goals, pack price and buy buttons. Used on
+// the home, products, category, brand and account pages. `pelloScore`, when given, is shown
+// in place of the transparency score; `badge` adds a label above the card (e.g. "★ Best Energy Gel").
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
 import type { ProductSummary } from "@/lib/catalog-types";
 import { servingsPerContainer, formatPrice } from "@/lib/servings";
 import { getFulensScoreLabel } from "@/lib/fulens-score";
+import CardBuyMenu from "@/components/CardBuyMenu";
 
 const GOAL_COLORS: Record<string, string> = {
   muscle: "bg-moss/10 text-moss",
@@ -16,10 +18,13 @@ const GOAL_COLORS: Record<string, string> = {
   immunity: "bg-moss/10 text-moss",
 };
 
-export default function ProductCard({ product, pelloScore }: { product: ProductSummary; pelloScore?: number }) {
+export default function ProductCard({ product, pelloScore, badge }: { product: ProductSummary; pelloScore?: number; badge?: string }) {
   return (
-    <Link href={`/report/${product.id}`}>
-      <div className="card hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group h-full">
+    <div className={`card relative h-full flex flex-col hover:shadow-md hover:-translate-y-0.5 transition-all ${badge ? "border-moss/30" : ""}`}>
+      {badge && (
+        <span className="absolute -top-2 left-3 z-10 bg-moss text-cream text-xs font-medium px-2 py-0.5 rounded-md">{badge}</span>
+      )}
+      <Link href={`/report/${product.id}`} className="block flex-1 group">
         <div className="flex items-start justify-between mb-3">
           <BrandLogo
              logoDomain={product.logoDomain}
@@ -62,7 +67,10 @@ export default function ProductCard({ product, pelloScore }: { product: ProductS
           </div>
           <span className="text-xs text-muted">{formatPrice(product.price)} · {servingsPerContainer(product)} servings</span>
         </div>
+      </Link>
+      <div className="mt-4 pt-3 border-t border-sand">
+        <CardBuyMenu product={product} />
       </div>
-    </Link>
+    </div>
   );
 }

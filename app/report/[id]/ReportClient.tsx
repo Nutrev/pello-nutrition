@@ -15,7 +15,6 @@ import { productPelloScore } from "@/lib/product-score";
 import { pricePerServing as calcPricePerServing, servingsPerContainer, formatPrice } from "@/lib/servings";
 import { productNutrition } from "@/lib/nutrition";
 import FulensScoreDisplay from "@/components/FulensScore";
-import PriceAlert from "@/components/PriceAlert";
 
 function ScoreCircle({ score }: { score: number }) {
   const r = 22;
@@ -221,11 +220,6 @@ export default function ReportClient({ product, similar: similarProducts, direct
               {pricePerServing && (
                 <span className="text-base font-medium text-ink">· {pricePerServing}</span>
               )}
-              <PriceAlert
-                 productId={product.id}
-                 productName={product.name}
-                currentPrice={shown.price}
-              />
             </div>
             {/* Where to buy: in the header so it's the first thing after the price */}
             <div className="mt-3 mb-3">

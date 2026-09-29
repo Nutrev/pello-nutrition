@@ -1,5 +1,8 @@
 "use client";
 
+// Not shown on the site for now: price tracking is planned as a paid-tier feature.
+// The component and /api/price-alerts are kept for that.
+
 import { useState } from "react";
 
 interface PriceAlertProps {

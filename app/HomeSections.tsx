@@ -6,20 +6,14 @@
 import Link from "next/link";
 import { useState } from "react";
 import type { ProductSummary } from "@/lib/catalog-types";
-import { servingsPerContainer, formatPrice } from "@/lib/servings";
+import { formatPrice } from "@/lib/servings";
 import { INTENSITY_MULTIPLIERS, type Intensity } from "@/lib/fuelling";
-import BrandLogo from "@/components/BrandLogo";
+import ProductCard from "@/components/ProductCard";
 
 export type PickGroup = { label: string; short: string; products: ProductSummary[] };
 export type PostTeaser = { slug: string; title: string; description: string; category: string; readingTime: number };
 export type HeadToHeadData = { post: string; products: ProductSummary[] };
 
-const GOAL_COLORS: Record<string, string> = {
-  muscle: "bg-moss/10 text-moss",
-  fat: "bg-amber/10 text-amber",
-  endurance: "bg-rust/10 text-rust",
-  recovery: "bg-muted/10 text-muted",
-};
 
 function SectionHeading({ eyebrow, title, link }: { eyebrow: string; title: string; link?: { href: string; label: string } }) {
   return (
@@ -33,45 +27,6 @@ function SectionHeading({ eyebrow, title, link }: { eyebrow: string; title: stri
   );
 }
 
-function ProductCard({ product }: { product: ProductSummary }) {
-  return (
-    <Link href={`/report/${product.id}`} className="relative block h-full">
-      <span className="absolute -top-2 left-3 z-10 bg-moss text-cream text-xs font-medium px-2 py-0.5 rounded-md">
-        ★ Best {product.category}
-      </span>
-      <div className="card border-moss/30 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group h-full">
-        <div className="flex items-start justify-between mb-3">
-          <BrandLogo logoDomain={product.logoDomain} logo={product.logo} brand={product.brand} />
-          {product.transparencyScore != null ? (
-            <div className="flex items-center gap-1.5">
-              <div className="h-2 w-2 rounded-full" style={{ background: product.transparencyScore >= 85 ? "#2D4A2D" : product.transparencyScore >= 70 ? "#C8860A" : "#B84C2E" }} />
-              <span className="text-xs text-muted">{product.transparencyScore}%</span>
-            </div>
-          ) : (
-            <span className="text-xs text-muted">Not yet scored</span>
-          )}
-        </div>
-        <div className="text-xs text-muted mb-0.5">{product.brand}</div>
-        <h3 className="font-display font-semibold text-base leading-tight mb-2 group-hover:text-moss transition-colors">{product.name}</h3>
-        <div className="flex items-center gap-2 mb-3">
-          <div className="flex text-amber text-sm">
-            {"★".repeat(Math.round(product.rating))}
-            {"☆".repeat(5 - Math.round(product.rating))}
-          </div>
-          <span className="text-xs text-muted">{product.rating} · {product.reviewCount.toLocaleString()} reviews</span>
-        </div>
-        <div className="flex items-center justify-between">
-          <div className="flex gap-1 flex-wrap">
-            {product.goals.slice(0, 2).map((g) => (
-              <span key={g} className={`text-xs px-2 py-0.5 rounded-md ${GOAL_COLORS[g] ?? "bg-sand text-muted"}`}>{g}</span>
-            ))}
-          </div>
-          <span className="text-xs text-muted">{formatPrice(product.price)} · {servingsPerContainer(product)} servings</span>
-        </div>
-      </div>
-    </Link>
-  );
-}
 
 // Nine picks by default (the top three in each main group); a group chip shows the
 // best product in every category of that group. Phones show the first few, with a
@@ -110,7 +65,7 @@ export function TopPicks({ groups, productCount }: { groups: PickGroup[]; produc
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 gap-y-6">
         {shown.map((p, i) => (
           <div key={p.id} className={!expanded && i >= PHONE_PICKS ? "hidden sm:block" : undefined}>
-            <ProductCard product={p} />
+            <ProductCard product={p} badge={`★ Best ${p.category}`} />
           </div>
         ))}
       </div>
