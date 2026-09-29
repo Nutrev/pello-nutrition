@@ -69,9 +69,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <LogoMark className="w-20 h-auto" />
             </Link>
             <div className="max-w-5xl mx-auto px-6 flex flex-wrap justify-center gap-4 text-xs text-muted">
-              <span>© 2026 Pello Nutrition</span>
+              <span>© 2026 Pello Nutrition LLC · All rights reserved</span>
+              <Link href="/about">About</Link>
               <Link href="/legal/privacy">Privacy Policy</Link>
-              <Link href="/legal/terms">Terms of Service</Link>
+              <Link href="/legal/terms">Terms</Link>
               <Link href="/legal/affiliate-disclosure">Affiliate Disclosure</Link>
             </div>
           </footer>

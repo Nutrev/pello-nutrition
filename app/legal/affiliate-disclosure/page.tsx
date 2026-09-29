@@ -23,8 +23,8 @@ export default function AffiliateDisclosurePage() {
         <div className="bg-moss/5 border border-moss/20 rounded-xl p-5 mb-8">
           <p className="text-sm font-medium text-ink">
             {AFFILIATES_ACTIVE
-              ? "Pello Nutrition may earn a commission on purchases made through some links on this site. This never influences our editorial scores, ratings or recommendations — our analysis is always independent."
-              : "Pello Nutrition doesn't currently earn anything from the retailer links on this site. If that changes, this page will list each programme we join. Either way, our scores and recommendations are independent."}
+              ? "Pello Nutrition LLC may earn a commission on purchases made through some links on this site. This never influences our editorial scores, ratings or recommendations — our analysis is always independent."
+              : "Pello Nutrition LLC doesn't currently earn anything from the retailer links on this site. If that changes, this page will list each programme we join. Either way, our scores and recommendations are independent."}
           </p>
           {AMAZON_ACTIVE && <p className="text-sm text-ink mt-2">{AMAZON_ASSOCIATE_STATEMENT}</p>}
         </div>
@@ -48,7 +48,7 @@ export default function AffiliateDisclosurePage() {
                   <li key={prog.id}>
                     <strong className="text-ink">{prog.name}</strong> — cookie duration {prog.cookieDuration}
                     {prog.id === "amazon" && (
-                      <span className="block">Pello Nutrition is a participant in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising fees by advertising and linking to Amazon.com.</span>
+                      <span className="block">Pello Nutrition LLC is a participant in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising fees by advertising and linking to Amazon.com.</span>
                     )}
                   </li>
                 ))}
@@ -73,6 +73,7 @@ export default function AffiliateDisclosurePage() {
           <section>
             <h2 className="font-display font-semibold text-lg text-ink mb-2">Questions</h2>
             <p>If you have questions about our affiliate relationships or editorial policies, contact us at editorial@pellonutrition.com.</p>
+            <p className="mt-3">Pello Nutrition LLC<br />contact@pellonutrition.com</p>
           </section>
         </div>
       </div>

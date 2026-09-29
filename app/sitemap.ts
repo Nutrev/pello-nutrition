@@ -22,6 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/graph`, priority: 0.5, changeFrequency: "monthly" as const },
     { url: `${base}/blog`, priority: 0.7, changeFrequency: "weekly" as const },
     { url: `${base}/brands`, priority: 0.8, changeFrequency: "weekly" as const },
+    { url: `${base}/about`, priority: 0.5, changeFrequency: "monthly" as const },
     { url: `${base}/legal/affiliate-disclosure`, priority: 0.3, changeFrequency: "monthly" as const },
     { url: `${base}/legal/privacy`, priority: 0.3, changeFrequency: "yearly" as const },
     { url: `${base}/legal/terms`, priority: 0.3, changeFrequency: "yearly" as const },
