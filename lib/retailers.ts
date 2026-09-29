@@ -4,7 +4,8 @@
 //   catalogue when it was added).
 // - Amazon: a search for the brand and product name (not a guessed product page).
 // - REI / Running Warehouse: only when a product has a verified link to them.
-// - Brand website: the brand's own site (its homepage, from the product's logo domain).
+// - Brand website: only when set on the product (e.g. a brand with its own affiliate
+//   programme); brand homepages are linked from brand pages instead.
 // Affiliate tracking is added only for programmes that are switched on (lib/affiliate.ts).
 import type { Product } from "./products";
 import { withAffiliate } from "./affiliate";
@@ -35,8 +36,7 @@ export function getRetailerLinks(p: LinkSource): RetailerLink[] {
   push("amazon", "Amazon", "Search results", r.amazon ?? `https://www.amazon.com/s?k=${encodeURIComponent(`${p.brand} ${p.name}`)}`, "amazon");
   push("rei", "REI", "Outdoor retailer", r.rei, "rei");
   push("runningWarehouse", "Running Warehouse", "Running specialist", r.runningWarehouse, "runningWarehouse");
-  const brandSite = r.brandWebsite ?? (p.logoDomain && p.logoDomain !== "thefeed.com" ? `https://${p.logoDomain}` : undefined);
-  push("brandWebsite", `${p.brand} official site`, "Brand's own website", brandSite);
+  push("brandWebsite", `${p.brand} official site`, "Brand's own website", r.brandWebsite);
   return links;
 }
 

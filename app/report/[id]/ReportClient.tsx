@@ -227,6 +227,11 @@ export default function ReportClient({ product, similar: similarProducts, direct
                 currentPrice={shown.price}
               />
             </div>
+            {/* Where to buy: in the header so it's the first thing after the price */}
+            <div className="mt-3 mb-3">
+              <BuyButtons retailerLinks={product.retailerLinks} productName={product.name} brand={product.brand}
+                logoDomain={product.logoDomain} layout="inline" />
+            </div>
             {bestFor && (
               <div className="inline-flex items-center gap-2 bg-moss/10 text-moss px-3 py-1.5 rounded-lg mt-1">
                 <span className="text-xs font-medium">{bestFor}</span>
@@ -311,11 +316,6 @@ export default function ReportClient({ product, similar: similarProducts, direct
              <FulensScoreDisplay score={PelloScore} />
             </div>
           )}
-          {/* Where to buy */}
-          <div className="card lg:col-span-2">
-            <BuyButtons retailerLinks={product.retailerLinks} productName={product.name} brand={product.brand}
-              logoDomain={product.logoDomain} layout="row" />
-          </div>
           {/* AI Summary */}
           <div className="card lg:col-span-2">
             <h2 className="font-display font-semibold text-base mb-3">AI Summary</h2>

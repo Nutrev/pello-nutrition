@@ -32,7 +32,7 @@ export default function AffiliateDisclosurePage() {
         <div className="prose prose-sm max-w-none space-y-6 text-muted leading-relaxed">
           <section>
             <h2 className="font-display font-semibold text-lg text-ink mb-2">How retailer links work</h2>
-            <p>Product pages link to retailers that sell each product: The Feed&apos;s product page where we have it, an Amazon search for the product, and the brand&apos;s own website. Links open the retailer&apos;s site directly; we never route them through our own domain.</p>
+            <p>Product pages link to retailers that sell each product: The Feed&apos;s product page where we have it, and an Amazon search for the product. Links open the retailer&apos;s site directly; we never route them through our own domain.</p>
             {AFFILIATES_ACTIVE && (
               <p>Some of these links are affiliate links. When you click one and make a purchase, the retailer may pay us a commission — typically 4–10% of the sale value, depending on the retailer — at no additional cost to you. The price you pay is the same whether you use our link or go to the retailer directly. Affiliate links are marked for search engines with rel=&quot;sponsored&quot;.</p>
             )}
