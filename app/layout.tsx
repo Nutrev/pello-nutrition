@@ -4,6 +4,7 @@ import "./globals.css";
 import Link from "next/link";
 import SiteNav from "@/components/SiteNav";
 import AuthProvider from "@/components/AuthProvider";
+import { AFFILIATES_ACTIVE, AMAZON_ACTIVE, AMAZON_ASSOCIATE_STATEMENT } from "@/lib/affiliate";
 import { LogoMark } from "@/components/Logo";
 import { getCatalogStats, getCategoryCounts } from "@/lib/catalog";
 
@@ -50,6 +51,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AuthProvider>
           <SiteNav categories={getCategoryCounts()} />
           {children}
+          {/* Affiliate disclosure: shown once any affiliate programme is switched on (lib/affiliate.ts) */}
+          {AFFILIATES_ACTIVE && (
+            <div className="border-t border-sand bg-sand/30 py-3">
+              <div className="max-w-5xl mx-auto px-6">
+                <p className="text-xs text-muted font-mono">
+                  {AMAZON_ACTIVE && `${AMAZON_ASSOCIATE_STATEMENT} `}
+                  Pello Nutrition participates in affiliate programmes and may earn commissions on purchases made through
+                  links on this site — this never influences our editorial scores or recommendations.
+                  <a href="/legal/affiliate-disclosure" className="text-moss underline ml-1">Affiliate disclosure →</a>
+                </p>
+              </div>
+            </div>
+          )}
           <footer className="border-t border-sand py-8 mt-auto">
             <Link href="/" aria-label="Pello Nutrition home" className="block w-fit mx-auto mb-5">
               <LogoMark className="w-20 h-auto" />

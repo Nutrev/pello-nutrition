@@ -2,6 +2,7 @@
 // app/legal/privacy/page.tsx
 
 import Link from "next/link";
+import { ACTIVE_PROGRAMMES } from "@/lib/affiliate";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -51,7 +52,12 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="font-display font-semibold text-lg text-ink mb-2">4. Affiliate links</h2>
-            <p>Pello Nutrition participates in affiliate programmes including Amazon Associates and others. When you click a product link and make a purchase, we may earn a commission at no additional cost to you. This never influences our editorial scores, reviews or recommendations. See our <Link href="/legal/affiliate-disclosure" className="text-moss underline">affiliate disclosure</Link> for full details.</p>
+            <p>
+              {ACTIVE_PROGRAMMES.length > 0
+                ? `Pello Nutrition participates in these affiliate programmes: ${ACTIVE_PROGRAMMES.map((p) => p.name).join(", ")}. When you click a retailer link and make a purchase, the retailer may set a cookie that credits the sale to us, and we may earn a commission at no additional cost to you. `
+                : "Product pages link to retailers such as The Feed and Amazon. Pello Nutrition doesn't currently take part in any affiliate programme, so these links carry no affiliate tracking from us; the retailer's own privacy policy applies once you're on their site. "}
+              This never influences our editorial scores, reviews or recommendations. See our <Link href="/legal/affiliate-disclosure" className="text-moss underline">affiliate disclosure</Link> for full details.
+            </p>
           </section>
 
           <section>

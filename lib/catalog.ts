@@ -28,6 +28,7 @@ function toSummary(p: Product): ProductSummary {
     certifications: p.certifications,
     allergens: p.allergens,
     servingsPerContainer: p.servingsPerContainer,
+    retailerLinks: p.retailerLinks,
     ingredients: p.ingredients.map(({ name, dose, verdict }) => ({ name, dose, verdict })),
     nutrition: productNutrition(p),
     pricePerServing: pricePerServing(p),

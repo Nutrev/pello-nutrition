@@ -8,6 +8,7 @@ import ReviewSection, { getAttributesForCategory } from "@/components/ReviewSect
 import type { AttributeAverages } from "@/lib/supabase";
 import BrandLogo from "@/components/BrandLogo";
 import ProductActions from "@/components/account/ProductActions";
+import BuyButtons from "@/components/BuyButtons";
 import { PRICE_POSITION_LABEL, PRICE_POSITION_STYLE, type Brand } from "@/lib/brand-types";
 import IngredientFlags from "@/components/IngredientFlags";
 import { productPelloScore } from "@/lib/product-score";
@@ -310,6 +311,11 @@ export default function ReportClient({ product, similar: similarProducts, direct
              <FulensScoreDisplay score={PelloScore} />
             </div>
           )}
+          {/* Where to buy */}
+          <div className="card lg:col-span-2">
+            <BuyButtons retailerLinks={product.retailerLinks} productName={product.name} brand={product.brand}
+              logoDomain={product.logoDomain} layout="row" />
+          </div>
           {/* AI Summary */}
           <div className="card lg:col-span-2">
             <h2 className="font-display font-semibold text-base mb-3">AI Summary</h2>

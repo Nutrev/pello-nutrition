@@ -7,6 +7,7 @@ import { pricePerServing, servingsPerContainer, formatPrice } from "@/lib/servin
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
 import IngredientFlags from "@/components/IngredientFlags";
+import { primaryRetailerLink, linkRel } from "@/lib/retailers";
 
 const MAX_PRODUCTS = 3;
 
@@ -435,6 +436,24 @@ const filteredProducts = PRODUCTS.filter((p) => {
                       </div>
                     </td>
                   ))}
+                </tr>
+
+                {/* Where to buy: each product's first retailer */}
+                <tr>
+                  <td className="py-4 pr-4 text-xs text-muted uppercase tracking-wide">Where to buy</td>
+                  {selectedProducts.map((p) => {
+                    const link = primaryRetailerLink(p);
+                    return (
+                      <td key={p.id} className="px-4 py-4">
+                        {link ? (
+                          <a href={link.url} target="_blank" rel={linkRel(link)} className="btn-primary text-xs py-1.5 px-3 inline-flex items-center gap-1 whitespace-nowrap">
+                            {link.name} ↗
+                          </a>
+                        ) : <span className="text-xs text-muted">—</span>}
+                        <Link href={`/report/${p.id}`} className="block text-xs text-muted hover:text-ink mt-1.5">All retailers →</Link>
+                      </td>
+                    );
+                  })}
                 </tr>
               </tbody>
             </table>

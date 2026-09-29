@@ -11,7 +11,7 @@ export type ProductSummary = Pick<
   Product,
   | "id" | "name" | "brand" | "category" | "rating" | "reviewCount" | "price" | "goals"
   | "transparencyScore" | "imageEmoji" | "logo" | "logoSize" | "logoDomain" | "sentiment"
-  | "certifications" | "allergens" | "servingsPerContainer"
+  | "certifications" | "allergens" | "servingsPerContainer" | "retailerLinks"
 > & {
   // Ingredient names, doses and verdicts, without the notes and links.
   ingredients: Pick<Product["ingredients"][number], "name" | "dose" | "verdict">[];

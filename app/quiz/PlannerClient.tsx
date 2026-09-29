@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
 import SavePlanButton from "@/components/account/SavePlanButton";
+import { primaryRetailerLink, linkRel } from "@/lib/retailers";
 import { byWeightedRating, type ProductSummary } from "@/lib/catalog-types";
 import { servingsPerContainer } from "@/lib/servings";
 import {
@@ -368,10 +369,11 @@ function PlanLines({ lines }: { lines: string[] }) {
 function PhaseProductCard({ item, borderColor }: { item: PhaseProduct; borderColor: string }) {
   const p = item.product;
   const pricePerServing = (p.price / servingsPerContainer(p)).toFixed(2);
+  const buy = primaryRetailerLink(p);
 
   return (
-    <Link href={`/report/${p.id}`}>
-      <div className={`bg-white/60 border ${borderColor} rounded-xl p-3 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group`}>
+    <div className={`bg-white/60 border ${borderColor} rounded-xl p-3 hover:shadow-md transition-all`}>
+      <Link href={`/report/${p.id}`} className="block group">
         <div className="flex items-start gap-3">
           <BrandLogo logoDomain={p.logoDomain} logo={p.logo} brand={p.brand} size="sm" />
           <div className="flex-1 min-w-0">
@@ -391,8 +393,15 @@ function PhaseProductCard({ item, borderColor }: { item: PhaseProduct; borderCol
           </div>
         </div>
         <p className="text-xs text-muted mt-2 leading-relaxed">{item.reason}</p>
-      </div>
-    </Link>
+      </Link>
+      {buy && (
+        <div className="text-right mt-1.5">
+          <a href={buy.url} target="_blank" rel={linkRel(buy)} className="text-xs text-moss font-medium hover:underline">
+            Buy at {buy.name} →
+          </a>
+        </div>
+      )}
+    </div>
   );
 }
 

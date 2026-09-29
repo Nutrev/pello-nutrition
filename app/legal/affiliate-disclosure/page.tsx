@@ -2,10 +2,11 @@
 // app/legal/affiliate-disclosure/page.tsx
 
 import type { Metadata } from "next";
+import { ACTIVE_PROGRAMMES, AFFILIATES_ACTIVE, AMAZON_ACTIVE, AMAZON_ASSOCIATE_STATEMENT } from "@/lib/affiliate";
 
 export const metadata: Metadata = {
   title: "Affiliate Disclosure",
-  description: "Pello Nutrition affiliate disclosure — how we earn commissions and how this affects our content.",
+  description: "How Pello Nutrition links to retailers, which affiliate programmes it takes part in, and how that affects its content.",
 };
 
 export default function AffiliateDisclosurePage() {
@@ -20,23 +21,42 @@ export default function AffiliateDisclosurePage() {
         </div>
 
         <div className="bg-moss/5 border border-moss/20 rounded-xl p-5 mb-8">
-          <p className="text-sm font-medium text-ink">Pello Nutrition earns a small commission on purchases made through links on this site. This never influences our editorial scores, ratings or recommendations — our analysis is always independent.</p>
+          <p className="text-sm font-medium text-ink">
+            {AFFILIATES_ACTIVE
+              ? "Pello Nutrition may earn a commission on purchases made through some links on this site. This never influences our editorial scores, ratings or recommendations — our analysis is always independent."
+              : "Pello Nutrition doesn't currently earn anything from the retailer links on this site. If that changes, this page will list each programme we join. Either way, our scores and recommendations are independent."}
+          </p>
+          {AMAZON_ACTIVE && <p className="text-sm text-ink mt-2">{AMAZON_ASSOCIATE_STATEMENT}</p>}
         </div>
 
         <div className="prose prose-sm max-w-none space-y-6 text-muted leading-relaxed">
           <section>
-            <h2 className="font-display font-semibold text-lg text-ink mb-2">How affiliate links work</h2>
-            <p>Some links on Pello Nutrition are affiliate links. When you click one and make a purchase, we receive a small commission from the retailer — typically 4-10% of the sale value — at no additional cost to you. The price you pay is identical whether you use our link or go directly to the retailer.</p>
+            <h2 className="font-display font-semibold text-lg text-ink mb-2">How retailer links work</h2>
+            <p>Product pages link to retailers that sell each product: The Feed&apos;s product page where we have it, an Amazon search for the product, and the brand&apos;s own website. Links open the retailer&apos;s site directly; we never route them through our own domain.</p>
+            {AFFILIATES_ACTIVE && (
+              <p>Some of these links are affiliate links. When you click one and make a purchase, the retailer may pay us a commission — typically 4–10% of the sale value, depending on the retailer — at no additional cost to you. The price you pay is the same whether you use our link or go to the retailer directly. Affiliate links are marked for search engines with rel=&quot;sponsored&quot;.</p>
+            )}
           </section>
 
           <section>
-            <h2 className="font-display font-semibold text-lg text-ink mb-2">Which programmes we participate in</h2>
-            <ul className="list-disc pl-5 space-y-1">
-              <li><strong className="text-ink">Amazon Associates</strong> — Amazon.com affiliate programme</li>
-              <li><strong className="text-ink">The Feed</strong> — affiliate programme for endurance nutrition</li>
-              <li><strong className="text-ink">Running Warehouse</strong> — affiliate programme</li>
-              <li><strong className="text-ink">REI</strong> — affiliate programme</li>
-            </ul>
+            <h2 className="font-display font-semibold text-lg text-ink mb-2">Programmes we participate in</h2>
+            {ACTIVE_PROGRAMMES.length === 0 ? (
+              <p>None at the moment. We&apos;ll list each programme here, with its cookie duration, when we join it.</p>
+            ) : (
+              <ul className="list-disc pl-5 space-y-1">
+                {ACTIVE_PROGRAMMES.map((prog) => (
+                  <li key={prog.id}>
+                    <strong className="text-ink">{prog.name}</strong> — cookie duration {prog.cookieDuration}
+                    {prog.id === "amazon" && (
+                      <span className="block">Pello Nutrition is a participant in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising fees by advertising and linking to Amazon.com.</span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
+            {ACTIVE_PROGRAMMES.length > 0 && (
+              <p>A cookie duration is how long after your click a purchase can still be credited to us.</p>
+            )}
           </section>
 
           <section>
