@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
+import SavePlanButton from "@/components/account/SavePlanButton";
 import { byWeightedRating, type ProductSummary } from "@/lib/catalog-types";
 import { servingsPerContainer } from "@/lib/servings";
 import {
@@ -909,6 +910,7 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
               </div>
             )}
 
+            <SavePlanButton inputs={inputs} planContent={parsedPlan} defaultName={planTitle} />
             <div className="flex gap-3">
               <button onClick={reset} className="btn-secondary flex-1 justify-center flex">Start over</button>
               <Link href="/products" className="btn-primary flex-1 justify-center flex text-center">Browse all products →</Link>

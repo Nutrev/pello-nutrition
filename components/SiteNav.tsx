@@ -7,6 +7,7 @@ import Logo from "@/components/Logo";
 import NavDropdown, { NavItem, NavSection, isItemActive } from "@/components/NavDropdown";
 import { categorySlug } from "@/lib/catalog-types";
 import { CATEGORY_GROUPS, OTHER_GROUP } from "@/lib/category-groups";
+import { useUser } from "@/lib/auth";
 
 // The site-wide top navigation, rendered once in app/layout.tsx.
 // From md up: Products, Tools and Learn dropdowns. Below md: a menu button that opens a
@@ -53,6 +54,8 @@ const MOBILE = "mobile";
 
 export default function SiteNav({ categories }: { categories: CategoryCount[] }) {
   const pathname = usePathname();
+  const { user, profile, loading: authLoading } = useUser();
+  const initial = (profile?.username || user?.email || "?").trim().charAt(0).toUpperCase();
   const productSections = categorySections(categories);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const toggle = (key: string) => setOpenMenu((current) => (current === key ? null : key));
@@ -146,6 +149,21 @@ export default function SiteNav({ categories }: { categories: CategoryCount[] })
             Build my plan →
           </Link>
 
+          {/* Account: hidden until the session check finishes, so the wrong state never flashes */}
+          <div className={`hidden md:flex items-center gap-3 ${authLoading ? "invisible" : ""}`}>
+            {user ? (
+              <Link href="/account" aria-label="Your account" className={`flex items-center gap-2 text-sm transition-colors ${pathname.startsWith("/account") ? "text-ink font-medium" : "text-muted hover:text-ink"}`}>
+                <span aria-hidden="true" className="h-7 w-7 rounded-full bg-moss text-cream flex items-center justify-center text-xs font-medium">{initial}</span>
+                Account
+              </Link>
+            ) : (
+              <>
+                <Link href="/auth/login" className="text-sm text-muted hover:text-ink transition-colors whitespace-nowrap">Sign in</Link>
+                <Link href="/auth/signup" className="btn-primary text-xs py-1.5 px-3 whitespace-nowrap">Sign up free</Link>
+              </>
+            )}
+          </div>
+
           <button
             type="button"
             data-nav-menu
@@ -192,6 +210,17 @@ export default function SiteNav({ categories }: { categories: CategoryCount[] })
                   {items.map((item) => mobileLink(item))}
                 </div>
               ))}
+              <div>
+                <div className="text-xs text-muted uppercase tracking-widest mb-1">Account</div>
+                {user ? (
+                  mobileLink({ href: "/account", label: "Your account" })
+                ) : (
+                  <>
+                    {mobileLink({ href: "/auth/login", label: "Sign in" })}
+                    {mobileLink({ href: "/auth/signup", label: "Sign up free" })}
+                  </>
+                )}
+              </div>
               <Link href="/quiz" className="btn-primary block text-center py-3">Build my plan →</Link>
             </div>
           </div>

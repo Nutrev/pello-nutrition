@@ -7,6 +7,7 @@ import Link from "next/link";
 import ReviewSection, { getAttributesForCategory } from "@/components/ReviewSection";
 import type { AttributeAverages } from "@/lib/supabase";
 import BrandLogo from "@/components/BrandLogo";
+import ProductActions from "@/components/account/ProductActions";
 import { PRICE_POSITION_LABEL, PRICE_POSITION_STYLE, type Brand } from "@/lib/brand-types";
 import IngredientFlags from "@/components/IngredientFlags";
 import { productPelloScore } from "@/lib/product-score";
@@ -237,7 +238,8 @@ export default function ReportClient({ product, similar: similarProducts, direct
               className="btn-secondary flex items-center justify-center gap-2 text-sm whitespace-nowrap"
             >
               Compare this product
-          </Link>
+            </Link>
+            <ProductActions productId={product.id} productName={`${product.brand} ${product.name}`} servingSize={product.servingSize} />
           </div>
         </div>
 
