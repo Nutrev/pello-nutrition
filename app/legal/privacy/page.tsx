@@ -91,7 +91,7 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="font-display font-semibold text-lg text-ink mb-2">8. Your rights</h2>
-            <p>You have the right to access, correct, export or delete your personal data. To delete your account or exercise any of these rights, email privacy@pellonutrition.com from the address on your account. We will respond within 30 days.</p>
+            <p>You have the right to access, correct, export or delete your personal data. To delete your account or exercise any of these rights, email pellonutrition@gmail.com from the address on your account. We will respond within 30 days.</p>
           </section>
 
           <section>
@@ -101,7 +101,7 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="font-display font-semibold text-lg text-ink mb-2">10. Contact</h2>
-            <p>For privacy-related questions, email privacy@pellonutrition.com.</p>
+            <p>For privacy-related questions, email pellonutrition@gmail.com.</p>
           </section>
         </div>
       </div>

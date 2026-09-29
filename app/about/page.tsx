@@ -64,7 +64,7 @@ export default function AboutPage() {
           <address className="not-italic text-muted text-sm leading-relaxed">
             Pello Nutrition LLC<br />
             Registered in New York, United States<br />
-            <a href="mailto:contact@pellonutrition.com" className="text-moss hover:underline">contact@pellonutrition.com</a><br />
+            <a href="mailto:pellonutrition@gmail.com" className="text-moss hover:underline">pellonutrition@gmail.com</a><br />
             pellonutrition.com
           </address>
         </section>

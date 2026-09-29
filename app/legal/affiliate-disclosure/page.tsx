@@ -72,8 +72,7 @@ export default function AffiliateDisclosurePage() {
 
           <section>
             <h2 className="font-display font-semibold text-lg text-ink mb-2">Questions</h2>
-            <p>If you have questions about our affiliate relationships or editorial policies, contact us at editorial@pellonutrition.com.</p>
-            <p className="mt-3">Pello Nutrition LLC<br />contact@pellonutrition.com</p>
+            <p>Pello Nutrition LLC<br />pellonutrition@gmail.com</p>
           </section>
         </div>
       </div>

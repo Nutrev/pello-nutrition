@@ -77,7 +77,7 @@ export default function TermsPage() {
 
           <section>
             <h2 className="font-display font-semibold text-lg text-ink mb-2">12. Contact</h2>
-            <p>For questions about these terms, email legal@pellonutrition.com.</p>
+            <p>For questions about these terms, email pellonutrition@gmail.com.</p>
           </section>
         </div>
       </div>
