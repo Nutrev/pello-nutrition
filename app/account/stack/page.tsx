@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { requireAccountUser, productById } from "@/lib/account-server";
+import { requireAccountUser, productById, accountAccess } from "@/lib/account-server";
+import ReadOnlyNote from "@/components/pro/ReadOnlyNote";
 import type { StackItem } from "@/lib/account-types";
 import BrandLogo from "@/components/BrandLogo";
 import StackItemControls from "@/components/account/StackItemControls";
@@ -8,8 +9,11 @@ import StackItemControls from "@/components/account/StackItemControls";
 export const metadata: Metadata = { title: "Supplement stack", robots: { index: false } };
 
 export default async function StackPage() {
-  const { supabase } = await requireAccountUser("/account/stack");
-  const { data } = await supabase.from("supplement_stack").select("*").order("created_at", { ascending: false });
+  const { supabase, user } = await requireAccountUser("/account/stack");
+  const [{ data }, access] = await Promise.all([
+    supabase.from("supplement_stack").select("*").order("created_at", { ascending: false }),
+    accountAccess(supabase, user.id),
+  ]);
   const items = (data ?? []) as StackItem[];
   const active = items.filter((i) => i.is_active).length;
 
@@ -18,8 +22,14 @@ export default async function StackPage() {
       <Link href="/account" className="text-xs text-muted hover:text-ink">← Account</Link>
       <div className="flex items-end justify-between gap-4 mt-3 mb-2">
         <h1 className="font-display font-bold text-3xl tracking-tight">Supplement stack</h1>
-        <Link href="/products" className="btn-primary whitespace-nowrap">Add a product</Link>
+        {access.allowed && <Link href="/products" className="btn-primary whitespace-nowrap">Add a product</Link>}
       </div>
+      {!access.allowed && (
+        <ReadOnlyNote feature="Supplement stack tracker"
+          text={items.length > 0
+            ? "Your stack is read-only on the free plan. You can still view and remove items; adding and editing need Pello Pro."
+            : "Track what you take, how much and when with Pello Pro."} />
+      )}
       <p className="text-sm text-muted mb-6">
         {items.length > 0 ? `${active} active, ${items.length - active} paused. ` : ""}Add products from any product page with &ldquo;Add to my stack&rdquo;.
       </p>
@@ -46,7 +56,7 @@ export default async function StackPage() {
                     {item.notes && <p className="text-xs text-muted mt-1 whitespace-pre-wrap">{item.notes}</p>}
                   </div>
                 </div>
-                <StackItemControls item={item} productName={name} />
+                <StackItemControls item={item} productName={name} readOnly={!access.allowed} />
               </div>
             );
           })}

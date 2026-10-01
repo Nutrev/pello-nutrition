@@ -1,9 +1,15 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
 import SavePlanButton from "@/components/account/SavePlanButton";
+import ProGate from "@/components/ProGate";
+import PrintButton from "@/components/pro/PrintButton";
+import { ProTag } from "@/components/pro/LockIcon";
+import { useUser } from "@/lib/auth";
+import { useProAccess } from "@/lib/subscription";
+import { PRO_ENABLED } from "@/lib/pro";
 import { primaryRetailerLink, linkRel } from "@/lib/retailers";
 import { byWeightedRating, type ProductSummary } from "@/lib/catalog-types";
 import { servingsPerContainer } from "@/lib/servings";
@@ -421,6 +427,11 @@ function SegmentedControl<T extends string>({ label, options, value, onChange }:
   );
 }
 
+interface PlanUsage { pro: boolean; used: number; limit: number | null; resetsOn: string }
+
+const monthName = (iso: string) => new Date(iso).toLocaleDateString("en-US", { month: "long", timeZone: "UTC" });
+const resetDay = (iso: string) => new Date(iso).toLocaleDateString("en-US", { month: "long", day: "numeric", timeZone: "UTC" });
+
 // ── MAIN COMPONENT ────────────────────────────────────────────
 
 export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }) {
@@ -428,6 +439,37 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
   const [inputs, setInputs] = useState<PlannerInputs>(DEFAULT_INPUTS);
   const [loading, setLoading] = useState(false);
   const [parsedPlan, setParsedPlan] = useState<ParsedPlan | null>(null);
+  const { user, profile, loading: authLoading } = useUser();
+  const { allowed: proAccess, gating } = useProAccess();
+  const [usage, setUsage] = useState<PlanUsage | null>(null);
+  const [blocked, setBlocked] = useState<"limit" | "pro" | null>(null);
+  const [prefilled, setPrefilled] = useState(false);
+
+  // This month's free allowance (only once Pro is on).
+  useEffect(() => {
+    if (!PRO_ENABLED || !user) { setUsage(null); return; }
+    let active = true;
+    fetch("/api/plan").then((r) => r.json()).then((d) => { if (active && d.usage) setUsage(d.usage); }).catch(() => {});
+    return () => { active = false; };
+  }, [user]);
+
+  // Pro: start from the saved athlete profile.
+  useEffect(() => {
+    if (prefilled || !profile || !proAccess || !user) return;
+    setInputs((prev) => ({
+      ...prev,
+      ...(profile.weight_kg != null ? { weightKg: profile.weight_kg } : {}),
+      weightUnit: profile.weight_unit ?? prev.weightUnit,
+      ...(profile.age != null ? { age: profile.age } : {}),
+      ...(profile.sex ? { sex: profile.sex } : {}),
+      ...(profile.training_days_per_week != null ? { trainingDaysPerWeek: profile.training_days_per_week } : {}),
+      ...(profile.caffeine_preference ? { caffeinePreference: profile.caffeine_preference } : {}),
+      ...(profile.dietary?.length ? { dietary: profile.dietary as DietaryRestriction[] } : {}),
+    }));
+    setPrefilled(true);
+  }, [profile, proAccess, user, prefilled]);
+
+  const limitReached = !!usage && !usage.pro && usage.limit != null && usage.used >= usage.limit;
 
   const update = (key: keyof PlannerInputs, value: any) =>
     setInputs(prev => ({ ...prev, [key]: value }));
@@ -466,7 +508,14 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
         body: JSON.stringify({ inputs }),
       });
       const data = await res.json();
-      setParsedPlan(parsePlan(data.plan ?? "Failed to generate plan."));
+      if (data.usage) setUsage(data.usage);
+      if (res.status === 403 && (data.code === "limit" || data.code === "pro")) {
+        setBlocked(data.code);
+        setStep(1);
+        setLoading(false);
+        return;
+      }
+      setParsedPlan(parsePlan(data.plan ?? data.error ?? "Failed to generate plan."));
     } catch {
       setParsedPlan(parsePlan("Failed to generate plan. Please try again."));
     }
@@ -477,7 +526,11 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
     setParsedPlan(null);
     setStep(1);
     setInputs(DEFAULT_INPUTS);
+    setPrefilled(false);
   };
+
+  const needsAccount = gating && !authLoading && !user;
+  const showLimitGate = gating && !proAccess && (limitReached || blocked === "limit") && !parsedPlan && !loading;
 
   const planTitle = isEvent
     ? `${EVENT_TYPES.find(e => e.id === inputs.eventType)?.label} · ${inputs.durationHours}hr plan`
@@ -497,9 +550,32 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
           </div>
         )}
 
+        {/* Pro is on: plans need a free account */}
+        {needsAccount && (
+          <div className="card text-center py-10">
+            <h2 className="font-display font-semibold text-lg mb-2">Create a free account to build your plan</h2>
+            <p className="text-sm text-muted mb-5 max-w-md mx-auto">
+              Free accounts get one event plan a month. Pello Pro adds unlimited plans, goal-based plans and saving.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-2 justify-center">
+              <Link href="/auth/login?mode=signup&redirect=%2Fquiz" className="btn-primary justify-center flex">Create a free account</Link>
+              <Link href="/auth/login?redirect=%2Fquiz" className="btn-secondary justify-center flex">Log in</Link>
+            </div>
+          </div>
+        )}
+
+        {/* Free allowance used up */}
+        {showLimitGate && usage && (
+          <ProGate feature="Unlimited plans with Pello Pro"
+            description={`You've used your free plan for ${monthName(new Date().toISOString())}. Your next free plan is available on ${resetDay(usage.resetsOn)}.`} />
+        )}
+
         {/* Form */}
-        {!parsedPlan && !loading && (
+        {!parsedPlan && !loading && !needsAccount && !showLimitGate && (
           <>
+            {prefilled && proAccess && gating && step === 1 && (
+              <p className="text-xs text-muted mb-4">Weight, age, sex, training and preferences are pre-filled from your <Link href="/account/onboarding?edit=1" className="text-moss hover:underline">athlete profile</Link>.</p>
+            )}
             <StepIndicator current={step} total={3} />
 
             {/* Step 1 */}
@@ -513,7 +589,7 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
                   </button>
                   <button onClick={() => update("mode", "outcome")}
                     className={`p-4 rounded-xl border text-left transition-all ${inputs.mode === "outcome" ? "border-moss bg-moss/5" : "border-sand hover:border-muted bg-white/40"}`}>
-                    <div className="font-display font-semibold text-sm mb-1">Outcome / goal</div>
+                    <div className="font-display font-semibold text-sm mb-1 flex items-center gap-2">Outcome / goal {gating && !proAccess && <ProTag />}</div>
                     <div className="text-xs text-muted">I want to achieve a specific result through nutrition</div>
                   </button>
                 </div>
@@ -550,6 +626,7 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
                 )}
 
                 {inputs.mode === "outcome" && (
+                  <ProGate feature="Goal-based plans" description="Nutrition plans built around a goal, like finishing your first marathon, recovering faster or building muscle.">
                   <div>
                     <h2 className="font-display font-semibold text-base mb-4">What do you want to achieve?</h2>
                     <div className="space-y-2 mb-6">
@@ -569,9 +646,10 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
                       ))}
                     </div>
                   </div>
+                  </ProGate>
                 )}
 
-                <button onClick={() => setStep(2)} disabled={isEvent ? !inputs.eventType : !inputs.outcomeType}
+                <button onClick={() => setStep(2)} disabled={isEvent ? !inputs.eventType : (!inputs.outcomeType || !proAccess)}
                   className="btn-primary w-full justify-center flex disabled:opacity-40">
                   Next →
                 </button>
@@ -919,8 +997,25 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
               </div>
             )}
 
-            <SavePlanButton inputs={inputs} planContent={parsedPlan} defaultName={planTitle} />
-            <div className="flex gap-3">
+            {usage && !usage.pro && usage.limit != null && (
+              <p className="text-xs text-muted text-center mb-3 print:hidden">
+                You have used {Math.min(usage.used, usage.limit)}/{usage.limit} free plan{usage.limit === 1 ? "" : "s"} this month.{" "}
+                <Link href="/pricing" className="text-amber hover:underline">Unlimited plans with Pello Pro</Link>
+              </p>
+            )}
+            <div className="print:hidden">
+              {proAccess ? (
+                <>
+                  <SavePlanButton inputs={inputs} planContent={parsedPlan} defaultName={planTitle} />
+                  {gating && <PrintButton label="Export plan as PDF" className="btn-secondary w-full justify-center flex mb-3" />}
+                </>
+              ) : (
+                <div className="mb-3">
+                  <ProGate compact feature="Save and export plans" description="Keep this plan in your account, revisit it any time and export it as a PDF." />
+                </div>
+              )}
+            </div>
+            <div className="flex gap-3 print:hidden">
               <button onClick={reset} className="btn-secondary flex-1 justify-center flex">Start over</button>
               <Link href="/products" className="btn-primary flex-1 justify-center flex text-center">Browse all products →</Link>
             </div>

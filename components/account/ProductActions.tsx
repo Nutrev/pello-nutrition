@@ -7,6 +7,9 @@ import { useUser } from "@/lib/auth";
 import { loadBrowserSupabase } from "@/lib/supabase/load";
 import AuthPrompt from "./AuthPrompt";
 import StackModal from "./StackModal";
+import UpgradePrompt from "@/components/pro/UpgradePrompt";
+import { ProTag } from "@/components/pro/LockIcon";
+import { useProAccess } from "@/lib/subscription";
 
 export default function ProductActions({ productId, productName, servingSize }: { productId: string; productName: string; servingSize?: string }) {
   const { user, loading } = useUser();
@@ -15,6 +18,8 @@ export default function ProductActions({ productId, productName, servingSize }: 
   const [busy, setBusy] = useState(false);
   const [prompt, setPrompt] = useState<string | null>(null);
   const [stackOpen, setStackOpen] = useState(false);
+  const [upgradeOpen, setUpgradeOpen] = useState(false);
+  const { allowed: canStack, gating } = useProAccess();
 
   useEffect(() => {
     if (!user) { setFavId(null); setInStack(false); return; }
@@ -59,10 +64,14 @@ export default function ProductActions({ productId, productName, servingSize }: 
       {inStack ? (
         <Link href="/account/stack" className="btn-secondary flex items-center justify-center gap-2 text-sm whitespace-nowrap">✓ In your stack</Link>
       ) : (
-        <button type="button" onClick={() => (user ? setStackOpen(true) : setPrompt("build your supplement stack"))}
-          className="btn-secondary flex items-center justify-center gap-2 text-sm whitespace-nowrap">+ Add to my stack</button>
+        <button type="button" onClick={() => (!user ? setPrompt("build your supplement stack") : canStack ? setStackOpen(true) : setUpgradeOpen(true))}
+          className="btn-secondary flex items-center justify-center gap-2 text-sm whitespace-nowrap">
+          + Add to my stack {gating && !canStack && user && <ProTag />}
+        </button>
       )}
       <AuthPrompt open={!!prompt} onClose={() => setPrompt(null)} action={prompt ?? ""} />
+      <UpgradePrompt open={upgradeOpen} onClose={() => setUpgradeOpen(false)} feature="Supplement stack tracker"
+        description="Track what you take, how much and when, and pause or edit items as your training changes." />
       <StackModal open={stackOpen} onClose={() => setStackOpen(false)} productId={productId} productName={productName}
         defaultDose={servingSize} onSaved={() => setInStack(true)} />
     </div>

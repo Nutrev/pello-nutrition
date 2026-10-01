@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { requireAccountUser, productById } from "@/lib/account-server";
+import { Suspense } from "react";
+import { requireAccountUser, productById, accountAccess } from "@/lib/account-server";
+import UpgradedBanner from "@/components/pro/UpgradedBanner";
+import ManageSubscriptionButton from "@/components/pro/ManageSubscriptionButton";
+import type { SubscriptionRow } from "@/lib/pro";
 import type { UserProfile, SavedPlan, FavouriteProduct, StackItem } from "@/lib/account-types";
 import { formatWeight } from "@/lib/planner";
 import { formatDate } from "@/lib/format-date";
@@ -28,16 +32,66 @@ function Empty({ text, href, cta }: { text: string; href: string; cta: string })
   );
 }
 
+const FREE_MISSING = [
+  "Unlimited nutrition plans, including goal-based plans",
+  "Save, revisit and export plans as PDF",
+  "Supplement stack tracker",
+  "Compare up to 5 products and advanced filters",
+  "Submit community reviews",
+];
+
+function SubscriptionSection({ isPro, sub }: { isPro: boolean; sub: SubscriptionRow | null }) {
+  if (isPro && sub) {
+    const end = sub.current_period_end ? formatDate(sub.current_period_end) : null;
+    const trialing = sub.stripe_status === "trialing";
+    const pastDue = sub.stripe_status === "past_due";
+    const line = pastDue
+      ? "Your last payment didn't go through. Update your card to keep Pro."
+      : trialing && sub.trial_end
+      ? `Free trial ends ${formatDate(sub.trial_end)}${sub.cancel_at_period_end ? ", then Pro ends" : ""}.`
+      : sub.cancel_at_period_end && end
+      ? `Cancelled. You keep Pro until ${end}.`
+      : end ? `Renews ${end}.` : null;
+    return (
+      <div className="card flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+        <div>
+          <span className="font-mono text-[11px] uppercase tracking-widest bg-amber/10 text-amber px-2 py-0.5 rounded-md">Pello Pro</span>
+          {line && <p className={`text-sm mt-2 ${pastDue ? "text-rust" : "text-muted"}`}>{line}</p>}
+        </div>
+        <ManageSubscriptionButton className="btn-secondary text-sm whitespace-nowrap" />
+      </div>
+    );
+  }
+  return (
+    <div className="card bg-amber/5 border-amber/30 mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+        <div>
+          <div className="font-display font-semibold">You&apos;re on the free plan</div>
+          <p className="text-sm text-muted mb-2">Pello Pro adds:</p>
+          <ul className="text-sm text-muted space-y-0.5">
+            {FREE_MISSING.map((f) => <li key={f}>· {f}</li>)}
+          </ul>
+        </div>
+        <div className="flex flex-col gap-2 sm:items-end">
+          <Link href="/pricing" className="btn-primary whitespace-nowrap">Upgrade to Pello Pro</Link>
+          {sub?.stripe_customer_id && <ManageSubscriptionButton className="text-xs text-muted hover:text-ink" label="Billing history" />}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default async function AccountPage() {
   const { supabase, user } = await requireAccountUser("/account");
 
-  const [profileRes, plansRes, planCount, favRes, favCount, stackRes] = await Promise.all([
+  const [profileRes, plansRes, planCount, favRes, favCount, stackRes, access] = await Promise.all([
     supabase.from("user_profiles").select("*").eq("id", user.id).maybeSingle(),
     supabase.from("saved_plans").select("id, plan_name, plan_mode, created_at").order("created_at", { ascending: false }).limit(3),
     supabase.from("saved_plans").select("id", { count: "exact", head: true }),
     supabase.from("favourite_products").select("*").order("created_at", { ascending: false }).limit(4),
     supabase.from("favourite_products").select("id", { count: "exact", head: true }),
     supabase.from("supplement_stack").select("*").order("created_at", { ascending: false }),
+    accountAccess(supabase, user.id),
   ]);
 
   const profile = profileRes.data as UserProfile | null;
@@ -77,7 +131,10 @@ export default async function AccountPage() {
         </div>
       )}
 
-      <PendingPlanBanner />
+      <Suspense fallback={null}><UpgradedBanner /></Suspense>
+      {access.gating && <SubscriptionSection isPro={access.isPro} sub={access.subscription} />}
+
+      {access.allowed && <PendingPlanBanner />}
 
       <div className="grid grid-cols-3 gap-3 sm:gap-4 mb-10">
         {[

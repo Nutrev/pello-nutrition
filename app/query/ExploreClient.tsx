@@ -1,7 +1,11 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
+import ProGate from "@/components/ProGate";
+import { ProTag } from "@/components/pro/LockIcon";
+import { useProAccess } from "@/lib/subscription";
 import type { ProductSummary } from "@/lib/catalog-types";
 
 // ── TYPES ─────────────────────────────────────────────────────
@@ -39,6 +43,11 @@ function enrichProduct(p: ProductSummary) {
 }
 
 
+// Pello Pro filters (once Pro is on). Category, search, price, carbs, sodium, protein,
+// caffeine and vegan stay free.
+const ADVANCED_FILTERS = ["glucoseFructoseRatio", "minRating", "minTransparencyScore", "isCleanLabel", "isBatchTested", "isHydrogel"];
+const usesAdvanced = (f: Record<string, unknown>) => Object.keys(f).some((k) => ADVANCED_FILTERS.includes(k));
+
 const EXAMPLE_QUERIES = [
   { label: "Gels under $2.50, 25g+ carbs, no caffeine", filters: { category: ["Energy Gel"], maxPricePerServing: 2.50, minCarbsPerServing: 25, hasCaffeine: "no" } },
   { label: "Batch-tested products only", filters: { isBatchTested: true } },
@@ -54,9 +63,11 @@ export default function ExploreClient({ catalog }: { catalog: ProductSummary[] }
   const PRODUCTS = catalog;
   const ALL_CATEGORIES = useMemo(() => Array.from(new Set(PRODUCTS.map((p) => p.category))).sort(), [PRODUCTS]);
   const [filters, setFilters] = useState<Record<string, any>>({});
+  const activeFilters = filters;
   const [sortBy, setSortBy] = useState<SortKey>("rating");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [activeExplore, setActiveExplore] = useState<string | null>(null);
+  const { allowed: proAccess } = useProAccess();
 
   const enrichedProducts = useMemo(() => PRODUCTS.map(enrichProduct), [PRODUCTS]);
 
@@ -69,6 +80,7 @@ export default function ExploreClient({ catalog }: { catalog: ProductSummary[] }
   };
 
   const filteredProducts = useMemo(() => {
+    const filters = proAccess ? activeFilters : Object.fromEntries(Object.entries(activeFilters).filter(([k]) => !ADVANCED_FILTERS.includes(k)));
     return enrichedProducts.filter((p: any) => {
       if (filters.category?.length && !filters.category.includes(p.category)) return false;
       if (filters.maxPricePerServing && p.pricePerServing > filters.maxPricePerServing) return false;
@@ -91,7 +103,7 @@ export default function ExploreClient({ catalog }: { catalog: ProductSummary[] }
       const bVal = b[sortBy] ?? 0;
       return sortDir === "desc" ? bVal - aVal : aVal - bVal;
     });
-  }, [enrichedProducts, filters, sortBy, sortDir]);
+  }, [enrichedProducts, activeFilters, proAccess, sortBy, sortDir]);
 
   const activeFilterCount = Object.keys(filters).filter(k => filters[k] !== null && filters[k] !== undefined && filters[k] !== "").length;
 
@@ -109,7 +121,12 @@ export default function ExploreClient({ catalog }: { catalog: ProductSummary[] }
         <div className="mb-6">
           <div className="text-xs text-muted mb-2">Example queries</div>
           <div className="flex flex-wrap gap-2">
-            {EXAMPLE_QUERIES.map((q) => (
+            {EXAMPLE_QUERIES.map((q) => !proAccess && usesAdvanced(q.filters) ? (
+              <Link key={q.label} href="/pricing" title="Uses Pello Pro filters"
+                className="text-xs px-3 py-1.5 rounded-lg border bg-white/60 border-sand hover:border-muted inline-flex items-center gap-1.5 text-muted">
+                {q.label} <ProTag />
+              </Link>
+            ) : (
               <button key={q.label} onClick={() => applyExampleExplore(q)}
                 className={`text-xs px-3 py-1.5 rounded-lg border transition-all ${activeExplore === q.label ? "bg-moss text-cream border-moss" : "bg-white/60 border-sand hover:border-muted"}`}>
                 {q.label}
@@ -221,6 +238,16 @@ export default function ExploreClient({ catalog }: { catalog: ProductSummary[] }
               </div>
             </div>
 
+            {/* Vegan */}
+            <label className="flex items-center gap-2 text-xs cursor-pointer">
+              <input type="checkbox" className="accent-moss"
+                checked={filters.isVegan === true}
+                onChange={(e) => e.target.checked ? applyFilter("isVegan", true) : clearFilter("isVegan")} />
+              Vegan
+            </label>
+
+            <ProGate compact feature="Advanced filters" description="Filter by G:F ratio, rating, transparency, batch testing and hydrogel delivery.">
+            <div className="space-y-5">
             {/* G:F Ratio */}
             <div>
               <div className="text-xs text-muted mb-1.5">Glucose:Fructose ratio</div>
@@ -265,7 +292,6 @@ export default function ExploreClient({ catalog }: { catalog: ProductSummary[] }
               <div className="text-xs text-muted mb-1.5">Special filters</div>
               <div className="space-y-1.5">
                 {[
-                  { key: "isVegan", label: "Vegan" },
                   { key: "isCleanLabel", label: "High transparency (85%+)" },
                   { key: "isBatchTested", label: "Batch tested" },
                   { key: "isHydrogel", label: "Hydrogel delivery" },
@@ -279,6 +305,8 @@ export default function ExploreClient({ catalog }: { catalog: ProductSummary[] }
                 ))}
               </div>
             </div>
+            </div>
+            </ProGate>
           </div>
 
           {/* Results */}

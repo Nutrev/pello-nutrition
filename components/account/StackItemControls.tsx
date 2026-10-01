@@ -7,10 +7,18 @@ import type { StackItem } from "@/lib/account-types";
 import StackModal from "./StackModal";
 import DeleteRowButton from "./DeleteRowButton";
 
-export default function StackItemControls({ item, productName }: { item: StackItem; productName: string }) {
+// readOnly: free plan once Pello Pro is on. Items can still be removed.
+export default function StackItemControls({ item, productName, readOnly = false }: { item: StackItem; productName: string; readOnly?: boolean }) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [editing, setEditing] = useState(false);
+  if (readOnly) {
+    return (
+      <div className="flex items-center gap-3 flex-shrink-0">
+        <DeleteRowButton table="supplement_stack" id={item.id} label="Remove" confirmText={`Remove ${productName} from your stack?`} />
+      </div>
+    );
+  }
   return (
     <div className="flex items-center gap-3 flex-shrink-0">
       <button type="button" role="switch" aria-checked={item.is_active} aria-label={`${productName}: ${item.is_active ? "active" : "paused"}`}

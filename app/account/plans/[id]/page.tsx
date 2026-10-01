@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { requireAccountUser } from "@/lib/account-server";
+import { requireAccountUser, accountAccess } from "@/lib/account-server";
+import PrintButton from "@/components/pro/PrintButton";
 import { formatDate } from "@/lib/format-date";
 import { formatWeight } from "@/lib/planner";
 import type { SavedPlan } from "@/lib/account-types";
@@ -18,8 +19,11 @@ const SECTIONS: { key: keyof SavedPlan["plan_content"]; title: string }[] = [
 ];
 
 export default async function PlanPage({ params }: { params: { id: string } }) {
-  const { supabase } = await requireAccountUser(`/account/plans/${params.id}`);
-  const { data } = await supabase.from("saved_plans").select("*").eq("id", params.id).maybeSingle();
+  const { supabase, user } = await requireAccountUser(`/account/plans/${params.id}`);
+  const [{ data }, access] = await Promise.all([
+    supabase.from("saved_plans").select("*").eq("id", params.id).maybeSingle(),
+    accountAccess(supabase, user.id),
+  ]);
   if (!data) notFound();
   const plan = data as SavedPlan;
   const i = plan.inputs;
@@ -34,7 +38,7 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
 
   return (
     <div className="max-w-3xl mx-auto px-6 py-10">
-      <Link href="/account/plans" className="text-xs text-muted hover:text-ink">← Saved plans</Link>
+      <Link href="/account/plans" className="text-xs text-muted hover:text-ink print:hidden">← Saved plans</Link>
       <div className="mt-3 mb-6">
         <div className="font-mono text-[11px] uppercase tracking-widest text-muted mb-1">Saved {formatDate(plan.created_at)}</div>
         <h1 className="font-display font-bold text-3xl tracking-tight mb-3">{plan.plan_name}</h1>
@@ -53,8 +57,11 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
         })}
       </div>
       {plan.notes && <div className="card mt-4"><h2 className="font-display font-semibold mb-2">Notes</h2><p className="text-sm whitespace-pre-wrap">{plan.notes}</p></div>}
-      <div className="flex items-center justify-between mt-8">
-        <Link href="/quiz" className="btn-secondary">Build another plan</Link>
+      <div className="flex items-center justify-between gap-3 mt-8 print:hidden">
+        <div className="flex flex-wrap gap-2">
+          <Link href="/quiz" className="btn-secondary">Build another plan</Link>
+          {access.gating && access.allowed && <PrintButton label="Export as PDF" />}
+        </div>
         <DeleteRowButton table="saved_plans" id={plan.id} label="Delete plan" redirectTo="/account/plans"
           confirmText={`Delete "${plan.plan_name}"? This can't be undone.`} />
       </div>

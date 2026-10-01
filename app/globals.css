@@ -54,3 +54,12 @@ body::before {
     @apply bg-rust/10 text-rust text-xs font-medium px-2 py-0.5 rounded-md;
   }
 }
+
+/* "Export as PDF" (Pello Pro): the browser's print dialog, cleaned up for paper. */
+@media print {
+  nav { display: none !important; }
+  body { background: #fff !important; }
+  .card { box-shadow: none !important; break-inside: avoid; }
+  a { text-decoration: none !important; }
+  @page { margin: 14mm; }
+}

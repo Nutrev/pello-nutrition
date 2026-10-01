@@ -8,6 +8,8 @@ import NavDropdown, { NavItem, NavSection, isItemActive } from "@/components/Nav
 import { categorySlug } from "@/lib/catalog-types";
 import { CATEGORY_GROUPS, OTHER_GROUP } from "@/lib/category-groups";
 import { useUser } from "@/lib/auth";
+import { useSubscription } from "@/lib/subscription";
+import { PRO_ENABLED } from "@/lib/pro";
 
 // The site-wide top navigation, rendered once in app/layout.tsx.
 // From md up: Products, Tools and Learn dropdowns. Below md: a menu button that opens a
@@ -55,6 +57,8 @@ const MOBILE = "mobile";
 export default function SiteNav({ categories }: { categories: CategoryCount[] }) {
   const pathname = usePathname();
   const { user, profile, loading: authLoading } = useUser();
+  const { isPro } = useSubscription();
+  const showPro = PRO_ENABLED && isPro;
   const initial = (profile?.username || user?.email || "?").trim().charAt(0).toUpperCase();
   const productSections = categorySections(categories);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
@@ -151,10 +155,17 @@ export default function SiteNav({ categories }: { categories: CategoryCount[] })
 
           {/* Account: hidden until the session check finishes, so the wrong state never flashes */}
           <div className={`hidden md:flex items-center gap-3 ${authLoading ? "invisible" : ""}`}>
+            {PRO_ENABLED && user && !isPro && (
+              <Link href="/pricing" className="text-xs bg-amber/10 text-amber font-mono px-2 py-1 rounded-md whitespace-nowrap hover:bg-amber/20 transition-colors">Upgrade to Pro</Link>
+            )}
+            {PRO_ENABLED && !user && (
+              <Link href="/pricing" className={`text-sm transition-colors ${pathname === "/pricing" ? "text-ink font-medium" : "text-muted hover:text-ink"}`}>Pricing</Link>
+            )}
             {user ? (
-              <Link href="/account" aria-label="Your account" className={`flex items-center gap-2 text-sm transition-colors ${pathname.startsWith("/account") ? "text-ink font-medium" : "text-muted hover:text-ink"}`}>
+              <Link href="/account" aria-label={showPro ? "Your account (Pello Pro)" : "Your account"} className={`flex items-center gap-2 text-sm transition-colors ${pathname.startsWith("/account") ? "text-ink font-medium" : "text-muted hover:text-ink"}`}>
                 <span aria-hidden="true" className="h-7 w-7 rounded-full bg-moss text-cream flex items-center justify-center text-xs font-medium">{initial}</span>
                 Account
+                {showPro && <span aria-hidden="true" className="font-mono text-[10px] uppercase tracking-wider bg-amber/10 text-amber px-1.5 py-0.5 rounded">Pro</span>}
               </Link>
             ) : (
               <Link href="/auth/login" className="btn-primary text-xs py-1.5 px-3 whitespace-nowrap">Log in</Link>
@@ -210,10 +221,11 @@ export default function SiteNav({ categories }: { categories: CategoryCount[] })
               <div>
                 <div className="text-xs text-muted uppercase tracking-widest mb-1">Account</div>
                 {user ? (
-                  mobileLink({ href: "/account", label: "Your account" })
+                  mobileLink({ href: "/account", label: showPro ? "Your account · Pro" : "Your account" })
                 ) : (
                   mobileLink({ href: "/auth/login", label: "Log in" })
                 )}
+                {PRO_ENABLED && !isPro && mobileLink({ href: "/pricing", label: user ? "Upgrade to Pro" : "Pricing" })}
               </div>
               <Link href="/quiz" className="btn-primary block text-center py-3">Build my plan →</Link>
             </div>

@@ -8,8 +8,10 @@ import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
 import IngredientFlags from "@/components/IngredientFlags";
 import { primaryRetailerLink, linkRel } from "@/lib/retailers";
-
-const MAX_PRODUCTS = 3;
+import ProGate from "@/components/ProGate";
+import PrintButton from "@/components/pro/PrintButton";
+import { useProAccess } from "@/lib/subscription";
+import { FREE_COMPARE_LIMIT, PRO_COMPARE_LIMIT, UNGATED_COMPARE_LIMIT } from "@/lib/pro";
 
 function ScoreBar({ value }: { value: number }) {
   return (
@@ -45,6 +47,10 @@ export default function CompareClient({ catalog }: { catalog: Product[] }) {
     document.title = "Compare Products | Pello";
   }
 
+  const { allowed, gating, loading: accessLoading } = useProAccess();
+  // Pro off: 3 for everyone, as before. Pro on: 2 free, 5 Pro.
+  const MAX_PRODUCTS = !gating ? UNGATED_COMPARE_LIMIT : allowed ? PRO_COMPARE_LIMIT : FREE_COMPARE_LIMIT;
+  // Shared links can hold up to 5; free users see the first 2 and an upgrade note.
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [search, setSearch] = useState("");
   const [copied, setCopied] = useState(false);
@@ -55,10 +61,10 @@ export default function CompareClient({ catalog }: { catalog: Product[] }) {
     if (ids) {
       const parsed = ids.split(",").filter((id) =>
         PRODUCTS.find((p) => p.id === id)
-      ).slice(0, MAX_PRODUCTS);
+      ).slice(0, gating ? PRO_COMPARE_LIMIT : UNGATED_COMPARE_LIMIT);
       setSelectedIds(parsed);
     }
-  }, [searchParams]);
+  }, [searchParams, gating]);
 
   // Update URL when selection changes
   useEffect(() => {
@@ -69,7 +75,9 @@ export default function CompareClient({ catalog }: { catalog: Product[] }) {
     }
   }, [selectedIds, router]);
 
+  const hiddenCount = accessLoading ? 0 : Math.max(0, selectedIds.length - MAX_PRODUCTS);
   const selectedProducts = selectedIds
+    .slice(0, accessLoading ? selectedIds.length : MAX_PRODUCTS)
     .map((id) => PRODUCTS.find((p) => p.id === id))
     .filter(Boolean) as Product[];
 
@@ -120,7 +128,9 @@ const filteredProducts = PRODUCTS.filter((p) => {
       ? "w-64"
       : selectedProducts.length === 2
       ? "w-56"
-      : "w-48";
+      : selectedProducts.length === 3
+      ? "w-48"
+      : "w-44";
 
   return (
     <div className="min-h-screen">
@@ -135,20 +145,21 @@ const filteredProducts = PRODUCTS.filter((p) => {
             Compare products
           </h1>
           <p className="text-muted text-sm">
-            Select up to 3 products to compare side by side — then share the link.
+            Select up to {MAX_PRODUCTS} products to compare side by side — then share the link.
           </p>
         </div>
 
         {/* Product selector */}
-        <div className="card mb-8 relative z-10">
+        <div className="card mb-8 relative z-10 print:hidden">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-display font-semibold text-sm">
               {selectedIds.length === 0
                 ? "Search for products to compare"
-                : `${selectedIds.length} of ${MAX_PRODUCTS} selected`}
+                : `${Math.min(selectedIds.length, MAX_PRODUCTS)} of ${MAX_PRODUCTS} selected`}
             </h2>
             {selectedIds.length > 0 && (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 print:hidden">
+                {gating && allowed && <PrintButton label="Export as PDF" className="btn-secondary text-xs py-1.5 px-3" />}
                 <button
                   onClick={copyLink}
                   className="btn-secondary text-xs py-1.5 px-3 flex items-center gap-1.5"
@@ -220,6 +231,16 @@ const filteredProducts = PRODUCTS.filter((p) => {
                   )}
                 </div>
               )}
+            </div>
+          )}
+
+          {/* Free plan: the third slot is Pro */}
+          {gating && !allowed && !accessLoading && selectedIds.length >= MAX_PRODUCTS && (
+            <div className="mt-4">
+              <ProGate compact feature="Compare up to 5 products with Pello Pro"
+                description={hiddenCount > 0
+                  ? `This comparison has ${hiddenCount} more product${hiddenCount === 1 ? "" : "s"}. Free accounts compare 2 at a time.`
+                  : "Free accounts compare 2 products at a time."} />
             </div>
           )}
         </div>

@@ -1,6 +1,11 @@
 // app/legal/terms/page.tsx
 
 import type { Metadata } from "next";
+import Link from "next/link";
+import { PRO_ENABLED, PRO_PRICE_LABEL, TRIAL_DAYS } from "@/lib/pro";
+
+// Sections after 8 move down one while the Pello Pro section is shown.
+const n = (k: number) => (PRO_ENABLED ? k + 1 : k);
 
 export const metadata: Metadata = {
   title: "Terms of Service",
@@ -60,23 +65,40 @@ export default function TermsPage() {
             <p>The Site contains links to third-party websites including retailers. We are not responsible for the content, privacy practices or accuracy of third-party sites. Links do not constitute endorsement beyond the specific product referenced.</p>
           </section>
 
+          {PRO_ENABLED && (
+            <section>
+              <h2 className="font-display font-semibold text-lg text-ink mb-2">9. Pello Pro subscriptions</h2>
+              <p>Pello Pro is a paid monthly subscription. Payments are processed by Stripe; we never see or store your full card details.</p>
+              <ul className="list-disc pl-5 space-y-1 mt-2">
+                <li><strong className="text-ink">Price.</strong> Pello Pro costs {PRO_PRICE_LABEL} per month (USD), plus any applicable tax, as shown on the <Link href="/pricing" className="text-moss underline">pricing page</Link> and at checkout.</li>
+                <li><strong className="text-ink">Free trial.</strong> New accounts may receive one {TRIAL_DAYS}-day free trial. You don&apos;t need a payment method to start it. If you add one, you will be charged {PRO_PRICE_LABEL} when the trial ends unless you cancel before then. If you don&apos;t add one, your subscription ends with the trial and your account returns to the free plan without charge.</li>
+                <li><strong className="text-ink">Automatic renewal.</strong> Your subscription renews automatically every month and is charged to your payment method at the start of each billing period until you cancel.</li>
+                <li><strong className="text-ink">Cancelling.</strong> You can cancel at any time from your account (&ldquo;Manage subscription&rdquo;), or by emailing pellonutrition@gmail.com. Cancellation takes effect at the end of the current billing period; you keep Pro access until then and won&apos;t be charged again.</li>
+                <li><strong className="text-ink">Refunds.</strong> Payments are non-refundable and we don&apos;t give credits for partial billing periods, except where required by law.</li>
+                <li><strong className="text-ink">Failed payments.</strong> If a renewal payment fails, Stripe will retry it. If it still can&apos;t be collected, your subscription ends and your account returns to the free plan.</li>
+                <li><strong className="text-ink">Price changes.</strong> We&apos;ll email you at least 30 days before any price change takes effect. The new price applies from your next billing period after that, and you can cancel before it does.</li>
+                <li><strong className="text-ink">Free plan.</strong> If your subscription ends, you keep read-only access to plans and stack items you saved, and can delete them at any time.</li>
+              </ul>
+            </section>
+          )}
+
           <section>
-            <h2 className="font-display font-semibold text-lg text-ink mb-2">9. Limitation of liability</h2>
+            <h2 className="font-display font-semibold text-lg text-ink mb-2">{n(9)}. Limitation of liability</h2>
             <p>To the maximum extent permitted by law, Pello Nutrition LLC shall not be liable for any indirect, incidental, special or consequential damages arising from use of the Site or reliance on its content.</p>
           </section>
 
           <section>
-            <h2 className="font-display font-semibold text-lg text-ink mb-2">10. Governing law</h2>
+            <h2 className="font-display font-semibold text-lg text-ink mb-2">{n(10)}. Governing law</h2>
             <p>These terms are governed by the laws of the United States and the State of New York, where Pello Nutrition LLC is registered. Any disputes shall be resolved in the courts of New York.</p>
           </section>
 
           <section>
-            <h2 className="font-display font-semibold text-lg text-ink mb-2">11. Changes to these terms</h2>
+            <h2 className="font-display font-semibold text-lg text-ink mb-2">{n(11)}. Changes to these terms</h2>
             <p>We may update these terms from time to time. The "Last updated" date at the top of this page shows when they last changed. Continuing to use the Site after an update means you accept the revised terms.</p>
           </section>
 
           <section>
-            <h2 className="font-display font-semibold text-lg text-ink mb-2">12. Contact</h2>
+            <h2 className="font-display font-semibold text-lg text-ink mb-2">{n(12)}. Contact</h2>
             <p>For questions about these terms, email pellonutrition@gmail.com.</p>
           </section>
         </div>

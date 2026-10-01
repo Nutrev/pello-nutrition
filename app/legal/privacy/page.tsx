@@ -3,6 +3,7 @@
 
 import Link from "next/link";
 import { ACTIVE_PROGRAMMES } from "@/lib/affiliate";
+import { PRO_ENABLED } from "@/lib/pro";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -34,7 +35,13 @@ export default function PrivacyPage() {
               <li><strong className="text-ink">Account details</strong> — if you create an account: your email address and password (stored securely by our authentication provider; we never see your password), or your Google account email if you sign in with Google</li>
               <li><strong className="text-ink">Profile information</strong> — anything you choose to add: a username, body weight and preferred unit, age, sex, training days per week, caffeine preference, dietary preferences (vegan, gluten-free, dairy-free) and goals</li>
               <li><strong className="text-ink">Saved content</strong> — nutrition plans you save (including the inputs used to create them, such as event details and body weight), favourite products, and the products, doses, timing and notes in your supplement stack</li>
-              <li><strong className="text-ink">Community reviews</strong> — the display name, ratings and comments you choose to submit; these are public</li>
+              {PRO_ENABLED && (
+                <li><strong className="text-ink">Subscription details</strong> — if you subscribe to Pello Pro: your subscription status, trial and renewal dates, and the customer and subscription IDs our payment provider, Stripe, assigns. Stripe collects your payment details; we never see or store your full card number</li>
+              )}
+              {PRO_ENABLED && (
+                <li><strong className="text-ink">Planner usage</strong> — the date of each nutrition plan you generate, to count the free plan&apos;s monthly allowance</li>
+              )}
+              <li><strong className="text-ink">Community reviews</strong> — the display name, ratings and comments you choose to submit; these are public{PRO_ENABLED ? ". We also record which account wrote each review; that isn't shown publicly" : ""}</li>
               <li><strong className="text-ink">Emails you send us</strong> — if you contact us</li>
               <li><strong className="text-ink">Technical data</strong> — your IP address and browser details, which our hosting provider processes to deliver the site and which we use briefly to limit abuse of forms and AI features</li>
             </ul>
@@ -45,6 +52,7 @@ export default function PrivacyPage() {
             <h2 className="font-display font-semibold text-lg text-ink mb-2">3. How we use your data</h2>
             <ul className="list-disc pl-5 space-y-1">
               <li>To run your account: logging you in and showing your saved plans, favourites and stack</li>
+              {PRO_ENABLED && <li>To provide Pello Pro: checking your subscription, counting free plans, and letting you manage billing through Stripe</li>}
               <li>To tailor nutrition plans: when you use the planner, the details you enter (such as body weight, age, sex, training days and event details) are sent to our AI provider to generate your plan</li>
               <li>To display community reviews on product pages</li>
               <li>To send account emails you trigger, such as email confirmation and password reset</li>
@@ -79,6 +87,7 @@ export default function PrivacyPage() {
             <ul className="list-disc pl-5 space-y-1 mt-2">
               <li>Supabase — database and account login (stores your account, profile, saved content and reviews)</li>
               <li>Vercel — website hosting</li>
+              {PRO_ENABLED && <li>Stripe — payments and subscription billing for Pello Pro</li>}
               <li>Anthropic (Claude) — AI features: planner inputs and product information are sent to generate plans and summaries</li>
               <li>Google — only if you choose to sign in with Google</li>
             </ul>
@@ -86,7 +95,7 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="font-display font-semibold text-lg text-ink mb-2">7. Data retention</h2>
-            <p>We keep your account, profile and saved content until you delete them or ask us to delete your account. You can edit your profile and remove saved plans, favourites and stack items at any time from your account. When an account is deleted, all its profile data, saved plans, favourites and stack entries are deleted with it. Community reviews are kept unless you ask us to remove them.</p>
+            <p>We keep your account, profile and saved content until you delete them or ask us to delete your account. You can edit your profile and remove saved plans, favourites and stack items at any time from your account. When an account is deleted, all its profile data, saved plans, favourites and stack entries are deleted with it. Community reviews are kept unless you ask us to remove them.{PRO_ENABLED ? " If you subscribe to Pello Pro, Stripe keeps payment and invoice records as required for tax and accounting." : ""}</p>
           </section>
 
           <section>

@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 import { PRODUCTS } from "@/lib/products";
 import { rateLimit } from "@/lib/rate-limit";
+import { getServerSupabase } from "@/lib/supabase/server";
+import { isProUser } from "@/lib/subscription-server";
+import { PRO_ENABLED } from "@/lib/pro";
+
+// Public review fields. user_id is never returned.
+const PUBLIC_COLUMNS = "id, product_id, name, rating, comment, created_at, taste_rating, gi_comfort_rating, energy_rating, value_rating, effectiveness_rating, mixability_rating";
 
 const isStarRating = (v: unknown): v is number => Number.isInteger(v) && (v as number) >= 1 && (v as number) <= 5;
 
@@ -15,7 +21,7 @@ export async function GET(req: NextRequest) {
 
   const { data, error } = await supabase
     .from("reviews")
-    .select("*")
+    .select(PUBLIC_COLUMNS)
     .eq("product_id", productId)
     .order("created_at", { ascending: false });
 
@@ -50,6 +56,15 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const limited = rateLimit(req, "reviews", 3, 10 * 60_000);
   if (limited) return limited;
+
+  // Once Pello Pro is on, only subscribers can submit reviews.
+  let userId: string | null = null;
+  if (PRO_ENABLED) {
+    const { data: { user } } = await getServerSupabase().auth.getUser();
+    if (!user) return NextResponse.json({ error: "Please log in to write a review." }, { status: 401 });
+    if (!(await isProUser(user.id))) return NextResponse.json({ error: "Submitting reviews is a Pello Pro feature." }, { status: 403 });
+    userId = user.id;
+  }
 
   const body = await req.json().catch(() => null);
   if (!body) return NextResponse.json({ error: "All fields are required" }, { status: 400 });
@@ -104,8 +119,9 @@ export async function POST(req: NextRequest) {
       value_rating: valueRating ?? null,
       effectiveness_rating: effectivenessRating ?? null,
       mixability_rating: mixabilityRating ?? null,
+      ...(userId ? { user_id: userId } : {}),
     }])
-    .select()
+    .select(PUBLIC_COLUMNS)
     .single();
 
   if (error) {

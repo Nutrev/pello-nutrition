@@ -2,6 +2,7 @@ import { MetadataRoute } from "next";
 import { PRODUCTS } from "@/lib/products";
 import { getAllPosts } from "@/lib/blog";
 import { getBrands } from "@/lib/brands";
+import { PRO_ENABLED } from "@/lib/pro";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://www.pellonutrition.com";
@@ -23,6 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/blog`, priority: 0.7, changeFrequency: "weekly" as const },
     { url: `${base}/brands`, priority: 0.8, changeFrequency: "weekly" as const },
     { url: `${base}/about`, priority: 0.5, changeFrequency: "monthly" as const },
+    ...(PRO_ENABLED ? [{ url: `${base}/pricing`, priority: 0.7, changeFrequency: "monthly" as const }] : []),
     { url: `${base}/legal/affiliate-disclosure`, priority: 0.3, changeFrequency: "monthly" as const },
     { url: `${base}/legal/privacy`, priority: 0.3, changeFrequency: "yearly" as const },
     { url: `${base}/legal/terms`, priority: 0.3, changeFrequency: "yearly" as const },

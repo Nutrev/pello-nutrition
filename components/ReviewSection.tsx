@@ -3,6 +3,8 @@
 import { useState, useEffect, useCallback } from "react";
 import type { Review, AttributeAverages } from "@/lib/supabase";
 import { Category } from "@/lib/products";
+import ProGate from "@/components/ProGate";
+import { useProAccess } from "@/lib/subscription";
 
 interface ReviewSectionProps {
   productId: string;
@@ -122,6 +124,7 @@ export default function ReviewSection({ productId, category, onLoaded }: ReviewS
   const [error, setError] = useState("");
 
   const attributes = getAttributesForCategory(category);
+  const { allowed: canReview } = useProAccess();
 
   // Form state
   const [name, setName] = useState("");
@@ -268,8 +271,18 @@ export default function ReviewSection({ productId, category, onLoaded }: ReviewS
           </div>
         )}
 
+        {/* Pello Pro: only subscribers can submit */}
+        {showForm && !canReview && (
+          <div className="mb-6">
+            <ProGate compact feature="Submit reviews with Pello Pro" description="Rate taste, GI comfort, energy and value, and help other athletes choose." />
+            <div className="text-center mt-2">
+              <button type="button" onClick={() => setShowForm(false)} className="text-xs text-muted hover:text-ink">Close</button>
+            </div>
+          </div>
+        )}
+
         {/* Review form */}
-        {showForm && (
+        {showForm && canReview && (
           <form onSubmit={handleSubmit} className="bg-sand/30 rounded-xl p-5 mb-6">
             <h3 className="font-display font-semibold text-sm mb-4">Your review</h3>
 

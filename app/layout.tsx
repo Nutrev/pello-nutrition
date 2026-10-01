@@ -53,7 +53,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
           {/* Affiliate disclosure: shown once any affiliate programme is switched on (lib/affiliate.ts) */}
           {AFFILIATES_ACTIVE && (
-            <div className="border-t border-sand bg-sand/30 py-3">
+            <div className="border-t border-sand bg-sand/30 py-3 print:hidden">
               <div className="max-w-5xl mx-auto px-6">
                 <p className="text-xs text-muted font-mono">
                   {AMAZON_ACTIVE && `${AMAZON_ASSOCIATE_STATEMENT} `}
@@ -64,7 +64,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </div>
             </div>
           )}
-          <footer className="border-t border-sand py-8 mt-auto">
+          <footer className="border-t border-sand py-8 mt-auto print:hidden">
             <Link href="/" aria-label="Pello Nutrition home" className="block w-fit mx-auto mb-5">
               <LogoMark className="w-20 h-auto" />
             </Link>
