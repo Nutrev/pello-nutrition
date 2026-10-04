@@ -5,7 +5,9 @@ import { getSubscription } from "@/lib/subscription-server";
 import { rowIsPro, TRIAL_DAYS } from "@/lib/pro";
 import { rateLimit } from "@/lib/rate-limit";
 
-// Starts Stripe Checkout for Pello Pro. Signed-in users only. The 7-day trial is offered
+// Starts Stripe Checkout for Pello Pro. Signed-in users only. Sold through Stripe Managed
+// Payments: Stripe (as Link) is the merchant of record and handles sales tax, VAT, fraud,
+// disputes and billing support. The free trial (TRIAL_DAYS) is offered
 // once per account and doesn't ask for a card up front; if no card has been added by the
 // end of the trial, Stripe cancels the subscription instead of charging.
 export async function POST(req: NextRequest) {
@@ -26,6 +28,7 @@ export async function POST(req: NextRequest) {
   try {
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
+      managed_payments: { enabled: true },
       line_items: [{ price: PRO_PRICE_ID, quantity: 1 }],
       success_url: `${origin}/account?upgraded=true`,
       cancel_url: `${origin}/pricing`,

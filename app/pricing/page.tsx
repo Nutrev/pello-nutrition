@@ -51,7 +51,7 @@ const FAQ = [
   },
   {
     q: "What payment methods do you accept?",
-    a: "All major credit and debit cards, through Stripe. Apple Pay and Google Pay are also available at checkout on supported devices.",
+    a: "All major credit and debit cards, Apple Pay, Google Pay and Link. Payments are processed by Stripe, and Pello Pro is sold through Link, Stripe's checkout, so your statement will show LINK.COM. Where available, checkout shows the price in your local currency.",
   },
   {
     q: "Do you offer team or coach plans?",
@@ -111,7 +111,7 @@ export default function PricingPage() {
           <UpgradeButton />
           <p className="text-xs text-muted text-center mt-3 leading-relaxed">
             Cancel anytime. No commitment.<br />
-            New accounts get {TRIAL_DAYS} days free, then {PRO_PRICE_LABEL}/month (USD). Renews automatically each month until you
+            New accounts get {TRIAL_DAYS} days free, then {PRO_PRICE_LABEL}/month (USD) plus any applicable tax. Renews automatically each month until you
             cancel, which you can do from your account at any time. See our <Link href="/legal/terms" className="underline">terms</Link>.
           </p>
         </div>

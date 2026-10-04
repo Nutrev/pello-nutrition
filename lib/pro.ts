@@ -11,7 +11,7 @@ export const PRO_ENABLED = !!process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID?.trim()
 
 // Shown on the pricing page. Must match the price set up in Stripe.
 export const PRO_PRICE_LABEL = "$8";
-export const TRIAL_DAYS = 7;
+export const TRIAL_DAYS = 8; // over 7 so Managed Payments sends a trial-ending reminder
 
 export const FREE_PLANS_PER_MONTH = 1;
 export const FREE_COMPARE_LIMIT = 2;

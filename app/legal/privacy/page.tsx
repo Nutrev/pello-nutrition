@@ -36,7 +36,7 @@ export default function PrivacyPage() {
               <li><strong className="text-ink">Profile information</strong> — anything you choose to add: a username, body weight and preferred unit, age, sex, training days per week, caffeine preference, dietary preferences (vegan, gluten-free, dairy-free) and goals</li>
               <li><strong className="text-ink">Saved content</strong> — nutrition plans you save (including the inputs used to create them, such as event details and body weight), favourite products, and the products, doses, timing and notes in your supplement stack</li>
               {PRO_ENABLED && (
-                <li><strong className="text-ink">Subscription details</strong> — if you subscribe to Pello Pro: your subscription status, trial and renewal dates, and the customer and subscription IDs our payment provider, Stripe, assigns. Stripe collects your payment details; we never see or store your full card number</li>
+                <li><strong className="text-ink">Subscription details</strong> — if you subscribe to Pello Pro: your subscription status, trial and renewal dates, and the customer and subscription IDs Stripe assigns. Pello Pro is sold through Link, Stripe&apos;s checkout, which acts as the merchant of record: Stripe and Link collect your payment details and billing address under their own privacy policies. We never see or store your full card number</li>
               )}
               {PRO_ENABLED && (
                 <li><strong className="text-ink">Planner usage</strong> — the date of each nutrition plan you generate, to count the free plan&apos;s monthly allowance</li>
@@ -87,7 +87,7 @@ export default function PrivacyPage() {
             <ul className="list-disc pl-5 space-y-1 mt-2">
               <li>Supabase — database and account login (stores your account, profile, saved content and reviews)</li>
               <li>Vercel — website hosting</li>
-              {PRO_ENABLED && <li>Stripe — payments and subscription billing for Pello Pro</li>}
+              {PRO_ENABLED && <li>Stripe and Link — payments, tax and subscription billing for Pello Pro, as merchant of record</li>}
               <li>Anthropic (Claude) — AI features: planner inputs and product information are sent to generate plans and summaries</li>
               <li>Google — only if you choose to sign in with Google</li>
             </ul>
