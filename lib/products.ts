@@ -3504,7 +3504,7 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/skratch.png",
   rating: 4.8,
   reviewCount: 20,
-  price: 44.95,                    // 60 Servings on The Feed
+  price: 35.96,                    // 60 Servings on The Feed
   servingsPerContainer: 60,
   carbsPerServing: 1,
   sodiumPerServing: 400,

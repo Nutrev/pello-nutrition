@@ -70,7 +70,8 @@ async function offersFor(url: string): Promise<Offer[] | "gone"> {
   const names = Array.from(new Set(found.map((f) => f.name)));
   let prefix = names[0];
   for (const n of names) while (!n.startsWith(prefix)) prefix = prefix.slice(0, -1);
-  const cut = names.length > 1 ? prefix.lastIndexOf(" - ") : -1;
+  // A single offer has no shared prefix to strip; its title may still end " - <size>".
+  const cut = names.length > 1 ? prefix.lastIndexOf(" - ") : names[0].indexOf(" - ");
   return found.map((f) => ({ variant: cut === -1 ? "" : f.name.slice(cut + 3).trim(), price: f.price, inStock: f.inStock }));
 }
 
@@ -86,7 +87,7 @@ async function check(s: Stored, url: string): Promise<Result> {
     let sized = offers.filter((o) => { const opts = o.variant.split(" / ").map(norm); return want.every((w) => opts.includes(w)); });
     // Sold in one size: the variants then name only the flavour (or nothing), so no option has a
     // number in it. That one size is taken to be the stored size, and flagged for a person to check.
-    const onlySize = !sized.length && /\d/.test(s.size) && offers.every((o) => !/\d/.test(o.variant));
+    const onlySize = !sized.length && /\d/.test(s.size) && (offers.every((o) => !/\d/.test(o.variant)) || new Set(offers.map((o) => o.variant)).size === 1);
     if (onlySize) sized = offers;
     if (!sized.length) return { kind: "no-size", s, sizes: Array.from(new Set(offers.map((o) => o.variant))).filter(Boolean) };
     const live = sized.filter((o) => o.inStock);

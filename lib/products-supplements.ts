@@ -661,7 +661,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Creatine",
     rating: 4.6,
     reviewCount: 9,
-    price: 27.99,      // 133 Servings - Unflavored on The Feed
+    price: 39.99,      // 133 Servings - Unflavored on The Feed
     servingsPerContainer: 133,
     caffeinePerServing: 0,
     servingSize: "1 Scoop (3g)",
@@ -9645,7 +9645,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Sleep",
     rating: 3.7,
     reviewCount: 21,
-    price: 42.12,      // 50ml on The Feed
+    price: 42.5,      // 50ml on The Feed
     servingsPerContainer: 25,
     caffeinePerServing: 0,
     servingSize: "4 Pumps",
@@ -9821,7 +9821,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Sleep",
     rating: 4.1,
     reviewCount: 12,
-    price: 34,      // 30ml on The Feed
+    price: 35.24,      // 30ml on The Feed
     servingsPerContainer: 150,
     caffeinePerServing: 0,
     isBatchTested: false,
@@ -10156,7 +10156,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Sleep",
     rating: 5.0,
     reviewCount: 6,
-    price: 45,      // 15 Servings on The Feed
+    price: 48,      // 15 Servings on The Feed
     servingsPerContainer: 15,
     carbsPerServing: 2,
     proteinPerServing: 1,
@@ -11133,7 +11133,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Probiotic",
     rating: 4.8,
     reviewCount: 6,
-    price: 25.99,      // 30 Servings on The Feed
+    price: 28.99,      // 30 Servings on The Feed
     servingsPerContainer: 30,
     caffeinePerServing: 0,
     servingSize: "1 capsule",
@@ -13647,7 +13647,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Mineral",
     rating: 0,
     reviewCount: 0,
-    price: 59.49,      // 30 Servings on The Feed
+    price: 59.5,      // 30 Servings on The Feed
     servingsPerContainer: 40,
     caffeinePerServing: 0,
     servingSize: "4 Tablets",
@@ -14689,7 +14689,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Vitamin",
     rating: 4.3,
     reviewCount: 12,
-    price: 53.95,      // 1.7oz on The Feed
+    price: 53.7,      // 1.7oz on The Feed
     servingsPerContainer: 100,
     carbsPerServing: 0,
     caloriesPerServing: 0,
@@ -14918,7 +14918,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Vitamin",
     rating: 4.7,
     reviewCount: 10,
-    price: 50.51,      // 1 fl oz on The Feed
+    price: 52.5,      // 1 fl oz on The Feed
     servingsPerContainer: 90,
     caffeinePerServing: 0,
     servingSize: "2 Pumps",
@@ -15254,7 +15254,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Vitamin",
     rating: 4.3,
     reviewCount: 7,
-    price: 48,      // 50 Servings on The Feed
+    price: 50,      // 50 Servings on The Feed
     servingsPerContainer: 50,
     caffeinePerServing: 0,
     servingSize: "2 Pumps (1 mL)",
@@ -17901,7 +17901,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Omega-3",
     rating: 4.7,
     reviewCount: 6,
-    price: 38.21,      // 27 Servings on The Feed
+    price: 36.82,      // 27 Servings on The Feed
     servingsPerContainer: 27,
     caloriesPerServing: 15,
     sodiumPerServing: 20,
@@ -18252,7 +18252,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Omega-3",
     rating: 5.0,
     reviewCount: 1,
-    price: 19.48,      // 30 Servings on The Feed
+    price: 19.51,      // 30 Servings on The Feed
     servingsPerContainer: 30,
     carbsPerServing: 5,
     caloriesPerServing: 25,
