@@ -20,7 +20,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/guides/carb-calculator`, priority: 0.7, changeFrequency: "monthly" as const },
     { url: `${base}/guides/recovery`, priority: 0.7, changeFrequency: "monthly" as const },
     { url: `${base}/methodology`, priority: 0.6, changeFrequency: "monthly" as const },
-    { url: `${base}/graph`, priority: 0.5, changeFrequency: "monthly" as const },
     { url: `${base}/blog`, priority: 0.7, changeFrequency: "weekly" as const },
     { url: `${base}/brands`, priority: 0.8, changeFrequency: "weekly" as const },
     { url: `${base}/about`, priority: 0.5, changeFrequency: "monthly" as const },

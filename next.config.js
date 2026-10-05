@@ -12,6 +12,8 @@ const nextConfig = {
       { source: "/report/clif-shot-gel", destination: "/products/energy-gel", permanent: true },
       { source: "/report/larabar-original", destination: "/products/energy-bar", permanent: true },
       { source: "/report/kind-bar-original", destination: "/products/energy-bar", permanent: true },
+      // Knowledge graph page removed
+      { source: "/graph", destination: "/ingredients", permanent: true },
     ];
   },
 };
