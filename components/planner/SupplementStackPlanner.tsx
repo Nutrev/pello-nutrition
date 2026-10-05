@@ -11,6 +11,7 @@ import { useProAccess } from "@/lib/subscription";
 import ProGate from "@/components/ProGate";
 import { StepIndicator, Loading, PlanCard, PlanLines, ModeProductCard, parseSections, mentionedIds, toggleClass, chipClass } from "./shared";
 import { usePlanRequest } from "./usePlanRequest";
+import SaveModePlanButton from "./SaveModePlanButton";
 
 const HEADERS = ["MORNING", "AROUND TRAINING", "EVENING", "PRIORITY ORDER", "TOTALS", "KEY NOTES", "PRODUCTS USED"];
 
@@ -88,6 +89,13 @@ export default function SupplementStackPlanner({ catalog, onStartOver }: { catal
             <div className="space-y-2">{recommended.map((p) => <ModeProductCard key={p.id} p={p} />)}</div>
           </div>
         )}
+        <SaveModePlanButton mode="supplement-stack" inputs={inputs}
+          defaultName={`Supplement stack: ${inputs.goals.map((g) => STACK_GOALS.find((x) => x.id === g)?.label).join(", ")}`.slice(0, 100)}
+          content={{
+            kind: "sections",
+            sections: sections.filter((s) => s.title.toUpperCase() !== "PRODUCTS USED").map((s) => ({ title: s.title, lines: s.lines })),
+            productGroups: [{ title: "Products in this plan", note: "Monthly costs assume one serving a day unless the plan says otherwise.", productIds: ids }],
+          }} />
         <button type="button" onClick={() => { reset(); setStep(1); onStartOver(); }} className="btn-secondary w-full justify-center flex">Start over</button>
       </div>
     );

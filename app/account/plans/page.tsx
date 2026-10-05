@@ -4,7 +4,7 @@ import { requireAccountUser, accountAccess } from "@/lib/account-server";
 import ReadOnlyNote from "@/components/pro/ReadOnlyNote";
 import { formatDate } from "@/lib/format-date";
 import { EVENT_TYPES, OUTCOME_TYPES } from "@/lib/planner";
-import type { SavedPlan } from "@/lib/account-types";
+import { SAVED_PLAN_LABEL, type SavedPlan } from "@/lib/account-types";
 import DeleteRowButton from "@/components/account/DeleteRowButton";
 
 export const metadata: Metadata = { title: "Saved plans", robots: { index: false } };
@@ -40,13 +40,13 @@ export default async function PlansPage() {
           {plans.map((p) => {
             const type = p.plan_mode === "event"
               ? EVENT_TYPES.find((e) => e.id === p.inputs?.eventType)?.label
-              : OUTCOME_TYPES.find((o) => o.id === p.inputs?.outcomeType)?.label;
+              : p.plan_mode === "outcome" ? OUTCOME_TYPES.find((o) => o.id === p.inputs?.outcomeType)?.label : null;
             return (
               <div key={p.id} className="flex items-center justify-between gap-3 px-5 py-4">
                 <Link href={`/account/plans/${p.id}`} className="min-w-0 flex-1 group">
                   <div className="font-medium text-sm truncate group-hover:text-moss">{p.plan_name}</div>
                   <div className="text-xs text-muted">
-                    {formatDate(p.created_at)} · {p.plan_mode === "event" ? "Event" : "Goal"}{type ? ` · ${type}` : ""}
+                    {formatDate(p.created_at)} · {SAVED_PLAN_LABEL[p.plan_mode] ?? "Plan"}{type ? ` · ${type}` : ""}
                   </div>
                 </Link>
                 <DeleteRowButton table="saved_plans" id={p.id} label="Delete" confirmText={`Delete "${p.plan_name}"? This can't be undone.`} />

@@ -14,6 +14,7 @@ import { useUser } from "@/lib/auth";
 import { PRO_ENABLED } from "@/lib/pro";
 import { StepIndicator, Loading, PlanLines, ModeProductCard, parseSections, toggleClass, chipClass } from "./shared";
 import { usePlanRequest } from "./usePlanRequest";
+import SaveModePlanButton from "./SaveModePlanButton";
 
 type Draft = typeof BUDGET_DEFAULTS;
 const $ = (n: number) => `$${n.toFixed(2)}`;
@@ -117,6 +118,21 @@ export default function BudgetOptimiser({ catalog, onStartOver }: { catalog: Pro
             </>
           )}
         </div>
+        <SaveModePlanButton mode="budget-optimiser" inputs={d}
+          defaultName={`Budget: ${goalLabel}, $${d.budget} a month`.slice(0, 100)}
+          content={{
+            kind: "sections",
+            sections: [
+              { title: "How these were ranked", lines: [`Ranked from ${tiers.considered} products that fit the goal and choices, by value score: rating × transparency score ÷ price per serving.`] },
+              ...(monthlyPicks.length ? [{ title: "Your budget", lines: [`Best value picks: ${$(used)} a month at one serving a day, of a $${d.budget} budget.`] }] : []),
+              ...strategy.map((s) => ({ title: s.title, lines: s.lines })),
+            ],
+            productGroups: [
+              { title: "Best value picks", note: "Pello Score above 75 and under $1.50 a serving.", productIds: tiers.tier1.map((x) => x.product.id) },
+              { title: "Good value alternatives", note: "Pello Score 60 to 75 and under $2.00 a serving.", productIds: tiers.tier2.map((x) => x.product.id) },
+              { title: "Premium options", note: "Pello Score above 80, at any price.", productIds: tiers.tier3.map((x) => x.product.id) },
+            ].filter((g) => g.productIds.length),
+          }} />
         <button type="button" onClick={() => { reset(); setDone(false); setStep(1); onStartOver(); }} className="btn-secondary w-full justify-center flex">Start over</button>
       </div>
     );

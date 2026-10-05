@@ -28,16 +28,32 @@ export interface PlanContent {
   keyNotes: string[];
 }
 
+// Saved content of a supplement stack, race week or budget optimiser plan: text sections, and
+// groups of products by id (shown from the current catalogue, so prices stay current).
+export interface ModePlanContent {
+  kind: "sections";
+  sections: { title: string; lines: string[] }[];
+  productGroups: { title: string; note?: string; productIds: string[] }[];
+}
+
+export type SavedPlanMode = "event" | "outcome" | "supplement-stack" | "race-week" | "budget-optimiser";
+
 export interface SavedPlan {
   id: string;
   user_id: string;
   created_at: string;
   plan_name: string;
-  plan_mode: "event" | "outcome";
+  plan_mode: SavedPlanMode;
+  // Event and outcome plans store PlannerInputs; the other modes store their own inputs.
   inputs: PlannerInputs;
-  plan_content: PlanContent;
+  plan_content: PlanContent | ModePlanContent;
   notes: string | null;
 }
+
+export const SAVED_PLAN_LABEL: Record<SavedPlanMode, string> = {
+  event: "Event", outcome: "Goal", "supplement-stack": "Supplement stack", "race-week": "Race week", "budget-optimiser": "Budget",
+};
+export const isModeContent = (c: PlanContent | ModePlanContent): c is ModePlanContent => (c as ModePlanContent)?.kind === "sections";
 
 export interface FavouriteProduct {
   id: string;

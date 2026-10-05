@@ -5,7 +5,7 @@ import { requireAccountUser, productById, accountAccess } from "@/lib/account-se
 import UpgradedBanner from "@/components/pro/UpgradedBanner";
 import ManageSubscriptionButton from "@/components/pro/ManageSubscriptionButton";
 import { PRO_FEATURES, type SubscriptionRow } from "@/lib/pro";
-import type { UserProfile, SavedPlan, FavouriteProduct, StackItem } from "@/lib/account-types";
+import { SAVED_PLAN_LABEL, type UserProfile, type SavedPlan, type FavouriteProduct, type StackItem } from "@/lib/account-types";
 import { formatWeight } from "@/lib/planner";
 import { formatDate } from "@/lib/format-date";
 import ProductCard from "@/components/ProductCard";
@@ -153,7 +153,7 @@ export default async function AccountPage() {
                   <div className="font-medium text-sm truncate">{p.plan_name}</div>
                   <div className="text-xs text-muted">{formatDate(p.created_at)}</div>
                 </div>
-                <span className="text-xs bg-sand px-2 py-0.5 rounded-md flex-shrink-0">{p.plan_mode === "event" ? "Event" : "Goal"}</span>
+                <span className="text-xs bg-sand px-2 py-0.5 rounded-md flex-shrink-0">{SAVED_PLAN_LABEL[p.plan_mode] ?? "Plan"}</span>
               </Link>
             ))}
           </div>

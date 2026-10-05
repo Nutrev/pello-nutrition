@@ -15,6 +15,7 @@ import { useProAccess } from "@/lib/subscription";
 import ProGate from "@/components/ProGate";
 import { StepIndicator, Loading, PlanCard, PlanLines, ModeProductCard, parseSections, mentionedIds, toggleClass, chipClass } from "./shared";
 import { usePlanRequest } from "./usePlanRequest";
+import SaveModePlanButton from "./SaveModePlanButton";
 
 type Draft = typeof RACE_WEEK_DEFAULTS;
 const FORMATS: { id: FormatPreference; label: string }[] = [
@@ -65,7 +66,17 @@ export default function RaceWeekPlanner({ catalog, onStartOver }: { catalog: Pro
     const race = sections.find((s) => /^RACE DAY$/i.test(s.title));
     const avoid = sections.find((s) => /^WHAT TO AVOID/i.test(s.title));
     const notes = sections.find((s) => /^KEY NOTES$/i.test(s.title));
-    const recommended = mentionedIds(result.plan, result.products).map((id) => catalog.find((p) => p.id === id)).filter((p): p is ProductSummary => !!p);
+    const ids = mentionedIds(result.plan, result.products);
+    const recommended = ids.map((id) => catalog.find((p) => p.id === id)).filter((p): p is ProductSummary => !!p);
+    const targetLines = [
+      t.loading
+        ? `Carbohydrate loading: ${t.dailyCarbs.grams[0]}-${t.dailyCarbs.grams[1]}g a day (${t.dailyCarbs.gPerKg[0]}-${t.dailyCarbs.gPerKg[1]} g/kg) for the last 36-48 hours.`
+        : `No carbohydrate loading for races under 90 minutes: ${t.dailyCarbs.grams[0]}-${t.dailyCarbs.grams[1]}g (${t.dailyCarbs.gPerKg[0]}-${t.dailyCarbs.gPerKg[1]} g/kg) in the 24 hours before.`,
+      `Pre-race meal: ${t.preRaceMeal.grams[0]}-${t.preRaceMeal.grams[1]}g carbohydrate, 1-4 hours before the start.`,
+      `Pre-race fluid: ${t.preRaceFluidMl[0]}-${t.preRaceFluidMl[1]}ml in the 2-4 hours before.`,
+      `During the race: ${t.duringCarbs}.`,
+      "Source: 2016 position stand on Nutrition and Athletic Performance (Academy of Nutrition and Dietetics, Dietitians of Canada, American College of Sports Medicine).",
+    ];
     const raceLabel = RACE_TYPES.find((r) => r.id === d.raceType)?.label;
     return (
       <div>
@@ -104,6 +115,13 @@ export default function RaceWeekPlanner({ catalog, onStartOver }: { catalog: Pro
             <div className="space-y-2">{recommended.map((p) => <ModeProductCard key={p.id} p={p} />)}</div>
           </div>
         )}
+        <SaveModePlanButton mode="race-week" inputs={d}
+          defaultName={`${raceLabel} race week (${RACE_DURATIONS.find((x) => x.id === d.duration)?.label})`.slice(0, 100)}
+          content={{
+            kind: "sections",
+            sections: [{ title: "Your targets", lines: targetLines }, ...sections.filter((s) => !/^PRODUCTS USED$/i.test(s.title)).map((s) => ({ title: s.title, lines: s.lines }))],
+            productGroups: [{ title: "Products in this plan", productIds: ids }],
+          }} />
         <button type="button" onClick={() => { reset(); setStep(1); onStartOver(); }} className="btn-secondary w-full justify-center flex">Start over</button>
       </div>
     );
