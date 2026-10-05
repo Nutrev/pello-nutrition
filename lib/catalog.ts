@@ -9,6 +9,7 @@ import { pricePerServing } from "./servings";
 import { weightedRating } from "./ratings";
 import type { ProductSummary } from "./catalog-types";
 import { standardsFrom } from "./quality-standards";
+import { productPelloScore } from "./product-score";
 
 function toSummary(p: Product): ProductSummary {
   return {
@@ -35,6 +36,7 @@ function toSummary(p: Product): ProductSummary {
     pricePerServing: pricePerServing(p),
     weightedRating: weightedRating(p),
     standards: standardsFrom(p.certifications),
+    pelloScore: productPelloScore(p)?.overall ?? null,
   };
 }
 

@@ -6,6 +6,9 @@ import { getServerSupabase } from "@/lib/supabase/server";
 import { supabase as admin } from "@/lib/supabase";
 import { isProUser } from "@/lib/subscription-server";
 import { PRO_ENABLED, FREE_PLANS_PER_MONTH, monthStart, nextMonthStart } from "@/lib/pro";
+import { getProductSummaries } from "@/lib/catalog";
+import { parseStackInputs, parseRaceWeekInputs, parseBudgetInputs, stackCandidates, raceWeekCandidates } from "@/lib/planner-modes";
+import { buildStackPrompt, buildRaceWeekPrompt, buildBudgetPrompt } from "@/lib/planner-mode-prompts";
 
 const client = new Anthropic();
 
@@ -39,6 +42,9 @@ export async function POST(req: NextRequest) {
   // Only accept the quiz answers, never a raw prompt, so this endpoint
   // can't be used as a general-purpose Claude proxy on our API key.
   const body = await req.json().catch(() => null);
+  if (body?.planner === "supplement-stack" || body?.planner === "race-week" || body?.planner === "budget-optimiser") {
+    return planMode(body.planner, body.inputs);
+  }
   const inputs = parsePlannerInputs(body?.inputs);
   if (!inputs) {
     return NextResponse.json({ error: "Invalid planner inputs" }, { status: 400 });
@@ -76,6 +82,53 @@ export async function POST(req: NextRequest) {
       usage = { ...usage, used: usage.used + 1 };
     }
     return NextResponse.json({ plan, ...(usage ? { usage: json(usage) } : {}) });
+  } catch (e) {
+    console.error("Plan error:", e);
+    return NextResponse.json({ error: "Failed to generate plan" }, { status: 500 });
+  }
+}
+
+// Supplement stack and race week (Pello Pro), and the budget optimiser's strategy text (free
+// account). Products are chosen here from the catalogue; the browser only sends answers.
+async function planMode(planner: "supplement-stack" | "race-week" | "budget-optimiser", raw: unknown) {
+  const all = getProductSummaries();
+  let prompt: string;
+  let products: { id: string; name: string; brand: string }[] = [];
+  if (planner === "supplement-stack") {
+    const inputs = parseStackInputs(raw);
+    if (!inputs) return NextResponse.json({ error: "Invalid planner inputs" }, { status: 400 });
+    const list = stackCandidates(all, inputs);
+    if (!list.length) return NextResponse.json({ error: "No products in Pello's database match these choices. Try fewer restrictions.", code: "no-products" }, { status: 422 });
+    prompt = buildStackPrompt(inputs, list);
+    products = list.map(({ id, name, brand }) => ({ id, name, brand }));
+  } else if (planner === "race-week") {
+    const inputs = parseRaceWeekInputs(raw);
+    if (!inputs) return NextResponse.json({ error: "Invalid planner inputs" }, { status: 400 });
+    const list = raceWeekCandidates(all, inputs);
+    prompt = buildRaceWeekPrompt(inputs, list);
+    products = list.map(({ id, name, brand }) => ({ id, name, brand }));
+  } else {
+    const inputs = parseBudgetInputs(raw);
+    if (!inputs) return NextResponse.json({ error: "Invalid planner inputs" }, { status: 400 });
+    prompt = buildBudgetPrompt(inputs);
+  }
+
+  if (PRO_ENABLED) {
+    const { data: { user } } = await getServerSupabase().auth.getUser();
+    if (!user) return NextResponse.json({ error: "Please log in to use this planner.", code: "signin" }, { status: 401 });
+    if (planner !== "budget-optimiser" && !(await isProUser(user.id))) {
+      return NextResponse.json({ error: "This planner is a Pello Pro feature.", code: "pro" }, { status: 403 });
+    }
+  }
+
+  try {
+    const message = await client.messages.create({
+      model: "claude-sonnet-4-6",
+      max_tokens: planner === "race-week" ? 3500 : 2000,
+      messages: [{ role: "user", content: prompt }],
+    });
+    const plan = message.content[0].type === "text" ? message.content[0].text : "";
+    return NextResponse.json({ plan, products });
   } catch (e) {
     console.error("Plan error:", e);
     return NextResponse.json({ error: "Failed to generate plan" }, { status: 500 });

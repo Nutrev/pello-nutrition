@@ -13,6 +13,13 @@ import { PRO_ENABLED } from "@/lib/pro";
 import { STANDARD_CHOICES, meetsAll, meetsDiet, type StandardChoice } from "@/lib/quality-standards";
 import WorkoutUpload, { WorkoutChart, workoutIntensityNote } from "@/components/planner/WorkoutUpload";
 import { intensityFrom, type WorkoutSummary } from "@/lib/workout-file";
+import ModeSelector from "@/components/planner/ModeSelector";
+import dynamic from "next/dynamic";
+// The newer planners load only when chosen.
+const SupplementStackPlanner = dynamic(() => import("@/components/planner/SupplementStackPlanner"));
+const RaceWeekPlanner = dynamic(() => import("@/components/planner/RaceWeekPlanner"));
+const BudgetOptimiser = dynamic(() => import("@/components/planner/BudgetOptimiser"));
+import { MODE_BY_ID, MODE_PRO_PITCH, type PlannerMode } from "@/lib/planner-modes";
 import { primaryRetailerLink, linkRel } from "@/lib/retailers";
 import { byWeightedRating, type ProductSummary } from "@/lib/catalog-types";
 import { servingsPerContainer } from "@/lib/servings";
@@ -463,6 +470,12 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
   const [blocked, setBlocked] = useState<"limit" | "pro" | null>(null);
   const [prefilled, setPrefilled] = useState(false);
   const [workout, setWorkout] = useState<WorkoutSummary | null>(null);
+  // Step 0: which planner. Null until chosen.
+  const [plannerMode, setPlannerMode] = useState<PlannerMode | null>(null);
+  const chooseMode = (m: PlannerMode) => {
+    setPlannerMode(m);
+    if (m === "event" || m === "outcome") { setInputs(prev => ({ ...prev, mode: m })); setStep(1); }
+  };
 
   // An uploaded workout sets the session's sport, duration and (for bike files with power) intensity.
   const applyWorkout = (w: WorkoutSummary | null) => {
@@ -567,12 +580,16 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
     setInputs(DEFAULT_INPUTS);
     setPrefilled(false);
     setWorkout(null);
+    setBlocked(null);
+    setPlannerMode(null);
   };
   const completed = workout?.kind === "completed";
 
-  const needsAccount = gating && !authLoading && !user;
+  // The race day and goal planners need a free account once Pro is on.
+  const classicMode = plannerMode === "event" || plannerMode === "outcome";
+  const needsAccount = classicMode && gating && !authLoading && !user;
   const filtersOn = inputs.dietary.length > 0 || (inputs.standards ?? []).length > 0;
-  const showLimitGate = gating && !proAccess && (limitReached || blocked === "limit") && !parsedPlan && !loading;
+  const showLimitGate = classicMode && plannerMode === "event" && gating && !proAccess && (limitReached || blocked === "limit") && !parsedPlan && !loading;
 
   const planTitle = workout
     ? `${workout.name} · ${completed ? "recovery & review" : "fuelling plan"}`
@@ -588,11 +605,17 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
         {/* Header */}
         {!parsedPlan && !loading && (
           <div className="mb-8">
-            <div className="text-xs text-muted uppercase tracking-widest mb-2">Pello Planner</div>
+            <div className="text-xs text-muted uppercase tracking-widest mb-2">Pello Planner{plannerMode ? ` · ${MODE_BY_ID[plannerMode].title}` : ""}</div>
             <h1 className="font-display font-bold text-3xl tracking-tight mb-2">Build your nutrition plan</h1>
-            <p className="text-muted">Science-backed pre, during and post nutrition — tailored to your event or goal.</p>
+            <p className="text-muted">Science-backed nutrition from Pello&apos;s product database, for your race, your goals and your budget.</p>
           </div>
         )}
+
+        {/* Step 0: choose a planner */}
+        {!plannerMode && <ModeSelector onChoose={chooseMode} />}
+        {plannerMode === "supplement-stack" && <SupplementStackPlanner catalog={catalog} onStartOver={reset} />}
+        {plannerMode === "race-week" && <RaceWeekPlanner catalog={catalog} onStartOver={reset} />}
+        {plannerMode === "budget-optimiser" && <BudgetOptimiser catalog={catalog} onStartOver={reset} />}
 
         {/* Pro is on: plans need a free account */}
         {needsAccount && (
@@ -614,8 +637,16 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
             description={`You've used your free plan for ${monthName(new Date().toISOString())}. Your next free plan is available on ${resetDay(usage.resetsOn)}.`} />
         )}
 
+        {/* Goal planner is Pro only */}
+        {plannerMode === "outcome" && gating && !proAccess && !authLoading && user && (
+          <div>
+            <ProGate feature="Goal-based plans" description={MODE_PRO_PITCH.outcome} />
+            <div className="text-center mt-4"><button type="button" onClick={reset} className="text-sm text-muted hover:text-ink">Choose a different planner</button></div>
+          </div>
+        )}
+
         {/* Form */}
-        {!parsedPlan && !loading && !needsAccount && !showLimitGate && (
+        {classicMode && !parsedPlan && !loading && !needsAccount && !showLimitGate && !(plannerMode === "outcome" && gating && !proAccess) && (
           <>
             {prefilled && proAccess && gating && step === 1 && (
               <p className="text-xs text-muted mb-4">Weight, age, sex, training and preferences are pre-filled from your <Link href="/account/onboarding?edit=1" className="text-moss hover:underline">athlete profile</Link>.</p>
@@ -625,24 +656,11 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
             {/* Step 1 */}
             {step === 1 && (
               <div>
-                <ProGate feature="Plan from a workout file" description="Upload a planned or completed workout and get fuelling built around its actual duration and intervals.">
-                  <WorkoutUpload workout={workout} onChange={applyWorkout} />
-                </ProGate>
-                {!workout && (
-                <div className="grid grid-cols-2 gap-3 mb-6">
-                  <button onClick={() => update("mode", "event")}
-                    className={`p-4 rounded-xl border text-left transition-all ${inputs.mode === "event" ? "border-moss bg-moss/5" : "border-sand hover:border-muted bg-white/40"}`}>
-                    <div className="font-display font-semibold text-sm mb-1">Event / session</div>
-                    <div className="text-xs text-muted">I have a specific event or training session to fuel for</div>
-                  </button>
-                  <button onClick={() => update("mode", "outcome")}
-                    className={`p-4 rounded-xl border text-left transition-all ${inputs.mode === "outcome" ? "border-moss bg-moss/5" : "border-sand hover:border-muted bg-white/40"}`}>
-                    <div className="font-display font-semibold text-sm mb-1 flex items-center gap-2">Outcome / goal {gating && !proAccess && <ProTag />}</div>
-                    <div className="text-xs text-muted">I want to achieve a specific result through nutrition</div>
-                  </button>
-                </div>
+                {isEvent && (
+                  <ProGate feature="Plan from a workout file" description="Upload a planned or completed workout and get fuelling built around its actual duration and intervals.">
+                    <WorkoutUpload workout={workout} onChange={applyWorkout} />
+                  </ProGate>
                 )}
-
                 {inputs.mode === "event" && (
                   <div>
                     <h2 className="font-display font-semibold text-base mb-4">What are you planning for?</h2>
@@ -699,10 +717,13 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
                   </ProGate>
                 )}
 
-                <button onClick={() => setStep(2)} disabled={isEvent ? !inputs.eventType : (!inputs.outcomeType || !proAccess)}
-                  className="btn-primary w-full justify-center flex disabled:opacity-40">
-                  Next →
-                </button>
+                <div className="flex gap-3">
+                  <button type="button" onClick={reset} className="btn-secondary flex-1 justify-center flex">Change planner</button>
+                  <button onClick={() => setStep(2)} disabled={isEvent ? !inputs.eventType : (!inputs.outcomeType || !proAccess)}
+                    className="btn-primary flex-1 justify-center flex disabled:opacity-40">
+                    Next
+                  </button>
+                </div>
               </div>
             )}
 
@@ -1081,8 +1102,8 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
               {isEvent && (
                 <div className={`text-xs ${totalCost <= inputs.budget ? "text-moss" : "text-amber"}`}>
                   {totalCost <= inputs.budget
-                    ? `✓ Within your $${inputs.budget} budget`
-                    : `⚠ $${(totalCost - inputs.budget).toFixed(2)} over your $${inputs.budget} budget`}
+                    ? `Within your $${inputs.budget} budget`
+                    : `Over budget by $${(totalCost - inputs.budget).toFixed(2)} (your budget is $${inputs.budget})`}
                 </div>
               )}
               {parsedPlan.totals.length > 0 && (

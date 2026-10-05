@@ -22,6 +22,8 @@ export type ProductSummary = Pick<
   weightedRating: number;
   // Quality standards the product meets (lib/quality-standards.ts).
   standards: StandardId[];
+  // Pello Score overall (0–100), as shown on the product page.
+  pelloScore: number | null;
 };
 
 // Comparator for Array.sort: best-rated first, weighting ratings by how many reviews back them.
