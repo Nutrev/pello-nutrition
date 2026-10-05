@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { requireAccountUser, productById, accountAccess } from "@/lib/account-server";
 import UpgradedBanner from "@/components/pro/UpgradedBanner";
 import ManageSubscriptionButton from "@/components/pro/ManageSubscriptionButton";
-import type { SubscriptionRow } from "@/lib/pro";
+import { PRO_FEATURES, type SubscriptionRow } from "@/lib/pro";
 import type { UserProfile, SavedPlan, FavouriteProduct, StackItem } from "@/lib/account-types";
 import { formatWeight } from "@/lib/planner";
 import { formatDate } from "@/lib/format-date";
@@ -31,14 +31,6 @@ function Empty({ text, href, cta }: { text: string; href: string; cta: string })
     </div>
   );
 }
-
-const FREE_MISSING = [
-  "Unlimited nutrition plans, including goal-based plans",
-  "Save, revisit and export plans as PDF",
-  "Supplement stack tracker",
-  "Compare up to 5 products and advanced filters",
-  "Submit community reviews",
-];
 
 function SubscriptionSection({ isPro, sub }: { isPro: boolean; sub: SubscriptionRow | null }) {
   if (isPro && sub) {
@@ -69,7 +61,7 @@ function SubscriptionSection({ isPro, sub }: { isPro: boolean; sub: Subscription
           <div className="font-display font-semibold">You&apos;re on the free plan</div>
           <p className="text-sm text-muted mb-2">Pello Pro adds:</p>
           <ul className="text-sm text-muted space-y-0.5">
-            {FREE_MISSING.map((f) => <li key={f}>· {f}</li>)}
+            {PRO_FEATURES.map((f) => <li key={f}>· {f}</li>)}
           </ul>
         </div>
         <div className="flex flex-col gap-2 sm:items-end">

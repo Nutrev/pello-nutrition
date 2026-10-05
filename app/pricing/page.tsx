@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PRO_ENABLED, PRO_PRICE_LABEL, TRIAL_DAYS } from "@/lib/pro";
+import { PRO_ENABLED, PRO_FEATURES, PRO_PRICE_LABEL, TRIAL_DAYS } from "@/lib/pro";
 import UpgradeButton from "@/components/pro/UpgradeButton";
 
 export const metadata: Metadata = {
@@ -27,19 +27,7 @@ const FREE: { text: string; included: boolean }[] = [
   { text: "Plans pre-filled from your athlete profile", included: false },
 ];
 
-const PRO = [
-  "Everything in Free",
-  "Unlimited nutrition plans",
-  "Plans built from your workout files (.fit, .zwo, .erg, .mrc, .tcx)",
-  "Save and revisit plans",
-  "Goal-based planner (first marathon, recovery, building muscle and more)",
-  "Compare up to 5 products",
-  "All advanced filters (G:F ratio, hydrogel, transparency, rating)",
-  "Submit community reviews",
-  "Supplement stack tracker",
-  "Plans pre-filled from your saved athlete profile",
-  "Export plans and comparisons as PDF",
-];
+const PRO = ["Everything in Free", ...PRO_FEATURES];
 
 const FAQ = [
   {

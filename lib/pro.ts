@@ -13,6 +13,21 @@ export const PRO_ENABLED = !!process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID?.trim()
 export const PRO_PRICE_LABEL = "$8";
 export const TRIAL_DAYS = 8; // over 7 so Managed Payments sends a trial-ending reminder
 
+// What Pro adds over the free plan, shown on the pricing page and to free users on their
+// account page. Every line must be true of the site as built; update it with the features.
+export const PRO_FEATURES = [
+  "Unlimited nutrition plans",
+  "Plans built from your workout files (.fit, .zwo, .erg, .mrc, .tcx)",
+  "Save and revisit plans",
+  "Goal-based planner (first marathon, recovery, building muscle and more)",
+  "Compare up to 5 products",
+  "All advanced filters (G:F ratio, hydrogel, transparency, rating)",
+  "Submit community reviews",
+  "Supplement stack tracker",
+  "Plans pre-filled from your saved athlete profile",
+  "Export plans and comparisons as PDF",
+];
+
 export const FREE_PLANS_PER_MONTH = 1;
 export const FREE_COMPARE_LIMIT = 2;
 export const PRO_COMPARE_LIMIT = 5;
