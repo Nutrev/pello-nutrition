@@ -6,6 +6,7 @@ import PrintButton from "@/components/pro/PrintButton";
 import { formatDate } from "@/lib/format-date";
 import { formatWeight } from "@/lib/planner";
 import type { SavedPlan } from "@/lib/account-types";
+import { STANDARD_CHOICES } from "@/lib/quality-standards";
 import DeleteRowButton from "@/components/account/DeleteRowButton";
 
 export const metadata: Metadata = { title: "Saved plan", robots: { index: false } };
@@ -34,6 +35,7 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
     i.trainingDaysPerWeek ? `${i.trainingDaysPerWeek} training days/week` : null,
     `$${i.budget} budget`,
     ...(i.dietary ?? []),
+    ...(i.standards ?? []).map((id) => STANDARD_CHOICES.find((c) => c.id === id)?.label),
   ].filter(Boolean) as string[];
 
   return (

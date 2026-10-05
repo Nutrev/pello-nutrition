@@ -6,6 +6,7 @@ import BrandLogo from "@/components/BrandLogo";
 import ProGate from "@/components/ProGate";
 import { ProTag } from "@/components/pro/LockIcon";
 import { useProAccess } from "@/lib/subscription";
+import { STANDARD_CHOICES, meetsAll, meetsDiet, type StandardChoice } from "@/lib/quality-standards";
 import type { ProductSummary } from "@/lib/catalog-types";
 
 // ── TYPES ─────────────────────────────────────────────────────
@@ -19,7 +20,7 @@ function enrichProduct(p: ProductSummary) {
 
   const {
     carbsPerServing, sodiumPerServing, caffeinePerServing, proteinPerServing,
-    hasCaffeine, isHydrogel, glucoseFructoseRatio, isBatchTested, isVegan,
+    hasCaffeine, isHydrogel, glucoseFructoseRatio, isBatchTested, isVegan, isGlutenFree,
   } = p.nutrition;
 
   const isCleanLabel = (p.transparencyScore ?? 0) >= 85;
@@ -37,6 +38,7 @@ function enrichProduct(p: ProductSummary) {
     glucoseFructoseRatio,
     isBatchTested,
     isVegan,
+    isGlutenFree,
     isCleanLabel,
     costPerGramCarb: costPerGramCarb ? Math.round(costPerGramCarb * 1000) / 1000 : null,
   };
@@ -44,13 +46,13 @@ function enrichProduct(p: ProductSummary) {
 
 
 // Pello Pro filters (once Pro is on). Category, search, price, carbs, sodium, protein,
-// caffeine and vegan stay free.
-const ADVANCED_FILTERS = ["glucoseFructoseRatio", "minRating", "minTransparencyScore", "isCleanLabel", "isBatchTested", "isHydrogel"];
+// caffeine, diet and quality standards stay free.
+const ADVANCED_FILTERS = ["glucoseFructoseRatio", "minRating", "minTransparencyScore", "isCleanLabel", "isHydrogel"];
 const usesAdvanced = (f: Record<string, unknown>) => Object.keys(f).some((k) => ADVANCED_FILTERS.includes(k));
 
 const EXAMPLE_QUERIES = [
   { label: "Gels under $2.50, 25g+ carbs, no caffeine", filters: { category: ["Energy Gel"], maxPricePerServing: 2.50, minCarbsPerServing: 25, hasCaffeine: "no" } },
-  { label: "Batch-tested products only", filters: { isBatchTested: true } },
+  { label: "Tested for banned substances", filters: { standards: ["sport-tested"] } },
   { label: "Vegan & high transparency", filters: { isVegan: true, isCleanLabel: true } },
   { label: "Highest sodium hydration", filters: { category: ["Hydration"], minSodiumPerServing: 300 } },
   { label: "Hydrogel gels only", filters: { category: ["Energy Gel"], isHydrogel: true } },
@@ -91,7 +93,9 @@ export default function ExploreClient({ catalog }: { catalog: ProductSummary[] }
       if (filters.hasCaffeine === "yes" && !p.hasCaffeine) return false;
       if (filters.isVegan && !p.isVegan) return false;
       if (filters.isCleanLabel && !p.isCleanLabel) return false;
-      if (filters.isBatchTested && !p.isBatchTested) return false;
+      if (filters.standards?.length && !meetsAll(p.standards, filters.standards)) return false;
+      if (filters.isGlutenFree && !meetsDiet(p, "gluten-free")) return false;
+      if (filters.isDairyFree && !meetsDiet(p, "dairy-free")) return false;
       if (filters.isHydrogel && !p.isHydrogel) return false;
       if (filters.minTransparencyScore && (p.transparencyScore == null || p.transparencyScore < filters.minTransparencyScore)) return false;
       if (filters.minRating && p.rating < filters.minRating) return false;
@@ -238,15 +242,50 @@ export default function ExploreClient({ catalog }: { catalog: ProductSummary[] }
               </div>
             </div>
 
-            {/* Vegan */}
-            <label className="flex items-center gap-2 text-xs cursor-pointer">
-              <input type="checkbox" className="accent-moss"
-                checked={filters.isVegan === true}
-                onChange={(e) => e.target.checked ? applyFilter("isVegan", true) : clearFilter("isVegan")} />
-              Vegan
-            </label>
+            {/* Diet (label claims) */}
+            <div>
+              <div className="text-xs text-muted mb-1.5">Diet <span className="text-muted/70">(as labelled)</span></div>
+              <div className="space-y-1.5">
+                {[
+                  { key: "isVegan", label: "Vegan" },
+                  { key: "isGlutenFree", label: "Gluten-free" },
+                  { key: "isDairyFree", label: "Dairy-free" },
+                ].map(({ key, label }) => (
+                  <label key={key} className="flex items-center gap-2 text-xs cursor-pointer">
+                    <input type="checkbox" className="accent-moss"
+                      checked={filters[key] === true}
+                      onChange={(e) => e.target.checked ? applyFilter(key, true) : clearFilter(key)} />
+                    {label}
+                  </label>
+                ))}
+              </div>
+            </div>
 
-            <ProGate compact feature="Advanced filters" description="Filter by G:F ratio, rating, transparency, batch testing and hydrogel delivery.">
+            {/* Quality standards */}
+            <div>
+              <div className="flex items-baseline justify-between mb-1.5">
+                <span className="text-xs text-muted">Quality standards</span>
+                <a href="/guides/certifications" className="text-[11px] text-moss hover:underline">Guide</a>
+              </div>
+              <div className="space-y-1.5">
+                {STANDARD_CHOICES.map((c) => {
+                  const on = (filters.standards ?? []).includes(c.id);
+                  return (
+                    <label key={c.id} title={c.hint} className="flex items-center gap-2 text-xs cursor-pointer">
+                      <input type="checkbox" className="accent-moss" checked={on}
+                        onChange={(e) => {
+                          const cur: StandardChoice[] = filters.standards ?? [];
+                          const next = e.target.checked ? [...cur, c.id] : cur.filter((x) => x !== c.id);
+                          next.length ? applyFilter("standards", next) : clearFilter("standards");
+                        }} />
+                      {c.label}
+                    </label>
+                  );
+                })}
+              </div>
+            </div>
+
+            <ProGate compact feature="Advanced filters" description="Filter by G:F ratio, rating, transparency and hydrogel delivery.">
             <div className="space-y-5">
             {/* G:F Ratio */}
             <div>
@@ -293,7 +332,6 @@ export default function ExploreClient({ catalog }: { catalog: ProductSummary[] }
               <div className="space-y-1.5">
                 {[
                   { key: "isCleanLabel", label: "High transparency (85%+)" },
-                  { key: "isBatchTested", label: "Batch tested" },
                   { key: "isHydrogel", label: "Hydrogel delivery" },
                 ].map(({ key, label }) => (
                   <label key={key} className="flex items-center gap-2 text-xs cursor-pointer">
@@ -437,7 +475,7 @@ export default function ExploreClient({ catalog }: { catalog: ProductSummary[] }
                     value: (() => { const s = filteredProducts.filter((p: any) => p.transparencyScore != null); return s.length ? Math.round(s.reduce((a: number, p: any) => a + p.transparencyScore, 0) / s.length) + "%" : "—"; })()
                   },
                   {
-                    label: "Batch tested",
+                    label: "Tested for banned substances",
                     value: filteredProducts.filter((p: any) => p.isBatchTested).length + "/" + filteredProducts.length
                   },
                 ].map(stat => (

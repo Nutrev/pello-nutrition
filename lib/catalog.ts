@@ -8,6 +8,7 @@ import { productNutrition } from "./nutrition";
 import { pricePerServing } from "./servings";
 import { weightedRating } from "./ratings";
 import type { ProductSummary } from "./catalog-types";
+import { standardsFrom } from "./quality-standards";
 
 function toSummary(p: Product): ProductSummary {
   return {
@@ -33,6 +34,7 @@ function toSummary(p: Product): ProductSummary {
     nutrition: productNutrition(p),
     pricePerServing: pricePerServing(p),
     weightedRating: weightedRating(p),
+    standards: standardsFrom(p.certifications),
   };
 }
 

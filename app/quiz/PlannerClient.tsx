@@ -10,6 +10,7 @@ import { ProTag } from "@/components/pro/LockIcon";
 import { useUser } from "@/lib/auth";
 import { useProAccess } from "@/lib/subscription";
 import { PRO_ENABLED } from "@/lib/pro";
+import { STANDARD_CHOICES, meetsAll, meetsDiet, type StandardChoice } from "@/lib/quality-standards";
 import { primaryRetailerLink, linkRel } from "@/lib/retailers";
 import { byWeightedRating, type ProductSummary } from "@/lib/catalog-types";
 import { servingsPerContainer } from "@/lib/servings";
@@ -57,7 +58,6 @@ const FORMAT_OPTIONS: { id: FormatPreference; label: string; desc: string }[] = 
   { id: "Hydration", label: "Electrolytes", desc: "Salt + hydration" },
 ];
 
-const RETAILER_OPTIONS: Retailer[] = ["REI", "Amazon", "The Feed", "Running Warehouse"];
 
 // ── OUTCOME → CATEGORY PRIORITY MAP ──────────────────────────
 
@@ -97,18 +97,12 @@ function buildPhaseRecommendations(PRODUCTS: ProductSummary[], inputs: PlannerIn
   const hasCaffeine = inputs.caffeinePreference !== "none";
   const needsFuelling = inputs.durationHours >= 1;
 
-  // Filter base pool
-  const pool = PRODUCTS.filter(p => {
-    if (inputs.dietary.includes("vegan")) {
-      const hasAnimal = p.ingredients?.some((i: any) =>
-        i.name.toLowerCase().includes("whey") ||
-        i.name.toLowerCase().includes("casein") ||
-        i.name.toLowerCase().includes("egg")
-      );
-      if (hasAnimal) return false;
-    }
-    return true;
-  });
+  // Only products that meet every diet requirement (as labelled; unknown never counts) and
+  // every quality standard the athlete chose.
+  const pool = PRODUCTS.filter(p =>
+    inputs.dietary.every(d => meetsDiet({ isVegan: p.nutrition.isVegan, isGlutenFree: p.nutrition.isGlutenFree, allergens: p.allergens }, d)) &&
+    meetsAll(p.standards, inputs.standards ?? [])
+  );
 
   const bestByCategory = (categories: string[], maxPerCat = 2, preferCaffeine = false): ProductSummary[] => {
     const results: ProductSummary[] = [];
@@ -411,6 +405,16 @@ function PhaseProductCard({ item, borderColor }: { item: PhaseProduct; borderCol
   );
 }
 
+// Shown in a plan phase when no product meets every diet and quality choice.
+function NoMatch() {
+  return (
+    <p className="mt-4 pt-4 border-t border-sand text-xs text-muted">
+      No product in our catalogue meets all of your diet and quality-standard choices for this phase, so we haven&apos;t
+      recommended one. Try removing a standard, or <Link href="/query" className="text-moss hover:underline">explore products</Link> yourself.
+    </p>
+  );
+}
+
 // Two-option toggle used in card headers (e.g. kg | lbs).
 function SegmentedControl<T extends string>({ label, options, value, onChange }: {
   label: string; options: { id: T; label: string }[]; value: T; onChange: (v: T) => void;
@@ -530,6 +534,7 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
   };
 
   const needsAccount = gating && !authLoading && !user;
+  const filtersOn = inputs.dietary.length > 0 || (inputs.standards ?? []).length > 0;
   const showLimitGate = gating && !proAccess && (limitReached || blocked === "limit") && !parsedPlan && !loading;
 
   const planTitle = isEvent
@@ -812,7 +817,7 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
 
                 <div className="card mb-4">
                   <h3 className="font-display font-semibold mb-1">Dietary requirements</h3>
-                  <p className="text-xs text-muted mb-3">Select all that apply</p>
+                  <p className="text-xs text-muted mb-3">Select all that apply. We only recommend products labelled that way; dairy-free also uses the allergen list.</p>
                   <div className="flex gap-2 flex-wrap">
                     {(["vegan", "gluten-free", "dairy-free"] as DietaryRestriction[]).map(d => (
                       <button key={d} onClick={() => toggleArray("dietary", d)}
@@ -820,6 +825,29 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
                         {d}
                       </button>
                     ))}
+                  </div>
+                </div>
+
+                <div className="card mb-4">
+                  <div className="flex items-baseline justify-between gap-2 mb-1">
+                    <h3 className="font-display font-semibold">Quality standards</h3>
+                    <Link href="/guides/certifications" target="_blank" className="text-xs text-moss hover:underline">What these mean →</Link>
+                  </div>
+                  <p className="text-xs text-muted mb-3">Only recommend products that meet all of these</p>
+                  <div className="space-y-2">
+                    {STANDARD_CHOICES.map(c => {
+                      const on = (inputs.standards ?? []).includes(c.id);
+                      return (
+                        <button key={c.id} type="button" aria-pressed={on} onClick={() => toggleArray("standards", c.id as StandardChoice)}
+                          className={`w-full flex items-center gap-3 p-3 rounded-xl border text-left transition-all ${on ? "border-moss bg-moss/5" : "border-sand hover:border-muted bg-white/40"}`}>
+                          <div className="flex-1">
+                            <div className="font-medium text-sm">{c.label}</div>
+                            <div className="text-xs text-muted">{c.hint}</div>
+                          </div>
+                          {on && <span className="text-moss text-xs">✓</span>}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
 
@@ -841,19 +869,6 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
                     </div>
                   </div>
                 )}
-
-                <div className="card mb-6">
-                  <h3 className="font-display font-semibold mb-1">Available at</h3>
-                  <p className="text-xs text-muted mb-3">Only recommend products from these retailers</p>
-                  <div className="flex gap-2 flex-wrap">
-                    {RETAILER_OPTIONS.map(r => (
-                      <button key={r} onClick={() => toggleArray("retailers", r)}
-                        className={`text-xs px-3 py-1.5 rounded-lg border transition-all ${inputs.retailers.includes(r) ? "bg-moss text-cream border-moss" : "border-sand hover:border-muted"}`}>
-                        {r}
-                      </button>
-                    ))}
-                  </div>
-                </div>
 
                 <div className="flex gap-3">
                   <button onClick={() => setStep(2)} className="btn-secondary flex-1 justify-center flex">← Back</button>
@@ -891,6 +906,7 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
                 <span className="text-xs bg-sand px-2 py-0.5 rounded-md">${inputs.budget} budget</span>
                 {inputs.caffeinePreference === "none" && <span className="text-xs bg-sand px-2 py-0.5 rounded-md">caffeine-free</span>}
                 {inputs.dietary.map(d => <span key={d} className="text-xs bg-sand px-2 py-0.5 rounded-md">{d}</span>)}
+                {(inputs.standards ?? []).map(id => <span key={id} className="text-xs bg-moss/10 text-moss px-2 py-0.5 rounded-md">{STANDARD_CHOICES.find(c => c.id === id)?.label}</span>)}
               </div>
             </div>
 
@@ -906,6 +922,7 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
                 </div>
               </div>
               <PlanLines lines={parsedPlan.preEvent} />
+              {phaseRecs.pre.length === 0 && filtersOn && <NoMatch />}
               {phaseRecs.pre.length > 0 && (
                 <div className="mt-4 pt-4 border-t border-sand">
                   <div className="text-xs text-muted uppercase tracking-widest mb-2">Recommended products</div>
@@ -930,6 +947,7 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
                 </div>
               </div>
               <PlanLines lines={parsedPlan.duringEvent} />
+              {phaseRecs.during.length === 0 && filtersOn && <NoMatch />}
               {phaseRecs.during.length > 0 && (
                 <div className="mt-4 pt-4 border-t border-sand">
                   <div className="text-xs text-muted uppercase tracking-widest mb-2">Recommended products</div>
@@ -954,6 +972,7 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
                 </div>
               </div>
               <PlanLines lines={parsedPlan.postEvent} />
+              {phaseRecs.post.length === 0 && filtersOn && <NoMatch />}
               {phaseRecs.post.length > 0 && (
                 <div className="mt-4 pt-4 border-t border-sand">
                   <div className="text-xs text-muted uppercase tracking-widest mb-2">Recommended products</div>

@@ -3,6 +3,7 @@ import ReportClient from "./ReportClient";
 import { getProduct, getProductSummaries } from "@/lib/catalog";
 import { byWeightedRating } from "@/lib/catalog-types";
 import { getBrandByName } from "@/lib/brands";
+import { NSF_SPORT_LISTINGS, NSF_NOT_FOUND, NSF_CHECKED_ON } from "@/lib/certification-checks";
 
 // Every product page is pre-built at deploy time.
 export function generateStaticParams() {
@@ -26,6 +27,8 @@ export default function ReportPage({ params }: { params: { id: string } }) {
     line: b.description.split(/(?<=\.)\s/)[0],
   };
 
+  const nsf = { listing: NSF_SPORT_LISTINGS[product.id] ?? null, notFound: NSF_NOT_FOUND.includes(product.id), checkedOn: NSF_CHECKED_ON };
+
   // Keyed by product so moving between products starts fresh (summary, selected size…).
-  return <ReportClient key={product.id} product={product} similar={similar} directory={directory} brand={brand} />;
+  return <ReportClient key={product.id} product={product} similar={similar} directory={directory} brand={brand} nsf={nsf} />;
 }

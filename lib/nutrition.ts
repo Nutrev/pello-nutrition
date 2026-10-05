@@ -14,7 +14,7 @@ export interface ProductNutrition {
   isHydrogel: boolean;
   glucoseFructoseRatio: string | null;
   isBatchTested: boolean;
-  isVegan: boolean;
+  isVegan: boolean | null;     // as labelled by the brand or retailer; null = not stated
   isGlutenFree: boolean | null;
   certifications: string[];
 }
@@ -63,9 +63,8 @@ function fromIngredients(p: Product) {
     p.ingredients?.some((i) => BATCH_TESTED.test(i.note)) ||
     false;
 
-  const isVegan = !p.ingredients?.some((i) => /whey|casein|egg|collagen|milk|honey|gelatin/i.test(i.name));
 
-  return { carbs, sodium, caffeine, protein, hasCaffeine, isHydrogel, ratio, isBatchTested, isVegan };
+  return { carbs, sodium, caffeine, protein, hasCaffeine, isHydrogel, ratio, isBatchTested };
 }
 
 export function productNutrition(p: Product): ProductNutrition {
@@ -81,7 +80,8 @@ export function productNutrition(p: Product): ProductNutrition {
     isHydrogel: p.isHydrogel ?? f.isHydrogel,
     glucoseFructoseRatio: p.glucoseFructoseRatio ?? f.ratio,
     isBatchTested: p.isBatchTested ?? f.isBatchTested,
-    isVegan: p.isVegan ?? f.isVegan,
+    // Only a stated claim counts; Pello never infers vegan from the ingredient list.
+    isVegan: p.isVegan ?? null,
     isGlutenFree: p.isGlutenFree ?? null,
     certifications: p.certifications ?? [],
   };

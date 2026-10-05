@@ -2,6 +2,8 @@
 // Planner inputs and prompt building, shared by the quiz page and /api/plan.
 // The prompt is built on the server so the API can't be used as an open proxy to Claude.
 
+import { STANDARD_CHOICES, STANDARD_CHOICE_IDS, type StandardChoice } from "./quality-standards";
+
 // ── TYPES ─────────────────────────────────────────────────────
 
 export type PlanMode = "event" | "outcome";
@@ -25,7 +27,8 @@ export interface PlannerInputs {
   budget: number;
   dietary: DietaryRestriction[];
   formats: FormatPreference[];
-  retailers: Retailer[];
+  retailers: Retailer[];          // no longer offered (no per-retailer stock data); kept so saved plans still parse
+  standards: StandardChoice[];   // quality standards every recommended product must meet
   weightKg: number;              // always kg; weightUnit only changes how it's shown
   weightUnit: WeightUnit;
   age: number;
@@ -36,7 +39,7 @@ export interface PlannerInputs {
 export const DEFAULT_INPUTS: PlannerInputs = {
   mode: "event", eventType: null, outcomeType: null,
   durationHours: 2, intensity: "moderate", caffeinePreference: "moderate",
-  budget: 50, dietary: [], formats: [], retailers: [],
+  budget: 50, dietary: [], formats: [], retailers: [], standards: [],
   weightKg: 70, weightUnit: "kg", age: 30, sex: "male", trainingDaysPerWeek: 4,
 };
 
@@ -142,9 +145,11 @@ export function parsePlannerInputs(raw: unknown): PlannerInputs | null {
   const dietary = listOf(r.dietary, DIETARY_RESTRICTIONS);
   const formats = listOf(r.formats, FORMAT_PREFERENCES);
   const retailers = listOf(r.retailers, RETAILERS);
+  // Optional, so plans saved before standards existed still parse.
+  const standards = r.standards === undefined ? [] : listOf(r.standards, STANDARD_CHOICE_IDS);
   const age = numberIn(r.age, 16, 70);
   const trainingDaysPerWeek = numberIn(r.trainingDaysPerWeek, 1, 7);
-  if (durationHours === null || budget === null || weightKg === null || !dietary || !formats || !retailers) return null;
+  if (durationHours === null || budget === null || weightKg === null || !dietary || !formats || !retailers || !standards) return null;
   if (age === null || trainingDaysPerWeek === null || !Number.isInteger(trainingDaysPerWeek)) return null;
 
   return {
@@ -158,6 +163,7 @@ export function parsePlannerInputs(raw: unknown): PlannerInputs | null {
     dietary,
     formats,
     retailers,
+    standards,
     weightKg,
     weightUnit: r.weightUnit,
     age: Math.round(age),
@@ -167,6 +173,10 @@ export function parsePlannerInputs(raw: unknown): PlannerInputs | null {
 }
 
 // ── PROMPT ────────────────────────────────────────────────────
+
+function standardsLine(inputs: PlannerInputs): string {
+  return inputs.standards?.length ? inputs.standards.map((id) => STANDARD_CHOICES.find((c) => c.id === id)?.label ?? id).join(", ") : "none";
+}
 
 export function buildPlanPrompt(inputs: PlannerInputs): string {
   const isEvent = inputs.mode === "event";
@@ -194,6 +204,7 @@ ${athlete}
 - Budget: $${inputs.budget}
 - Caffeine preference: ${inputs.caffeinePreference}
 - Dietary: ${inputs.dietary.length > 0 ? inputs.dietary.join(", ") : "none"}
+- Quality standards required: ${standardsLine(inputs)}
 
 CALCULATED TARGETS:
 - Total carbs: ${carbTarget}g (${INTENSITY_OPTIONS.find(i => i.id === inputs.intensity)?.carbsPerHr}g/hr)
@@ -238,6 +249,7 @@ ${athlete}
 - Budget: $${inputs.budget}/month
 - Caffeine: ${inputs.caffeinePreference}
 - Dietary: ${inputs.dietary.length > 0 ? inputs.dietary.join(", ") : "none"}
+- Quality standards required: ${standardsLine(inputs)}
 
 ${personalise} Calibrate recovery and supplement recommendations to ${inputs.trainingDaysPerWeek} training day${inputs.trainingDaysPerWeek === 1 ? "" : "s"} a week: more training days need more emphasis on recovery nutrition.
 

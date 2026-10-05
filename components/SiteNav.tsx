@@ -32,7 +32,8 @@ const OTHER_MENUS: { label: string; items: NavItem[] }[] = [
     label: "Learn",
     items: [
       { href: "/blog", label: "Blog" },
-      { href: "/guides", label: "Guides" },
+      { href: "/guides", label: "Guides", exact: true },
+      { href: "/guides/certifications", label: "Certification guides" },
       { href: "/methodology", label: "Methodology" },
     ],
   },

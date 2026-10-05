@@ -2,6 +2,13 @@ import Link from "next/link";
 
 const GUIDES = [
   {
+    slug: "certifications",
+    title: "Certification guides",
+    desc: "What NSF Certified for Sport, Informed Sport, the Cologne List, USDA Organic, Non-GMO Project and vegan or gluten-free labels mean, and how to check them.",
+    tags: ["Quality", "Certifications", "Drug testing"],
+    time: "4 guides",
+  },
+  {
     slug: "carb-calculator",
     title: "Carb Calculator",
     desc: "Calculate exactly how many carbs you need per hour based on your workout duration, intensity and body weight.",

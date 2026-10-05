@@ -6,6 +6,7 @@
 
 import type { Product } from "./products";
 import type { ProductNutrition } from "./nutrition";
+import type { StandardId } from "./quality-standards";
 
 export type ProductSummary = Pick<
   Product,
@@ -19,6 +20,8 @@ export type ProductSummary = Pick<
   pricePerServing: number;
   // Rating weighted by review count (see lib/ratings.ts); -1 when there are no reviews.
   weightedRating: number;
+  // Quality standards the product meets (lib/quality-standards.ts).
+  standards: StandardId[];
 };
 
 // Comparator for Array.sort: best-rated first, weighting ratings by how many reviews back them.

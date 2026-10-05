@@ -7,6 +7,9 @@
 // - Nutrition, carb sources, caffeine, ingredients, certifications and prices are
 //   taken from each product's page on The Feed. Price is the in-stock size closest
 //   to a standard pack; servingsPerContainer is that size's serving count.
+// - NSF Certified for Sport was then checked against NSF's own database on 2026-10-05 (see
+//   lib/certification-checks.ts): listings NSF didn't have were removed, and NSF-certified
+//   products The Feed didn't flag were added.
 // - rating / reviewCount are The Feed's own customer ratings, credited as "The Feed".
 // - sentiment is left empty: there's no per-attribute data (taste, GI comfort) to use.
 // - Ingredient verdicts and notes are Pello's own summaries of the research.

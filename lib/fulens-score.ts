@@ -71,7 +71,7 @@ export interface ScoringInput {
   sodiumPerServing?: number;
 
   // Dietary
-  isVegan: boolean;
+  isVegan: boolean | null;
   isGlutenFree: boolean | null;   // null = not stated
   allergens: string[];
   allergensKnown: boolean;        // false when the label's allergen information isn't available
@@ -147,7 +147,7 @@ function scoreScience(input: ScoringInput): { score: number; notes: string[] } {
   // Independent lab testing bonus (0-5)
   if (input.isBatchTested) {
     score += 3;
-    notes.push("Batch tested — bonus applied");
+    notes.push("Third-party tested for banned substances — bonus applied");
   }
   if (input.bannedSubstanceTested) {
     score += 2;
@@ -322,17 +322,18 @@ function scoreQuality(input: ScoringInput): { score: number; notes: string[] } {
   );
   if (hasNSF) {
     score += 4;
-    notes.push("NSF/Informed Sport certified — highest quality standard");
+    notes.push("NSF Certified for Sport or Informed Sport certified");
   }
 
-  // Batch testing (0-3)
+  // Third-party banned-substance testing: NSF, Informed Sport or Cologne List (0-3)
   if (input.isBatchTested) {
     score += 2;
-    notes.push("Every batch independently tested");
   }
   if (input.bannedSubstanceTested) {
     score += 1;
-    notes.push("WADA banned substance tested");
+  }
+  if (input.isBatchTested || input.bannedSubstanceTested) {
+    notes.push("Third-party tested for substances banned in sport");
   }
 
   // Clean manufacturing (0-3)
@@ -434,7 +435,7 @@ export const FULENS_SCORE_METHODOLOGY = {
         "Percentage of ingredients rated Proven vs Likely vs Disputed",
         "Dose transparency — are amounts clearly disclosed?",
         "Presence of flagged ingredients (artificial sweeteners, seed oils etc.)",
-        "Independent lab testing and batch verification",
+        "Independent lab testing for banned substances",
       ],
     },
     {
@@ -476,9 +477,9 @@ export const FULENS_SCORE_METHODOLOGY = {
       description: "Manufacturing standards and safety certifications",
       factors: [
         "NSF Certified for Sport or Informed Sport certification",
-        "Batch testing against banned substances",
-        "WADA compliance",
-        "Clean manufacturing practices",
+        "Third-party testing for banned substances (NSF, Informed Sport or Cologne List)",
+        "Gluten-free label claim",
+        "Clean-label status (scored as neutral until it has been assessed)",
       ],
     },
   ],

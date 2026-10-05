@@ -11,6 +11,8 @@ import ProductActions from "@/components/account/ProductActions";
 import BuyButtons from "@/components/BuyButtons";
 import { PRICE_POSITION_LABEL, PRICE_POSITION_STYLE, type Brand } from "@/lib/brand-types";
 import IngredientFlags from "@/components/IngredientFlags";
+import QualityStandards, { type NsfCheck } from "@/components/QualityStandards";
+import { standardsFrom } from "@/lib/quality-standards";
 import { productPelloScore } from "@/lib/product-score";
 import { pricePerServing as calcPricePerServing, servingsPerContainer, formatPrice } from "@/lib/servings";
 import { productNutrition } from "@/lib/nutrition";
@@ -97,9 +99,10 @@ interface ReportClientProps {
   similar: ProductSummary[];
   directory: DirectoryEntry[];
   brand: ReportBrand;
+  nsf: NsfCheck;
 }
 
-export default function ReportClient({ product, similar: similarProducts, directory, brand }: ReportClientProps) {
+export default function ReportClient({ product, similar: similarProducts, directory, brand, nsf }: ReportClientProps) {
   const [summary, setSummary] = useState("");
   const [loading, setLoading] = useState(false);
   const [generated, setGenerated] = useState(false);
@@ -293,7 +296,7 @@ export default function ReportClient({ product, similar: similarProducts, direct
         <div className="grid grid-cols-3 gap-4 mb-6">
           {[
             { val: product.reviewCount > 0 ? product.reviewCount.toLocaleString() : "—", label: "Customer reviews" },
-            { val: product.certifications?.length ?? 0, label: "Certifications" },
+            { val: standardsFrom(product.certifications).length, label: "Quality standards" },
             { val: product.ingredients.length, label: "Key ingredients" },
           ].map((s) => (
             <div key={s.label} className="card text-center">
@@ -434,6 +437,10 @@ export default function ReportClient({ product, similar: similarProducts, direct
               ))}
             </div>
           </div>
+
+          {/* Quality standards */}
+          <QualityStandards certifications={product.certifications} nsf={nsf}
+            diet={{ isVegan: product.isVegan ?? null, isGlutenFree: product.isGlutenFree, allergens: product.allergens }} />
 
           {/* Transparency */}
           <div className="card lg:col-span-2">
