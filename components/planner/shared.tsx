@@ -5,6 +5,7 @@ import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
 import type { ProductSummary } from "@/lib/catalog-types";
 import { formatPrice } from "@/lib/servings";
+import { PelloScoreTag } from "@/components/ProductCard";
 
 export const toggleClass = (on: boolean) =>
   `text-sm px-3 py-2 rounded-xl border text-left transition-all ${on ? "border-moss bg-moss/5 text-moss font-medium" : "border-sand hover:border-muted bg-white/40"}`;
@@ -100,6 +101,7 @@ export function ModeProductCard({ p, note }: { p: ProductSummary; note?: string 
           <div className="text-xs text-muted mb-0.5">{p.category}</div>
           <div className="font-display font-semibold text-sm group-hover:text-moss transition-colors leading-tight">{p.name}</div>
           <div className="text-xs text-muted">{p.brand}</div>
+          {p.pelloScore != null && <div className="mt-1"><PelloScoreTag score={p.pelloScore} /></div>}
         </div>
         <div className="text-right flex-shrink-0 text-xs">
           {p.price > 0 && <div className="font-medium text-ink">{formatPrice(p.price)}</div>}

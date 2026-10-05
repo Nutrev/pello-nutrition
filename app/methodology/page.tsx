@@ -94,7 +94,7 @@ export default function MethodologyPage() {
         <div className="mb-10">
           <h2 className="font-display font-bold text-2xl mb-4">Category adjustment</h2>
           <p className="text-muted leading-relaxed">
-            Value scores are benchmarked against category averages — not across all products. An energy gel is compared to other energy gels, not to a protein powder. This ensures scores reflect genuine value within the context athletes actually care about.
+            Value scores are benchmarked against category averages — not across all products. An energy gel is compared to other energy gels, not to a protein powder. This ensures scores reflect genuine value within the context athletes actually care about. The other pillars use the same scale for every product, so typical scores differ between categories (hydration products tend to score higher than probiotics, for example). Scores compare most fairly within a category.
           </p>
         </div>
 

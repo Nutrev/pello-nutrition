@@ -382,42 +382,7 @@ export function calculatePelloScore(input: ScoringInput): FulensScoreBreakdown {
 
 // ── SCORE LABEL ───────────────────────────────────────────────
 
-export function getFulensScoreLabel(score: number): {
-  label: string;
-  color: string;
-  description: string;
-} {
-  if (score >= 90) return {
-    label: "Exceptional",
-    color: "#2D4A2D",
-    description: "Best in class — top science, transparency and athlete experience",
-  };
-  if (score >= 75) return {
-    label: "Excellent",
-    color: "#3B6D11",
-    description: "Strong across all pillars — highly recommended",
-  };
-  if (score >= 60) return {
-    label: "Good",
-    color: "#C8860A",
-    description: "Above average — minor trade-offs worth knowing about",
-  };
-  if (score >= 45) return {
-    label: "Average",
-    color: "#8A8478",
-    description: "Meets the basics — check individual pillar scores",
-  };
-  if (score >= 25) return {
-    label: "Below average",
-    color: "#B84C2E",
-    description: "Notable weaknesses in one or more pillars",
-  };
-  return {
-    label: "Poor",
-    color: "#8B1A1A",
-    description: "Significant concerns — transparency or evidence issues",
-  };
-}
+export { getFulensScoreLabel } from "./pello-grade";
 
 // ── METHODOLOGY EXPORT ────────────────────────────────────────
 // Published so the methodology is fully transparent
@@ -486,7 +451,7 @@ export const FULENS_SCORE_METHODOLOGY = {
   principles: [
     "No brand can pay to influence their Pello Score",
     "The full methodology is published and transparent",
-    "Scores are category-adjusted — gels are benchmarked against gels",
+    "Value is benchmarked within each category (gels against gels); the other pillars use the same scale for every product, so scores compare most fairly within a category",
     "Science and transparency are weighted equally at 25 points each",
     "GI comfort is given special weight as it is uniquely critical for endurance athletes",
     "Scores are recalculated when new reviews or formula changes occur",

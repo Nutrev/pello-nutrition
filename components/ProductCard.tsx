@@ -1,11 +1,11 @@
-// A product in a grid: logo, transparency, rating, goals, pack price and buy buttons. Used on
-// the home, products, category, brand and account pages. `pelloScore`, when given, is shown
-// in place of the transparency score; `badge` adds a label above the card (e.g. "★ Best Energy Gel").
+// A product in a grid: logo, Pello Score, rating, goals, pack price and buy buttons. Used on
+// the home, products, category, brand and account pages. `badge` adds a label above the card
+// (e.g. "★ Best Energy Gel").
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
 import type { ProductSummary } from "@/lib/catalog-types";
 import { servingsPerContainer, formatPrice } from "@/lib/servings";
-import { getFulensScoreLabel } from "@/lib/fulens-score";
+import { getFulensScoreLabel } from "@/lib/pello-grade";
 import CardBuyMenu from "@/components/CardBuyMenu";
 
 const GOAL_COLORS: Record<string, string> = {
@@ -18,7 +18,7 @@ const GOAL_COLORS: Record<string, string> = {
   immunity: "bg-moss/10 text-moss",
 };
 
-export default function ProductCard({ product, pelloScore, badge }: { product: ProductSummary; pelloScore?: number; badge?: string }) {
+export default function ProductCard({ product, badge }: { product: ProductSummary; badge?: string }) {
   return (
     <div className={`card relative h-full flex flex-col hover:shadow-md hover:-translate-y-0.5 transition-all ${badge ? "border-moss/30" : ""}`}>
       {badge && (
@@ -30,16 +30,8 @@ export default function ProductCard({ product, pelloScore, badge }: { product: P
              logoDomain={product.logoDomain}
               logo={product.logo}
               brand={product.brand} />
-          {pelloScore != null ? (
-            <div className="flex items-center gap-1.5" title={`Pello Score: ${getFulensScoreLabel(pelloScore).label}`}>
-              <div className="h-2 w-2 rounded-full" style={{ background: getFulensScoreLabel(pelloScore).color }} />
-              <span className="text-xs text-muted">Pello Score {pelloScore}</span>
-            </div>
-          ) : product.transparencyScore != null ? (
-            <div className="flex items-center gap-1.5">
-              <div className="h-2 w-2 rounded-full" style={{ background: product.transparencyScore! >= 85 ? "#2D4A2D" : product.transparencyScore! >= 70 ? "#C8860A" : "#B84C2E" }} />
-              <span className="text-xs text-muted">{product.transparencyScore}% transparent</span>
-            </div>
+          {product.pelloScore != null ? (
+            <PelloScoreTag score={product.pelloScore} />
           ) : (
             <span className="text-xs text-muted">Not yet scored</span>
           )}
@@ -71,6 +63,19 @@ export default function ProductCard({ product, pelloScore, badge }: { product: P
       <div className="mt-4 pt-3 border-t border-sand">
         <CardBuyMenu product={product} />
       </div>
+    </div>
+  );
+}
+
+// The score with its grade (Excellent, Good, Average…) in the grade's colour.
+export function PelloScoreTag({ score }: { score: number }) {
+  const grade = getFulensScoreLabel(score);
+  return (
+    <div className="flex items-center gap-1.5 text-xs" title={grade.description}>
+      <div className="h-2 w-2 rounded-full" style={{ background: grade.color }} />
+      <span className="text-muted">Pello Score</span>
+      <span className="font-semibold text-ink">{score}</span>
+      <span style={{ color: grade.color }}>{grade.label}</span>
     </div>
   );
 }
