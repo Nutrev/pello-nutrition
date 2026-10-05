@@ -117,19 +117,27 @@ export default function PricingPage() {
         </div>
       </div>
 
-      <section className="max-w-2xl mx-auto">
-        <h2 className="font-display font-semibold text-2xl mb-5 text-center">Questions</h2>
-        <div className="space-y-3">
-          {FAQ.map(({ q, a }) => (
-            <details key={q} className="card group">
-              <summary className="font-display font-semibold cursor-pointer list-none flex items-center justify-between gap-3">
-                {q}
-                <span aria-hidden="true" className="text-muted transition-transform group-open:rotate-45">+</span>
-              </summary>
-              <p className="text-sm text-muted leading-relaxed mt-3">{a}</p>
-            </details>
-          ))}
-        </div>
+      <section aria-label="Frequently asked questions" className="max-w-2xl mx-auto border-t border-sand">
+        {FAQ.map(({ q, a }) => (
+          <details key={q} className="group border-b border-sand">
+            <summary className="flex items-center justify-between gap-4 py-4 cursor-pointer list-none [&::-webkit-details-marker]:hidden font-medium text-ink hover:text-moss transition-colors">
+              {q}
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 12 12"
+                className="h-3.5 w-3.5 flex-shrink-0 text-muted transition-transform group-open:rotate-180"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M3 4.5 6 7.5 9 4.5" />
+              </svg>
+            </summary>
+            <p className="text-sm text-muted leading-relaxed pb-5 pr-8 -mt-1">{a}</p>
+          </details>
+        ))}
       </section>
     </div>
   );
