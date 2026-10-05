@@ -12,7 +12,7 @@ import { useProAccess } from "@/lib/subscription";
 import { PRO_ENABLED } from "@/lib/pro";
 import { STANDARD_CHOICES, meetsAll, meetsDiet, type StandardChoice } from "@/lib/quality-standards";
 import WorkoutUpload, { WorkoutChart, workoutIntensityNote } from "@/components/planner/WorkoutUpload";
-import { intensityFromIf, type WorkoutSummary } from "@/lib/workout-file";
+import { intensityFrom, type WorkoutSummary } from "@/lib/workout-file";
 import { primaryRetailerLink, linkRel } from "@/lib/retailers";
 import { byWeightedRating, type ProductSummary } from "@/lib/catalog-types";
 import { servingsPerContainer } from "@/lib/servings";
@@ -468,7 +468,7 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
   const applyWorkout = (w: WorkoutSummary | null) => {
     setWorkout(w);
     if (!w) { setInputs(prev => ({ ...prev, workout: null })); return; }
-    const detected = intensityFromIf(w.intensityFactor);
+    const detected = intensityFrom(w.intensityFactor, w.basis);
     setInputs(prev => ({
       ...prev,
       mode: "event",
@@ -476,7 +476,7 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
       durationHours: Math.max(0.25, Math.round((w.durationMin / 60) * 100) / 100),
       intensity: detected ?? prev.intensity,
       workout: {
-        kind: w.kind, sport: w.sport, name: w.name, durationMin: w.durationMin, intensityFactor: w.intensityFactor,
+        kind: w.kind, sport: w.sport, name: w.name, durationMin: w.durationMin, basis: w.basis, intensityFactor: w.intensityFactor,
         blocks: w.blocks, avgPower: w.avgPower, kj: w.kj,
       },
     }));
@@ -961,7 +961,7 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
                   <div className="text-xs text-muted mb-2">
                     {completed ? "Completed workout" : "Planned workout"} · {workout.durationMin} min{workoutIntensityNote(workout) ? ` · ${workoutIntensityNote(workout)}` : ""}
                   </div>
-                  <WorkoutChart blocks={workout.blocks} />
+                  <WorkoutChart blocks={workout.blocks} basis={workout.basis} />
                 </div>
               )}
             </div>

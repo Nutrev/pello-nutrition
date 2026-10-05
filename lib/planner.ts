@@ -3,7 +3,7 @@
 // The prompt is built on the server so the API can't be used as an open proxy to Claude.
 
 import { STANDARD_CHOICES, STANDARD_CHOICE_IDS, type StandardChoice } from "./quality-standards";
-import { describeBlocks, MAX_BLOCKS, type WorkoutBlock } from "./workout-file";
+import { describeBlocks, MAX_BLOCKS, type WorkoutBlock, type IntensityBasis } from "./workout-file";
 
 // ── TYPES ─────────────────────────────────────────────────────
 
@@ -24,6 +24,7 @@ export interface WorkoutPlanInput {
   sport: "bike" | "run" | "other";
   name: string;
   durationMin: number;
+  basis: IntensityBasis | null;   // what the block percentages and intensityFactor are relative to
   intensityFactor: number | null;
   blocks: WorkoutBlock[];
   avgPower: number | null;
@@ -145,6 +146,8 @@ function parseWorkout(raw: unknown): WorkoutPlanInput | null | undefined {
   const w = raw as Record<string, unknown>;
   if (w.kind !== "planned" && w.kind !== "completed") return undefined;
   if (w.sport !== "bike" && w.sport !== "run" && w.sport !== "other") return undefined;
+  const basis = w.basis == null ? null : (["power", "pace", "hr", "relative"] as const).find((b) => b === w.basis);
+  if (basis === undefined) return undefined;
   const durationMin = numberIn(w.durationMin, 1, 24 * 60);
   const intensityFactor = w.intensityFactor == null ? null : numberIn(w.intensityFactor, 0.2, 2);
   const avgPower = w.avgPower == null ? null : numberIn(w.avgPower, 0, 2500);
@@ -162,7 +165,7 @@ function parseWorkout(raw: unknown): WorkoutPlanInput | null | undefined {
   }
   // The name goes into the prompt, so keep only plain characters.
   const name = typeof w.name === "string" ? w.name.replace(/[^A-Za-z0-9\u00C0-\u024F\s\-.,:()/&+'#%]/g, "").replace(/\s+/g, " ").trim().slice(0, 60) : "";
-  return { kind: w.kind, sport: w.sport, name: name || "Uploaded workout", durationMin: Math.round(durationMin), intensityFactor, blocks, avgPower, kj };
+  return { kind: w.kind, sport: w.sport, name: name || "Uploaded workout", durationMin: Math.round(durationMin), basis, intensityFactor: basis === "relative" ? null : intensityFactor, blocks, avgPower, kj };
 }
 
 // Checks untrusted request data from the browser. Returns null if anything is out of range.
@@ -224,8 +227,10 @@ function workoutSection(inputs: PlannerInputs): string {
   if (!w) return "";
   const facts = [
     `- Workout: "${w.name}", ${w.durationMin} minutes${w.sport === "bike" ? ", cycling" : w.sport === "run" ? ", running" : ""}`,
-    w.intensityFactor != null ? `- Session intensity factor: ${w.intensityFactor} (normalised power as a fraction of FTP)` : null,
-    w.blocks.some(([, p]) => p != null) ? `- Structure: ${describeBlocks(w.blocks)}` : null,
+    w.intensityFactor != null && w.basis === "power" ? `- Session intensity factor: ${w.intensityFactor} (normalised power as a fraction of FTP)` : null,
+    w.intensityFactor != null && w.basis === "pace" ? `- Normalised pace: ${Math.round(w.intensityFactor * 100)}% of threshold pace (as speed, weighted towards the hardest efforts)` : null,
+    w.intensityFactor != null && w.basis === "hr" ? `- Average heart rate: ${Math.round(w.intensityFactor * 100)}% of threshold heart rate` : null,
+    w.blocks.some(([, p]) => p != null) ? `- Structure: ${describeBlocks(w.blocks, w.basis)}` : null,
     w.avgPower != null ? `- Average power: ${w.avgPower} W` : null,
     w.kj != null ? `- Work done: ${w.kj} kJ` : null,
   ].filter(Boolean).join("\n");

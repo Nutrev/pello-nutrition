@@ -10,10 +10,24 @@ import { safeRedirect } from "@/lib/safe-redirect";
 
 type Draft = Pick<UserProfile, "username" | "weight_unit" | "sex" | "caffeine_preference" | "dietary" | "goals"> & {
   weight_kg: number; age: number; training_days_per_week: number; ftp_watts: number | null;
+  threshold_pace: string; threshold_hr: number | null;
+};
+
+const KM_PER_MILE = 1.609344;
+const paceText = (secPerKm: number | null, unit: "km" | "mi") => {
+  if (!secPerKm) return "";
+  const s = Math.round(unit === "mi" ? secPerKm * KM_PER_MILE : secPerKm);
+  return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+};
+const parsePace = (text: string, unit: "km" | "mi"): number | null => {
+  const m = text.trim().match(/^(\d{1,2}):([0-5]\d)$/);
+  if (!m) return null;
+  const sec = Number(m[1]) * 60 + Number(m[2]);
+  return unit === "mi" ? Math.round(sec / KM_PER_MILE) : sec;
 };
 
 const DEFAULT_DRAFT: Draft = {
-  username: "", weight_kg: 70, weight_unit: "kg", age: 30, sex: "male", training_days_per_week: 4, ftp_watts: null,
+  username: "", weight_kg: 70, weight_unit: "kg", age: 30, sex: "male", training_days_per_week: 4, ftp_watts: null, threshold_pace: "", threshold_hr: null,
   caffeine_preference: "moderate", dietary: [], goals: [],
 };
 
@@ -52,6 +66,8 @@ export default function Onboarding() {
       sex: profile.sex ?? "male",
       training_days_per_week: profile.training_days_per_week ?? DEFAULT_DRAFT.training_days_per_week,
       ftp_watts: profile.ftp_watts ?? null,
+      threshold_pace: paceText(profile.threshold_pace_sec_per_km ?? null, profile.weight_unit === "lbs" ? "mi" : "km"),
+      threshold_hr: profile.threshold_hr ?? null,
       caffeine_preference: profile.caffeine_preference ?? "moderate",
       dietary: profile.dietary ?? [],
       goals: profile.goals ?? [],
@@ -66,9 +82,18 @@ export default function Onboarding() {
   const save = async () => {
     setBusy(true); setError(null);
     // FTP is only sent when it's set, so profiles save even where the ftp_watts column hasn't been added yet.
-    const { ftp_watts, ...rest } = draft;
+    const { ftp_watts, threshold_pace, threshold_hr, ...rest } = draft;
     const ftp = ftp_watts != null && ftp_watts >= 50 && ftp_watts <= 700 ? Math.round(ftp_watts) : null;
-    const { error } = await updateProfile({ ...rest, username: draft.username?.trim() || null, ...(ftp != null || profile?.ftp_watts != null ? { ftp_watts: ftp } : {}) });
+    const paceUnit = draft.weight_unit === "lbs" ? "mi" : "km";
+    const pace = parsePace(threshold_pace, paceUnit);
+    if (threshold_pace.trim() && (pace == null || pace < 120 || pace > 900)) { setError(`Enter threshold pace as minutes:seconds per ${paceUnit}, e.g. ${paceUnit === "km" ? "4:30" : "7:15"}.`); setBusy(false); return; }
+    const hr = threshold_hr != null && threshold_hr >= 80 && threshold_hr <= 230 ? Math.round(threshold_hr) : null;
+    const { error } = await updateProfile({
+      ...rest, username: draft.username?.trim() || null,
+      ...(ftp != null || profile?.ftp_watts != null ? { ftp_watts: ftp } : {}),
+      ...(pace != null || profile?.threshold_pace_sec_per_km != null ? { threshold_pace_sec_per_km: pace } : {}),
+      ...(hr != null || profile?.threshold_hr != null ? { threshold_hr: hr } : {}),
+    });
     if (error) { setError("Couldn't save your profile. Please try again."); setBusy(false); return; }
     await refreshProfile();
     router.replace(then);
@@ -159,6 +184,27 @@ export default function Onboarding() {
                 <span className="text-sm text-muted">watts</span>
               </div>
             </label>
+          </div>
+
+          <div className="card">
+            <span className="block font-display font-semibold mb-1">Running thresholds <span className="text-xs font-normal text-muted">(optional)</span></span>
+            <span className="block text-xs text-muted mb-3">The pace and heart rate you could hold for about an hour of hard running. Used to read run workout files in the planner.</span>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+              <label className="flex items-center gap-2">
+                <span className="text-sm text-muted">Pace</span>
+                <input inputMode="numeric" placeholder={draft.weight_unit === "lbs" ? "7:15" : "4:30"} value={draft.threshold_pace}
+                  onChange={(e) => set("threshold_pace", e.target.value)}
+                  className="w-20 text-sm bg-white/60 border border-sand rounded-lg px-3 py-2.5 focus:outline-none focus:border-moss" />
+                <span className="text-sm text-muted">/{draft.weight_unit === "lbs" ? "mi" : "km"}</span>
+              </label>
+              <label className="flex items-center gap-2">
+                <span className="text-sm text-muted">Heart rate</span>
+                <input type="number" inputMode="numeric" min={80} max={230} placeholder="e.g. 168" value={draft.threshold_hr ?? ""}
+                  onChange={(e) => set("threshold_hr", e.target.value === "" ? null : Number(e.target.value))}
+                  className="w-20 text-sm bg-white/60 border border-sand rounded-lg px-3 py-2.5 focus:outline-none focus:border-moss" />
+                <span className="text-sm text-muted">bpm</span>
+              </label>
+            </div>
           </div>
         </div>
       )}

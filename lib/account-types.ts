@@ -12,6 +12,8 @@ export interface UserProfile {
   sex: "male" | "female" | null;
   training_days_per_week: number | null;
   ftp_watts?: number | null;     // cycling FTP, for reading power-based workout files
+  threshold_pace_sec_per_km?: number | null;  // running threshold pace, for run workout files
+  threshold_hr?: number | null;  // running threshold heart rate (bpm)
   caffeine_preference: "none" | "moderate" | "high" | null;
   dietary: string[];
   goals: string[];
