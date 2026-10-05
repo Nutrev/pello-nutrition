@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "check:nsf": "NODE_OPTIONS=--conditions=react-server tsx scripts/check-nsf.ts"
+    "check:nsf": "NODE_OPTIONS=--conditions=react-server tsx scripts/check-nsf.ts",
+    "check:prices": "NODE_OPTIONS=--conditions=react-server tsx scripts/check-prices.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.24.0",

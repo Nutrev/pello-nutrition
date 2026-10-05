@@ -547,7 +547,7 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Carbohydrate Mix",
   rating: 4.6,
   reviewCount: 162,
-  price: 51.99,                    // Box of 15 on The Feed
+  price: 45.81,                    // Box of 15 on The Feed
   servingsPerContainer: 15,
   carbsPerServing: 80,
   sodiumPerServing: 10,
@@ -590,7 +590,7 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Energy Gel",
   rating: 4.7,
   reviewCount: 1388,
-  price: 29.99,                    // Box of 18 on The Feed
+  price: 27.64,                    // Box of 18 on The Feed
   servingsPerContainer: 18,
   carbsPerServing: 22,
   sodiumPerServing: 4,
@@ -913,7 +913,7 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Hydration",
   rating: 4.8,
   reviewCount: 85,
-  price: 27.95,                    // 30 Serving Bag on The Feed
+  price: 22.36,                    // 30 Serving Bag on The Feed
   servingsPerContainer: 30,
   carbsPerServing: 1,
   sodiumPerServing: 400,
@@ -2534,7 +2534,7 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/rawnutrition.png",
   rating: 4.8,
   reviewCount: 25,
-  price: 39.19,                    // 100 Servings on The Feed
+  price: 33.99,                    // 100 Servings on The Feed
   servingsPerContainer: 100,
   carbsPerServing: 0,
   sodiumPerServing: 0,
@@ -3963,7 +3963,7 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/myprotein.png",
   rating: 4.4,
   reviewCount: 34,
-  price: 31.46,                    // 20 Servings on The Feed
+  price: 33.71,                    // 20 Servings on The Feed
   servingsPerContainer: 20,
   carbsPerServing: 1,
   sodiumPerServing: 10,
@@ -4952,7 +4952,7 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/sis.png",
   rating: 4.8,
   reviewCount: 233,
-  price: 68.97,                    // Box of 18 on The Feed
+  price: 48.28,                    // Box of 18 on The Feed
   servingsPerContainer: 18,
   carbsPerServing: 45,
   sodiumPerServing: 40,

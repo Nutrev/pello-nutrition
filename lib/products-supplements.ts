@@ -400,7 +400,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Creatine",
     rating: 4.8,
     reviewCount: 17,
-    price: 21.24,      // 30 Servings on The Feed
+    price: 24.99,      // 30 Servings on The Feed
     servingsPerContainer: 30,
     carbsPerServing: 1,
     caffeinePerServing: 0,
@@ -1349,7 +1349,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Creatine",
     rating: 5.0,
     reviewCount: 2,
-    price: 59.97,      // 24 Pouches on The Feed
+    price: 59.9,      // 24 Pouches on The Feed
     servingsPerContainer: 24,
     carbsPerServing: 14,
     caloriesPerServing: 60,
@@ -3777,7 +3777,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Performance",
     rating: 4.2,
     reviewCount: 6,
-    price: 59.7,      // 30 pouches on The Feed
+    price: 60,      // 30 pouches on The Feed
     servingsPerContainer: 30,
     carbsPerServing: 4,
     caloriesPerServing: 40,
@@ -6679,7 +6679,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Recovery",
     rating: 4.8,
     reviewCount: 26,
-    price: 34.98,      // 30 Servings on The Feed
+    price: 34.99,      // 30 Servings on The Feed
     servingsPerContainer: 30,
     proteinPerServing: 9,
     caloriesPerServing: 35,
@@ -8363,7 +8363,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Recovery",
     rating: 4.0,
     reviewCount: 5,
-    price: 34.99,      // 20 Serving Bag on The Feed
+    price: 29.99,      // 20 Serving Bag on The Feed
     servingsPerContainer: 20,
     carbsPerServing: 3,
     proteinPerServing: 1,
@@ -15324,7 +15324,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Vitamin",
     rating: 4.3,
     reviewCount: 6,
-    price: 34.8,      // 28 Servings on The Feed
+    price: 34.37,      // 28 Servings on The Feed
     servingsPerContainer: 28,
     carbsPerServing: 3,
     caloriesPerServing: 15,
@@ -15361,7 +15361,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Vitamin",
     rating: 4.5,
     reviewCount: 6,
-    price: 59.98,      // 28 pouches on The Feed
+    price: 61.8,      // 28 pouches on The Feed
     servingsPerContainer: 28,
     carbsPerServing: 11,
     caloriesPerServing: 50,
@@ -18286,7 +18286,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Omega-3",
     rating: 5.0,
     reviewCount: 1,
-    price: 29.84,      // 30 Servings on The Feed
+    price: 33.11,      // 30 Servings on The Feed
     servingsPerContainer: 30,
     caloriesPerServing: 20,
     caffeinePerServing: 0,
@@ -18513,7 +18513,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Omega-3",
     rating: 0,
     reviewCount: 0,
-    price: 38.15,      // 30 Servings on The Feed
+    price: 41.75,      // 30 Servings on The Feed
     servingsPerContainer: 30,
     caloriesPerServing: 25,
     caffeinePerServing: 0,
@@ -19401,7 +19401,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Greens",
     rating: 4.5,
     reviewCount: 79,
-    price: 34.99,      // Box of 12 on The Feed
+    price: 36,      // Box of 12 on The Feed
     servingsPerContainer: 12,
     carbsPerServing: 8,
     proteinPerServing: 3,

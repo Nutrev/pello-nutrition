@@ -367,7 +367,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     category: "Energy Gel",
     rating: 4.7,
     reviewCount: 324,
-    price: 19.99,      // Box of 6 on The Feed
+    price: 17.49,      // Box of 6 on The Feed
     servingsPerContainer: 6,
     carbsPerServing: 40,
     sodiumPerServing: 12,
@@ -701,7 +701,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     category: "Energy Gel",
     rating: 4.5,
     reviewCount: 235,
-    price: 75.5,      // Bag of 20 on The Feed
+    price: 82,      // Bag of 20 on The Feed
     servingsPerContainer: 20,
     carbsPerServing: 28,
     sodiumPerServing: 45,
@@ -738,7 +738,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     category: "Energy Gel",
     rating: 4.6,
     reviewCount: 128,
-    price: 27,      // Box of 12 on The Feed
+    price: 30,      // Box of 12 on The Feed
     servingsPerContainer: 12,
     carbsPerServing: 24,
     sodiumPerServing: 75,
@@ -1178,7 +1178,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     category: "Energy Gel",
     rating: 3.8,
     reviewCount: 23,
-    price: 18,      // Box of 6 on The Feed
+    price: 22.5,      // Box of 6 on The Feed
     servingsPerContainer: 6,
     carbsPerServing: 26,
     sodiumPerServing: 162,
@@ -1732,7 +1732,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     category: "Energy Gel",
     rating: 4.6,
     reviewCount: 60,
-    price: 82,      // Bag of 20 on The Feed
+    price: 81.5,      // Bag of 20 on The Feed
     servingsPerContainer: 20,
     carbsPerServing: 17,
     sodiumPerServing: 60,
@@ -3141,7 +3141,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     category: "Carbohydrate Mix",
     rating: 4.7,
     reviewCount: 34,
-    price: 39.95,      // 25 Servings on The Feed
+    price: 37.95,      // 25 Servings on The Feed
     servingsPerContainer: 25,
     carbsPerServing: 25,
     sodiumPerServing: 250,
@@ -3667,7 +3667,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     category: "Energy Bar",
     rating: 4.5,
     reviewCount: 255,
-    price: 13.96,      // Box of 8 on The Feed
+    price: 19.95,      // Box of 8 on The Feed
     servingsPerContainer: 8,
     carbsPerServing: 22,
     sodiumPerServing: 85,
@@ -4395,7 +4395,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     category: "Energy Bar",
     rating: 4.8,
     reviewCount: 70,
-    price: 13.49,      // 12 Pack on The Feed
+    price: 21.99,      // 12 Pack on The Feed
     servingsPerContainer: 12,
     carbsPerServing: 19,
     sodiumPerServing: 55,
