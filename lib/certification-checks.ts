@@ -7,6 +7,8 @@
 // to NSF's listing by product name, with label checks where names differed. NSF's database was
 // also searched for our other products from the same brands. A product counts as NSF Certified
 // for Sport on Pello only if it's in NSF_SPORT_LISTINGS.
+// NSF sometimes lists a product under a different company or product name (e.g. humann as
+// "Human Power of N, Co.", Momentous Ubiquinol as "CoQ10"), so searches cover listing names too.
 //
 // Informed Sport's database couldn't be checked automatically (its site blocks automated access),
 // so Informed Sport certifications are shown as listed by The Feed, with a link to check them.
@@ -64,6 +66,7 @@ export const NSF_SPORT_LISTINGS: Record<string, { listingId: string; listingName
   "gnarly-performance-greens": { listingId: "1484853", listingName: "Gnarly Performance Greens Blueberry A\u00e7ai" },
   "gnarly-preworkout": { listingId: "1279789", listingName: "Gnarly PREworkout Strawberry Lemonade" },
   "h2tab-molecular-hydrogen-tablets": { listingId: "1822935", listingName: "H2Tab Molecular Hydrogen Tablets - Unflavored" },
+  "humann-tart-cherry-gummies": { listingId: "1477976", listingName: "HumanN Tart Cherry Gummies" },
   "ketone-iq": { listingId: "1798072", listingName: "Ketone-IQ Multiserving (12oz) - HVMN" },
   "ketone-iq-shots": { listingId: "1798073", listingName: "Ketone-IQ Single Serving Shot (2oz) \u2013 HVMN" },
   "klean-athlete-b-complex": { listingId: "1603268", listingName: "Klean B-Complex" },
@@ -101,6 +104,7 @@ export const NSF_SPORT_LISTINGS: Record<string, { listingId: string; listingName
   "momentous-rhodiola-rosea": { listingId: "1601064", listingName: "Rhodiola Rosea" },
   "momentous-tumeric": { listingId: "1496443", listingName: "Turmeric Ultra" },
   "momentous-tyrosine": { listingId: "1601063", listingName: "Tyrosine" },
+  "momentous-ubiquinol": { listingId: "1667436", listingName: "CoQ10" },
   "momentous-vegan-omega-3": { listingId: "1696700", listingName: "Vegan Omega 3" },
   "momentous-vital-aminos": { listingId: "1505442", listingName: "Vital Aminos Tropical Punch" },
   "momentous-vitamin-d3": { listingId: "1477860", listingName: "Vitamin D" },
@@ -160,4 +164,18 @@ export const NSF_SPORT_LISTINGS: Record<string, { listingId: string; listingName
 
 // The Feed lists these as NSF Certified for Sport, but no matching product was in NSF's database
 // on NSF_CHECKED_ON. They're not shown as NSF certified.
-export const NSF_NOT_FOUND: string[] = ["humann-tart-cherry-gummies", "momentous-ubiquinol", "thorne-calcium-magnesium-malate"];
+export const NSF_NOT_FOUND: string[] = ["thorne-calcium-magnesium-malate"];
+
+// Close name matches that were reviewed and are NOT the same product (usually a separate "Sport"
+// SKU, another country's listing or a different formula). scripts/check-nsf.ts skips these.
+export const NSF_REVIEWED_NOT_SAME: Record<string, string[]> = {
+  "bodyhealth-perfect-amino-non-coated-tablets": ["1807050"], // NSF lists the coated tablets
+  "bodyhealth-perfect-amino-powder": ["1753373"],             // NSF lists Perfect Amino Creatine
+  "nordic-naturals-omega-3": ["1207526"],                     // Sport SKU only
+  "nordic-naturals-ultimate-omega": ["1207526", "1400694"],   // Sport SKUs only
+  "nordic-naturals-ultimate-omega-d3": ["1400694"],           // Sport SKU only
+  "nordic-naturals-ultimate-omega-supp": ["1207526"],         // Sport SKU only
+  "pure-encapsulations-creatine": ["1832980"],                // Canadian listing only
+  "thorne-collagen-plus": ["1506207"],                        // that's Collagen Fit
+  "thorne-melaton-5": ["1207474"],                            // that's Melaton-3
+};
