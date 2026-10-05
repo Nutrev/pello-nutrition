@@ -11,6 +11,8 @@ import { useUser } from "@/lib/auth";
 import { useProAccess } from "@/lib/subscription";
 import { PRO_ENABLED } from "@/lib/pro";
 import { STANDARD_CHOICES, meetsAll, meetsDiet, type StandardChoice } from "@/lib/quality-standards";
+import WorkoutUpload, { WorkoutChart, workoutIntensityNote } from "@/components/planner/WorkoutUpload";
+import { intensityFromIf, type WorkoutSummary } from "@/lib/workout-file";
 import { primaryRetailerLink, linkRel } from "@/lib/retailers";
 import { byWeightedRating, type ProductSummary } from "@/lib/catalog-types";
 import { servingsPerContainer } from "@/lib/servings";
@@ -37,6 +39,8 @@ interface PhaseProduct {
   quantity: number;
   totalCost: number;
   reason: string;
+  // During an event: carb products are alternatives (each covers the target); electrolytes are extra.
+  group?: "carb-option" | "electrolytes";
 }
 
 // ── CONSTANTS ─────────────────────────────────────────────────
@@ -82,13 +86,14 @@ const PHASE_CATEGORIES = {
 
 // ── HELPERS ───────────────────────────────────────────────────
 
-function getCarbsPerServing(p: ProductSummary): number {
-  return p.nutrition.carbsPerServing ?? 25; // 25g when unknown
+// Carbs per serving as stated on the label; null when the label doesn't say, so it's never sized by a guess.
+function getCarbsPerServing(p: ProductSummary): number | null {
+  return p.nutrition.carbsPerServing ?? null;
 }
 
 // ── SMART RECOMMENDATION ENGINE ───────────────────────────────
 
-function buildPhaseRecommendations(PRODUCTS: ProductSummary[], inputs: PlannerInputs, carbTarget: number): {
+function buildPhaseRecommendations(PRODUCTS: ProductSummary[], inputs: PlannerInputs, carbTarget: number, sodiumTarget: number): {
   pre: PhaseProduct[];
   during: PhaseProduct[];
   post: PhaseProduct[];
@@ -138,18 +143,46 @@ function buildPhaseRecommendations(PRODUCTS: ProductSummary[], inputs: PlannerIn
     // PRE — bar + hydration
     const preProducts = bestByCategory(PHASE_CATEGORIES.pre, 1);
 
-    // DURING — gels/chews + hydration based on duration and carb target
-    const duringCategories = inputs.formats.length > 0
-      ? inputs.formats.filter(f => PHASE_CATEGORIES.during.includes(f))
-      : PHASE_CATEGORIES.during;
+    // DURING. Carbs: up to two alternatives, each sized so it covers the carb target on its own.
+    // Electrolytes: one product sized to the sodium target. Only products whose label states
+    // carbs (or sodium) per serving are sized; a serving far above the target is left out.
+    const minutes = Math.round(inputs.durationHours * 60);
+    const formatPicks = inputs.formats.filter(f => PHASE_CATEGORIES.during.includes(f));
+    const carbCategories = (formatPicks.length ? formatPicks : PHASE_CATEGORIES.during).filter(c => c !== "Hydration");
+    const wantsElectrolytes = formatPicks.length === 0 || formatPicks.includes("Hydration");
 
-    const duringProducts = bestByCategory(
-      duringCategories.length > 0 ? duringCategories : PHASE_CATEGORIES.during,
-      2,
-      true // prefer caffeinated during event
-    );
+    const carbOptions: PhaseProduct[] = carbTarget <= 0 ? [] : bestByCategory(carbCategories.length ? carbCategories : ["Energy Gel", "Energy Chew", "Carbohydrate Mix"], 3, true)
+      .filter(p => { const c = getCarbsPerServing(p); return c != null && c > 0 && c <= carbTarget * 1.5; })
+      .slice(0, 2)
+      .map(p => {
+        const cps = getCarbsPerServing(p)!;
+        const qty = Math.max(1, Math.round(carbTarget / cps));
+        const totalCost = parseFloat(((p.price / servingsPerContainer(p)) * qty).toFixed(2));
+        const every = qty > 1 ? ` — about one every ${Math.round(minutes / qty)} min` : "";
+        const reason = p.category === "Carbohydrate Mix"
+          ? `${qty} serving${qty === 1 ? "" : "s"} × ${cps}g = ${qty * cps}g carbs, mixed into your bottles. Covers your ${carbTarget}g target on its own.`
+          : `${qty} × ${cps}g = ${qty * cps}g carbs${every}. Covers your ${carbTarget}g target on its own.`;
+        return { product: p, phase: "during" as const, quantity: qty, totalCost, reason, group: "carb-option" as const };
+      });
 
-    // Calculate quantities
+    // Prefer a product whose total lands within 50% of the sodium target; otherwise say it's over.
+    const hydration = wantsElectrolytes && sodiumTarget > 0 ? bestByCategory(["Hydration"], 8).filter(p => (p.nutrition.sodiumPerServing ?? 0) > 0) : [];
+    const sodiumTotal = (p: ProductSummary) => Math.max(1, Math.round(sodiumTarget / p.nutrition.sodiumPerServing!)) * p.nutrition.sodiumPerServing!;
+    const electrolyte = hydration.find(p => Math.abs(sodiumTotal(p) - sodiumTarget) <= sodiumTarget * 0.5) ?? hydration[0];
+    const electrolytes: PhaseProduct[] = !electrolyte ? [] : [electrolyte].map(p => {
+      const sps = p.nutrition.sodiumPerServing!;
+      const qty = Math.max(1, Math.round(sodiumTarget / sps));
+      const over = qty * sps > sodiumTarget * 1.5;
+      return {
+        product: p, phase: "during" as const, quantity: qty, group: "electrolytes" as const,
+        totalCost: parseFloat(((p.price / servingsPerContainer(p)) * qty).toFixed(2)),
+        reason: `${qty} × ${sps}mg = ${qty * sps}mg sodium, against an estimated ${sodiumTarget}mg lost in sweat.` +
+          (over ? " That's more than you need; a smaller amount, or a lower-sodium mix, would cover it." : ""),
+      };
+    });
+
+    const duringPhase: PhaseProduct[] = [...carbOptions, ...electrolytes];
+
     const prePhase: PhaseProduct[] = preProducts.slice(0, 1).map(p => ({
       product: p,
       phase: "pre" as const,
@@ -157,25 +190,6 @@ function buildPhaseRecommendations(PRODUCTS: ProductSummary[], inputs: PlannerIn
       totalCost: parseFloat((p.price / servingsPerContainer(p)).toFixed(2)),
       reason: `Slow-release carbs 2-3 hours before — provides sustained energy without GI distress`,
     }));
-
-    const duringPhase: PhaseProduct[] = duringProducts.slice(0, 3).map(p => {
-      const carbsPerServing = getCarbsPerServing(p);
-      const carbsPerHr = INTENSITY_OPTIONS.find(i => i.id === inputs.intensity)?.carbsPerHr ?? 50;
-      const servingsNeeded = p.category === "Energy Gel" || p.category === "Energy Chew"
-        ? Math.max(1, Math.ceil(carbTarget / carbsPerServing))
-        : Math.ceil(inputs.durationHours);
-      const pricePerServing = p.price / servingsPerContainer(p);
-      const totalCost = parseFloat((pricePerServing * servingsNeeded).toFixed(2));
-
-      const hasCaf = p.ingredients?.some((i: any) => i.name.toLowerCase().includes("caffeine")) ?? false;
-      const reason = p.category === "Energy Gel"
-        ? `x${servingsNeeded} gels — 1 every ${Math.round(inputs.durationHours * 60 / servingsNeeded)} min for ${carbsPerServing * servingsNeeded}g total carbs`
-        : p.category === "Hydration"
-        ? `Electrolyte replacement — ${Math.ceil(inputs.durationHours)} servings for sodium and fluid balance`
-        : `Carb + hydration combined — ${Math.ceil(inputs.durationHours)} servings`;
-
-      return { product: p, phase: "during" as const, quantity: servingsNeeded, totalCost, reason };
-    });
 
     // POST — protein + recovery
     const postProducts = bestByCategory(PHASE_CATEGORIES.post, 1);
@@ -448,6 +462,25 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
   const [usage, setUsage] = useState<PlanUsage | null>(null);
   const [blocked, setBlocked] = useState<"limit" | "pro" | null>(null);
   const [prefilled, setPrefilled] = useState(false);
+  const [workout, setWorkout] = useState<WorkoutSummary | null>(null);
+
+  // An uploaded workout sets the session's sport, duration and (for bike files with power) intensity.
+  const applyWorkout = (w: WorkoutSummary | null) => {
+    setWorkout(w);
+    if (!w) { setInputs(prev => ({ ...prev, workout: null })); return; }
+    const detected = intensityFromIf(w.intensityFactor);
+    setInputs(prev => ({
+      ...prev,
+      mode: "event",
+      eventType: prev.eventType ?? (w.sport === "bike" ? "road-cycling" : w.sport === "run" ? "running" : "training-day"),
+      durationHours: Math.max(0.25, Math.round((w.durationMin / 60) * 100) / 100),
+      intensity: detected ?? prev.intensity,
+      workout: {
+        kind: w.kind, sport: w.sport, name: w.name, durationMin: w.durationMin, intensityFactor: w.intensityFactor,
+        blocks: w.blocks, avgPower: w.avgPower, kj: w.kj,
+      },
+    }));
+  };
 
   // This month's free allowance (only once Pro is on).
   useEffect(() => {
@@ -491,14 +524,16 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
   // Build phase-specific recommendations
   const phaseRecs = useMemo(() => {
     if (!parsedPlan) return null;
-    return buildPhaseRecommendations(catalog, inputs, carbTarget);
-  }, [parsedPlan, inputs, carbTarget, catalog]);
+    return buildPhaseRecommendations(catalog, inputs, carbTarget, sodiumTarget);
+  }, [parsedPlan, inputs, carbTarget, sodiumTarget, catalog]);
 
   // Total cost
   const totalCost = useMemo(() => {
     if (!phaseRecs) return 0;
-    return [...phaseRecs.pre, ...phaseRecs.during, ...phaseRecs.post]
-      .reduce((sum, item) => sum + item.totalCost, 0);
+    // Carb options are alternatives, so only the cheapest one counts.
+    const options = phaseRecs.during.filter(i => i.group === "carb-option").map(i => i.totalCost);
+    const rest = [...phaseRecs.pre, ...phaseRecs.during.filter(i => i.group !== "carb-option"), ...phaseRecs.post];
+    return rest.reduce((sum, item) => sum + item.totalCost, 0) + (options.length ? Math.min(...options) : 0);
   }, [phaseRecs]);
 
   const generatePlan = async () => {
@@ -531,13 +566,17 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
     setStep(1);
     setInputs(DEFAULT_INPUTS);
     setPrefilled(false);
+    setWorkout(null);
   };
+  const completed = workout?.kind === "completed";
 
   const needsAccount = gating && !authLoading && !user;
   const filtersOn = inputs.dietary.length > 0 || (inputs.standards ?? []).length > 0;
   const showLimitGate = gating && !proAccess && (limitReached || blocked === "limit") && !parsedPlan && !loading;
 
-  const planTitle = isEvent
+  const planTitle = workout
+    ? `${workout.name} · ${completed ? "recovery & review" : "fuelling plan"}`
+    : isEvent
     ? `${EVENT_TYPES.find(e => e.id === inputs.eventType)?.label} · ${inputs.durationHours}hr plan`
     : OUTCOME_TYPES.find(o => o.id === inputs.outcomeType)?.label ?? "Your plan";
 
@@ -586,6 +625,10 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
             {/* Step 1 */}
             {step === 1 && (
               <div>
+                <ProGate feature="Plan from a workout file" description="Upload a planned or completed workout and get fuelling built around its actual duration and intervals.">
+                  <WorkoutUpload workout={workout} onChange={applyWorkout} />
+                </ProGate>
+                {!workout && (
                 <div className="grid grid-cols-2 gap-3 mb-6">
                   <button onClick={() => update("mode", "event")}
                     className={`p-4 rounded-xl border text-left transition-all ${inputs.mode === "event" ? "border-moss bg-moss/5" : "border-sand hover:border-muted bg-white/40"}`}>
@@ -598,6 +641,7 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
                     <div className="text-xs text-muted">I want to achieve a specific result through nutrition</div>
                   </button>
                 </div>
+                )}
 
                 {inputs.mode === "event" && (
                   <div>
@@ -617,6 +661,7 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
                     {inputs.eventType && (
                       <div className="card mb-6">
                         <h3 className="font-display font-semibold mb-4">Duration</h3>
+                        {workout && <p className="text-xs text-moss -mt-2 mb-3">From your workout file: {Math.floor(workout.durationMin / 60)}h {String(workout.durationMin % 60).padStart(2, "0")}m (planned as {inputs.durationHours} hours)</p>}
                         <div className="grid grid-cols-4 gap-2">
                           {DURATION_OPTIONS.map(d => (
                             <button key={d.value} onClick={() => update("durationHours", d.value)}
@@ -670,6 +715,9 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
                 {isEvent && (
                   <div className="card mb-4">
                     <h3 className="font-display font-semibold mb-4">Intensity</h3>
+                    {workout && (workoutIntensityNote(workout)
+                      ? <p className="text-xs text-moss -mt-2 mb-3">Set from your workout file. {workoutIntensityNote(workout)}.</p>
+                      : <p className="text-xs text-muted -mt-2 mb-3">Your workout file doesn&apos;t give a power-based intensity, so choose the closest.</p>)}
                     <div className="space-y-2">
                       {INTENSITY_OPTIONS.map(opt => (
                         <button key={opt.id} onClick={() => update("intensity", opt.id)}
@@ -908,6 +956,14 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
                 {inputs.dietary.map(d => <span key={d} className="text-xs bg-sand px-2 py-0.5 rounded-md">{d}</span>)}
                 {(inputs.standards ?? []).map(id => <span key={id} className="text-xs bg-moss/10 text-moss px-2 py-0.5 rounded-md">{STANDARD_CHOICES.find(c => c.id === id)?.label}</span>)}
               </div>
+              {workout && (
+                <div className="card mt-4">
+                  <div className="text-xs text-muted mb-2">
+                    {completed ? "Completed workout" : "Planned workout"} · {workout.durationMin} min{workoutIntensityNote(workout) ? ` · ${workoutIntensityNote(workout)}` : ""}
+                  </div>
+                  <WorkoutChart blocks={workout.blocks} />
+                </div>
+              )}
             </div>
 
             {/* PRE phase */}
@@ -917,8 +973,8 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
                   <span className="text-moss text-xs font-bold">PRE</span>
                 </div>
                 <div>
-                  <h3 className="font-display font-bold text-base">{isEvent ? "Pre-event" : "Before training"}</h3>
-                  <p className="text-xs text-muted">{isEvent ? "2-3 hours before" : "Daily preparation"}</p>
+                  <h3 className="font-display font-bold text-base">{completed ? "Before a session like this" : isEvent ? "Pre-event" : "Before training"}</h3>
+                  <p className="text-xs text-muted">{completed ? "For next time" : isEvent ? "2-3 hours before" : "Daily preparation"}</p>
                 </div>
               </div>
               <PlanLines lines={parsedPlan.preEvent} />
@@ -942,20 +998,48 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
                   <span className="text-amber text-xs font-bold">DUR</span>
                 </div>
                 <div>
-                  <h3 className="font-display font-bold text-base">{isEvent ? "During event" : "During training"}</h3>
-                  <p className="text-xs text-muted">{isEvent ? "Per-hour fuelling plan" : "Intra-workout nutrition"}</p>
+                  <h3 className="font-display font-bold text-base">{completed ? "What this session called for" : isEvent ? "During event" : "During training"}</h3>
+                  <p className="text-xs text-muted">{completed ? "Compare with what you took" : workout ? "Timed to your workout" : isEvent ? "Per-hour fuelling plan" : "Intra-workout nutrition"}</p>
                 </div>
               </div>
               <PlanLines lines={parsedPlan.duringEvent} />
               {phaseRecs.during.length === 0 && filtersOn && <NoMatch />}
               {phaseRecs.during.length > 0 && (
                 <div className="mt-4 pt-4 border-t border-sand">
+                  {phaseRecs.during.some(i => i.group) ? (
+                    <div className="space-y-4">
+                      {phaseRecs.during.some(i => i.group === "carb-option") && (
+                        <div>
+                          <div className="text-xs text-muted uppercase tracking-widest mb-1">Carbs: pick one</div>
+                          <p className="text-xs text-muted mb-2">Each option covers your {carbTarget}g carb target on its own.</p>
+                          <div className="space-y-2">
+                            {phaseRecs.during.filter(i => i.group === "carb-option").map(item => (
+                              <PhaseProductCard key={item.product.id} item={item} borderColor="border-amber/20" />
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      {phaseRecs.during.some(i => i.group === "electrolytes") && (
+                        <div>
+                          <div className="text-xs text-muted uppercase tracking-widest mb-2">Electrolytes: as well</div>
+                          <div className="space-y-2">
+                            {phaseRecs.during.filter(i => i.group === "electrolytes").map(item => (
+                              <PhaseProductCard key={item.product.id} item={item} borderColor="border-amber/20" />
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                  <>
                   <div className="text-xs text-muted uppercase tracking-widest mb-2">Recommended products</div>
                   <div className="space-y-2">
                     {phaseRecs.during.map(item => (
                       <PhaseProductCard key={item.product.id} item={item} borderColor="border-amber/20" />
                     ))}
                   </div>
+                  </>
+                  )}
                 </div>
               )}
             </div>
@@ -967,8 +1051,8 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
                   <span className="text-blue-600 text-xs font-bold">POST</span>
                 </div>
                 <div>
-                  <h3 className="font-display font-bold text-base">{isEvent ? "Post-event recovery" : "Recovery protocol"}</h3>
-                  <p className="text-xs text-muted">{isEvent ? "0-30 min · 30-120 min · overnight" : "Daily recovery habits"}</p>
+                  <h3 className="font-display font-bold text-base">{completed ? "Recovery: the next 24 hours" : isEvent ? "Post-event recovery" : "Recovery protocol"}</h3>
+                  <p className="text-xs text-muted">{completed ? "Starting now" : isEvent ? "0-30 min · 30-120 min · overnight" : "Daily recovery habits"}</p>
                 </div>
               </div>
               <PlanLines lines={parsedPlan.postEvent} />
@@ -991,7 +1075,7 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
                 {isEvent ? "Estimated event cost" : "Monthly supplement stack"}
               </div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-muted">Recommended products total</span>
+                <span className="text-sm text-muted">{isEvent ? "Recommended products total (cheapest carb option)" : "Recommended products total"}</span>
                 <span className="font-display font-bold text-xl text-moss">${totalCost.toFixed(2)}</span>
               </div>
               {isEvent && (

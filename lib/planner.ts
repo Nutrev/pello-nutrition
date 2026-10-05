@@ -3,6 +3,7 @@
 // The prompt is built on the server so the API can't be used as an open proxy to Claude.
 
 import { STANDARD_CHOICES, STANDARD_CHOICE_IDS, type StandardChoice } from "./quality-standards";
+import { describeBlocks, MAX_BLOCKS, type WorkoutBlock } from "./workout-file";
 
 // ── TYPES ─────────────────────────────────────────────────────
 
@@ -17,6 +18,18 @@ export type Retailer = "REI" | "Amazon" | "The Feed" | "Running Warehouse";
 export type WeightUnit = "kg" | "lbs";
 export type Sex = "male" | "female";
 
+// A summary of an uploaded workout file (lib/workout-file.ts). Pello Pro.
+export interface WorkoutPlanInput {
+  kind: "planned" | "completed";
+  sport: "bike" | "run" | "other";
+  name: string;
+  durationMin: number;
+  intensityFactor: number | null;
+  blocks: WorkoutBlock[];
+  avgPower: number | null;
+  kj: number | null;
+}
+
 export interface PlannerInputs {
   mode: PlanMode;
   eventType: EventType | null;
@@ -29,6 +42,7 @@ export interface PlannerInputs {
   formats: FormatPreference[];
   retailers: Retailer[];          // no longer offered (no per-retailer stock data); kept so saved plans still parse
   standards: StandardChoice[];   // quality standards every recommended product must meet
+  workout?: WorkoutPlanInput | null;
   weightKg: number;              // always kg; weightUnit only changes how it's shown
   weightUnit: WeightUnit;
   age: number;
@@ -124,6 +138,33 @@ function numberIn(value: unknown, min: number, max: number): number | null {
   return typeof value === "number" && Number.isFinite(value) && value >= min && value <= max ? value : null;
 }
 
+// Checks an uploaded-workout summary. undefined = invalid, null = none.
+function parseWorkout(raw: unknown): WorkoutPlanInput | null | undefined {
+  if (raw == null) return null;
+  if (typeof raw !== "object") return undefined;
+  const w = raw as Record<string, unknown>;
+  if (w.kind !== "planned" && w.kind !== "completed") return undefined;
+  if (w.sport !== "bike" && w.sport !== "run" && w.sport !== "other") return undefined;
+  const durationMin = numberIn(w.durationMin, 1, 24 * 60);
+  const intensityFactor = w.intensityFactor == null ? null : numberIn(w.intensityFactor, 0.2, 2);
+  const avgPower = w.avgPower == null ? null : numberIn(w.avgPower, 0, 2500);
+  const kj = w.kj == null ? null : numberIn(w.kj, 0, 50000);
+  if (durationMin === null || intensityFactor === undefined || avgPower === undefined || kj === undefined) return undefined;
+  if (w.intensityFactor != null && intensityFactor === null) return undefined;
+  if (!Array.isArray(w.blocks) || w.blocks.length > MAX_BLOCKS) return undefined;
+  const blocks: WorkoutBlock[] = [];
+  for (const b of w.blocks) {
+    if (!Array.isArray(b) || b.length !== 2) return undefined;
+    const min = numberIn(b[0], 0, 24 * 60);
+    const pct = b[1] == null ? null : numberIn(b[1], 0, 300);
+    if (min === null || (b[1] != null && pct === null)) return undefined;
+    blocks.push([Math.round(min * 10) / 10, pct == null ? null : Math.round(pct)]);
+  }
+  // The name goes into the prompt, so keep only plain characters.
+  const name = typeof w.name === "string" ? w.name.replace(/[^A-Za-z0-9\u00C0-\u024F\s\-.,:()/&+'#%]/g, "").replace(/\s+/g, " ").trim().slice(0, 60) : "";
+  return { kind: w.kind, sport: w.sport, name: name || "Uploaded workout", durationMin: Math.round(durationMin), intensityFactor, blocks, avgPower, kj };
+}
+
 // Checks untrusted request data from the browser. Returns null if anything is out of range.
 export function parsePlannerInputs(raw: unknown): PlannerInputs | null {
   if (!raw || typeof raw !== "object") return null;
@@ -147,6 +188,8 @@ export function parsePlannerInputs(raw: unknown): PlannerInputs | null {
   const retailers = listOf(r.retailers, RETAILERS);
   // Optional, so plans saved before standards existed still parse.
   const standards = r.standards === undefined ? [] : listOf(r.standards, STANDARD_CHOICE_IDS);
+  const workout = parseWorkout(r.workout);
+  if (workout === undefined) return null;
   const age = numberIn(r.age, 16, 70);
   const trainingDaysPerWeek = numberIn(r.trainingDaysPerWeek, 1, 7);
   if (durationHours === null || budget === null || weightKg === null || !dietary || !formats || !retailers || !standards) return null;
@@ -164,6 +207,7 @@ export function parsePlannerInputs(raw: unknown): PlannerInputs | null {
     formats,
     retailers,
     standards,
+    workout,
     weightKg,
     weightUnit: r.weightUnit,
     age: Math.round(age),
@@ -173,6 +217,30 @@ export function parsePlannerInputs(raw: unknown): PlannerInputs | null {
 }
 
 // ── PROMPT ────────────────────────────────────────────────────
+
+// The uploaded workout, if any: its structure, and how to use it in the plan.
+function workoutSection(inputs: PlannerInputs): string {
+  const w = inputs.workout;
+  if (!w) return "";
+  const facts = [
+    `- Workout: "${w.name}", ${w.durationMin} minutes${w.sport === "bike" ? ", cycling" : w.sport === "run" ? ", running" : ""}`,
+    w.intensityFactor != null ? `- Session intensity factor: ${w.intensityFactor} (normalised power as a fraction of FTP)` : null,
+    w.blocks.some(([, p]) => p != null) ? `- Structure: ${describeBlocks(w.blocks)}` : null,
+    w.avgPower != null ? `- Average power: ${w.avgPower} W` : null,
+    w.kj != null ? `- Work done: ${w.kj} kJ` : null,
+  ].filter(Boolean).join("\n");
+  return w.kind === "planned"
+    ? `
+PLANNED WORKOUT (from the athlete's uploaded workout file):
+${facts}
+Time the DURING EVENT schedule to this structure, using clock times from the start. Where practical, schedule carbs and fluid in the easier blocks just before the hardest efforts rather than during them.
+`
+    : `
+COMPLETED WORKOUT (from the athlete's uploaded activity file; the session is already finished):
+${facts}
+Under PRE-EVENT, briefly say how to fuel before a session like this next time. Under DURING EVENT, state what this session called for (carbs per hour, fluid and sodium) so the athlete can compare it with what they actually took. Under POST-EVENT, give recovery nutrition for the next 24 hours, starting now.
+`;
+}
 
 function standardsLine(inputs: PlannerInputs): string {
   return inputs.standards?.length ? inputs.standards.map((id) => STANDARD_CHOICES.find((c) => c.id === id)?.label ?? id).join(", ") : "none";
@@ -205,10 +273,11 @@ ${athlete}
 - Caffeine preference: ${inputs.caffeinePreference}
 - Dietary: ${inputs.dietary.length > 0 ? inputs.dietary.join(", ") : "none"}
 - Quality standards required: ${standardsLine(inputs)}
-
+${workoutSection(inputs)}
 CALCULATED TARGETS:
 - Total carbs: ${carbTarget}g (${INTENSITY_OPTIONS.find(i => i.id === inputs.intensity)?.carbsPerHr}g/hr)
 - Total sodium: ${sodiumTarget}mg${inputs.sex === "female" ? " (adjusted 15% lower for average female sweat sodium losses)" : ""}
+Use these totals exactly in DURING EVENT and TOTALS; don't recalculate them.
 
 ${personalise}
 

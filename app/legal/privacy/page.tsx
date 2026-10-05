@@ -33,7 +33,7 @@ export default function PrivacyPage() {
             <p>You can browse Pello without an account. We collect:</p>
             <ul className="list-disc pl-5 space-y-1 mt-2">
               <li><strong className="text-ink">Account details</strong> — if you create an account: your email address and password (stored securely by our authentication provider; we never see your password), or your Google account email if you sign in with Google</li>
-              <li><strong className="text-ink">Profile information</strong> — anything you choose to add: a username, body weight and preferred unit, age, sex, training days per week, caffeine preference, dietary preferences (vegan, gluten-free, dairy-free) and goals</li>
+              <li><strong className="text-ink">Profile information</strong> — anything you choose to add: a username, body weight and preferred unit, age, sex, training days per week, cycling FTP, caffeine preference, dietary preferences (vegan, gluten-free, dairy-free) and goals</li>
               <li><strong className="text-ink">Saved content</strong> — nutrition plans you save (including the inputs used to create them, such as event details and body weight), favourite products, and the products, doses, timing and notes in your supplement stack</li>
               {PRO_ENABLED && (
                 <li><strong className="text-ink">Subscription details</strong> — if you subscribe to Pello Pro: your subscription status, trial and renewal dates, and the customer and subscription IDs Stripe assigns. Pello Pro is sold through Link, Stripe&apos;s checkout, which acts as the merchant of record: Stripe and Link collect your payment details and billing address under their own privacy policies. We never see or store your full card number</li>
@@ -41,6 +41,7 @@ export default function PrivacyPage() {
               {PRO_ENABLED && (
                 <li><strong className="text-ink">Planner usage</strong> — the date of each nutrition plan you generate, to count the free plan&apos;s monthly allowance</li>
               )}
+              <li><strong className="text-ink">Workout files</strong> — if you plan from a workout file, it&apos;s read in your browser and never uploaded or stored. Only a summary (its name, duration, intensity and power figures, with no location or time data) is used for your plan, and it&apos;s saved with the plan if you save it</li>
               <li><strong className="text-ink">Community reviews</strong> — the display name, ratings and comments you choose to submit; these are public{PRO_ENABLED ? ". We also record which account wrote each review; that isn't shown publicly" : ""}</li>
               <li><strong className="text-ink">Emails you send us</strong> — if you contact us</li>
               <li><strong className="text-ink">Technical data</strong> — your IP address and browser details, which our hosting provider processes to deliver the site and which we use briefly to limit abuse of forms and AI features</li>
@@ -53,7 +54,7 @@ export default function PrivacyPage() {
             <ul className="list-disc pl-5 space-y-1">
               <li>To run your account: logging you in and showing your saved plans, favourites and stack</li>
               {PRO_ENABLED && <li>To provide Pello Pro: checking your subscription, counting free plans, and letting you manage billing through Stripe</li>}
-              <li>To tailor nutrition plans: when you use the planner, the details you enter (such as body weight, age, sex, training days and event details) are sent to our AI provider to generate your plan</li>
+              <li>To tailor nutrition plans: when you use the planner, the details you enter (such as body weight, age, sex, training days, event details and any workout-file summary) are sent to our AI provider to generate your plan</li>
               <li>To display community reviews on product pages</li>
               <li>To send account emails you trigger, such as email confirmation and password reset</li>
               <li>To keep the site secure and comply with legal obligations</li>

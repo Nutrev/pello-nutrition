@@ -9,11 +9,11 @@ import { KG_PER_LB, formatWeight } from "@/lib/planner";
 import { safeRedirect } from "@/lib/safe-redirect";
 
 type Draft = Pick<UserProfile, "username" | "weight_unit" | "sex" | "caffeine_preference" | "dietary" | "goals"> & {
-  weight_kg: number; age: number; training_days_per_week: number;
+  weight_kg: number; age: number; training_days_per_week: number; ftp_watts: number | null;
 };
 
 const DEFAULT_DRAFT: Draft = {
-  username: "", weight_kg: 70, weight_unit: "kg", age: 30, sex: "male", training_days_per_week: 4,
+  username: "", weight_kg: 70, weight_unit: "kg", age: 30, sex: "male", training_days_per_week: 4, ftp_watts: null,
   caffeine_preference: "moderate", dietary: [], goals: [],
 };
 
@@ -51,6 +51,7 @@ export default function Onboarding() {
       age: profile.age ?? DEFAULT_DRAFT.age,
       sex: profile.sex ?? "male",
       training_days_per_week: profile.training_days_per_week ?? DEFAULT_DRAFT.training_days_per_week,
+      ftp_watts: profile.ftp_watts ?? null,
       caffeine_preference: profile.caffeine_preference ?? "moderate",
       dietary: profile.dietary ?? [],
       goals: profile.goals ?? [],
@@ -64,7 +65,10 @@ export default function Onboarding() {
 
   const save = async () => {
     setBusy(true); setError(null);
-    const { error } = await updateProfile({ ...draft, username: draft.username?.trim() || null });
+    // FTP is only sent when it's set, so profiles save even where the ftp_watts column hasn't been added yet.
+    const { ftp_watts, ...rest } = draft;
+    const ftp = ftp_watts != null && ftp_watts >= 50 && ftp_watts <= 700 ? Math.round(ftp_watts) : null;
+    const { error } = await updateProfile({ ...rest, username: draft.username?.trim() || null, ...(ftp != null || profile?.ftp_watts != null ? { ftp_watts: ftp } : {}) });
     if (error) { setError("Couldn't save your profile. Please try again."); setBusy(false); return; }
     await refreshProfile();
     router.replace(then);
@@ -142,6 +146,19 @@ export default function Onboarding() {
                   className={`py-2 rounded-xl border text-sm ${draft.training_days_per_week === d ? "border-moss bg-moss/5 text-moss font-medium" : "border-sand hover:border-muted text-muted"}`}>{d}</button>
               ))}
             </div>
+          </div>
+
+          <div className="card">
+            <label className="block">
+              <span className="block font-display font-semibold mb-1">Cycling FTP <span className="text-xs font-normal text-muted">(optional)</span></span>
+              <span className="block text-xs text-muted mb-2">Your functional threshold power, in watts. Used to read power-based workout files in the planner.</span>
+              <div className="flex items-center gap-2">
+                <input type="number" inputMode="numeric" min={50} max={700} placeholder="e.g. 250" value={draft.ftp_watts ?? ""}
+                  onChange={(e) => set("ftp_watts", e.target.value === "" ? null : Number(e.target.value))}
+                  className="w-32 text-sm bg-white/60 border border-sand rounded-lg px-3 py-2.5 focus:outline-none focus:border-moss" />
+                <span className="text-sm text-muted">watts</span>
+              </div>
+            </label>
           </div>
         </div>
       )}

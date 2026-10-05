@@ -11,6 +11,7 @@ export interface UserProfile {
   age: number | null;
   sex: "male" | "female" | null;
   training_days_per_week: number | null;
+  ftp_watts?: number | null;     // cycling FTP, for reading power-based workout files
   caffeine_preference: "none" | "moderate" | "high" | null;
   dietary: string[];
   goals: string[];

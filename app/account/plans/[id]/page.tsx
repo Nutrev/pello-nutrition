@@ -29,6 +29,7 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
   const plan = data as SavedPlan;
   const i = plan.inputs;
   const tags = [
+    i.workout ? `${i.workout.kind === "completed" ? "Completed" : "Planned"} workout: ${i.workout.name} (${i.workout.durationMin} min)` : null,
     plan.plan_mode === "event" ? `${i.durationHours}hr · ${i.intensity}` : null,
     i.weightKg ? formatWeight(i.weightKg, i.weightUnit ?? "kg") : null,
     i.age ? `${i.age} · ${i.sex}` : null,

@@ -51,6 +51,9 @@ export async function POST(req: NextRequest) {
     if (!user) return NextResponse.json({ error: "Please log in to build a plan.", code: "signin" }, { status: 401 });
     userId = user.id;
     usage = await usageFor(user.id);
+    if (!usage.pro && inputs.workout) {
+      return NextResponse.json({ error: "Workout file uploads are a Pello Pro feature.", code: "pro", usage: json(usage) }, { status: 403 });
+    }
     if (!usage.pro && inputs.mode === "outcome") {
       return NextResponse.json({ error: "Goal-based plans are a Pello Pro feature.", code: "pro", usage: json(usage) }, { status: 403 });
     }

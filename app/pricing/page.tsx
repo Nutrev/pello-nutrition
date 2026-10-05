@@ -30,6 +30,7 @@ const FREE: { text: string; included: boolean }[] = [
 const PRO = [
   "Everything in Free",
   "Unlimited nutrition plans",
+  "Plans built from your workout files (.fit, .zwo, .erg, .mrc, .tcx)",
   "Save and revisit plans",
   "Goal-based planner (first marathon, recovery, building muscle and more)",
   "Compare up to 5 products",
