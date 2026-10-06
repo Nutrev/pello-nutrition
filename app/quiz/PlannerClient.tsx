@@ -479,6 +479,7 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
       workout: {
         kind: w.kind, sport: w.sport, name: w.name, durationMin: w.durationMin, basis: w.basis, intensityFactor: w.intensityFactor,
         blocks: w.blocks, avgPower: w.avgPower, kj: w.kj,
+        ...(w.recordedWith ? { recordedWith: w.recordedWith } : {}),
       },
     }));
   };
@@ -954,6 +955,7 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
                     {completed ? "Completed workout" : "Planned workout"} · {workout.durationMin} min{workoutIntensityNote(workout) ? ` · ${workoutIntensityNote(workout)}` : ""}
                   </div>
                   <WorkoutChart blocks={workout.blocks} basis={workout.basis} />
+                  {workout.recordedWith && <p className="text-xs text-muted mt-2">Recorded with {workout.recordedWith}</p>}
                 </div>
               )}
             </div>

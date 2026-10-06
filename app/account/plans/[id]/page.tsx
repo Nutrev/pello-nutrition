@@ -42,6 +42,8 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
     : null;
   const classicTags = [
     i.workout ? `${i.workout.kind === "completed" ? "Completed" : "Planned"} workout: ${i.workout.name} (${i.workout.durationMin} min)` : null,
+    // Garmin-sourced activities must credit Garmin (intervals.icu API terms).
+    i.workout?.recordedWith ? `Recorded with ${i.workout.recordedWith}` : null,
     plan.plan_mode === "event" || plan.plan_mode === "workout" ? `${i.durationHours}hr · ${i.intensity}` : null,
     i.weightKg ? formatWeight(i.weightKg, i.weightUnit ?? "kg") : null,
     i.age ? `${i.age} · ${i.sex}` : null,

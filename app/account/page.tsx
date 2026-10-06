@@ -13,7 +13,7 @@ import ProductCard from "@/components/ProductCard";
 import SignOutButton from "@/components/account/SignOutButton";
 import PendingPlanBanner from "@/components/account/PendingPlanBanner";
 import IntervalsConnection from "@/components/account/IntervalsConnection";
-import { INTERVALS_ENABLED, getConnection } from "@/lib/intervals";
+import { INTERVALS_ENABLED, getConnection, hasActivityAccess } from "@/lib/intervals";
 
 export const metadata: Metadata = { title: "Your account", robots: { index: false } };
 
@@ -134,7 +134,7 @@ function SubscriptionSection({ isPro, sub }: { isPro: boolean; sub: Subscription
 
 // Shown after returning from intervals.icu (/api/intervals/callback).
 const INTERVALS_RESULT: Record<string, string> = {
-  connected: "intervals.icu is connected. Use today's workout from the Today's workout planner.",
+  connected: "intervals.icu is connected. In the Today's workout planner, use today's planned workout or a completed one.",
   declined: "intervals.icu wasn't connected, as you declined access.",
   failed: "Connecting intervals.icu didn't work. Please try again.",
 };
@@ -270,7 +270,8 @@ export default async function AccountPage({ searchParams }: { searchParams: { in
       {INTERVALS_ENABLED && (
         <section className="mt-10">
           <h2 className="font-display font-semibold text-lg mb-3">Connected apps</h2>
-          <IntervalsConnection connected={!!intervals} athleteName={intervals?.athlete_name ?? null} locked={access.gating && !access.isPro} />
+          <IntervalsConnection connected={!!intervals} athleteName={intervals?.athlete_name ?? null} locked={access.gating && !access.isPro}
+            needsReconnect={!!intervals && !hasActivityAccess(intervals)} />
         </section>
       )}
     </div>

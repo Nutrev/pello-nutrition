@@ -33,7 +33,7 @@ export interface WorkoutSummary {
   kind: WorkoutKind;
   sport: WorkoutSport;
   name: string;
-  source: "zwo" | "erg" | "mrc" | "fit" | "tcx";
+  source: "zwo" | "erg" | "mrc" | "fit" | "tcx" | "intervals";
   durationMin: number;
   basis: IntensityBasis | null;    // what blocks and intensityFactor are relative to
   blocks: WorkoutBlock[];          // in order, merged, at most MAX_BLOCKS
@@ -41,6 +41,9 @@ export interface WorkoutSummary {
   avgPower: number | null;         // completed rides with power
   kj: number | null;               // work done, completed rides with power
   notes: string[];                 // what couldn't be read, shown to the athlete
+  // The recording device, set only for Garmin devices: intervals.icu's API terms require
+  // Garmin to be credited wherever Garmin-sourced data is shown ("Recorded with …").
+  recordedWith?: string | null;
 }
 
 export const MAX_BLOCKS = 120;
@@ -483,4 +486,60 @@ export function describeBlocks(blocks: WorkoutBlock[], basis: IntensityBasis | n
     t += min;
     return s;
   }).join(" · ");
+}
+
+// ── intervals.icu completed activities ─────────────────────────────────────────
+
+// The parts of an intervals.icu activity Pello uses (lib/intervals.ts fetches them). Intensity
+// comes from intervals.icu's own figures: normalized power ÷ the FTP it used for the activity,
+// or average heart rate ÷ the athlete's threshold heart rate there.
+export interface IntervalsActivity {
+  name: string;
+  type: string | null;              // "Ride", "VirtualRide", "Run", "TrailRun", …
+  movingTimeSec: number;
+  ftp: number | null;
+  normalizedPower: number | null;   // icu_weighted_avg_watts
+  averagePower: number | null;
+  joules: number | null;
+  averageHr: number | null;
+  lthr: number | null;
+  recordedWith: string | null;      // a Garmin device name, else null
+  intervals: { sec: number; watts: number | null; hr: number | null }[];
+}
+
+const intervalsSport = (type: string | null): WorkoutSport =>
+  !type ? "other" : /ride/i.test(type) ? "bike" : /run/i.test(type) ? "run" : "other";
+
+export function fromIntervalsActivity(a: IntervalsActivity): WorkoutSummary {
+  const sport = intervalsSport(a.type);
+  // Rides are judged by power; runs by heart rate, as for uploaded runs (pace misses hills).
+  const basis: IntensityBasis | null =
+    sport === "bike" && a.ftp && (a.normalizedPower || a.averagePower) ? "power"
+    : sport !== "bike" && a.lthr && a.averageHr ? "hr"
+    : sport === "bike" && a.lthr && a.averageHr ? "hr"
+    : null;
+  const pctOf = (watts: number | null, hr: number | null) =>
+    basis === "power" && watts ? watts / a.ftp! : basis === "hr" && hr ? hr / a.lthr! : null;
+
+  // intervals.icu's detected intervals, when they cover most of the session; otherwise the
+  // whole session as one block at its average.
+  const covered = a.intervals.reduce((t, i) => t + i.sec, 0);
+  const steps: Step[] = covered >= a.movingTimeSec * 0.8
+    ? a.intervals.map((i) => ({ sec: i.sec, pct: pctOf(i.watts, i.hr) }))
+    : [{ sec: a.movingTimeSec, pct: pctOf(a.averagePower, a.averageHr) }];
+
+  const intensityFactor = basis === "power" ? (a.normalizedPower ?? a.averagePower)! / a.ftp!
+    : basis === "hr" ? a.averageHr! / a.lthr! : null;
+  const notes: string[] = [];
+  if (!basis) {
+    notes.push(sport === "bike"
+      ? "intervals.icu has no power or heart-rate figures for this ride against your FTP or threshold heart rate, so choose the intensity yourself in the next step."
+      : "intervals.icu has no heart-rate figures for this activity against your threshold heart rate, so choose the intensity yourself in the next step.");
+  }
+  const summary = summarise("completed", sport, a.name, "intervals", steps, basis, notes, {
+    avgPower: a.averagePower != null ? Math.round(a.averagePower) : null,
+    kj: a.joules != null ? Math.round(a.joules / 1000) : null,
+    intensityFactor: intensityFactor != null ? Math.round(intensityFactor * 100) / 100 : null,
+  });
+  return { ...summary, recordedWith: a.recordedWith };
 }

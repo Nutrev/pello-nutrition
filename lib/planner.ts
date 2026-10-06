@@ -32,6 +32,7 @@ export interface WorkoutPlanInput {
   blocks: WorkoutBlock[];
   avgPower: number | null;
   kj: number | null;
+  recordedWith?: string | null;  // Garmin device, credited where the workout is shown
 }
 
 export interface PlannerInputs {
@@ -209,7 +210,10 @@ function parseWorkout(raw: unknown): WorkoutPlanInput | null | undefined {
   }
   // The name goes into the prompt, so keep only plain characters.
   const name = typeof w.name === "string" ? w.name.replace(/[^A-Za-z0-9\u00C0-\u024F\s\-.,:()/&+'#%]/g, "").replace(/\s+/g, " ").trim().slice(0, 60) : "";
-  return { kind: w.kind, sport: w.sport, name: name || "Uploaded workout", durationMin: Math.round(durationMin), basis, intensityFactor: basis === "relative" ? null : intensityFactor, blocks, avgPower, kj };
+  // Only Garmin device names, which must be credited (intervals.icu API terms).
+  const recordedWith = typeof w.recordedWith === "string" && /^Garmin[A-Za-z0-9 \-]{0,40}$/.test(w.recordedWith) ? w.recordedWith : null;
+  if (w.recordedWith != null && recordedWith === null) return undefined;
+  return { ...(recordedWith ? { recordedWith } : {}), kind: w.kind, sport: w.sport, name: name || "Uploaded workout", durationMin: Math.round(durationMin), basis, intensityFactor: basis === "relative" ? null : intensityFactor, blocks, avgPower, kj };
 }
 
 // Checks untrusted request data from the browser. Returns null if anything is out of range.

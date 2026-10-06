@@ -126,8 +126,9 @@ export default function WorkoutUpload({ workout, onChange }: {
   };
 
   const sport = workout?.sport;
-  const showBike = sport === "bike" || (!workout && !!file);
-  const showRun = sport === "run" || (!workout && !!file);
+  const fromIntervals = workout?.source === "intervals";
+  const showBike = !fromIntervals && (sport === "bike" || (!workout && !!file));
+  const showRun = !fromIntervals && (sport === "run" || (!workout && !!file));
   const intensityNote = workout ? intensityLabel(workout) : null;
   const field = "text-sm bg-white/60 border border-sand rounded-lg px-2 py-1.5 focus:outline-none focus:border-moss";
 
@@ -152,7 +153,7 @@ export default function WorkoutUpload({ workout, onChange }: {
             {busy ? "Reading…" : "Choose a file"}
           </button>
           <p className="text-[11px] text-muted mt-2">or drag it here · .zwo .erg .mrc .fit .tcx</p>
-          <IntervalsToday onFile={choose} disabled={busy} />
+          <IntervalsToday onFile={choose} onSummary={(w) => { setFile(null); setError(null); onChange(w); }} disabled={busy} />
         </div>
       )}
 
@@ -169,6 +170,8 @@ export default function WorkoutUpload({ workout, onChange }: {
           </div>
           <WorkoutChart blocks={workout.blocks} basis={workout.basis} />
           {intensityNote && <p className="text-xs text-moss mt-2">{intensityNote}</p>}
+          {fromIntervals && <p className="text-xs text-muted mt-1">From intervals.icu, using the FTP and threshold heart rate set there.</p>}
+          {workout.recordedWith && <p className="text-xs text-muted mt-1">Recorded with {workout.recordedWith}</p>}
           {workout.notes.map((n) => <p key={n} className="text-xs text-muted mt-1">{n}</p>)}
         </div>
       )}

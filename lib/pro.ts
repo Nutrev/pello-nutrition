@@ -18,7 +18,7 @@ export const TRIAL_DAYS = 8; // over 7 so Managed Payments sends a trial-ending 
 export const PRO_FEATURES = [
   "Unlimited nutrition plans",
   "Plans built from your workout files (.fit, .zwo, .erg, .mrc, .tcx)",
-  "intervals.icu connection: plan from the workout on today's calendar in one tap",
+  "intervals.icu connection: plan from today's scheduled workout or review a completed one in one tap",
   "Save and revisit plans",
   "Goal-based planner (first marathon, recovery, building muscle and more)",
   "Compare up to 5 products",

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSupabase } from "@/lib/supabase/server";
-import { INTERVALS_ENABLED, IntervalsAuthError, canUseIntervals, getConnection, plannedWorkouts, removeConnection } from "@/lib/intervals";
+import { plannedWorkouts } from "@/lib/intervals";
+import { intervalsMember, intervalsError, isDate } from "@/lib/intervals-route";
 import { rateLimit } from "@/lib/rate-limit";
 
 // Per member and per request: never cached at build time.
@@ -11,26 +11,13 @@ export const dynamic = "force-dynamic";
 export async function GET(req: NextRequest) {
   const limited = rateLimit(req, "intervals-today", 10, 60_000);
   if (limited) return limited;
-  if (!INTERVALS_ENABLED) return NextResponse.json({ error: "Not available." }, { status: 404 });
-
-  const date = req.nextUrl.searchParams.get("date") ?? "";
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return NextResponse.json({ error: "Invalid date." }, { status: 400 });
-
-  const { data: { user } } = await getServerSupabase().auth.getUser();
-  if (!user) return NextResponse.json({ error: "Please log in.", code: "signin" }, { status: 401 });
-  if (!(await canUseIntervals(user.id))) return NextResponse.json({ error: "This is a Pello Pro feature.", code: "pro" }, { status: 403 });
-  const conn = await getConnection(user.id);
-  if (!conn) return NextResponse.json({ error: "Connect intervals.icu first.", code: "not-connected" }, { status: 409 });
-
+  const date = req.nextUrl.searchParams.get("date");
+  if (!isDate(date)) return NextResponse.json({ error: "Invalid date." }, { status: 400 });
+  const member = await intervalsMember();
+  if (member instanceof NextResponse) return member;
   try {
-    return NextResponse.json({ workouts: await plannedWorkouts(conn, date) });
+    return NextResponse.json({ workouts: await plannedWorkouts(member.conn, date) });
   } catch (e) {
-    if (e instanceof IntervalsAuthError) {
-      // Access was revoked on intervals.icu: forget the token so they can connect again.
-      await removeConnection(user.id);
-      return NextResponse.json({ error: "Your intervals.icu connection has expired. Connect it again.", code: "not-connected" }, { status: 409 });
-    }
-    console.error("intervals.icu fetch error:", e);
-    return NextResponse.json({ error: "Couldn't reach intervals.icu. Try again in a moment." }, { status: 502 });
+    return intervalsError(member.userId, e);
   }
 }

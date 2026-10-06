@@ -44,7 +44,7 @@ export default function PrivacyPage() {
               )}
               <li><strong className="text-ink">Workout files</strong> — if you plan from a workout file, it&apos;s read in your browser and never uploaded or stored. Only a summary (its name, duration, intensity and power figures, with no location or time data) is used for your plan, and it&apos;s saved with the plan if you save it</li>
               {INTERVALS_ENABLED && (
-                <li><strong className="text-ink">intervals.icu connection</strong> — if you connect your intervals.icu account: your intervals.icu athlete ID and name, and an access token that lets Pello read the planned workouts on your intervals.icu calendar (read-only; no activities, wellness or settings). When you choose to use today&apos;s workout, Pello fetches that day&apos;s planned workouts from intervals.icu and passes them to your browser, where they&apos;re read like an uploaded workout file. We don&apos;t store your calendar or workouts</li>
+                <li><strong className="text-ink">intervals.icu connection</strong> — if you connect your intervals.icu account: your intervals.icu athlete ID and name, and an access token that lets Pello read the planned workouts on your intervals.icu calendar and your completed activities (read-only; no wellness data or settings). Pello only reads them when you ask: today&apos;s planned workouts, which are read in your browser like an uploaded workout file, or a list of your last 7 days of activities and the one you choose, summarized from intervals.icu&apos;s figures (duration, power, heart rate and intervals; no location data). Only that summary is used for your plan, and it&apos;s saved with the plan if you save it. We don&apos;t store your calendar or activities. Activities that reached intervals.icu from Strava can&apos;t be read, as Strava doesn&apos;t allow it</li>
               )}
               <li><strong className="text-ink">Community reviews</strong> — the display name, ratings and comments you choose to submit; these are public{PRO_ENABLED ? ". We also record which account wrote each review; that isn't shown publicly" : ""}</li>
               <li><strong className="text-ink">Emails you send us</strong> — if you contact us</li>
@@ -95,7 +95,7 @@ export default function PrivacyPage() {
               {PRO_ENABLED && <li>Stripe and Link — payments, tax and subscription billing for Pello Pro, as merchant of record</li>}
               <li>Anthropic (Claude) — AI features: planner inputs and product information are sent to generate plans and summaries</li>
               <li>Google — only if you choose to sign in with Google</li>
-              {INTERVALS_ENABLED && <li>intervals.icu — only if you connect your intervals.icu account, to read your planned workouts</li>}
+              {INTERVALS_ENABLED && <li>intervals.icu — only if you connect your intervals.icu account, to read your planned workouts and the completed activities you choose</li>}
             </ul>
           </section>
 
