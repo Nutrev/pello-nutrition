@@ -109,7 +109,7 @@ function scoreScience(input: ScoringInput): { score: number; notes: string[] } {
   score += Math.max(0, Math.min(15, evidenceScore));
 
   if (provenPct >= 0.8) notes.push("Strong evidence base — majority of ingredients are Proven");
-  if (disputed > 0) notes.push(`${disputed} disputed ingredient${disputed > 1 ? "s" : ""} penalised`);
+  if (disputed > 0) notes.push(`${disputed} disputed ingredient${disputed > 1 ? "s" : ""} penalized`);
 
   // Dose transparency (0-5)
   const withDose = input.ingredients.filter((i) => i.dose && i.dose.length > 0).length;
@@ -410,7 +410,7 @@ export const FULENS_SCORE_METHODOLOGY = {
       factors: [
         "Label clarity and dose disclosure",
         "Absence of proprietary blends",
-        "Clean label (no artificial colours, flavours or preservatives)",
+        "Clean label (no artificial colors, flavors or preservatives)",
         "Third-party certifications",
         "Allergen disclosure",
       ],

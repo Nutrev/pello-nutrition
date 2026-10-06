@@ -354,7 +354,7 @@ export default function ReportClient({ product, similar: similarProducts, direct
             )}
           </div>
 
-          {/* Sentiment: only from Pello community reviews. Estimated values are shown greyed out. */}
+          {/* Sentiment: only from Pello community reviews. Estimated values are shown grayed out. */}
           <div className="card">
             <h2 className="font-display font-semibold text-base mb-4">Sentiment breakdown</h2>
             {(() => {

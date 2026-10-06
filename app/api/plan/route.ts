@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
+import { AI_HOUSE_STYLE } from "@/lib/ai-style";
 import { buildPlanPrompt, parsePlannerInputs } from "@/lib/planner";
 import { rateLimit } from "@/lib/rate-limit";
 import { getServerSupabase } from "@/lib/supabase/server";
@@ -72,6 +73,7 @@ export async function POST(req: NextRequest) {
     const message = await client.messages.create({
       model: "claude-sonnet-4-6",
       max_tokens: 2000,
+      system: AI_HOUSE_STYLE,
       messages: [{ role: "user", content: buildPlanPrompt(inputs) }],
     });
     const plan = message.content[0].type === "text" ? message.content[0].text : "";
@@ -88,8 +90,8 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// Supplement stack and race week (Pello Pro), and the budget optimiser's strategy text (free
-// account). Products are chosen here from the catalogue; the browser only sends answers.
+// Supplement stack and race week (Pello Pro), and the budget optimizer's strategy text (free
+// account). Products are chosen here from the catalog; the browser only sends answers.
 async function planMode(planner: "supplement-stack" | "race-week" | "budget-optimiser", raw: unknown) {
   const all = getProductSummaries();
   let prompt: string;
@@ -125,6 +127,7 @@ async function planMode(planner: "supplement-stack" | "race-week" | "budget-opti
     const message = await client.messages.create({
       model: "claude-sonnet-4-6",
       max_tokens: planner === "race-week" ? 3500 : 2000,
+      system: AI_HOUSE_STYLE,
       messages: [{ role: "user", content: prompt }],
     });
     const plan = message.content[0].type === "text" ? message.content[0].text : "";

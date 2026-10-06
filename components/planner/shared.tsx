@@ -1,6 +1,6 @@
 "use client";
 
-// Building blocks shared by the supplement stack, race week and budget optimiser planners.
+// Building blocks shared by the supplement stack, race week and budget optimizer planners.
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
 import type { ProductSummary } from "@/lib/catalog-types";
@@ -91,7 +91,7 @@ export function mentionedIds(text: string, products: { id: string; name: string;
   return products.filter((p) => used.has(norm(`${p.brand} ${p.name}`)) || used.has(norm(p.name.startsWith(p.brand) ? p.name : ""))).map((p) => p.id);
 }
 
-// A product from the catalogue, showing only the fields it has.
+// A product from the catalog, showing only the fields it has.
 export function ModeProductCard({ p, note }: { p: ProductSummary; note?: string }) {
   return (
     <Link href={`/report/${p.id}`} className="block bg-white/60 border border-sand rounded-xl p-3 hover:shadow-md transition-all group">

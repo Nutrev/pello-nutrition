@@ -37,7 +37,7 @@ export default function MethodologyPage() {
             The Pello Score™ is designed to answer one question: <strong>how good is this product, really?</strong> Not how well-marketed it is. Not how pretty the packaging is. Not how much the brand spent on athlete endorsements. Just whether the product is genuinely worth buying.
           </p>
           <p className="text-muted leading-relaxed mt-3">
-            Every score is calculated using the same transparent formula. No brand can pay to improve their score. The methodology is published in full so athletes, brands and researchers can scrutinise it.
+            Every score is calculated using the same transparent formula. No brand can pay to improve their score. The methodology is published in full so athletes, brands and researchers can scrutinize it.
           </p>
         </div>
 

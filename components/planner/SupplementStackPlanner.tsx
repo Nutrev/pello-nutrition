@@ -12,6 +12,7 @@ import ProGate from "@/components/ProGate";
 import { StepIndicator, Loading, PlanCard, PlanLines, ModeProductCard, parseSections, mentionedIds, toggleClass, chipClass } from "./shared";
 import { usePlanRequest } from "./usePlanRequest";
 import SaveModePlanButton from "./SaveModePlanButton";
+import { FieldList, FieldRow, NumberStepper, PillToggle, RangeSlider } from "@/components/form/Fields";
 
 const HEADERS = ["MORNING", "AROUND TRAINING", "EVENING", "PRIORITY ORDER", "TOTALS", "KEY NOTES", "PRODUCTS USED"];
 
@@ -140,33 +141,27 @@ export default function SupplementStackPlanner({ catalog, onStartOver }: { catal
       {step === 3 && (
         <div>
           <h2 className="font-display font-semibold text-lg mb-4">Your profile and budget</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-            <div className="card">
-              <h3 className="font-display font-semibold mb-4">Age</h3>
-              <input type="range" aria-label="Age" min={16} max={70} value={inputs.age} onChange={(e) => set("age", Number(e.target.value))} className="w-full accent-moss" />
-              <div className="text-center font-display font-bold text-2xl text-moss">{inputs.age}</div>
-            </div>
-            <div className="card">
-              <h3 className="font-display font-semibold mb-4">Sex</h3>
-              <div className="grid grid-cols-2 gap-2">
-                {(["male", "female"] as const).map((s) => <button key={s} type="button" aria-pressed={inputs.sex === s} onClick={() => set("sex", s)} className={toggleClass(inputs.sex === s)}>{s === "male" ? "Male" : "Female"}</button>)}
-              </div>
-            </div>
-          </div>
+          <FieldList className="mb-4">
+            <FieldRow label="Age">
+              <NumberStepper label="Age" unit="yrs" min={16} max={70} value={inputs.age} onChange={(v) => set("age", v)} />
+            </FieldRow>
+            <FieldRow label="Sex">
+              <PillToggle<"male" | "female"> label="Sex" value={inputs.sex} onChange={(v) => set("sex", v)}
+                options={[{ id: "male", label: "Male" }, { id: "female", label: "Female" }]} />
+            </FieldRow>
+          </FieldList>
           <div className="card mb-4">
             <h3 className="font-display font-semibold mb-4">Training days per week</h3>
             <div className="grid grid-cols-7 gap-1.5 sm:gap-2">
               {[1, 2, 3, 4, 5, 6, 7].map((d) => <button key={d} type="button" aria-pressed={inputs.trainingDaysPerWeek === d} onClick={() => set("trainingDaysPerWeek", d)} className={`py-2 rounded-xl border text-sm ${inputs.trainingDaysPerWeek === d ? "border-moss bg-moss/5 text-moss font-medium" : "border-sand hover:border-muted text-muted"}`}>{d}</button>)}
             </div>
           </div>
-          <div className="card mb-4">
-            <h3 className="font-display font-semibold mb-4">Monthly supplement budget</h3>
-            <input type="range" aria-label="Monthly budget" min={20} max={300} step={5} value={inputs.budget} onChange={(e) => set("budget", Number(e.target.value))} className="w-full accent-moss" />
-            <div className="text-center font-display font-bold text-2xl text-moss">${inputs.budget}</div>
+          <div className="card !py-1 mb-4">
+            <RangeSlider label="Monthly supplement budget" min={20} max={300} step={5} value={inputs.budget} onChange={(v) => set("budget", v)} format={(v) => `$${v}`} />
           </div>
           <div className="card mb-6">
             <h3 className="font-display font-semibold mb-1">Dietary restrictions</h3>
-            <p className="text-xs text-muted mb-3">Only products labelled this way are recommended.</p>
+            <p className="text-xs text-muted mb-3">Only products labeled this way are recommended.</p>
             <div className="flex gap-2 flex-wrap">
               {(["vegan", "gluten-free", "dairy-free"] as DietaryRestriction[]).map((d) => <button key={d} type="button" aria-pressed={inputs.dietary.includes(d)} onClick={() => toggleDiet(d)} className={chipClass(inputs.dietary.includes(d))}>{d}</button>)}
             </div>

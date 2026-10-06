@@ -51,7 +51,7 @@ export default function GuideShell({ slug, title, intro, sources, children }: {
             <li key={s.url}><a href={s.url} target="_blank" rel="noopener noreferrer" className="text-moss hover:underline">{s.label} ↗</a></li>
           ))}
         </ul>
-        <p className="text-[11px] text-muted mt-3">Checked against each source in October 2026. Programmes change their rules, so the certifier&apos;s own site is the final word.</p>
+        <p className="text-[11px] text-muted mt-3">Checked against each source in October 2026. Programs change their rules, so the certifier&apos;s own site is the final word.</p>
       </section>
 
       <section className="mt-10">

@@ -11,7 +11,7 @@ import ProductTeaser from "./ProductTeaser";
 const BARCODE_SCANNER_ENABLED = false;
 
 // Shown below the search box before anyone types; each fills the search with a term that
-// matches products in the catalogue.
+// matches products in the catalog.
 const SUGGESTIONS = ["Energy gel", "Electrolyte", "Creatine", "Maurten", "Recovery", "Protein"];
 
 interface OFFProduct {
@@ -332,7 +332,7 @@ export default function SearchClient({ catalog, teaser }: { catalog: ProductSumm
                       </div>
                     )}
                   </div>
-                  <div className="text-xs text-moss flex-shrink-0">Analyse →</div>
+                  <div className="text-xs text-moss flex-shrink-0">Analyze →</div>
                 </button>
               ))}
             </div>

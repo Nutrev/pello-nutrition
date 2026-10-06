@@ -3,7 +3,7 @@
 // and a scraping pipeline that populates it from Amazon, Reddit, Trustpilot, etc.
 
 // Product data is server-only: pages read it through lib/catalog.ts. Importing this file from a
-// client component fails the build, so the full catalogue never ships to the browser.
+// client component fails the build, so the full catalog never ships to the browser.
 import "server-only";
 import { THE_FEED_PRODUCTS } from "./products-thefeed";
 import { THE_FEED_SUPPLEMENTS } from "./products-supplements";
@@ -151,7 +151,7 @@ const CURATED_PRODUCTS: Product[] = [
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise",
     },
     {
-      name: "Caffeine (some flavours)",
+      name: "Caffeine (some flavors)",
       dose: "up to 75mg",
       verdict: "proven",
       note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.",
@@ -298,7 +298,7 @@ const CURATED_PRODUCTS: Product[] = [
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates",
     },
     {
-      name: "Caffeine (some flavours)",
+      name: "Caffeine (some flavors)",
       dose: "up to 20mg",
       verdict: "proven",
       note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.",
@@ -406,7 +406,7 @@ const CURATED_PRODUCTS: Product[] = [
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise",
     },
     {
-      name: "Caffeine (some flavours)",
+      name: "Caffeine (some flavors)",
       dose: "up to 70mg",
       verdict: "proven",
       note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.",
@@ -671,7 +671,7 @@ const CURATED_PRODUCTS: Product[] = [
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise",
     },
     {
-      name: "Caffeine (some flavours)",
+      name: "Caffeine (some flavors)",
       dose: "up to 75mg",
       verdict: "proven",
       note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.",
@@ -704,11 +704,11 @@ const CURATED_PRODUCTS: Product[] = [
       name: "Carbohydrates",
       dose: "30g carbs",
       verdict: "likely",
-      note: "Carbohydrate for fuelling during exercise. The brand doesn't publish the sugar types online; check the label if you rely on a glucose-fructose mix for high intakes.",
+      note: "Carbohydrate for fueling during exercise. The brand doesn't publish the sugar types online; check the label if you rely on a glucose-fructose mix for high intakes.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=carbohydrate+intake+endurance+performance",
     },
     {
-      name: "Caffeine (some flavours)",
+      name: "Caffeine (some flavors)",
       verdict: "proven",
       note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=caffeine+endurance+performance",
@@ -794,7 +794,7 @@ const CURATED_PRODUCTS: Product[] = [
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise",
     },
     {
-      name: "Caffeine (some flavours)",
+      name: "Caffeine (some flavors)",
       dose: "up to 100mg",
       verdict: "proven",
       note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.",
@@ -884,7 +884,7 @@ const CURATED_PRODUCTS: Product[] = [
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise",
     },
     {
-      name: "Caffeine (some flavours)",
+      name: "Caffeine (some flavors)",
       dose: "up to 50mg",
       verdict: "proven",
       note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.",
@@ -1048,7 +1048,7 @@ const CURATED_PRODUCTS: Product[] = [
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates",
     },
     {
-      name: "Caffeine (some flavours)",
+      name: "Caffeine (some flavors)",
       dose: "up to 25mg",
       verdict: "proven",
       note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.",
@@ -1212,7 +1212,7 @@ const CURATED_PRODUCTS: Product[] = [
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise",
     },
     {
-      name: "Caffeine (some flavours)",
+      name: "Caffeine (some flavors)",
       dose: "up to 25mg",
       verdict: "proven",
       note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.",
@@ -1445,9 +1445,9 @@ const CURATED_PRODUCTS: Product[] = [
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=electrolyte+sweat+losses+potassium+magnesium",
     },
     {
-      name: "Chicory Root Fibre",
+      name: "Chicory Root Fiber",
       verdict: "likely",
-      note: "A prebiotic fibre that feeds gut bacteria; in larger amounts it can cause bloating, so try it in training before race day.",
+      note: "A prebiotic fiber that feeds gut bacteria; in larger amounts it can cause bloating, so try it in training before race day.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=inulin+chicory+gastrointestinal+tolerance",
     },
   ],
@@ -1652,7 +1652,7 @@ const CURATED_PRODUCTS: Product[] = [
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates",
     },
     {
-      name: "Caffeine (some flavours)",
+      name: "Caffeine (some flavors)",
       dose: "up to 25mg",
       verdict: "proven",
       note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.",
@@ -1764,7 +1764,7 @@ const CURATED_PRODUCTS: Product[] = [
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise",
     },
     {
-      name: "Caffeine (some flavours)",
+      name: "Caffeine (some flavors)",
       dose: "up to 100mg",
       verdict: "proven",
       note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.",
@@ -2074,7 +2074,7 @@ const CURATED_PRODUCTS: Product[] = [
       name: "Carbohydrates (Glucose-Fructose Syrup)",
       dose: "30g carbs (22.5g sugars)",
       verdict: "likely",
-      note: "Adds carbohydrate for refuelling after training; worth counting towards your daily sugar intake.",
+      note: "Adds carbohydrate for refueling after training; worth counting towards your daily sugar intake.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=carbohydrate+recovery+glycogen",
     },
     {
@@ -2310,7 +2310,7 @@ const CURATED_PRODUCTS: Product[] = [
       name: "Choline (as choline bitartrate)",
       dose: "100mg",
       verdict: "likely",
-      note: "Needed for nerve signalling and cell membranes; evidence for performance benefits is limited.",
+      note: "Needed for nerve signaling and cell membranes; evidence for performance benefits is limited.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=choline+supplementation+exercise",
     },
     {
@@ -2727,7 +2727,7 @@ const CURATED_PRODUCTS: Product[] = [
       name: "Arabinogalactan Heartwood",
       dose: "1g",
       verdict: "disputed",
-      note: "A plant fibre studied for immune support and colds; evidence is limited.",
+      note: "A plant fiber studied for immune support and colds; evidence is limited.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=arabinogalactan+immune",
     },
     {
@@ -3138,7 +3138,7 @@ const CURATED_PRODUCTS: Product[] = [
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise",
     },
     {
-      name: "Caffeine (some flavours)",
+      name: "Caffeine (some flavors)",
       dose: "up to 50mg",
       verdict: "proven",
       note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.",
@@ -3590,7 +3590,7 @@ const CURATED_PRODUCTS: Product[] = [
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise",
     },
     {
-      name: "Caffeine (some flavours)",
+      name: "Caffeine (some flavors)",
       dose: "up to 35mg",
       verdict: "proven",
       note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.",
@@ -3646,7 +3646,7 @@ const CURATED_PRODUCTS: Product[] = [
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise",
     },
     {
-      name: "Caffeine (some flavours)",
+      name: "Caffeine (some flavors)",
       dose: "up to 15mg",
       verdict: "proven",
       note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.",
@@ -3793,7 +3793,7 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/ascent.png",
   rating: 0,
   reviewCount: 0,
-  price: 54.99,                    // bag, 25–30 servings depending on flavour (confirmed)
+  price: 54.99,                    // bag, 25–30 servings depending on flavor (confirmed)
   servingsPerContainer: 28,
   proteinPerServing: 25,
   goals: ["muscle", "recovery"],
@@ -4420,7 +4420,7 @@ const CURATED_PRODUCTS: Product[] = [
       name: "Organic Baobab Fruit Powder",
       dose: "3g",
       verdict: "likely",
-      note: "A source of prebiotic soluble fibre (it provides the 2g of fibre per serving) that feeds beneficial gut bacteria. Evidence is early but promising.",
+      note: "A source of prebiotic soluble fiber (it provides the 2g of fiber per serving) that feeds beneficial gut bacteria. Evidence is early but promising.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=baobab+fruit+prebiotic+fibre",
     },
     {
@@ -4621,7 +4621,7 @@ const CURATED_PRODUCTS: Product[] = [
       name: "Wild Organic African Baobab",
       dose: "2600mg",
       verdict: "likely",
-      note: "A source of prebiotic soluble fibre that feeds beneficial gut bacteria; evidence is early but promising.",
+      note: "A source of prebiotic soluble fiber that feeds beneficial gut bacteria; evidence is early but promising.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=baobab+prebiotic+fibre",
     },
     {
@@ -4784,7 +4784,7 @@ const CURATED_PRODUCTS: Product[] = [
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise",
     },
     {
-      name: "Caffeine (some flavours)",
+      name: "Caffeine (some flavors)",
       dose: "up to 50mg",
       verdict: "proven",
       note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.",
@@ -4843,7 +4843,7 @@ const CURATED_PRODUCTS: Product[] = [
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise",
     },
     {
-      name: "Caffeine (some flavours)",
+      name: "Caffeine (some flavors)",
       dose: "up to 50mg",
       verdict: "proven",
       note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.",
@@ -5026,7 +5026,7 @@ const CURATED_PRODUCTS: Product[] = [
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates",
     },
     {
-      name: "Caffeine (some flavours)",
+      name: "Caffeine (some flavors)",
       dose: "up to 100mg",
       verdict: "proven",
       note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.",
@@ -5078,7 +5078,7 @@ const CURATED_PRODUCTS: Product[] = [
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates",
     },
     {
-      name: "Caffeine (some flavours)",
+      name: "Caffeine (some flavors)",
       dose: "up to 20mg",
       verdict: "proven",
       note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.",
@@ -5182,7 +5182,7 @@ const CURATED_PRODUCTS: Product[] = [
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates",
     },
     {
-      name: "Caffeine (some flavours)",
+      name: "Caffeine (some flavors)",
       dose: "up to 100mg",
       verdict: "proven",
       note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.",
@@ -5344,7 +5344,7 @@ const CURATED_PRODUCTS: Product[] = [
       name: "Ashwagandha Root Extract (4:1)",
       dose: "100mg",
       verdict: "likely",
-      note: "Ashwagandha has good evidence for stress and sleep at 300–600mg of standardised extract; this 100mg dose is on the low side.",
+      note: "Ashwagandha has good evidence for stress and sleep at 300–600mg of standardized extract; this 100mg dose is on the low side.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=ashwagandha+sleep+stress",
     },
     {
@@ -5422,7 +5422,7 @@ const CURATED_PRODUCTS: Product[] = [
       name: "Ashwagandha Extract (4:1)",
       dose: "100mg",
       verdict: "likely",
-      note: "Ashwagandha has good evidence for stress and sleep at 300–600mg of standardised extract; this 100mg dose is on the low side.",
+      note: "Ashwagandha has good evidence for stress and sleep at 300–600mg of standardized extract; this 100mg dose is on the low side.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=ashwagandha+sleep+stress",
     },
     {
@@ -5683,7 +5683,7 @@ const CURATED_PRODUCTS: Product[] = [
       name: "Ashwagandha",
       dose: "100mg",
       verdict: "likely",
-      note: "An adaptogenic herb with good evidence for reducing stress and improving sleep at 300–600mg of standardised extract; lower doses are less studied.",
+      note: "An adaptogenic herb with good evidence for reducing stress and improving sleep at 300–600mg of standardized extract; lower doses are less studied.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=ashwagandha+sleep+stress",
     },
     {
@@ -5846,7 +5846,7 @@ const CURATED_PRODUCTS: Product[] = [
       name: "Ashwagandha Extract",
       dose: "40mg",
       verdict: "likely",
-      note: "An adaptogenic herb with good evidence for reducing stress and improving sleep at 300–600mg of standardised extract; lower doses are less studied.",
+      note: "An adaptogenic herb with good evidence for reducing stress and improving sleep at 300–600mg of standardized extract; lower doses are less studied.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=ashwagandha+sleep+stress",
     },
     {
@@ -6160,7 +6160,7 @@ imageEmoji: "💧",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates",
     },
     {
-      name: "Caffeine (some flavours)",
+      name: "Caffeine (some flavors)",
       dose: "up to 35mg",
       verdict: "proven",
       note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.",
@@ -6284,7 +6284,7 @@ imageEmoji: "💧",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise",
     },
     {
-      name: "Caffeine (some flavours)",
+      name: "Caffeine (some flavors)",
       dose: "up to 65mg",
       verdict: "proven",
       note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.",
@@ -6578,7 +6578,7 @@ imageEmoji: "💧",
       name: "Vitamin C (as Ascorbic Acid)",
       dose: "1000mg",
       verdict: "proven",
-      note: "High-dose ascorbic acid supports immune cell function and acts as an antioxidant, helping neutralise exercise-induced oxidative stress. Evidence supports its role in reducing duration and severity of upper respiratory infections in athletes under heavy training loads.",
+      note: "High-dose ascorbic acid supports immune cell function and acts as an antioxidant, helping neutralize exercise-induced oxidative stress. Evidence supports its role in reducing duration and severity of upper respiratory infections in athletes under heavy training loads.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=vitamin+C+athletes+immune+function",
     },
     {
@@ -6592,7 +6592,7 @@ imageEmoji: "💧",
       name: "Riboflavin (as Riboflavin 5-phosphate)",
       dose: "5mg",
       verdict: "likely",
-      note: "Riboflavin 5-phosphate is the active coenzyme form of Vitamin B2, offering superior bioavailability over standard riboflavin. It plays a key role in energy metabolism and antioxidant defence via glutathione reductase activity. Endurance training increases riboflavin demands.",
+      note: "Riboflavin 5-phosphate is the active coenzyme form of Vitamin B2, offering superior bioavailability over standard riboflavin. It plays a key role in energy metabolism and antioxidant defense via glutathione reductase activity. Endurance training increases riboflavin demands.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=riboflavin+exercise+energy+metabolism",
     },
     {

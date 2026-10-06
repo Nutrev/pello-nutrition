@@ -1,9 +1,9 @@
 // lib/planner-modes.ts
 // The planner's modes, and the definitions, validation, calculations and product selection for
-// the three newer ones: supplement stack, race week and budget optimiser. Client-safe: works on
+// the three newer ones: supplement stack, race week and budget optimizer. Client-safe: works on
 // product summaries passed in, holds no product data.
 //
-// Every product recommended comes from Pello's catalogue, and only fields a product actually has
+// Every product recommended comes from Pello's catalog, and only fields a product actually has
 // are used. Nutrition targets come from the 2016 position stand of the Academy of Nutrition and
 // Dietetics, Dietitians of Canada and the American College of Sports Medicine ("Nutrition and
 // Athletic Performance"), cited on the results pages.
@@ -17,11 +17,11 @@ export type PlannerMode = "event" | "outcome" | "supplement-stack" | "race-week"
 export type ModeAccess = "free-limited" | "pro" | "free";
 
 export const PLANNER_MODES: { id: PlannerMode; title: string; desc: string; access: ModeAccess; isNew?: boolean; steps: number; loading: string }[] = [
-  { id: "event", title: "Race day fuelling", desc: "Pre, during and post nutrition for your next event", access: "free-limited", steps: 3, loading: "Calculating targets, matching products and building your protocol" },
+  { id: "event", title: "Race day fueling", desc: "Pre, during and post nutrition for your next event", access: "free-limited", steps: 3, loading: "Calculating targets, matching products and building your protocol" },
   { id: "outcome", title: "Achieve a goal", desc: "Outcome-based nutrition to reach a specific target", access: "pro", steps: 3, loading: "Calculating targets, matching products and building your protocol" },
   { id: "supplement-stack", title: "Supplement stack", desc: "Daily supplement protocol matched to your goals and budget", access: "pro", isNew: true, steps: 3, loading: "Matching supplements to your goals..." },
   { id: "race-week", title: "Race week protocol", desc: "Day-by-day nutrition for the days before your race", access: "pro", isNew: true, steps: 3, loading: "Building your countdown protocol..." },
-  { id: "budget-optimiser", title: "Budget optimiser", desc: "Maximum performance per dollar from your nutrition spend", access: "free", isNew: true, steps: 2, loading: "Calculating value scores across the database..." },
+  { id: "budget-optimiser", title: "Budget optimizer", desc: "Maximum performance per dollar from your nutrition spend", access: "free", isNew: true, steps: 2, loading: "Calculating value scores across the database..." },
 ];
 export const MODE_BY_ID = Object.fromEntries(PLANNER_MODES.map((m) => [m.id, m])) as Record<PlannerMode, (typeof PLANNER_MODES)[number]>;
 
@@ -46,7 +46,7 @@ export const STACK_GOALS = [
 ] as const;
 export type StackGoal = (typeof STACK_GOALS)[number]["id"];
 
-// The catalogue categories relevant to each goal.
+// The catalog categories relevant to each goal.
 export const GOAL_CATEGORIES: Record<StackGoal, string[]> = {
   muscle: ["Protein", "Creatine", "Recovery"],
   endurance: ["Performance", "Supplement", "Vitamin", "Mineral", "Omega-3"],
@@ -198,7 +198,7 @@ export interface RaceWeekTargets {
 }
 
 // From the position stand's Table 1: carbohydrate loading (10–12 g/kg/24 h for 36–48 h) for
-// events over 90 min; general fuelling up (7–12 g/kg/24 h) for shorter ones; pre-event fuelling
+// events over 90 min; general fueling up (7–12 g/kg/24 h) for shorter ones; pre-event fueling
 // 1–4 g/kg 1–4 h before; 5–10 ml/kg of fluid 2–4 h before; during exercise by duration.
 export function raceWeekTargets(i: Pick<RaceWeekInputs, "duration" | "weightKg">): RaceWeekTargets {
   const loading = i.duration !== "lt90";
@@ -229,7 +229,7 @@ export function raceWeekCandidates(products: ProductSummary[], i: RaceWeekInputs
   ), 6, 30);
 }
 
-// ── Budget optimiser ─────────────────────────────────────────────────────────
+// ── Budget optimizer ─────────────────────────────────────────────────────────
 
 export const BUDGET_HAVE = CURRENT_SUPPLEMENTS.filter((c) => c.id !== "caffeine" && c.id !== "none");
 

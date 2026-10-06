@@ -18,7 +18,7 @@ const FREE: { text: string; included: boolean }[] = [
   { text: "Compare 2 products", included: true },
   { text: "Search filters, including diet and quality standards", included: true },
   { text: "Read community reviews", included: true },
-  { text: "Save favourite products", included: true },
+  { text: "Save favorite products", included: true },
   { text: "1 event nutrition plan per month", included: true },
   { text: "Save plans", included: false },
   { text: "Advanced filters", included: false },

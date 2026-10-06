@@ -1,6 +1,6 @@
 // lib/planner-mode-prompts.ts
-// Prompts for the supplement stack, race week and budget optimiser planners. Built on the server
-// from validated inputs and products chosen from Pello's catalogue here, never from a product
+// Prompts for the supplement stack, race week and budget optimizer planners. Built on the server
+// from validated inputs and products chosen from Pello's catalog here, never from a product
 // list sent by the browser, so the AI only ever sees real Pello products and their real data.
 import "server-only";
 import type { ProductSummary } from "./catalog-types";
@@ -103,7 +103,7 @@ ${t.loading
     ? `- Carbohydrate loading: ${t.dailyCarbs.gPerKg[0]}-${t.dailyCarbs.gPerKg[1]} g/kg a day (${t.dailyCarbs.grams[0]}-${t.dailyCarbs.grams[1]}g) for the final 36-48 hours, i.e. the last 2 days before race day, with training tapered.`
     : `- No carbohydrate loading: the race is under 90 minutes. Eat ${t.dailyCarbs.gPerKg[0]}-${t.dailyCarbs.gPerKg[1]} g/kg (${t.dailyCarbs.grams[0]}-${t.dailyCarbs.grams[1]}g) of carbohydrate in the 24 hours before, as normal daily fuel.`}
 - Earlier in the week: normal training-day eating; don't start loading early.
-- Pre-race meal: ${t.preRaceMeal.gPerKg[0]}-${t.preRaceMeal.gPerKg[1]} g/kg (${t.preRaceMeal.grams[0]}-${t.preRaceMeal.grams[1]}g) carbohydrate, 1-4 hours before the start, low in fat, protein and fibre.
+- Pre-race meal: ${t.preRaceMeal.gPerKg[0]}-${t.preRaceMeal.gPerKg[1]} g/kg (${t.preRaceMeal.grams[0]}-${t.preRaceMeal.grams[1]}g) carbohydrate, 1-4 hours before the start, low in fat, protein and fiber.
 - Pre-race fluid: ${t.preRaceFluidMl[0]}-${t.preRaceFluidMl[1]}ml (5-10 ml/kg) in the 2-4 hours before; sodium in pre-race food and drink may help retain it. Don't recommend multi-day sodium loading.
 - During the race: ${t.duringCarbs}.
 
@@ -118,10 +118,10 @@ ${days.map((d) => `DAY ${d}: ${d} DAY${d === 1 ? "" : "S"} OUT`).join("\n")}
 For each day: the nutrition focus, what to eat and avoid, any products to use, with specific quantities.
 
 RACE DAY
-Pre-race meal timing and contents. Warm-up nutrition. During-race fuelling schedule with exact timing. Post-race recovery.
+Pre-race meal timing and contents. Warm-up nutrition. During-race fueling schedule with exact timing. Post-race recovery.
 
 WHAT TO AVOID THIS WEEK
-Specific foods and behaviours to avoid in race week.
+Specific foods and behaviors to avoid in race week.
 
 KEY NOTES
 3 race-week tips specific to this athlete's profile and race type.

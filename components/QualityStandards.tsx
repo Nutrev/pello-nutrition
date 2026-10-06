@@ -1,5 +1,5 @@
 // The "Quality standards" card on a product page: third-party certifications grouped by what
-// they cover, how each was checked, and the diet claims, clearly labelled as claims.
+// they cover, how each was checked, and the diet claims, clearly labeled as claims.
 import Link from "next/link";
 import { QUALITY_STANDARDS, standardsFrom, meetsDiet, type QualityStandard, type DietFacts } from "@/lib/quality-standards";
 import { formatDate } from "@/lib/format-date";
@@ -104,7 +104,7 @@ export default function QualityStandards({ certifications, diet, nsf }: {
             <ClaimRow label="Vegan" value={diet.isVegan ?? null} note="Brand or retailer label claim, not a certification." />
             <ClaimRow label="Gluten-free" value={diet.isGlutenFree ?? null} note="Brand or retailer label claim. In the US a gluten-free label means under 20 ppm gluten." />
             <ClaimRow label="Dairy-free" value={dairyFree}
-              note={dairyFree === true && diet.isVegan === true ? "Labelled vegan." : "From the allergen list, where one is available."} />
+              note={dairyFree === true && diet.isVegan === true ? "Labeled vegan." : "From the allergen list, where one is available."} />
           </ul>
         </div>
       </div>

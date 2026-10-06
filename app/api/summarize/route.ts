@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { unstable_cache } from "next/cache";
 import Anthropic from "@anthropic-ai/sdk";
+import { AI_HOUSE_STYLE } from "@/lib/ai-style";
 import { PRODUCTS, Product } from "@/lib/products";
 import { rateLimit } from "@/lib/rate-limit";
 
@@ -29,6 +30,7 @@ Don't claim to have read customer reviews, and don't describe taste, texture or 
   const message = await client.messages.create({
     model: "claude-sonnet-4-6",
     max_tokens: 300,
+    system: AI_HOUSE_STYLE,
     messages: [{ role: "user", content: prompt }],
   });
   const summary = message.content[0].type === "text" ? message.content[0].text : "";

@@ -20,7 +20,7 @@ export default function FoodAndSourcingGuide() {
       <Section id="usda-organic" title="USDA Organic">
         <p>
           Run by the USDA&apos;s National Organic Program. Organic products must be overseen by a USDA-authorised certifying agent
-          and produced without excluded methods, such as genetic engineering, ionising radiation or sewage sludge. Organic labels
+          and produced without excluded methods, such as genetic engineering, ionizing radiation or sewage sludge. Organic labels
           must be reviewed and approved by an accredited certifying agent before they&apos;re used.
         </p>
         <p>What the wording on the label means:</p>

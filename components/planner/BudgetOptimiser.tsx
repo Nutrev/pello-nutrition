@@ -1,6 +1,6 @@
 "use client";
 
-// Budget optimiser (free): ranks goal-relevant products from Pello's database by value, with no
+// Budget optimizer (free): ranks goal-relevant products from Pello's database by value, with no
 // AI involved in the picks. An optional AI budget strategy (no product picks) needs a free account.
 import { useMemo, useState } from "react";
 import Link from "next/link";
@@ -15,6 +15,7 @@ import { PRO_ENABLED } from "@/lib/pro";
 import { StepIndicator, Loading, PlanLines, ModeProductCard, parseSections, toggleClass, chipClass } from "./shared";
 import { usePlanRequest } from "./usePlanRequest";
 import SaveModePlanButton from "./SaveModePlanButton";
+import { FieldList, RangeSlider } from "@/components/form/Fields";
 
 type Draft = typeof BUDGET_DEFAULTS;
 const $ = (n: number) => `$${n.toFixed(2)}`;
@@ -64,7 +65,7 @@ export default function BudgetOptimiser({ catalog, onStartOver }: { catalog: Pro
     return (
       <div>
         <div className="mb-6">
-          <div className="text-xs text-muted uppercase tracking-widest mb-2">Budget optimiser</div>
+          <div className="text-xs text-muted uppercase tracking-widest mb-2">Budget optimizer</div>
           <h1 className="font-display font-bold text-3xl tracking-tight mb-3">{goalLabel} · ${d.budget} a month</h1>
           <p className="text-sm text-muted">
             Ranked from {tiers.considered} products in Pello&apos;s database that fit your goal and choices, by value score: rating × transparency score ÷ price per serving.
@@ -174,22 +175,16 @@ export default function BudgetOptimiser({ catalog, onStartOver }: { catalog: Pro
       {step === 2 && (
         <div>
           <h2 className="font-display font-semibold text-lg mb-4">Budget and constraints</h2>
-          <div className="card mb-4">
-            <h3 className="font-display font-semibold mb-4">Monthly nutrition budget</h3>
-            <input type="range" aria-label="Monthly budget" min={20} max={200} step={5} value={d.budget} onChange={(e) => set("budget", Number(e.target.value))} className="w-full accent-moss" />
-            <div className="text-center font-display font-bold text-2xl text-moss">${d.budget}</div>
-          </div>
-          <div className="card mb-4">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-display font-semibold">What you spend now <span className="text-xs font-normal text-muted">(optional)</span></h3>
-              {d.currentSpend != null && <button type="button" onClick={() => set("currentSpend", null)} className="text-xs text-muted hover:text-ink">Clear</button>}
-            </div>
-            <input type="range" aria-label="Current monthly spend" min={0} max={200} step={5} value={d.currentSpend ?? 0} onChange={(e) => set("currentSpend", Number(e.target.value))} className="w-full accent-moss" />
-            <div className="text-center font-display font-bold text-2xl text-moss">{d.currentSpend == null ? "Not set" : `$${d.currentSpend}`}</div>
-          </div>
+          <FieldList className="mb-4">
+            <RangeSlider label="Monthly nutrition budget" min={20} max={200} step={5} value={d.budget} onChange={(v) => set("budget", v)} format={(v) => `$${v}`} />
+            <RangeSlider label="What you spend now (optional)" min={0} max={200} step={5} value={d.currentSpend ?? 0}
+              onChange={(v) => set("currentSpend", v)} format={(v) => `$${v}`}
+              display={d.currentSpend == null ? "Not set" : `$${d.currentSpend}`}
+              aside={d.currentSpend != null && <button type="button" onClick={() => set("currentSpend", null)} className="text-xs font-body font-normal text-muted hover:text-ink">Clear</button>} />
+          </FieldList>
           <div className="card mb-4">
             <h3 className="font-display font-semibold mb-1">Dietary restrictions</h3>
-            <p className="text-xs text-muted mb-3">Only products labelled this way are included.</p>
+            <p className="text-xs text-muted mb-3">Only products labeled this way are included.</p>
             <div className="flex gap-2 flex-wrap">
               {(["vegan", "gluten-free", "dairy-free"] as DietaryRestriction[]).map((x) => <button key={x} type="button" aria-pressed={d.dietary.includes(x)} onClick={() => toggle("dietary", x)} className={chipClass(d.dietary.includes(x))}>{x}</button>)}
             </div>

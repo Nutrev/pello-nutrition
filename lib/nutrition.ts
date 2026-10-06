@@ -14,7 +14,7 @@ export interface ProductNutrition {
   isHydrogel: boolean;
   glucoseFructoseRatio: string | null;
   isBatchTested: boolean;
-  isVegan: boolean | null;     // as labelled by the brand or retailer; null = not stated
+  isVegan: boolean | null;     // as labeled by the brand or retailer; null = not stated
   isGlutenFree: boolean | null;
   certifications: string[];
 }
@@ -75,7 +75,7 @@ export function productNutrition(p: Product): ProductNutrition {
     sodiumPerServing: p.sodiumPerServing ?? f.sodium,
     caffeinePerServing: caffeine,
     proteinPerServing: p.proteinPerServing ?? f.protein,
-    // A caffeinated flavour counts even when caffeine varies by flavour (no single value).
+    // A caffeinated flavor counts even when caffeine varies by flavor (no single value).
     hasCaffeine: (p.caffeinePerServing ?? 0) > 0 || f.hasCaffeine,
     isHydrogel: p.isHydrogel ?? f.isHydrogel,
     glucoseFructoseRatio: p.glucoseFructoseRatio ?? f.ratio,

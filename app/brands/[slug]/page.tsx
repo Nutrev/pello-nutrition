@@ -130,7 +130,7 @@ export default function BrandPage({ params }: { params: { slug: string } }) {
           </div>
         )}
 
-        {/* Catalogue */}
+        {/* Catalog */}
         <h2 className="font-display font-semibold text-xl mb-1">{brand.name} products</h2>
         <p className="text-xs text-muted mb-4">Sorted by Pello Score</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">

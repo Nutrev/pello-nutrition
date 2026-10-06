@@ -23,11 +23,12 @@ import { MODE_BY_ID, MODE_PRO_PITCH, type PlannerMode } from "@/lib/planner-mode
 import { primaryRetailerLink, linkRel } from "@/lib/retailers";
 import { byWeightedRating, type ProductSummary } from "@/lib/catalog-types";
 import { servingsPerContainer } from "@/lib/servings";
+import { FieldList, FieldRow, NumberStepper, PillToggle, RangeSlider, WeightStepper, WeightUnitToggle } from "@/components/form/Fields";
 import {
   type PlannerInputs, type EventType, type OutcomeType, type Intensity,
   type CaffeinePreference, type DietaryRestriction, type FormatPreference, type Retailer,
   type WeightUnit, type Sex,
-  EVENT_TYPES, OUTCOME_TYPES, INTENSITY_OPTIONS, DEFAULT_INPUTS, KG_PER_LB, carbsNeeded, sodiumNeeded, formatWeight,
+  EVENT_TYPES, OUTCOME_TYPES, INTENSITY_OPTIONS, DEFAULT_INPUTS, carbsNeeded, sodiumNeeded, formatWeight,
 } from "@/lib/planner";
 
 // ── TYPES ─────────────────────────────────────────────────────
@@ -109,7 +110,7 @@ function buildPhaseRecommendations(PRODUCTS: ProductSummary[], inputs: PlannerIn
   const hasCaffeine = inputs.caffeinePreference !== "none";
   const needsFuelling = inputs.durationHours >= 1;
 
-  // Only products that meet every diet requirement (as labelled; unknown never counts) and
+  // Only products that meet every diet requirement (as labeled; unknown never counts) and
   // every quality standard the athlete chose.
   const pool = PRODUCTS.filter(p =>
     inputs.dietary.every(d => meetsDiet({ isVegan: p.nutrition.isVegan, isGlutenFree: p.nutrition.isGlutenFree, allergens: p.allergens }, d)) &&
@@ -241,7 +242,7 @@ function buildPhaseRecommendations(PRODUCTS: ProductSummary[], inputs: PlannerIn
         phase: "during" as const,
         quantity: 1,
         totalCost: parseFloat((p.price / servingsPerContainer(p)).toFixed(2)),
-        reason: "Intra-workout fuelling to support your goal",
+        reason: "Intra-workout fueling to support your goal",
       }));
 
     const post = allProducts
@@ -430,25 +431,9 @@ function PhaseProductCard({ item, borderColor }: { item: PhaseProduct; borderCol
 function NoMatch() {
   return (
     <p className="mt-4 pt-4 border-t border-sand text-xs text-muted">
-      No product in our catalogue meets all of your diet and quality-standard choices for this phase, so we haven&apos;t
+      No product in our catalog meets all of your diet and quality-standard choices for this phase, so we haven&apos;t
       recommended one. Try removing a standard, or <Link href="/query" className="text-moss hover:underline">explore products</Link> yourself.
     </p>
-  );
-}
-
-// Two-option toggle used in card headers (e.g. kg | lbs).
-function SegmentedControl<T extends string>({ label, options, value, onChange }: {
-  label: string; options: { id: T; label: string }[]; value: T; onChange: (v: T) => void;
-}) {
-  return (
-    <div role="radiogroup" aria-label={label} className="inline-flex rounded-lg border border-sand bg-white/40 p-0.5">
-      {options.map(o => (
-        <button key={o.id} type="button" role="radio" aria-checked={value === o.id} onClick={() => onChange(o.id)}
-          className={`px-3 py-1 text-xs rounded-md transition-colors ${value === o.id ? "bg-moss text-cream font-medium" : "text-muted hover:text-ink"}`}>
-          {o.label}
-        </button>
-      ))}
-    </div>
   );
 }
 
@@ -531,7 +516,6 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
 
   const carbTarget = carbsNeeded(inputs.durationHours, inputs.intensity);
   const sodiumTarget = sodiumNeeded(inputs.durationHours, inputs.intensity, inputs.weightKg, inputs.sex);
-  const inLbs = inputs.weightUnit === "lbs";
   const isEvent = inputs.mode === "event";
 
   // Build phase-specific recommendations
@@ -592,7 +576,7 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
   const showLimitGate = classicMode && plannerMode === "event" && gating && !proAccess && (limitReached || blocked === "limit") && !parsedPlan && !loading;
 
   const planTitle = workout
-    ? `${workout.name} · ${completed ? "recovery & review" : "fuelling plan"}`
+    ? `${workout.name} · ${completed ? "recovery & review" : "fueling plan"}`
     : isEvent
     ? `${EVENT_TYPES.find(e => e.id === inputs.eventType)?.label} · ${inputs.durationHours}hr plan`
     : OUTCOME_TYPES.find(o => o.id === inputs.outcomeType)?.label ?? "Your plan";
@@ -657,7 +641,7 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
             {step === 1 && (
               <div>
                 {isEvent && (
-                  <ProGate feature="Plan from a workout file" description="Upload a planned or completed workout and get fuelling built around its actual duration and intervals.">
+                  <ProGate feature="Plan from a workout file" description="Upload a planned or completed workout and get fueling built around its actual duration and intervals.">
                     <WorkoutUpload workout={workout} onChange={applyWorkout} />
                   </ProGate>
                 )}
@@ -757,57 +741,19 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
                   </div>
                 )}
 
-                <div className="card mb-4">
-                  <div className="flex items-center justify-between gap-3 mb-4">
-                    <h3 className="font-display font-semibold">Body weight</h3>
-                    <SegmentedControl<WeightUnit>
-                      label="Weight unit"
-                      options={[{ id: "kg", label: "kg" }, { id: "lbs", label: "lbs" }]}
-                      value={inputs.weightUnit}
-                      onChange={v => update("weightUnit", v)}
-                    />
-                  </div>
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="text-sm text-muted">{inLbs ? "88lbs" : "40kg"}</span>
-                    <input type="range" aria-label={`Body weight in ${inputs.weightUnit}`}
-                      min={inLbs ? 88 : 40} max={inLbs ? 264 : 120} step={1}
-                      value={inLbs ? Math.round(inputs.weightKg * 2.205) : Math.round(inputs.weightKg)}
-                      onChange={e => {
-                        const v = Number(e.target.value);
-                        // Stored in kg for every calculation; lbs are converted on the way in.
-                        update("weightKg", inLbs ? Math.round(v * KG_PER_LB * 10) / 10 : v);
-                      }}
-                      className="flex-1 accent-moss" />
-                    <span className="text-sm text-muted">{inLbs ? "264lbs" : "120kg"}</span>
-                  </div>
-                  <div className="text-center font-display font-bold text-2xl text-moss">{formatWeight(inputs.weightKg, inputs.weightUnit)}</div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                  <div className="card">
-                    <h3 className="font-display font-semibold mb-4">Age</h3>
-                    <div className="flex items-center gap-3 mb-2">
-                      <span className="text-sm text-muted">16</span>
-                      <input type="range" aria-label="Age" min={16} max={70} step={1} value={inputs.age}
-                        onChange={e => update("age", Number(e.target.value))} className="flex-1 accent-moss" />
-                      <span className="text-sm text-muted">70</span>
-                    </div>
-                    <div className="text-center font-display font-bold text-2xl text-moss">{inputs.age}</div>
-                  </div>
-
-                  <div className="card">
-                    <h3 className="font-display font-semibold mb-4">Sex</h3>
-                    <div className="grid grid-cols-2 gap-2">
-                      {([{ id: "male", label: "Male" }, { id: "female", label: "Female" }] as { id: Sex; label: string }[]).map(opt => (
-                        <button key={opt.id} onClick={() => update("sex", opt.id)} aria-pressed={inputs.sex === opt.id}
-                          className={`p-3 rounded-xl border text-sm transition-all ${inputs.sex === opt.id ? "border-moss bg-moss/5 text-moss font-medium" : "border-sand hover:border-muted text-muted"}`}>
-                          {opt.label}
-                        </button>
-                      ))}
-                    </div>
-                    <p className="text-xs text-muted mt-3">Used to estimate sweat sodium losses, which are lower for women on average.</p>
-                  </div>
-                </div>
+                <FieldList className="mb-4">
+                  <FieldRow label="Body weight" aside={<WeightUnitToggle value={inputs.weightUnit} onChange={v => update("weightUnit", v)} />}>
+                    {/* Stored in kg for every calculation; shown in the chosen unit. */}
+                    <WeightStepper weightKg={inputs.weightKg} unit={inputs.weightUnit} onChange={kg => update("weightKg", kg)} />
+                  </FieldRow>
+                  <FieldRow label="Age">
+                    <NumberStepper label="Age" unit="yrs" min={16} max={70} value={inputs.age} onChange={v => update("age", v)} />
+                  </FieldRow>
+                  <FieldRow label="Sex" hint="Used to estimate sweat sodium losses, which are lower for women on average.">
+                    <PillToggle<Sex> label="Sex" value={inputs.sex} onChange={v => update("sex", v)}
+                      options={[{ id: "male", label: "Male" }, { id: "female", label: "Female" }]} />
+                  </FieldRow>
+                </FieldList>
 
                 <div className="card mb-4">
                   <h3 className="font-display font-semibold mb-4">Caffeine preference</h3>
@@ -815,7 +761,7 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
                     {[
                       { id: "none" as CaffeinePreference, label: "None", desc: "Caffeine-free" },
                       { id: "moderate" as CaffeinePreference, label: "Moderate", desc: "1-2 products" },
-                      { id: "high" as CaffeinePreference, label: "High", desc: "Maximise" },
+                      { id: "high" as CaffeinePreference, label: "High", desc: "Maximize" },
                     ].map(opt => (
                       <button key={opt.id} onClick={() => update("caffeinePreference", opt.id)}
                         className={`p-3 rounded-xl border text-left transition-all ${inputs.caffeinePreference === opt.id ? "border-moss bg-moss/5" : "border-sand hover:border-muted"}`}>
@@ -840,15 +786,9 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
                   </div>
                 </div>
 
-                <div className="card mb-4">
-                  <h3 className="font-display font-semibold mb-4">{isEvent ? "Event budget" : "Monthly supplement budget"}</h3>
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="text-sm text-muted">$10</span>
-                    <input type="range" min={10} max={200} step={5} value={inputs.budget}
-                      onChange={e => update("budget", Number(e.target.value))} className="flex-1 accent-moss" />
-                    <span className="text-sm text-muted">$200</span>
-                  </div>
-                  <div className="text-center font-display font-bold text-2xl text-moss">${inputs.budget}</div>
+                <div className="card !py-1 mb-4">
+                  <RangeSlider label={isEvent ? "Event budget" : "Monthly supplement budget"} min={10} max={200} step={5}
+                    value={inputs.budget} onChange={v => update("budget", v)} format={v => `$${v}`} />
                 </div>
 
                 {isEvent && (
@@ -886,7 +826,7 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
 
                 <div className="card mb-4">
                   <h3 className="font-display font-semibold mb-1">Dietary requirements</h3>
-                  <p className="text-xs text-muted mb-3">Select all that apply. We only recommend products labelled that way; dairy-free also uses the allergen list.</p>
+                  <p className="text-xs text-muted mb-3">Select all that apply. We only recommend products labeled that way; dairy-free also uses the allergen list.</p>
                   <div className="flex gap-2 flex-wrap">
                     {(["vegan", "gluten-free", "dairy-free"] as DietaryRestriction[]).map(d => (
                       <button key={d} onClick={() => toggleArray("dietary", d)}
@@ -1020,7 +960,7 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
                 </div>
                 <div>
                   <h3 className="font-display font-bold text-base">{completed ? "What this session called for" : isEvent ? "During event" : "During training"}</h3>
-                  <p className="text-xs text-muted">{completed ? "Compare with what you took" : workout ? "Timed to your workout" : isEvent ? "Per-hour fuelling plan" : "Intra-workout nutrition"}</p>
+                  <p className="text-xs text-muted">{completed ? "Compare with what you took" : workout ? "Timed to your workout" : isEvent ? "Per-hour fueling plan" : "Intra-workout nutrition"}</p>
                 </div>
               </div>
               <PlanLines lines={parsedPlan.duringEvent} />

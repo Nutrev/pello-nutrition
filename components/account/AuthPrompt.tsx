@@ -14,8 +14,8 @@ export default function AuthPrompt({ open, onClose, action, returnTo }: { open: 
     <Modal open={open} onClose={onClose} title={PRO_ENABLED ? `Log in or create an account to ${action}` : `Create a free account to ${action}`}>
       <p className="text-sm text-muted mb-5">
         {PRO_ENABLED
-          ? <>A free Pello account lets you keep favourite products and build a nutrition plan each month. Saving plans and tracking your supplement stack are part of Pello Pro.</>
-          : <>A Pello account lets you save nutrition plans, keep favourite products and track your supplement stack. It&apos;s free.</>}
+          ? <>A free Pello account lets you keep favorite products and build a nutrition plan each month. Saving plans and tracking your supplement stack are part of Pello Pro.</>
+          : <>A Pello account lets you save nutrition plans, keep favorite products and track your supplement stack. It&apos;s free.</>}
       </p>
       <div className="flex flex-col gap-2">
         <Link href={`/auth/login?mode=signup&redirect=${redirect}`} className="btn-primary justify-center flex">Create a free account</Link>

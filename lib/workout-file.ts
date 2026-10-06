@@ -5,8 +5,8 @@
 // intensity blocks, no GPS or timestamps) is sent with a plan request.
 //
 // Intensity is a % of the athlete's own threshold, and Pello only works it out when it can:
-// - Cycling: power ÷ FTP, as normalised power (the intensity factor).
-// - Running: pace ÷ threshold pace (as speed), normalised the same way as power (on the flat,
+// - Cycling: power ÷ FTP, as normalized power (the intensity factor).
+// - Running: pace ÷ threshold pace (as speed), normalized the same way as power (on the flat,
 //   running speed tracks effort much as power does); or heart rate ÷ threshold heart rate, averaged.
 //   Completed runs use heart rate when there is some and a threshold HR is set, because pace
 //   understates hills; otherwise moving pace, with a note that hills aren't accounted for.
@@ -37,7 +37,7 @@ export interface WorkoutSummary {
   durationMin: number;
   basis: IntensityBasis | null;    // what blocks and intensityFactor are relative to
   blocks: WorkoutBlock[];          // in order, merged, at most MAX_BLOCKS
-  intensityFactor: number | null;  // power/pace: normalised ÷ threshold; HR: average ÷ threshold
+  intensityFactor: number | null;  // power/pace: normalized ÷ threshold; HR: average ÷ threshold
   avgPower: number | null;         // completed rides with power
   kj: number | null;               // work done, completed rides with power
   notes: string[];                 // what couldn't be read, shown to the athlete
@@ -83,7 +83,7 @@ export function intensityLabel(w: Pick<WorkoutSummary, "intensityFactor" | "basi
   const band = INTENSITY_BANDS[w.basis].find((b) => b.id === id)!;
   const pct = Math.round(w.intensityFactor! * 100);
   return w.basis === "power" ? `Intensity factor ${w.intensityFactor}: ${band.label}`
-    : w.basis === "pace" ? `Normalised pace ${pct}% of threshold (weighted towards the hardest efforts): ${band.label}`
+    : w.basis === "pace" ? `Normalized pace ${pct}% of threshold (weighted towards the hardest efforts): ${band.label}`
     : `Average heart rate ${pct}% of threshold: ${band.label}`;
 }
 
@@ -97,7 +97,7 @@ interface Step { sec: number; pct: number | null } // pct as a fraction of the b
 
 const clean = (s: string) => s.replace(/[^A-Za-z0-9À-ɏ\s\-.,:()/&+'#%]/g, "").replace(/\s+/g, " ").trim().slice(0, 60);
 
-// Session intensity from steps. Power and pace: fourth-power mean (normalised). Heart rate:
+// Session intensity from steps. Power and pace: fourth-power mean (normalized). Heart rate:
 // time-weighted average. Null if under half the time has a known intensity.
 function sessionIntensity(steps: Step[], basis: IntensityBasis | null): number | null {
   if (!basis || basis === "relative") return null;
@@ -124,7 +124,7 @@ export function zoneOf(pct: number | null, basis: IntensityBasis | null): number
   return i === -1 ? edges.length + 1 : i + 1;
 }
 
-// Merges steps into blocks: neighbours in the same zone join up, then the closest neighbours are
+// Merges steps into blocks: neighbors in the same zone join up, then the closest neighbors are
 // merged until there are at most MAX_BLOCKS.
 function toBlocks(steps: Step[], basis: IntensityBasis | null, mergeByZone: boolean): WorkoutBlock[] {
   const merged: { sec: number; work: number; knownSec: number; zone: number }[] = [];
@@ -285,7 +285,7 @@ export function fromSamples(kind: WorkoutKind, sport: WorkoutSport, name: string
     if (hasSpeed && t.paceSecPerKm) {
       const thresholdSpeed = 1000 / t.paceSecPerKm;
       const speeds = perSecond(samples, (s) => (stopped(s) ? null : s.speed));
-      // Normalised like power: 30-second rolling average of moving speed, to the fourth power.
+      // Normalized like power: 30-second rolling average of moving speed, to the fourth power.
       const moving = speeds.filter((v): v is number => v != null);
       let normalised: number | null = null;
       if (moving.length >= 30) {
@@ -312,7 +312,7 @@ export function fromSamples(kind: WorkoutKind, sport: WorkoutSport, name: string
   const powerSec = withPower.reduce((a, s) => a + s.sec, 0);
   const work = withPower.reduce((a, s) => a + s.w! * s.sec, 0);
   const watts = perSecond(samples, (s) => s.w ?? 0);
-  // Normalised power: 30-second rolling average of 1-second power, to the fourth power.
+  // Normalized power: 30-second rolling average of 1-second power, to the fourth power.
   let np: number | null = null;
   if (watts.length >= 30) {
     let sum = 0, acc = 0, n = 0;
@@ -407,7 +407,7 @@ export function fromFit(fit: FitData, t: Thresholds): WorkoutSummary {
 
 // Planned FIT workouts. Raw target values, per the FIT profile:
 //  power:       0–1000 = % of FTP; above 1000 = watts + 1000
-//  speed:       metres per second × 1000
+//  speed:       meters per second × 1000
 //  heart rate:  0–100 = % of max heart rate; above 100 = bpm + 100
 function fromFitWorkout(fit: FitData, t: Thresholds): WorkoutSummary {
   const steps = fit.workout_step ?? [];

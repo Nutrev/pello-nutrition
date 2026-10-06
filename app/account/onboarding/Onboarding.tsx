@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useUser, updateProfile } from "@/lib/auth";
 import { GOAL_OPTIONS, type UserProfile } from "@/lib/account-types";
-import { KG_PER_LB, formatWeight } from "@/lib/planner";
+import { FieldList, FieldRow, NumberStepper, PillToggle, WeightStepper, WeightUnitToggle } from "@/components/form/Fields";
 import { safeRedirect } from "@/lib/safe-redirect";
 
 type Draft = Pick<UserProfile, "username" | "weight_unit" | "sex" | "caffeine_preference" | "dietary" | "goals"> & {
@@ -77,7 +77,6 @@ export default function Onboarding() {
   const set = <K extends keyof Draft>(k: K, v: Draft[K]) => setDraft((d) => ({ ...d, [k]: v }));
   const toggle = (k: "dietary" | "goals", v: string) =>
     setDraft((d) => ({ ...d, [k]: d[k].includes(v) ? d[k].filter((x) => x !== v) : [...d[k], v] }));
-  const inLbs = draft.weight_unit === "lbs";
 
   const save = async () => {
     setBusy(true); setError(null);
@@ -131,37 +130,18 @@ export default function Onboarding() {
             </label>
           </div>
 
-          <div className="card">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="font-display font-semibold">Body weight</h2>
-              <div role="radiogroup" aria-label="Weight unit" className="inline-flex rounded-lg border border-sand bg-white/40 p-0.5">
-                {(["kg", "lbs"] as const).map((u) => (
-                  <button key={u} type="button" role="radio" aria-checked={draft.weight_unit === u} onClick={() => set("weight_unit", u)}
-                    className={`px-3 py-1 text-xs rounded-md ${draft.weight_unit === u ? "bg-moss text-cream font-medium" : "text-muted hover:text-ink"}`}>{u}</button>
-                ))}
-              </div>
-            </div>
-            <input type="range" aria-label={`Body weight in ${draft.weight_unit}`} className="w-full accent-moss"
-              min={inLbs ? 88 : 40} max={inLbs ? 264 : 120} step={1}
-              value={inLbs ? Math.round(draft.weight_kg * 2.205) : Math.round(draft.weight_kg)}
-              onChange={(e) => { const v = Number(e.target.value); set("weight_kg", inLbs ? Math.round(v * KG_PER_LB * 10) / 10 : v); }} />
-            <div className="text-center font-display font-bold text-2xl text-moss mt-1">{formatWeight(draft.weight_kg, draft.weight_unit)}</div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="card">
-              <h2 className="font-display font-semibold mb-3">Age</h2>
-              <input type="range" aria-label="Age" min={16} max={70} value={draft.age} onChange={(e) => set("age", Number(e.target.value))} className="w-full accent-moss" />
-              <div className="text-center font-display font-bold text-2xl text-moss mt-1">{draft.age}</div>
-            </div>
-            <div className="card">
-              <h2 className="font-display font-semibold mb-3">Sex</h2>
-              <div className="grid grid-cols-2 gap-2">
-                <Choice selected={draft.sex === "male"} onClick={() => set("sex", "male")}>Male</Choice>
-                <Choice selected={draft.sex === "female"} onClick={() => set("sex", "female")}>Female</Choice>
-              </div>
-            </div>
-          </div>
+          <FieldList>
+            <FieldRow label="Body weight" aside={<WeightUnitToggle value={draft.weight_unit} onChange={(u) => set("weight_unit", u)} />}>
+              <WeightStepper weightKg={draft.weight_kg} unit={draft.weight_unit} onChange={(kg) => set("weight_kg", kg)} />
+            </FieldRow>
+            <FieldRow label="Age">
+              <NumberStepper label="Age" unit="yrs" min={16} max={70} value={draft.age} onChange={(v) => set("age", v)} />
+            </FieldRow>
+            <FieldRow label="Sex">
+              <PillToggle<"male" | "female"> label="Sex" value={draft.sex} onChange={(v) => set("sex", v)}
+                options={[{ id: "male", label: "Male" }, { id: "female", label: "Female" }]} />
+            </FieldRow>
+          </FieldList>
 
           <div className="card">
             <h2 className="font-display font-semibold mb-3">Training days per week</h2>

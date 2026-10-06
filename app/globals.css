@@ -81,3 +81,38 @@ body::before {
   .marquee-track { animation: none; }
   .marquee-copy { display: none; }
 }
+
+/* Slim slider that fills in green up to the thumb (components/form/Fields.tsx RangeSlider).
+   --filled is set inline from the value. */
+.range-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 4px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, var(--color-moss) var(--filled, 0%), #E3DACA var(--filled, 0%));
+  cursor: pointer;
+}
+.range-slider:focus { outline: none; }
+.range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  background: #fff;
+  border: 2px solid var(--color-moss);
+  box-shadow: 0 1px 3px rgba(26, 26, 26, 0.15);
+  cursor: grab;
+}
+.range-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: #fff;
+  border: 2px solid var(--color-moss);
+  box-shadow: 0 1px 3px rgba(26, 26, 26, 0.15);
+  cursor: grab;
+}
+.range-slider:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px rgba(45, 74, 45, 0.2); }
+.range-slider:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 4px rgba(45, 74, 45, 0.2); }

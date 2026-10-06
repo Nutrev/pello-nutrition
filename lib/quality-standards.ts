@@ -5,7 +5,7 @@
 // it holds definitions only, no product data.
 //
 // Every description here is taken from the certifier's own published information (sources are
-// listed in lib/certification-guides.ts). Keep them factual: what the programme checks, how often,
+// listed in lib/certification-guides.ts). Keep them factual: what the program checks, how often,
 // and how to look a product up. Never describe a claim as a certification.
 
 export type StandardId = "nsf-sport" | "informed-sport" | "cologne-list" | "usda-organic" | "non-gmo-project";
@@ -56,7 +56,7 @@ export const QUALITY_STANDARDS: QualityStandard[] = [
     group: "sport",
     certifier: "Cologne List®",
     what: "Listed after passing a label check and a laboratory analysis for steroids and stimulants.",
-    testing: "Products pass a label check and a laboratory analysis for anabolic steroids and stimulants at the German Sport University Cologne's doping-research centre at least once a year.",
+    testing: "Products pass a label check and a laboratory analysis for anabolic steroids and stimulants at the German Sport University Cologne's doping-research center at least once a year.",
     lookupUrl: "https://www.koelnerliste.com/en/",
     lookupLabel: "Cologne List product list",
     guide: "sport-testing",
@@ -98,7 +98,7 @@ export function standardsFrom(certifications: string[] | undefined): StandardId[
 }
 
 // What athletes can choose to require (Explore filters and the planner). "sport-tested" means
-// any of the sport-testing programmes.
+// any of the sport-testing programs.
 export type StandardChoice = StandardId | "sport-tested";
 export const STANDARD_CHOICES: { id: StandardChoice; label: string; hint: string }[] = [
   { id: "sport-tested", label: "Tested for banned substances", hint: "Any of NSF Certified for Sport, Informed Sport or Cologne List" },
@@ -128,6 +128,6 @@ export interface DietFacts {
 export function meetsDiet(d: DietFacts, diet: DietId): boolean {
   if (diet === "vegan") return d.isVegan === true;
   if (diet === "gluten-free") return d.isGlutenFree === true;
-  // Dairy-free: labelled vegan, or an allergen statement is available and doesn't list milk.
+  // Dairy-free: labeled vegan, or an allergen statement is available and doesn't list milk.
   return d.isVegan === true || (Array.isArray(d.allergens) && !d.allergens.some((a) => /milk|dairy|whey|casein/i.test(a)));
 }

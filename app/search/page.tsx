@@ -3,7 +3,7 @@ import { getProductSummaries } from "@/lib/catalog";
 import { byWeightedRating, type ProductSummary } from "@/lib/catalog-types";
 
 // Products teased below the search box before anyone types: the best-rated product in
-// each category, among well-reviewed ones, so the names are ones people recognise.
+// each category, among well-reviewed ones, so the names are ones people recognize.
 const TEASER_MIN_REVIEWS = 100;
 
 function teaserProducts(products: ProductSummary[]): ProductSummary[] {

@@ -9,13 +9,14 @@ import {
   RACE_TYPES, RACE_DURATIONS, RACE_PRIORITIES, RACE_WEEK_DEFAULTS, MODE_PRO_PITCH, raceWeekTargets,
   type RaceWeekInputs, type RaceType, type RaceDuration, type RacePriority,
 } from "@/lib/planner-modes";
-import { KG_PER_LB, formatWeight, type CaffeinePreference, type DietaryRestriction, type FormatPreference, type WeightUnit } from "@/lib/planner";
+import { formatWeight, type CaffeinePreference, type DietaryRestriction, type FormatPreference, type WeightUnit } from "@/lib/planner";
 import { useUser } from "@/lib/auth";
 import { useProAccess } from "@/lib/subscription";
 import ProGate from "@/components/ProGate";
 import { StepIndicator, Loading, PlanCard, PlanLines, ModeProductCard, parseSections, mentionedIds, toggleClass, chipClass } from "./shared";
 import { usePlanRequest } from "./usePlanRequest";
 import SaveModePlanButton from "./SaveModePlanButton";
+import { FieldList, FieldRow, RangeSlider, WeightStepper, WeightUnitToggle } from "@/components/form/Fields";
 
 type Draft = typeof RACE_WEEK_DEFAULTS;
 const FORMATS: { id: FormatPreference; label: string }[] = [
@@ -47,7 +48,6 @@ export default function RaceWeekPlanner({ catalog, onStartOver }: { catalog: Pro
     const arr = x[k] as T[];
     return { ...x, [k]: arr.includes(v) ? arr.filter((a) => a !== v) : [...arr, v] };
   });
-  const inLbs = d.weightUnit === "lbs";
 
   if (!allowed) {
     return (
@@ -173,18 +173,11 @@ export default function RaceWeekPlanner({ catalog, onStartOver }: { catalog: Pro
       {step === 2 && (
         <div>
           <h2 className="font-display font-semibold text-lg mb-4">About you</h2>
-          <div className="card mb-4">
-            <div className="flex items-center justify-between gap-3 mb-4">
-              <h3 className="font-display font-semibold">Body weight</h3>
-              <div role="radiogroup" aria-label="Weight unit" className="inline-flex rounded-lg border border-sand bg-white/40 p-0.5">
-                {(["kg", "lbs"] as WeightUnit[]).map((u) => <button key={u} type="button" role="radio" aria-checked={d.weightUnit === u} onClick={() => set("weightUnit", u)} className={`px-3 py-1 text-xs rounded-md ${d.weightUnit === u ? "bg-moss text-cream font-medium" : "text-muted hover:text-ink"}`}>{u}</button>)}
-              </div>
-            </div>
-            <input type="range" aria-label={`Body weight in ${d.weightUnit}`} min={inLbs ? 88 : 40} max={inLbs ? 264 : 120} step={1}
-              value={inLbs ? Math.round(d.weightKg * 2.205) : Math.round(d.weightKg)}
-              onChange={(e) => { const v = Number(e.target.value); set("weightKg", inLbs ? Math.round(v * KG_PER_LB * 10) / 10 : v); }} className="w-full accent-moss" />
-            <div className="text-center font-display font-bold text-2xl text-moss">{formatWeight(d.weightKg, d.weightUnit)}</div>
-          </div>
+          <FieldList className="mb-4">
+            <FieldRow label="Body weight" aside={<WeightUnitToggle value={d.weightUnit} onChange={(u) => set("weightUnit", u)} />}>
+              <WeightStepper weightKg={d.weightKg} unit={d.weightUnit} onChange={(kg) => set("weightKg", kg)} />
+            </FieldRow>
+          </FieldList>
           <div className="card mb-4">
             <h3 className="font-display font-semibold mb-3">Caffeine preference</h3>
             <div className="grid grid-cols-3 gap-2">
@@ -193,15 +186,13 @@ export default function RaceWeekPlanner({ catalog, onStartOver }: { catalog: Pro
           </div>
           <div className="card mb-4">
             <h3 className="font-display font-semibold mb-1">Dietary restrictions</h3>
-            <p className="text-xs text-muted mb-3">Only products labelled this way are recommended.</p>
+            <p className="text-xs text-muted mb-3">Only products labeled this way are recommended.</p>
             <div className="flex gap-2 flex-wrap">
               {(["vegan", "gluten-free", "dairy-free"] as DietaryRestriction[]).map((x) => <button key={x} type="button" aria-pressed={d.dietary.includes(x)} onClick={() => toggle("dietary", x)} className={chipClass(d.dietary.includes(x))}>{x}</button>)}
             </div>
           </div>
-          <div className="card mb-6">
-            <h3 className="font-display font-semibold mb-4">Budget for race week products</h3>
-            <input type="range" aria-label="Budget" min={10} max={200} step={5} value={d.budget} onChange={(e) => set("budget", Number(e.target.value))} className="w-full accent-moss" />
-            <div className="text-center font-display font-bold text-2xl text-moss">${d.budget}</div>
+          <div className="card !py-1 mb-6">
+            <RangeSlider label="Budget for race week products" min={10} max={200} step={5} value={d.budget} onChange={(v) => set("budget", v)} format={(v) => `$${v}`} />
           </div>
           <div className="flex gap-3">
             <button type="button" onClick={() => setStep(1)} className="btn-secondary flex-1 justify-center flex">Back</button>

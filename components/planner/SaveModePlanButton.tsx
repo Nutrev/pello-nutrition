@@ -1,6 +1,6 @@
 "use client";
 
-// "Save this plan" for the supplement stack, race week and budget optimiser planners. Saving is
+// "Save this plan" for the supplement stack, race week and budget optimizer planners. Saving is
 // Pello Pro once Pro is on (the database enforces it too); signed-out visitors are asked to log in.
 import { useState } from "react";
 import Link from "next/link";

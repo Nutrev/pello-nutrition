@@ -5,7 +5,7 @@ import type { FavouriteProduct } from "@/lib/account-types";
 import ProductCard from "@/components/ProductCard";
 import DeleteRowButton from "@/components/account/DeleteRowButton";
 
-export const metadata: Metadata = { title: "Favourite products", robots: { index: false } };
+export const metadata: Metadata = { title: "Favorite products", robots: { index: false } };
 
 export default async function FavouritesPage() {
   const { supabase } = await requireAccountUser("/account/favourites");
@@ -16,12 +16,12 @@ export default async function FavouritesPage() {
     <div className="max-w-5xl mx-auto px-6 py-10">
       <Link href="/account" className="text-xs text-muted hover:text-ink">← Account</Link>
       <div className="flex items-end justify-between gap-4 mt-3 mb-6">
-        <h1 className="font-display font-bold text-3xl tracking-tight">Favourite products</h1>
+        <h1 className="font-display font-bold text-3xl tracking-tight">Favorite products</h1>
         <Link href="/products" className="btn-secondary whitespace-nowrap">Browse products</Link>
       </div>
       {favourites.length === 0 ? (
         <div className="card text-center py-10">
-          <p className="text-sm text-muted mb-4">No favourites yet. Tap the heart on any product page to save it here.</p>
+          <p className="text-sm text-muted mb-4">No favorites yet. Tap the heart on any product page to save it here.</p>
           <Link href="/products" className="btn-primary inline-flex">Browse products</Link>
         </div>
       ) : (
@@ -32,8 +32,8 @@ export default async function FavouritesPage() {
               <div key={f.id} className="flex flex-col gap-2">
                 {p ? <ProductCard product={p} /> : <div className="card text-sm text-muted flex-1">This product is no longer listed on Pello.</div>}
                 <div className="text-right">
-                  <DeleteRowButton table="favourite_products" id={f.id} label="Remove from favourites"
-                    confirmText={`Remove ${p ? p.name : "this product"} from your favourites?`} />
+                  <DeleteRowButton table="favourite_products" id={f.id} label="Remove from favorites"
+                    confirmText={`Remove ${p ? p.name : "this product"} from your favorites?`} />
                 </div>
               </div>
             );

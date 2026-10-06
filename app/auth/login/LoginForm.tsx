@@ -74,7 +74,7 @@ export default function LoginForm() {
     <AuthShell
       eyebrow="Pello account"
       title={signup ? "Create your account" : "Welcome back"}
-      subtitle={signup ? "Free. Save plans, favourite products and track your supplement stack." : "Log in to see your saved plans, favourites and stack."}
+      subtitle={signup ? "Free. Save plans, favorite products and track your supplement stack." : "Log in to see your saved plans, favorites and stack."}
     >
       <div role="tablist" aria-label="Log in or create an account" className="grid grid-cols-2 rounded-xl border border-sand bg-white/40 p-1 mb-5">
         {([["login", "Log in"], ["signup", "Create account"]] as const).map(([m, label]) => (

@@ -157,7 +157,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
 
         {/* CTA */}
         <div className="card bg-moss/5 border-moss/20 text-center py-8 mt-10">
-          <h3 className="font-display font-semibold mb-2">Get your personalised nutrition plan</h3>
+          <h3 className="font-display font-semibold mb-2">Get your personalized nutrition plan</h3>
           <p className="text-xs text-muted mb-4">Tell us about your event and we'll build a complete pre, during and post protocol</p>
           <Link href="/quiz" className="btn-primary">Build my plan →</Link>
         </div>

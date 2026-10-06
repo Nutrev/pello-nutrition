@@ -209,7 +209,7 @@ export function PlanCallToAction() {
     <section className="card bg-moss/5 border-moss/20 text-center py-10">
       <h2 className="font-display font-bold text-xl mb-2">Not sure where to start?</h2>
       <p className="text-muted text-sm mb-5 max-w-md mx-auto">
-        Answer a few questions about your training and we&apos;ll build a fuelling plan from the products we track.
+        Answer a few questions about your training and we&apos;ll build a fueling plan from the products we track.
       </p>
       <div className="flex gap-3 justify-center flex-wrap">
         <Link href="/quiz" className="btn-primary">Build my plan →</Link>

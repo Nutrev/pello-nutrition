@@ -31,7 +31,7 @@ export default function TermsPage() {
 
           <section>
             <h2 className="font-display font-semibold text-lg text-ink mb-2">2. Not medical advice</h2>
-            <p>The content on Pello Nutrition LLC is for informational and educational purposes only. Nothing on this site constitutes medical advice, diagnosis or treatment. Always consult a qualified healthcare professional before making changes to your diet, supplementation or training programme. Pello Nutrition LLC accepts no liability for decisions made based on content published on this site.</p>
+            <p>The content on Pello Nutrition LLC is for informational and educational purposes only. Nothing on this site constitutes medical advice, diagnosis or treatment. Always consult a qualified healthcare professional before making changes to your diet, supplementation or training program. Pello Nutrition LLC accepts no liability for decisions made based on content published on this site.</p>
           </section>
 
           <section>
@@ -42,7 +42,7 @@ export default function TermsPage() {
 
           <section>
             <h2 className="font-display font-semibold text-lg text-ink mb-2">4. AI-generated content</h2>
-            <p>Some features, including product summaries and personalised nutrition plans, are generated automatically using artificial intelligence. AI-generated content can contain errors or omissions and is not reviewed by a qualified professional before it is shown to you. Treat it as a starting point for your own research, not as advice, and check quantities such as carbohydrate, sodium and caffeine intake against your own needs and a professional's guidance.</p>
+            <p>Some features, including product summaries and personalized nutrition plans, are generated automatically using artificial intelligence. AI-generated content can contain errors or omissions and is not reviewed by a qualified professional before it is shown to you. Treat it as a starting point for your own research, not as advice, and check quantities such as carbohydrate, sodium and caffeine intake against your own needs and a professional's guidance.</p>
           </section>
 
           <section>
@@ -52,7 +52,7 @@ export default function TermsPage() {
 
           <section>
             <h2 className="font-display font-semibold text-lg text-ink mb-2">6. User-generated content</h2>
-            <p>By submitting a review or other content to the Site, you grant Pello Nutrition LLC a non-exclusive, royalty-free licence to publish, display and distribute that content. You are responsible for ensuring your reviews are honest and do not infringe third-party rights. We reserve the right to remove content at our discretion.</p>
+            <p>By submitting a review or other content to the Site, you grant Pello Nutrition LLC a non-exclusive, royalty-free license to publish, display and distribute that content. You are responsible for ensuring your reviews are honest and do not infringe third-party rights. We reserve the right to remove content at our discretion.</p>
           </section>
 
           <section>
@@ -73,7 +73,7 @@ export default function TermsPage() {
                 <li><strong className="text-ink">Price.</strong> Pello Pro costs {PRO_PRICE_LABEL} per month (USD), plus any applicable tax, as shown on the <Link href="/pricing" className="text-moss underline">pricing page</Link> and at checkout. Checkout may show the equivalent price in your local currency.</li>
                 <li><strong className="text-ink">Free trial.</strong> New accounts may receive one {TRIAL_DAYS}-day free trial. You don&apos;t need a payment method to start it. If you add one, you will be charged {PRO_PRICE_LABEL} when the trial ends unless you cancel before then. If you don&apos;t add one, your subscription ends with the trial and your account returns to the free plan without charge.</li>
                 <li><strong className="text-ink">Automatic renewal.</strong> Your subscription renews automatically every month and is charged to your payment method at the start of each billing period until you cancel.</li>
-                <li><strong className="text-ink">Cancelling.</strong> You can cancel at any time from your account (&ldquo;Manage subscription&rdquo;), from your Link account at link.com, or by emailing pellonutrition@gmail.com. Cancellation takes effect at the end of the current billing period; you keep Pro access until then and won&apos;t be charged again.</li>
+                <li><strong className="text-ink">Canceling.</strong> You can cancel at any time from your account (&ldquo;Manage subscription&rdquo;), from your Link account at link.com, or by emailing pellonutrition@gmail.com. Cancellation takes effect at the end of the current billing period; you keep Pro access until then and won&apos;t be charged again.</li>
                 <li><strong className="text-ink">Refunds.</strong> You can ask for a refund through Link support or by emailing us. Stripe may issue refunds within 60 days of a payment in some cases, and statutory cooling-off rights apply where the law gives them. Otherwise we don&apos;t give refunds or credits for partial billing periods.</li>
                 <li><strong className="text-ink">Failed payments.</strong> If a renewal payment fails, Stripe will retry it. If it still can&apos;t be collected, your subscription ends and your account returns to the free plan.</li>
                 <li><strong className="text-ink">Price changes.</strong> We&apos;ll email you at least 30 days before any price change takes effect. The new price applies from your next billing period after that, and you can cancel before it does.</li>

@@ -5,7 +5,7 @@ const GREEN = "#2D4A2D";
 const CREAM = "#F5F0E8";
 const FONT = "var(--font-logo), sans-serif";
 
-// Inline badge for the site nav. The text is centred on its letters' ink (x is
+// Inline badge for the site nav. The text is centered on its letters' ink (x is
 // nudged to allow for NUTRITION's trailing letter spacing).
 export default function Logo() {
   return (
@@ -21,7 +21,7 @@ export default function Logo() {
   );
 }
 
-// Stacked badge for compact spots such as the footer. PELLO is centred on its
+// Stacked badge for compact spots such as the footer. PELLO is centered on its
 // letters' ink, and NUTRITION is positioned and stretched so its letters line up
 // with PELLO's on both edges. The numbers allow for the letters' built-in side
 // spacing in Montserrat, so they need rechecking if the font, sizes or weights change.

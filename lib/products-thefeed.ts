@@ -55,7 +55,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     ingredients: [
       { name: "Fructose + Glucose", dose: "18g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
       { name: "Sodium", dose: "140mg", verdict: "proven", note: "Moderate sodium; salty or heavy sweaters will still need electrolytes alongside it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Caffeine (select flavours)", dose: "50mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "50mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 46, unit: "reviews", credibility: "medium" },
@@ -89,8 +89,8 @@ export const THE_FEED_PRODUCTS: Product[] = [
     transparencyScore: 85,
     sentiment: {},
     ingredients: [
-      { name: "Starches", dose: "19g carbs", verdict: "likely", note: "Starch-based carbs release energy more gradually; better suited to steady or pre-exercise fuelling than rapid intake at race pace.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=slow+release+carbohydrate+endurance+performance" },
-      { name: "Caffeine (select flavours)", dose: "75mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Starches", dose: "19g carbs", verdict: "likely", note: "Starch-based carbs release energy more gradually; better suited to steady or pre-exercise fueling than rapid intake at race pace.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=slow+release+carbohydrate+endurance+performance" },
+      { name: "Caffeine (select flavors)", dose: "75mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 271, unit: "reviews", credibility: "medium" },
@@ -127,7 +127,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     ingredients: [
       { name: "Carbohydrate", dose: "29g carbs", verdict: "likely", note: "The listing doesn't specify the sugar types; check the label if you rely on a glucose-fructose mix for high intakes." },
       { name: "Sodium", dose: "220mg", verdict: "proven", note: "A meaningful dose of sodium to help replace sweat losses in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Caffeine (select flavours)", dose: "50mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "50mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 79, unit: "reviews", credibility: "medium" },
@@ -164,7 +164,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     ingredients: [
       { name: "Glucose + Fructose", dose: "24g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
       { name: "Sodium", dose: "110mg", verdict: "proven", note: "Moderate sodium; salty or heavy sweaters will still need electrolytes alongside it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Caffeine (select flavours)", dose: "75mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "75mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 226, unit: "reviews", credibility: "medium" },
@@ -202,7 +202,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     ingredients: [
       { name: "Fructose + Maltodextrin", dose: "40g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
       { name: "Dietary Nitrate (beetroot)", dose: "", verdict: "likely", note: "Nitrate can improve efficiency in recreational athletes; benefits are smaller and less consistent in well-trained athletes.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=dietary+nitrate+beetroot+endurance+performance" },
-      { name: "Caffeine (select flavours)", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 250, unit: "reviews", credibility: "medium" },
@@ -276,7 +276,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     sentiment: {},
     ingredients: [
       { name: "Sucrose + Glucose + Fructose", dose: "26g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
-      { name: "Caffeine (select flavours)", dose: "27mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "27mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 420, unit: "reviews", credibility: "medium" },
@@ -352,7 +352,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     ingredients: [
       { name: "Maltodextrin + Fructose", dose: "40g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
       { name: "Sodium", dose: "200mg", verdict: "proven", note: "A meaningful dose of sodium to help replace sweat losses in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Caffeine (select flavours)", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 238, unit: "reviews", credibility: "medium" },
@@ -467,7 +467,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     ingredients: [
       { name: "Fructose + Glucose", dose: "24g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
       { name: "Sodium", dose: "105mg", verdict: "proven", note: "Moderate sodium; salty or heavy sweaters will still need electrolytes alongside it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Caffeine (select flavours)", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 419, unit: "reviews", credibility: "medium" },
@@ -613,7 +613,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     ingredients: [
       { name: "Glucose + Fructose", dose: "24g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
       { name: "Sodium", dose: "245mg", verdict: "proven", note: "A meaningful dose of sodium to help replace sweat losses in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Caffeine (select flavours)", dose: "25mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "25mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 312, unit: "reviews", credibility: "medium" },
@@ -761,7 +761,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     ingredients: [
       { name: "Maltodextrin + Fructose", dose: "24g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
       { name: "Sodium", dose: "75mg", verdict: "proven", note: "A small amount of sodium; plan separate electrolytes for long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Caffeine (select flavours)", dose: "40mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "40mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 128, unit: "reviews", credibility: "medium" },
@@ -798,7 +798,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     ingredients: [
       { name: "Maltodextrin + Fructose", dose: "25g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
       { name: "Sodium", dose: "200mg", verdict: "proven", note: "A meaningful dose of sodium to help replace sweat losses in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Caffeine (select flavours)", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 78, unit: "reviews", credibility: "medium" },
@@ -836,7 +836,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     ingredients: [
       { name: "Maltodextrin + Fructose", dose: "26g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
       { name: "Sodium", dose: "210mg", verdict: "proven", note: "A meaningful dose of sodium to help replace sweat losses in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Caffeine (select flavours)", dose: "50mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "50mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 239, unit: "reviews", credibility: "medium" },
@@ -873,7 +873,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     sentiment: {},
     ingredients: [
       { name: "Maltodextrin + Dextrose", dose: "22g carbs", verdict: "proven", note: "A single glucose-type carb absorbs at up to ~60g/hr; above that, pair it with a fructose source.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=carbohydrate+intake+endurance+performance+60+g+per+hour" },
-      { name: "Caffeine (select flavours)", dose: "50mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "50mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 252, unit: "reviews", credibility: "medium" },
@@ -1051,7 +1051,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     ingredients: [
       { name: "Fructose + Maltodextrin", dose: "30g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
       { name: "Sodium", dose: "202mg", verdict: "proven", note: "A meaningful dose of sodium to help replace sweat losses in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Caffeine (select flavours)", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 39, unit: "reviews", credibility: "medium" },
@@ -1090,7 +1090,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     ingredients: [
       { name: "Maltodextrin + Fructose + Dextrose", dose: "30g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
       { name: "Sodium", dose: "100mg", verdict: "proven", note: "Moderate sodium; salty or heavy sweaters will still need electrolytes alongside it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Caffeine (select flavours)", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 57, unit: "reviews", credibility: "medium" },
@@ -1127,7 +1127,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     ingredients: [
       { name: "Maltodextrin + Fructose + Dextrose", dose: "45g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
       { name: "Sodium", dose: "200mg", verdict: "proven", note: "A meaningful dose of sodium to help replace sweat losses in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Caffeine (select flavours)", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 29, unit: "reviews", credibility: "medium" },
@@ -1236,7 +1236,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     sentiment: {},
     ingredients: [
       { name: "Glucose + Fructose + Dextrose", dose: "30g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
-      { name: "Caffeine (select flavours)", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 10, unit: "reviews", credibility: "medium" },
@@ -1384,7 +1384,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     ingredients: [
       { name: "Glucose", dose: "8g carbs", verdict: "proven", note: "A single glucose-type carb absorbs at up to ~60g/hr; above that, pair it with a fructose source.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=carbohydrate+intake+endurance+performance+60+g+per+hour" },
       { name: "Sodium", dose: "160mg", verdict: "proven", note: "Moderate sodium; salty or heavy sweaters will still need electrolytes alongside it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Caffeine (select flavours)", dose: "15mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "15mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
       { name: "Protein", dose: "6g protein", verdict: "proven", note: "Supports muscle repair; roughly 20–40g after training is the evidence-based target.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=protein+intake+muscle+protein+synthesis+after+exercise" },
     ],
     sources: [
@@ -1421,7 +1421,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     ingredients: [
       { name: "Fructose + Glucose", dose: "26g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
       { name: "Sodium", dose: "150mg", verdict: "proven", note: "Moderate sodium; salty or heavy sweaters will still need electrolytes alongside it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Caffeine (select flavours)", dose: "90mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "90mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 36, unit: "reviews", credibility: "medium" },
@@ -1493,7 +1493,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     ingredients: [
       { name: "Glucose", dose: "25g carbs", verdict: "proven", note: "A single glucose-type carb absorbs at up to ~60g/hr; above that, pair it with a fructose source.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=carbohydrate+intake+endurance+performance+60+g+per+hour" },
       { name: "Sodium", dose: "100mg", verdict: "proven", note: "Moderate sodium; salty or heavy sweaters will still need electrolytes alongside it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Caffeine (select flavours)", dose: "50mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "50mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 77, unit: "reviews", credibility: "medium" },
@@ -1529,7 +1529,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     sentiment: {},
     ingredients: [
       { name: "Sucrose + Glucose + Fructose", dose: "21g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
-      { name: "Caffeine (select flavours)", dose: "113mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "113mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 18, unit: "reviews", credibility: "medium" },
@@ -1566,7 +1566,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     ingredients: [
       { name: "Maltodextrin + Fructose", dose: "28g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
       { name: "Sodium", dose: "56mg", verdict: "proven", note: "A small amount of sodium; plan separate electrolytes for long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Caffeine (select flavours)", dose: "89mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "89mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 44, unit: "reviews", credibility: "medium" },
@@ -1679,7 +1679,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     ingredients: [
       { name: "Fructose + Glucose", dose: "18g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
       { name: "Sodium", dose: "100mg", verdict: "proven", note: "Moderate sodium; salty or heavy sweaters will still need electrolytes alongside it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Caffeine (select flavours)", dose: "90mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "90mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 166, unit: "reviews", credibility: "medium" },
@@ -2015,7 +2015,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     ingredients: [
       { name: "Glucose + Fructose + Sucrose", dose: "22g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
       { name: "Sodium", dose: "120mg", verdict: "proven", note: "Moderate sodium; salty or heavy sweaters will still need electrolytes alongside it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Caffeine (select flavours)", dose: "75mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "75mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 42, unit: "reviews", credibility: "medium" },
@@ -2160,7 +2160,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     ingredients: [
       { name: "Maltodextrin + Sucrose + Fructose + Glucose", dose: "27g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
       { name: "Sodium", dose: "187mg", verdict: "proven", note: "Moderate sodium; salty or heavy sweaters will still need electrolytes alongside it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Caffeine (select flavours)", dose: "35mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "35mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 6, unit: "reviews", credibility: "medium" },
@@ -2269,7 +2269,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     sentiment: {},
     ingredients: [
       { name: "Fructose + Glucose", dose: "20g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
-      { name: "Caffeine (select flavours)", dose: "50mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "50mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 45, unit: "reviews", credibility: "medium" },
@@ -2414,7 +2414,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     transparencyScore: 85,
     sentiment: {},
     ingredients: [
-      { name: "Starches", dose: "21g carbs", verdict: "likely", note: "Starch-based carbs release energy more gradually; better suited to steady or pre-exercise fuelling than rapid intake at race pace.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=slow+release+carbohydrate+endurance+performance" },
+      { name: "Starches", dose: "21g carbs", verdict: "likely", note: "Starch-based carbs release energy more gradually; better suited to steady or pre-exercise fueling than rapid intake at race pace.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=slow+release+carbohydrate+endurance+performance" },
       { name: "Sodium", dose: "170mg", verdict: "proven", note: "Moderate sodium; salty or heavy sweaters will still need electrolytes alongside it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
     ],
     sources: [
@@ -2600,7 +2600,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     ingredients: [
       { name: "Maltodextrin + Fructose", dose: "100g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
       { name: "Sodium", dose: "1000mg", verdict: "proven", note: "A meaningful dose of sodium to help replace sweat losses in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Caffeine (select flavours)", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 87, unit: "reviews", credibility: "medium" },
@@ -2827,7 +2827,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     ingredients: [
       { name: "Carbohydrate", dose: "100g carbs", verdict: "likely", note: "The listing doesn't specify the sugar types; check the label if you rely on a glucose-fructose mix for high intakes." },
       { name: "Sodium", dose: "500mg", verdict: "proven", note: "A meaningful dose of sodium to help replace sweat losses in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Caffeine (select flavours)", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 10, unit: "reviews", credibility: "medium" },
@@ -3164,7 +3164,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     ingredients: [
       { name: "Sucrose + Dextrose", dose: "25g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
       { name: "Sodium", dose: "250mg", verdict: "proven", note: "A meaningful dose of sodium to help replace sweat losses in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Caffeine (select flavours)", dose: "30mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "30mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 34, unit: "reviews", credibility: "medium" },
@@ -3498,7 +3498,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     ingredients: [
       { name: "Fructose + Cluster Dextrin", dose: "60g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
       { name: "Sodium", dose: "620mg", verdict: "proven", note: "A meaningful dose of sodium to help replace sweat losses in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Caffeine (select flavours)", dose: "70mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "70mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 5, unit: "reviews", credibility: "medium" },
@@ -3538,7 +3538,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Glucose + Fructose + Starches", dose: "42g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
       { name: "Dietary Nitrate (beetroot)", dose: "", verdict: "likely", note: "Nitrate can improve efficiency in recreational athletes; benefits are smaller and less consistent in well-trained athletes.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=dietary+nitrate+beetroot+endurance+performance" },
       { name: "Sodium", dose: "120mg", verdict: "proven", note: "Moderate sodium; salty or heavy sweaters will still need electrolytes alongside it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Caffeine (select flavours)", dose: "75mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "75mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 42, unit: "reviews", credibility: "medium" },
@@ -4151,9 +4151,9 @@ export const THE_FEED_PRODUCTS: Product[] = [
     transparencyScore: 85,
     sentiment: {},
     ingredients: [
-      { name: "Starches", dose: "31g carbs", verdict: "likely", note: "Starch-based carbs release energy more gradually; better suited to steady or pre-exercise fuelling than rapid intake at race pace.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=slow+release+carbohydrate+endurance+performance" },
+      { name: "Starches", dose: "31g carbs", verdict: "likely", note: "Starch-based carbs release energy more gradually; better suited to steady or pre-exercise fueling than rapid intake at race pace.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=slow+release+carbohydrate+endurance+performance" },
       { name: "Sodium", dose: "210mg", verdict: "proven", note: "A meaningful dose of sodium to help replace sweat losses in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Caffeine (select flavours)", dose: "60mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "60mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
       { name: "Protein (Soy Protein)", dose: "20g protein", verdict: "proven", note: "Supports muscle repair; roughly 20–40g after training is the evidence-based target.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=protein+intake+muscle+protein+synthesis+after+exercise" },
     ],
     sources: [
@@ -4191,7 +4191,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     ingredients: [
       { name: "Sucrose", dose: "34g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
       { name: "Sodium", dose: "320mg", verdict: "proven", note: "A meaningful dose of sodium to help replace sweat losses in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Caffeine (select flavours)", dose: "55mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "55mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
       { name: "Protein (Soy Protein)", dose: "20g protein", verdict: "proven", note: "Supports muscle repair; roughly 20–40g after training is the evidence-based target.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=protein+intake+muscle+protein+synthesis+after+exercise" },
     ],
     sources: [
@@ -4228,7 +4228,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     transparencyScore: 85,
     sentiment: {},
     ingredients: [
-      { name: "Starches", dose: "28g carbs", verdict: "likely", note: "Starch-based carbs release energy more gradually; better suited to steady or pre-exercise fuelling than rapid intake at race pace.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=slow+release+carbohydrate+endurance+performance" },
+      { name: "Starches", dose: "28g carbs", verdict: "likely", note: "Starch-based carbs release energy more gradually; better suited to steady or pre-exercise fueling than rapid intake at race pace.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=slow+release+carbohydrate+endurance+performance" },
       { name: "Sodium", dose: "70mg", verdict: "proven", note: "A small amount of sodium; plan separate electrolytes for long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
     ],
     sources: [
@@ -4343,7 +4343,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     ingredients: [
       { name: "Glucose + Sucrose + Starches", dose: "20g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
       { name: "Sodium", dose: "70mg", verdict: "proven", note: "A small amount of sodium; plan separate electrolytes for long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Caffeine (select flavours)", dose: "20mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
+      { name: "Caffeine (select flavors)", dose: "20mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 294, unit: "reviews", credibility: "medium" },

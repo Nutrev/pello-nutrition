@@ -14,12 +14,12 @@ export default function DietGuide() {
     <GuideShell
       slug="diet"
       title="Diet certifications"
-      intro={<>&ldquo;Vegan&rdquo; or &ldquo;gluten-free&rdquo; on a label can be a certification checked by an independent organisation, or a claim made by the brand. It&apos;s worth knowing which one you&apos;re looking at.</>}
+      intro={<>&ldquo;Vegan&rdquo; or &ldquo;gluten-free&rdquo; on a label can be a certification checked by an independent organization, or a claim made by the brand. It&apos;s worth knowing which one you&apos;re looking at.</>}
       sources={[SOURCES.vegan, SOURCES.gfco, SOURCES.fdaGluten, SOURCES.fdaGlutenQa]}
     >
       <Section title="Certification or claim?">
         <Facts items={[
-          <><strong className="text-ink">A certification</strong> means an independent organisation has reviewed the product against a published standard, and the brand is licensed to use its mark.</>,
+          <><strong className="text-ink">A certification</strong> means an independent organization has reviewed the product against a published standard, and the brand is licensed to use its mark.</>,
           <><strong className="text-ink">A label claim</strong> is the brand&apos;s own statement. Some claims have a legal definition (in the US, &ldquo;gluten-free&rdquo; does; see below), but nobody checks them before the product is sold.</>,
         ]} />
       </Section>
@@ -31,7 +31,7 @@ export default function DietGuide() {
           "Use no sugar filtered with bone char. Prebiotics and probiotics must be cultured on animal-free media.",
           "Not have been tested on animals, for ingredients or the finished product, since 2009.",
           "Contain no animal-derived GMOs or genes.",
-          "If machinery is shared with non-vegan products, the company must show it cleans it between production runs to minimise cross-contamination.",
+          "If machinery is shared with non-vegan products, the company must show it cleans it between production runs to minimize cross-contamination.",
         ]} />
         <p>The logo is available to companies in the US, Canada, Australia, New Zealand and US territories.</p>
       </Section>
@@ -39,7 +39,7 @@ export default function DietGuide() {
       <Section id="gluten-free" title="Gluten-free: the legal claim and GFCO certification">
         <Facts items={[
           <><strong className="text-ink">The US &ldquo;gluten-free&rdquo; claim</strong> is voluntary but defined by the FDA, and the rule covers dietary supplements. The food must contain less than 20 parts per million (ppm) gluten.</>,
-          <><strong className="text-ink">GFCO certification</strong> (the Gluten-Free Certification Organization, a programme of the Gluten Intolerance Group) requires that starting ingredients and finished products test below the gluten-free threshold of the country of sale, or 10 ppm, whichever is lower. It reviews the manufacturer&apos;s products and ingredients and sets testing requirements based on risk.</>,
+          <><strong className="text-ink">GFCO certification</strong> (the Gluten-Free Certification Organization, a program of the Gluten Intolerance Group) requires that starting ingredients and finished products test below the gluten-free threshold of the country of sale, or 10 ppm, whichever is lower. It reviews the manufacturer&apos;s products and ingredients and sets testing requirements based on risk.</>,
         ]} />
       </Section>
 
@@ -50,9 +50,9 @@ export default function DietGuide() {
           and plans, even if none of its listed ingredients look animal-derived.
         </p>
         <p>
-          For dairy-free, we count a product that&apos;s labelled vegan, or one whose allergen statement is available and doesn&apos;t list milk.
+          For dairy-free, we count a product that&apos;s labeled vegan, or one whose allergen statement is available and doesn&apos;t list milk.
         </p>
-        <OnPello>{d.vegan} products on Pello are labelled vegan and {d.glutenFree} are labelled gluten-free.</OnPello>
+        <OnPello>{d.vegan} products on Pello are labeled vegan and {d.glutenFree} are labeled gluten-free.</OnPello>
       </Section>
     </GuideShell>
   );

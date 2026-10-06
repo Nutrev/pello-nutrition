@@ -1,6 +1,6 @@
 // lib/account-server.ts
 // Server-side reads for the account pages, as the signed-in user (row-level security
-// applies), joined to the product catalogue.
+// applies), joined to the product catalog.
 import "server-only";
 import { redirect } from "next/navigation";
 import { getServerSupabase } from "./supabase/server";

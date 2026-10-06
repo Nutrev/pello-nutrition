@@ -1,6 +1,6 @@
 "use client";
 
-// Calls /api/plan for the supplement stack, race week and budget optimiser planners.
+// Calls /api/plan for the supplement stack, race week and budget optimizer planners.
 import { useState } from "react";
 
 export interface PlanResponse { plan: string; products: { id: string; name: string; brand: string }[] }

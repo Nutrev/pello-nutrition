@@ -28,8 +28,8 @@ export interface PlanContent {
   keyNotes: string[];
 }
 
-// Saved content of a supplement stack, race week or budget optimiser plan: text sections, and
-// groups of products by id (shown from the current catalogue, so prices stay current).
+// Saved content of a supplement stack, race week or budget optimizer plan: text sections, and
+// groups of products by id (shown from the current catalog, so prices stay current).
 export interface ModePlanContent {
   kind: "sections";
   sections: { title: string; lines: string[] }[];

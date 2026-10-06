@@ -34,7 +34,7 @@ export default function PrivacyPage() {
             <ul className="list-disc pl-5 space-y-1 mt-2">
               <li><strong className="text-ink">Account details</strong> — if you create an account: your email address and password (stored securely by our authentication provider; we never see your password), or your Google account email if you sign in with Google</li>
               <li><strong className="text-ink">Profile information</strong> — anything you choose to add: a username, body weight and preferred unit, age, sex, training days per week, cycling FTP, caffeine preference, dietary preferences (vegan, gluten-free, dairy-free) and goals</li>
-              <li><strong className="text-ink">Saved content</strong> — nutrition plans you save (including the inputs used to create them, such as event details and body weight), favourite products, and the products, doses, timing and notes in your supplement stack</li>
+              <li><strong className="text-ink">Saved content</strong> — nutrition plans you save (including the inputs used to create them, such as event details and body weight), favorite products, and the products, doses, timing and notes in your supplement stack</li>
               {PRO_ENABLED && (
                 <li><strong className="text-ink">Subscription details</strong> — if you subscribe to Pello Pro: your subscription status, trial and renewal dates, and the customer and subscription IDs Stripe assigns. Pello Pro is sold through Link, Stripe&apos;s checkout, which acts as the merchant of record: Stripe and Link collect your payment details and billing address under their own privacy policies. We never see or store your full card number</li>
               )}
@@ -52,7 +52,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="font-display font-semibold text-lg text-ink mb-2">3. How we use your data</h2>
             <ul className="list-disc pl-5 space-y-1">
-              <li>To run your account: logging you in and showing your saved plans, favourites and stack</li>
+              <li>To run your account: logging you in and showing your saved plans, favorites and stack</li>
               {PRO_ENABLED && <li>To provide Pello Pro: checking your subscription, counting free plans, and letting you manage billing through Stripe</li>}
               <li>To tailor nutrition plans: when you use the planner, the details you enter (such as body weight, age, sex, training days, event details and any workout-file summary) are sent to our AI provider to generate your plan</li>
               <li>To display community reviews on product pages</li>
@@ -66,8 +66,8 @@ export default function PrivacyPage() {
             <h2 className="font-display font-semibold text-lg text-ink mb-2">4. Affiliate links</h2>
             <p>
               {ACTIVE_PROGRAMMES.length > 0
-                ? `Pello Nutrition LLC participates in these affiliate programmes: ${ACTIVE_PROGRAMMES.map((p) => p.name).join(", ")}. When you click a retailer link and make a purchase, the retailer may set a cookie that credits the sale to us, and we may earn a commission at no additional cost to you. `
-                : "Product pages link to retailers such as The Feed and Amazon. Pello Nutrition LLC doesn't currently take part in any affiliate programme, so these links carry no affiliate tracking from us; the retailer's own privacy policy applies once you're on their site. "}
+                ? `Pello Nutrition LLC participates in these affiliate programs: ${ACTIVE_PROGRAMMES.map((p) => p.name).join(", ")}. When you click a retailer link and make a purchase, the retailer may set a cookie that credits the sale to us, and we may earn a commission at no additional cost to you. `
+                : "Product pages link to retailers such as The Feed and Amazon. Pello Nutrition LLC doesn't currently take part in any affiliate program, so these links carry no affiliate tracking from us; the retailer's own privacy policy applies once you're on their site. "}
               This never influences our editorial scores, reviews or recommendations. See our <Link href="/legal/affiliate-disclosure" className="text-moss underline">affiliate disclosure</Link> for full details.
             </p>
           </section>
@@ -96,7 +96,7 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="font-display font-semibold text-lg text-ink mb-2">7. Data retention</h2>
-            <p>We keep your account, profile and saved content until you delete them or ask us to delete your account. You can edit your profile and remove saved plans, favourites and stack items at any time from your account. When an account is deleted, all its profile data, saved plans, favourites and stack entries are deleted with it. Community reviews are kept unless you ask us to remove them.{PRO_ENABLED ? " If you subscribe to Pello Pro, Stripe keeps payment and invoice records as required for tax and accounting." : ""}</p>
+            <p>We keep your account, profile and saved content until you delete them or ask us to delete your account. You can edit your profile and remove saved plans, favorites and stack items at any time from your account. When an account is deleted, all its profile data, saved plans, favorites and stack entries are deleted with it. Community reviews are kept unless you ask us to remove them.{PRO_ENABLED ? " If you subscribe to Pello Pro, Stripe keeps payment and invoice records as required for tax and accounting." : ""}</p>
           </section>
 
           <section>

@@ -73,12 +73,12 @@ export const EVENT_TYPES: { id: EventType; label: string; desc: string }[] = [
 
 export const OUTCOME_TYPES: { id: OutcomeType; label: string; desc: string; timeframe: string }[] = [
   { id: "finish-first-marathon", label: "Finish my first marathon", desc: "Complete 26.2 miles feeling strong", timeframe: "Race-day + training nutrition" },
-  { id: "finish-first-triathlon", label: "Finish my first triathlon", desc: "Swim, bike, run nutrition strategy", timeframe: "Multi-sport fuelling" },
+  { id: "finish-first-triathlon", label: "Finish my first triathlon", desc: "Swim, bike, run nutrition strategy", timeframe: "Multi-sport fueling" },
   { id: "improve-cycling-endurance", label: "Improve cycling endurance", desc: "Go longer and stronger on the bike", timeframe: "Training + event nutrition" },
   { id: "improve-recovery", label: "Improve my recovery", desc: "Bounce back faster between sessions", timeframe: "Daily recovery protocol" },
   { id: "build-muscle-endurance", label: "Build muscle while training", desc: "Strength + endurance combined goals", timeframe: "Hybrid nutrition strategy" },
-  { id: "lose-weight-perform", label: "Lose weight and perform", desc: "Body composition without losing power", timeframe: "Periodised nutrition" },
-  { id: "race-faster", label: "Race faster", desc: "Optimise nutrition for peak performance", timeframe: "Performance nutrition" },
+  { id: "lose-weight-perform", label: "Lose weight and perform", desc: "Body composition without losing power", timeframe: "Periodized nutrition" },
+  { id: "race-faster", label: "Race faster", desc: "Optimize nutrition for peak performance", timeframe: "Performance nutrition" },
   { id: "gut-health", label: "Fix my gut health", desc: "Reduce GI issues during training", timeframe: "GI protocol" },
 ];
 
@@ -104,8 +104,8 @@ export function carbsNeeded(durationHours: number, intensity: Intensity): number
   return Math.round(rates[intensity] * durationHours);
 }
 
-// Estimated sodium lost in sweat (mg). Sweat rates are litres per hour for a 70kg athlete,
-// scaled by body weight; 500mg of sodium per litre of sweat. An average, not a personal figure
+// Estimated sodium lost in sweat (mg). Sweat rates are liters per hour for a 70kg athlete,
+// scaled by body weight; 500mg of sodium per liter of sweat. An average, not a personal figure
 // (a sweat test gives the real one).
 export function sodiumNeeded(durationHours: number, intensity: Intensity, weightKg: number, sex: Sex = "male"): number {
   const sweatLitresPerHour: Record<Intensity, number> = { easy: 0.5, moderate: 0.8, hard: 1.1, race: 1.4 };
@@ -227,8 +227,8 @@ function workoutSection(inputs: PlannerInputs): string {
   if (!w) return "";
   const facts = [
     `- Workout: "${w.name}", ${w.durationMin} minutes${w.sport === "bike" ? ", cycling" : w.sport === "run" ? ", running" : ""}`,
-    w.intensityFactor != null && w.basis === "power" ? `- Session intensity factor: ${w.intensityFactor} (normalised power as a fraction of FTP)` : null,
-    w.intensityFactor != null && w.basis === "pace" ? `- Normalised pace: ${Math.round(w.intensityFactor * 100)}% of threshold pace (as speed, weighted towards the hardest efforts)` : null,
+    w.intensityFactor != null && w.basis === "power" ? `- Session intensity factor: ${w.intensityFactor} (normalized power as a fraction of FTP)` : null,
+    w.intensityFactor != null && w.basis === "pace" ? `- Normalized pace: ${Math.round(w.intensityFactor * 100)}% of threshold pace (as speed, weighted towards the hardest efforts)` : null,
     w.intensityFactor != null && w.basis === "hr" ? `- Average heart rate: ${Math.round(w.intensityFactor * 100)}% of threshold heart rate` : null,
     w.blocks.some(([, p]) => p != null) ? `- Structure: ${describeBlocks(w.blocks, w.basis)}` : null,
     w.avgPower != null ? `- Average power: ${w.avgPower} W` : null,
@@ -295,8 +295,8 @@ Banana — 1 medium — 25g carbs
 Then add timing notes as plain sentences.
 
 DURING EVENT
-Write a clear per-hour fuelling schedule as plain sentences. Example:
-Start fuelling at 30 minutes with 1 gel (25g carbs).
+Write a clear per-hour fueling schedule as plain sentences. Example:
+Start fueling at 30 minutes with 1 gel (25g carbs).
 Take 1 gel every 25 minutes after that.
 Sip 150-200ml water with each gel.
 

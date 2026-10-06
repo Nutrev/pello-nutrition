@@ -42,7 +42,7 @@ function SubscriptionSection({ isPro, sub }: { isPro: boolean; sub: Subscription
       : trialing && sub.trial_end
       ? `Free trial ends ${formatDate(sub.trial_end)}${sub.cancel_at_period_end ? ", then Pro ends" : ""}.`
       : sub.cancel_at_period_end && end
-      ? `Cancelled. You keep Pro until ${end}.`
+      ? `Canceled. You keep Pro until ${end}.`
       : end ? `Renews ${end}.` : null;
     return (
       <div className="card flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
@@ -131,7 +131,7 @@ export default async function AccountPage() {
       <div className="grid grid-cols-3 gap-3 sm:gap-4 mb-10">
         {[
           { n: planCount.count ?? 0, label: "Saved plans", href: "/account/plans" },
-          { n: favCount.count ?? 0, label: "Favourites", href: "/account/favourites" },
+          { n: favCount.count ?? 0, label: "Favorites", href: "/account/favourites" },
           { n: activeStack.length, label: "In your stack", href: "/account/stack" },
         ].map((s) => (
           <Link key={s.label} href={s.href} className="card text-center hover:shadow-md transition-all">
@@ -161,7 +161,7 @@ export default async function AccountPage() {
       </section>
 
       <section className="mb-10">
-        <SectionHeader title="Favourite products" href="/account/favourites" linkLabel="All favourites" />
+        <SectionHeader title="Favorite products" href="/account/favourites" linkLabel="All favorites" />
         {favourites.length === 0 ? (
           <Empty text="Tap the heart on any product to keep it here." href="/products" cta="Browse products" />
         ) : (

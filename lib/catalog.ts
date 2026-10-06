@@ -1,5 +1,5 @@
 // lib/catalog.ts
-// Server-side access to the product catalogue. Pages read products here and pass the
+// Server-side access to the product catalog. Pages read products here and pass the
 // browser only what it needs: slim summaries for lists, the full product for its own page.
 import "server-only";
 

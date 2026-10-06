@@ -1,5 +1,5 @@
 // lib/brands.ts
-// Every brand on Pello, built from the product catalogue plus the facts in
+// Every brand on Pello, built from the product catalog plus the facts in
 // lib/brand-profiles.ts (taken from each brand's own site). Nothing here is estimated:
 // certifications, price position, badges and scores all come from Pello's product data.
 import "server-only";
@@ -56,7 +56,7 @@ function badges(products: Product[], avgTransparency: number | null, scoredCount
     out.push({ label: "Evidence-backed", detail: `${Math.round((proven / ingredients.length) * 100)}% of listed ingredients have strong research behind them` });
   }
   if (n >= 2 && products.every((p) => productNutrition(p).isVegan === true)) {
-    out.push({ label: "Vegan range", detail: "Every product on Pello is labelled vegan" });
+    out.push({ label: "Vegan range", detail: "Every product on Pello is labeled vegan" });
   }
   return out;
 }

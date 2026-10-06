@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 //   1. logo.dev — high-quality logos; needs NEXT_PUBLIC_LOGO_DEV_TOKEN (free publishable key)
 //   2. the product's local PNG, if it has one
 //   3. Google's favicon service — rejected if it only has a tiny icon
-//   4. a monogram: the brand's initials on a colour picked from the brand name
+//   4. a monogram: the brand's initials on a color picked from the brand name
 // (Clearbit's logo API, used previously, has been shut down.)
 
 const LOGO_DEV_TOKEN = process.env.NEXT_PUBLIC_LOGO_DEV_TOKEN;

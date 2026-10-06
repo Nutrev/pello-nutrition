@@ -1,6 +1,6 @@
 "use client";
 
-// Favourite (heart) and "Add to my stack" on a product page.
+// Favorite (heart) and "Add to my stack" on a product page.
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useUser } from "@/lib/auth";
@@ -38,7 +38,7 @@ export default function ProductActions({ productId, productName, servingSize }: 
   }, [user, productId]);
 
   const toggleFavourite = async () => {
-    if (!user) { setPrompt("save favourites"); return; }
+    if (!user) { setPrompt("save favorites"); return; }
     setBusy(true);
     const supabase = await loadBrowserSupabase();
     if (favId) {
@@ -59,7 +59,7 @@ export default function ProductActions({ productId, productName, servingSize }: 
         <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill={saved ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
           <path d="M12 21s-7.5-4.6-9.5-9.2C1 8.4 3.2 5 6.6 5c2 0 3.4 1.1 4.4 2.5C12 6.1 13.4 5 15.4 5 18.8 5 21 8.4 21.5 11.8 19.5 16.4 12 21 12 21z" />
         </svg>
-        {saved ? "Saved to favourites" : "Save to favourites"}
+        {saved ? "Saved to favorites" : "Save to favorites"}
       </button>
       {inStack ? (
         <Link href="/account/stack" className="btn-secondary flex items-center justify-center gap-2 text-sm whitespace-nowrap">✓ In your stack</Link>

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { INTENSITY_MULTIPLIERS, type Intensity } from "@/lib/fuelling";
+import { FieldList, FieldRow, NumberStepper, WeightUnitToggle, WEIGHT_RANGE, convertWeight } from "@/components/form/Fields";
 
 const DURATION_OPTIONS = [
   { value: 0.5, label: "30 min" },
@@ -47,7 +48,7 @@ const FORMATS = [
     unit: "scoop",
     unitPlural: "scoops",
     example: "Maurten Drink Mix 320, SiS Beta Fuel",
-    pros: "Combines fuelling and hydration, easy to absorb",
+    pros: "Combines fueling and hydration, easy to absorb",
     cons: "Requires carrying liquid, less portable",
   },
   {
@@ -169,29 +170,14 @@ export default function CarbCalculatorPage() {
           </div>
 
           {/* Body weight */}
-          <div className="card">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="font-display font-semibold">Body weight</h2>
-              <div className="flex gap-1 bg-sand rounded-lg p-0.5">
-                <button onClick={() => setUnit("kg")} className={`px-3 py-1 rounded-md text-xs transition-all ${unit === "kg" ? "bg-white text-ink" : "text-muted"}`}>kg</button>
-                <button onClick={() => setUnit("lbs")} className={`px-3 py-1 rounded-md text-xs transition-all ${unit === "lbs" ? "bg-white text-ink" : "text-muted"}`}>lbs</button>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 mb-2">
-              <span className="text-sm text-muted">{unit === "kg" ? "40kg" : "88lbs"}</span>
-              <input
-                type="range"
-                min={unit === "kg" ? 40 : 88}
-                max={unit === "kg" ? 120 : 264}
-                step={unit === "kg" ? 1 : 2}
-                value={weight}
-                onChange={(e) => { setWeight(Number(e.target.value)); setCalculated(false); }}
-                className="flex-1 accent-moss"
-              />
-              <span className="text-sm text-muted">{unit === "kg" ? "120kg" : "264lbs"}</span>
-            </div>
-            <div className="text-center font-display font-bold text-2xl text-moss">{weight}{unit}</div>
-          </div>
+          <FieldList>
+            <FieldRow label="Body weight" aside={
+              <WeightUnitToggle value={unit} onChange={(u) => { setWeight((w) => convertWeight(w, unit, u)); setUnit(u); setCalculated(false); }} />
+            }>
+              <NumberStepper label="Body weight" unit={unit} min={WEIGHT_RANGE[unit][0]} max={WEIGHT_RANGE[unit][1]} value={weight}
+                onChange={(v) => { setWeight(v); setCalculated(false); }} />
+            </FieldRow>
+          </FieldList>
 
           {/* Format selector */}
           <div className="card">
@@ -230,13 +216,13 @@ export default function CarbCalculatorPage() {
           onClick={() => setCalculated(true)}
           className="btn-primary w-full justify-center flex mb-8"
         >
-          Calculate my fuelling plan
+          Calculate my fueling plan
         </button>
 
         {/* Results */}
         {calculated && (
           <div className="space-y-4">
-            <div className="text-xs text-muted uppercase tracking-widest mb-2">Your fuelling plan</div>
+            <div className="text-xs text-muted uppercase tracking-widest mb-2">Your fueling plan</div>
 
             {/* Main output */}
             <div className="card bg-moss/5 border-moss/20">
@@ -262,7 +248,7 @@ export default function CarbCalculatorPage() {
               ) : (
                 <div className="bg-white/60 rounded-xl p-4">
                   <p className="text-xs text-muted leading-relaxed">
-                    Start fuelling at <strong>30–45 minutes</strong> in — don't wait until you feel hungry. Aim for <strong>{carbsPerHour}g per hour</strong>. Use a 2:1 glucose-to-fructose product for anything above 60g/hr.
+                    Start fueling at <strong>30–45 minutes</strong> in — don't wait until you feel hungry. Aim for <strong>{carbsPerHour}g per hour</strong>. Use a 2:1 glucose-to-fructose product for anything above 60g/hr.
                   </p>
                 </div>
               )}
@@ -374,7 +360,7 @@ export default function CarbCalculatorPage() {
             <div className="card bg-sand/30">
               <h3 className="font-display font-semibold text-sm mb-2">The science</h3>
               <p className="text-xs text-muted leading-relaxed mb-2">
-                The gut absorbs up to <strong>60g/hr</strong> from a single carb source. Using a <strong>2:1 glucose-to-fructose ratio</strong> activates a second transporter, raising the ceiling to <strong>90g/hr</strong> — the basis of modern high-carb fuelling products like Maurten, SiS Beta Fuel and Skratch Super High-Carb.
+                The gut absorbs up to <strong>60g/hr</strong> from a single carb source. Using a <strong>2:1 glucose-to-fructose ratio</strong> activates a second transporter, raising the ceiling to <strong>90g/hr</strong> — the basis of modern high-carb fueling products like Maurten, SiS Beta Fuel and Skratch Super High-Carb.
               </p>
               <a href="https://pubmed.ncbi.nlm.nih.gov/?term=carbohydrate+oxidation+endurance+exercise" target="_blank" rel="noopener noreferrer" className="text-xs text-moss underline underline-offset-2">
                 View research on PubMed →

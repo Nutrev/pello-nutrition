@@ -244,7 +244,7 @@ export default function ExploreClient({ catalog }: { catalog: ProductSummary[] }
 
             {/* Diet (label claims) */}
             <div>
-              <div className="text-xs text-muted mb-1.5">Diet <span className="text-muted/70">(as labelled)</span></div>
+              <div className="text-xs text-muted mb-1.5">Diet <span className="text-muted/70">(as labeled)</span></div>
               <div className="space-y-1.5">
                 {[
                   { key: "isVegan", label: "Vegan" },

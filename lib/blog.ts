@@ -22,7 +22,7 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "2026-09-22",
     author: "Pello Nutrition",
     category: "Reviews",
-    tags: ["energy gels", "cycling", "endurance", "fuelling"],
+    tags: ["energy gels", "cycling", "endurance", "fueling"],
     relatedProducts: ["maurten-gel-100", "maurten-gel-100-caf-100", "science-in-sport-go-energy-gel", "sis-beta-fuel-gel", "precision-fuel-pf30", "gu-roctane-gel"],
     readingTime: 6,
     content: `Energy gels are the cornerstone of endurance cycling nutrition. Get them right and you can sustain effort for hours. Get them wrong and you're dealing with GI distress, energy crashes or simply running out of fuel.
@@ -45,7 +45,7 @@ Before getting into picks, here's what actually matters in a gel:
 
 ### Best overall: Maurten Gel 100
 
-Maurten's hydrogel technology encapsulates carbohydrates in a gel matrix designed to pass through the stomach smoothly, and it's a favourite of athletes who struggle with GI issues. It's rated 4.8 out of 5 from over 1,400 reviews on The Feed.
+Maurten's hydrogel technology encapsulates carbohydrates in a gel matrix designed to pass through the stomach smoothly, and it's a favorite of athletes who struggle with GI issues. It's rated 4.8 out of 5 from over 1,400 reviews on The Feed.
 
 At 25g carbs per gel with a short six-ingredient label, it's not the most carb-dense option, but its reputation for tolerance makes it a reliable choice for long events. The main drawback is price — at $3.75/gel it's among the most expensive on the market.
 
@@ -55,7 +55,7 @@ Best for: Cyclists who've had GI issues with other gels, long sportives and gran
 
 At about $1.17/gel, this is the cheapest proper energy gel we list. Each gel has 22g of carbs from maltodextrin plus 100mg of sodium, so it tops up electrolytes as well as fuel. It's Informed Sport certified, vegan, and rated 4.6 out of 5 from nearly 600 reviews on The Feed.
 
-With a single carb source it's best at moderate intakes (up to around 60g per hour) rather than race-pace fuelling.
+With a single carb source it's best at moderate intakes (up to around 60g per hour) rather than race-pace fueling.
 
 Best for: Training rides, budget-conscious athletes, high-volume use.
 
@@ -67,7 +67,7 @@ Best for: High-intensity efforts, athletes pushing 80-90g carbs/hr.
 
 ### Best caffeinated: Precision Fuel PF30 CAF
 
-100mg of caffeine paired with 30g of carbs. Precision Fuel's modular approach — separating carbs from electrolytes — gives athletes more control over their fuelling strategy.
+100mg of caffeine paired with 30g of carbs. Precision Fuel's modular approach — separating carbs from electrolytes — gives athletes more control over their fueling strategy.
 
 Best for: Late-race use, sportives over 3 hours, athletes who respond well to caffeine.
 
@@ -86,13 +86,13 @@ A rough guide based on intensity:
 - Hard/threshold (Z3-Z4): 70g carbs/hr — 2-3 gels per hour
 - Race pace (Z4-Z5): 90g carbs/hr — 3 gels per hour plus drink mix
 
-Start fuelling at 30-45 minutes into the ride. Don't wait until you feel hungry — by then it's too late.
+Start fueling at 30-45 minutes into the ride. Don't wait until you feel hungry — by then it's too late.
 
 ## The bottom line
 
 For most cyclists, a combination of Maurten Gel 100 for GI-sensitive moments and a cheaper gel like SiS GO Energy + Electrolyte for training is the most practical approach. Reserve the expensive gels for race day and key training sessions.
 
-Use our [Pello Planner](/quiz) to get a personalised gel recommendation based on your specific event duration and intensity.`,
+Use our [Pello Planner](/quiz) to get a personalized gel recommendation based on your specific event duration and intensity.`,
   },
   {
     slug: "creatine-endurance-athletes",
@@ -169,14 +169,14 @@ Start with 3-5g daily and give it 4 weeks to fully saturate. Don't load. Don't o
   {
     slug: "maurten-vs-sis-beta-fuel",
     title: "Maurten vs SiS Beta Fuel — Which is Better?",
-    description: "Two of the most popular high-carb fuelling systems compared head to head. Ingredients, GI comfort, carb density, price and who each is best for.",
+    description: "Two of the most popular high-carb fueling systems compared head to head. Ingredients, GI comfort, carb density, price and who each is best for.",
     date: "2026-09-22",
     author: "Pello Nutrition",
     category: "Comparisons",
     tags: ["maurten", "sis", "energy gels", "comparison", "carbohydrates"],
     relatedProducts: ["maurten-gel-100", "sis-beta-fuel-gel", "maurten-drink-mix-320", "sis-beta-fuel-drink"],
     readingTime: 7,
-    content: `Maurten and Science in Sport (SiS) Beta Fuel are the two most talked-about high-performance fuelling systems in endurance sport. Both are used by professional athletes. Both are backed by science. And both cost significantly more than budget alternatives.
+    content: `Maurten and Science in Sport (SiS) Beta Fuel are the two most talked-about high-performance fueling systems in endurance sport. Both are used by professional athletes. Both are backed by science. And both cost significantly more than budget alternatives.
 
 So which one is actually better — and for whom?
 
@@ -209,9 +209,9 @@ Gut tolerance is highly individual, so the only reliable test is trying each in 
 
 ## Ingredient cleanliness
 
-Maurten wins here. Gel 100 has six ingredients — water, glucose, fructose, calcium carbonate, gluconic acid and sodium alginate — with no flavourings, colours, preservatives or sweeteners.
+Maurten wins here. Gel 100 has six ingredients — water, glucose, fructose, calcium carbonate, gluconic acid and sodium alginate — with no flavorings, colors, preservatives or sweeteners.
 
-SiS Beta Fuel adds flavourings, gums (gellan and xanthan) and preservatives (sodium benzoate and potassium sorbate). These are common, approved ingredients, but some athletes prefer to avoid them.
+SiS Beta Fuel adds flavorings, gums (gellan and xanthan) and preservatives (sodium benzoate and potassium sorbate). These are common, approved ingredients, but some athletes prefer to avoid them.
 
 ## Price
 
@@ -226,7 +226,7 @@ SiS delivers about 1.8 times the carbs per dollar. For athletes doing high-volum
 
 **Choose Maurten if:**
 - You have a sensitive stomach or history of GI issues during racing and the hydrogel works for you
-- You want the shortest ingredient list, with no flavourings or preservatives
+- You want the shortest ingredient list, with no flavorings or preservatives
 - You're racing at very high intensities where gut tolerance is critical
 - Budget is secondary to performance reliability
 
@@ -241,13 +241,13 @@ There's no universal winner. For athletes with cast-iron stomachs who want maxim
 
 A sensible middle ground is to use both — Maurten for racing and key sessions, SiS Beta Fuel for high-volume training where cost matters.
 
-Use the Pello Planner to get a personalised recommendation based on your specific event and goals.`,
+Use the Pello Planner to get a personalized recommendation based on your specific event and goals.`,
   },
 
   {
     slug: "marathon-nutrition-guide",
     title: "The Complete Marathon Nutrition Guide",
-    description: "Everything you need to know about fuelling a marathon — from pre-race carb loading to mid-race gel strategy and post-race recovery.",
+    description: "Everything you need to know about fueling a marathon — from pre-race carb loading to mid-race gel strategy and post-race recovery.",
     date: "2026-09-22",
     author: "Pello Nutrition",
     category: "Guides",
@@ -266,7 +266,7 @@ Effective carb loading means gradually increasing carbohydrate intake over 2-3 d
 
 Target 8-10g of carbohydrate per kg of body weight per day for the 2-3 days before the race. For a 70kg runner, that's 560-700g of carbs daily — significantly more than a typical diet.
 
-Focus on easily digestible sources: white rice, pasta, bread, potatoes, bananas, sports drinks. Reduce fibre, fat and protein relative to normal. This reduces gut bulk and minimises the risk of GI issues on race day.
+Focus on easily digestible sources: white rice, pasta, bread, potatoes, bananas, sports drinks. Reduce fiber, fat and protein relative to normal. This reduces gut bulk and minimizes the risk of GI issues on race day.
 
 ## Race morning — the pre-race meal
 
@@ -279,7 +279,7 @@ A good pre-race meal for a 70kg runner:
 - Orange juice: 250ml (26g carbs)
 - Pinch of salt: sodium primer
 
-Total: approximately 150g carbs, low fibre, low fat.
+Total: approximately 150g carbs, low fiber, low fat.
 
 60 minutes before the start, sip 500ml of water or dilute sports drink. Avoid high-fibre foods from this point.
 
@@ -291,7 +291,7 @@ For marathon running, target 60g of carbs per hour. Elite runners may push to 90
 
 A simple gel strategy for a 4-hour marathon:
 
-- Start fuelling at 30 minutes — don't wait until you feel it
+- Start fueling at 30 minutes — don't wait until you feel it
 - Take 1 gel every 25-30 minutes
 - Sip water at every aid station — 150-200ml per gel
 - Save a caffeinated gel for miles 18-20 when fatigue sets in
@@ -306,7 +306,7 @@ Hitting the wall is glycogen depletion. It happens when you've burned through yo
 
 The wall is avoidable with two things:
 
-First, start fuelling early and consistently. Most runners start too late and try to catch up. You can't. Once glycogen is depleted, no amount of gels will bring it back in the time available.
+First, start fueling early and consistently. Most runners start too late and try to catch up. You can't. Once glycogen is depleted, no amount of gels will bring it back in the time available.
 
 Second, pace correctly. Going out too fast in miles 1-10 burns glycogen at an accelerated rate. Even 10-15 seconds per mile too fast in the early miles can determine whether you have energy for the final 6.
 
@@ -316,7 +316,7 @@ The 30-minute window after finishing is the most important nutrition moment of t
 
 - Within 30 minutes: 20-25g protein plus 40-60g fast carbs. Chocolate milk is a classic and genuinely effective option.
 - Within 2 hours: a proper meal with protein, carbs and vegetables.
-- That evening: prioritise sleep and continue eating — a marathon depletes glycogen stores that take 24-48 hours to fully replenish.
+- That evening: prioritize sleep and continue eating — a marathon depletes glycogen stores that take 24-48 hours to fully replenish.
 
 Don't skip the post-race meal because you feel nauseous. Start small with liquid nutrition if needed — a protein shake, a banana, sports drink — and build from there.
 
@@ -331,9 +331,9 @@ Options:
 
 If you're not a regular caffeine user, start with a lower dose and test in training first. GI sensitivity to caffeine varies significantly between individuals.
 
-## Practise everything in training
+## Practice everything in training
 
-The single most important piece of advice in this guide: practise your race nutrition in training. Long runs are dress rehearsals for your gut as much as your legs.
+The single most important piece of advice in this guide: practice your race nutrition in training. Long runs are dress rehearsals for your gut as much as your legs.
 
 Take gels at race pace. Drink from cups while running. Test your pre-race meal. Try your caffeine strategy. Everything that goes into your body on race day should have been tested at least twice in training.
 
@@ -350,17 +350,17 @@ Race day is not the time to try a new gel.`,
     tags: ["sodium", "electrolytes", "hydration", "endurance", "cramping"],
     relatedProducts: ["lmnt-electrolyte-mix", "precision-fuel-hydration-tablets", "skratch-sport-hydration", "saltstick-fastchews"],
     readingTime: 6,
-    content: `Sodium is the most important electrolyte for endurance athletes. It regulates fluid balance, drives carbohydrate absorption in the gut and maintains nerve and muscle function. Get it wrong and the consequences range from cramping and fatigue to, in extreme cases, hyponatraemia — dangerously low blood sodium from drinking too much water without adequate sodium replacement.
+    content: `Sodium is the most important electrolyte for endurance athletes. It regulates fluid balance, drives carbohydrate absorption in the gut and maintains nerve and muscle function. Get it wrong and the consequences range from cramping and fatigue to, in extreme cases, hyponatremia — dangerously low blood sodium from drinking too much water without adequate sodium replacement.
 
 Yet most athletes dramatically underestimate how much sodium they lose during exercise and how much they need to replace.
 
 ## How much sodium do you lose?
 
-Sweat sodium concentration varies enormously between individuals — from around 200mg per litre to over 2000mg per litre. This is largely genetically determined and consistent for a given individual.
+Sweat sodium concentration varies enormously between individuals — from around 200mg per liter to over 2000mg per liter. This is largely genetically determined and consistent for a given individual.
 
-A rough average is 900mg of sodium per litre of sweat. At a sweat rate of 1 litre per hour — typical for moderate intensity in mild conditions — that's 900mg of sodium lost per hour.
+A rough average is 900mg of sodium per liter of sweat. At a sweat rate of 1 liter per hour — typical for moderate intensity in mild conditions — that's 900mg of sodium lost per hour.
 
-In hot conditions or at high intensity, sweat rates can reach 2-3 litres per hour. At these rates, sodium losses of 1800-2700mg per hour are not unusual.
+In hot conditions or at high intensity, sweat rates can reach 2-3 liters per hour. At these rates, sodium losses of 1800-2700mg per hour are not unusual.
 
 Most energy gels provide 40-100mg of sodium per serving. A standard electrolyte tablet provides 100-300mg. The gap between what most athletes consume and what they actually lose is significant.
 
@@ -387,9 +387,9 @@ A practical starting point based on exercise duration and intensity:
 
 These are starting points. Athletes who are salty sweaters or those racing in heat may need significantly more.
 
-## The hyponatraemia risk
+## The hyponatremia risk
 
-Hyponatraemia — low blood sodium — is a real risk for endurance athletes, particularly those racing at slower paces over long distances who drink large volumes of plain water.
+Hyponatremia — low blood sodium — is a real risk for endurance athletes, particularly those racing at slower paces over long distances who drink large volumes of plain water.
 
 The mechanism is straightforward: drinking water dilutes blood sodium concentration. Combined with sodium losses through sweat, blood sodium can drop to dangerous levels. Symptoms include nausea, headache, confusion and in severe cases seizures.
 
@@ -399,7 +399,7 @@ The fix is not to drink less water — it's to ensure what you drink contains ad
 
 Sodium plays a critical role beyond hydration. The SGLT1 transporter — responsible for glucose absorption in the small intestine — requires sodium to function. Every molecule of glucose absorbed pulls a sodium ion with it.
 
-This is why products like Maurten and Precision Fuel include sodium even in small amounts — it's not just electrolyte replacement, it's enabling carbohydrate absorption. Low sodium intake during high-carb fuelling can actually reduce carb absorption efficiency.
+This is why products like Maurten and Precision Fuel include sodium even in small amounts — it's not just electrolyte replacement, it's enabling carbohydrate absorption. Low sodium intake during high-carb fueling can actually reduce carb absorption efficiency.
 
 ## Choosing the right product
 
@@ -418,7 +418,7 @@ Products vary enormously in sodium content:
 
 ## Practical recommendations
 
-For events over 2 hours, don't rely on gels alone for sodium. Use a dedicated electrolyte product alongside your carb fuelling.
+For events over 2 hours, don't rely on gels alone for sodium. Use a dedicated electrolyte product alongside your carb fueling.
 
 If you cramp regularly in long events, you're almost certainly sodium depleted. Increase sodium intake progressively in training and find your personal threshold.
 

@@ -67,7 +67,7 @@ export default function ProductCard({ product, badge }: { product: ProductSummar
   );
 }
 
-// The score with its grade (Excellent, Good, Average…) in the grade's colour.
+// The score with its grade (Excellent, Good, Average…) in the grade's color.
 export function PelloScoreTag({ score }: { score: number }) {
   const grade = getFulensScoreLabel(score);
   return (

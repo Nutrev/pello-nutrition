@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { FieldList, FieldRow, NumberStepper, WeightUnitToggle, WEIGHT_RANGE, convertWeight } from "@/components/form/Fields";
 
 const WORKOUT_TYPES = [
   { id: "endurance", label: "Endurance", desc: "Running, cycling, triathlon, swimming" },
@@ -86,7 +87,7 @@ export default function RecoveryGuidePage() {
       items: [
         "Full balanced meal — carbs, protein, vegetables",
         `Continue protein intake: another ${proteinRec.low}–${proteinRec.high}g`,
-        workoutType === "strength" ? "Leucine-rich foods (chicken, fish, eggs, dairy) maximise MPS" : "Anti-inflammatory foods: tart cherry, turmeric, leafy greens",
+        workoutType === "strength" ? "Leucine-rich foods (chicken, fish, eggs, dairy) maximize MPS" : "Anti-inflammatory foods: tart cherry, turmeric, leafy greens",
         "Continue sipping fluids — urine should be pale yellow",
       ],
     });
@@ -95,12 +96,12 @@ export default function RecoveryGuidePage() {
       steps.push({
         window: "2–4 hrs",
         priority: "important",
-        title: "Ongoing fuelling",
+        title: "Ongoing fueling",
         items: [
           "Another carb-rich snack — rice cakes, oat bar, fruit",
           "Tart cherry juice or concentrate — reduces inflammation and DOMS",
           `Continue distributing protein: aim for 1.6–2.2g per kg total (${Math.round(1.6 * weightKg)}–${Math.round(2.2 * weightKg)}g across the day)`,
-          recoveryGoal === "competition" ? "Avoid heavy fats or fibre — keep gut comfortable for tomorrow" : "Normal dietary fat intake is fine",
+          recoveryGoal === "competition" ? "Avoid heavy fats or fiber — keep gut comfortable for tomorrow" : "Normal dietary fat intake is fine",
         ],
       });
     }
@@ -145,7 +146,7 @@ export default function RecoveryGuidePage() {
             Recovery Guide
           </h1>
           <p className="text-muted leading-relaxed">
-            Tell us about your session and goals — we'll build you a personalised recovery protocol with exact targets and timing.
+            Tell us about your session and goals — we'll build you a personalized recovery protocol with exact targets and timing.
           </p>
         </div>
 
@@ -211,29 +212,14 @@ export default function RecoveryGuidePage() {
             </div>
 
             {/* Body weight */}
-            <div className="card">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="font-display font-semibold">Body weight</h2>
-                <div className="flex gap-1 bg-sand rounded-lg p-0.5">
-                  <button onClick={() => setWeightUnit("kg")} className={`px-3 py-1 rounded-md text-xs transition-all ${weightUnit === "kg" ? "bg-white text-ink" : "text-muted"}`}>kg</button>
-                  <button onClick={() => setWeightUnit("lbs")} className={`px-3 py-1 rounded-md text-xs transition-all ${weightUnit === "lbs" ? "bg-white text-ink" : "text-muted"}`}>lbs</button>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 mb-2">
-                <span className="text-sm text-muted">{weightUnit === "kg" ? "40kg" : "88lbs"}</span>
-                <input
-                  type="range"
-                  min={weightUnit === "kg" ? 40 : 88}
-                  max={weightUnit === "kg" ? 120 : 264}
-                  step={weightUnit === "kg" ? 1 : 2}
-                  value={weight}
-                  onChange={(e) => setWeight(Number(e.target.value))}
-                  className="flex-1 accent-moss"
-                />
-                <span className="text-sm text-muted">{weightUnit === "kg" ? "120kg" : "264lbs"}</span>
-              </div>
-              <div className="text-center font-display font-bold text-2xl text-moss">{weight}{weightUnit}</div>
-            </div>
+            <FieldList>
+              <FieldRow label="Body weight" aside={
+                <WeightUnitToggle value={weightUnit} onChange={(u) => { setWeight((w) => convertWeight(w, weightUnit, u)); setWeightUnit(u); }} />
+              }>
+                <NumberStepper label="Body weight" unit={weightUnit} min={WEIGHT_RANGE[weightUnit][0]} max={WEIGHT_RANGE[weightUnit][1]}
+                  value={weight} onChange={setWeight} />
+              </FieldRow>
+            </FieldList>
           </div>
         )}
 
@@ -305,7 +291,7 @@ export default function RecoveryGuidePage() {
               <div className="space-y-3">
                 {[
                   { name: "Whey Protein Isolate", dose: `${proteinRec.low}–${proteinRec.high}g within 30 min`, verdict: "proven", note: "Fastest-absorbing protein with highest leucine content — triggers muscle protein synthesis" },
-                  { name: "Creatine Monohydrate", dose: "3–5g daily", verdict: "proven", note: "Replenishes phosphocreatine stores. Daily dosing maximises saturation — timing doesn't matter much" },
+                  { name: "Creatine Monohydrate", dose: "3–5g daily", verdict: "proven", note: "Replenishes phosphocreatine stores. Daily dosing maximizes saturation — timing doesn't matter much" },
                   { name: "Tart Cherry Extract", dose: "480mg anthocyanins or 30ml concentrate x2", verdict: "proven", note: "Reduces inflammation and DOMS. Take immediately post-workout and again before bed" },
                   { name: "Magnesium Glycinate", dose: "200–400mg before bed", verdict: "proven", note: "Supports deep sleep, muscle relaxation and 300+ enzymatic recovery processes" },
                   ...(workoutType === "strength" || workoutType === "mixed" ? [
@@ -339,7 +325,7 @@ export default function RecoveryGuidePage() {
                   { item: "Alcohol", reason: "Significantly blunts muscle protein synthesis — even moderate amounts reduce MPS by up to 37%" },
                   { item: "NSAIDs (ibuprofen) routinely", reason: "Blunts the inflammatory response needed for adaptation. Reserve for genuine injury, not soreness" },
                   { item: "Skipping post-workout nutrition", reason: "Even if not hungry — the 30-minute window matters most for glycogen resynthesis" },
-                  ...(isUrgent ? [{ item: "Heavy fats or fibre before next session", reason: "Slow gastric emptying and can cause GI issues — keep meals lighter and easily digestible" }] : []),
+                  ...(isUrgent ? [{ item: "Heavy fats or fiber before next session", reason: "Slow gastric emptying and can cause GI issues — keep meals lighter and easily digestible" }] : []),
                 ].map((item, i) => (
                   <div key={i} className="flex items-start gap-3 p-3 bg-rust/5 rounded-xl border border-rust/10">
                     <span className="text-xs bg-rust/10 text-rust px-2 py-0.5 rounded-md flex-shrink-0 mt-0.5">Avoid</span>

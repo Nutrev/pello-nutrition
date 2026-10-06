@@ -16,7 +16,7 @@ interface NavDropdownProps {
   label: string;
   // Shown above the sections, side by side across the full width of the menu.
   lead?: NavItem[];
-  // One section renders as a list; several render side by side as labelled columns.
+  // One section renders as a list; several render side by side as labeled columns.
   sections: NavSection[];
   open: boolean;
   onToggle: () => void;

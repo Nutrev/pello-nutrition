@@ -6,7 +6,7 @@ import { ACTIVE_PROGRAMMES, AFFILIATES_ACTIVE, AMAZON_ACTIVE, AMAZON_ASSOCIATE_S
 
 export const metadata: Metadata = {
   title: "Affiliate Disclosure",
-  description: "How Pello Nutrition links to retailers, which affiliate programmes it takes part in, and how that affects its content.",
+  description: "How Pello Nutrition links to retailers, which affiliate programs it takes part in, and how that affects its content.",
 };
 
 export default function AffiliateDisclosurePage() {
@@ -24,7 +24,7 @@ export default function AffiliateDisclosurePage() {
           <p className="text-sm font-medium text-ink">
             {AFFILIATES_ACTIVE
               ? "Pello Nutrition LLC may earn a commission on purchases made through some links on this site. This never influences our editorial scores, ratings or recommendations — our analysis is always independent."
-              : "Pello Nutrition LLC doesn't currently earn anything from the retailer links on this site. If that changes, this page will list each programme we join. Either way, our scores and recommendations are independent."}
+              : "Pello Nutrition LLC doesn't currently earn anything from the retailer links on this site. If that changes, this page will list each program we join. Either way, our scores and recommendations are independent."}
           </p>
           {AMAZON_ACTIVE && <p className="text-sm text-ink mt-2">{AMAZON_ASSOCIATE_STATEMENT}</p>}
         </div>
@@ -39,9 +39,9 @@ export default function AffiliateDisclosurePage() {
           </section>
 
           <section>
-            <h2 className="font-display font-semibold text-lg text-ink mb-2">Programmes we participate in</h2>
+            <h2 className="font-display font-semibold text-lg text-ink mb-2">Programs we participate in</h2>
             {ACTIVE_PROGRAMMES.length === 0 ? (
-              <p>None at the moment. We&apos;ll list each programme here, with its cookie duration, when we join it.</p>
+              <p>None at the moment. We&apos;ll list each program here, with its cookie duration, when we join it.</p>
             ) : (
               <ul className="list-disc pl-5 space-y-1">
                 {ACTIVE_PROGRAMMES.map((prog) => (

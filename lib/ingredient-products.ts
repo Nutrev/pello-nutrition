@@ -1,7 +1,7 @@
 // lib/ingredient-products.ts
 // Which Pello products list each encyclopedia ingredient, found by matching each entry's
 // productPattern against the ingredient names on product labels. Computed on the server
-// so the lists always match the current catalogue.
+// so the lists always match the current catalog.
 import "server-only";
 
 import { INGREDIENT_TAXONOMY } from "./ingredient-taxonomy";

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
+import { AI_HOUSE_STYLE } from "@/lib/ai-style";
 import { isIP } from "node:net";
 import { lookup } from "node:dns/promises";
 import { rateLimit } from "@/lib/rate-limit";
@@ -226,7 +227,7 @@ Rules:
 - transparencyScore: 0-100 based on label clarity, dose disclosure, certifications, no proprietary blends
 - goals: array from ["endurance", "recovery", "muscle", "health", "immunity", "gut health", "sleep"]
 - sentiment: {} (empty). Only fill it if the product information includes per-attribute ratings (e.g. a taste score); never invent them
-- ingredients: array of key active ingredients with science-backed notes. verdict must be "proven" | "likely" | "disputed". Put the labelled amount in dose (e.g. "1000mg", "25g carbs"); omit dose if no amount is given
+- ingredients: array of key active ingredients with science-backed notes. verdict must be "proven" | "likely" | "disputed". Put the labeled amount in dose (e.g. "1000mg", "25g carbs"); omit dose if no amount is given
 - sources: only sources that appear in the product information, with their real counts — e.g. { name: "The Feed", icon: "🛒", count: <its review count>, unit: "reviews", credibility: "medium" }, and one entry per third-party certification with count 1 and unit "certification". Do not add PubMed, study counts or other sources you can't see
 - logoDomain: the brand's main website domain (e.g. "maurten.com")
 - imageEmoji: most relevant emoji
@@ -247,7 +248,7 @@ If the information doesn't state a value, leave the field out entirely (don't wr
 - isVegan / isGlutenFree: true only if stated or certified; false if the ingredients rule it out; omit if unclear
 - certifications: third-party certifications named on the product (e.g. "Informed Sport", "NSF Certified for Sport", "USDA Organic")
 - allergens: allergens declared on the label, lowercase (e.g. "milk", "soy", "tree nuts", "peanuts")
-- flavours: available flavours
+- flavors: available flavors
 - affiliateUrl: always null — affiliate links are added separately
 - imageUrl: a direct product image URL only if one appears in the product information; otherwise null
 
@@ -281,7 +282,7 @@ Example structure:
   isGlutenFree: true,
   certifications: ["Informed Sport"],
   allergens: [],
-  flavours: ["Original"],
+  flavors: ["Original"],
   affiliateUrl: null,
   imageUrl: null,
   sentiment: {},
@@ -304,6 +305,7 @@ Example structure:
     const message = await client.messages.create({
       model: "claude-sonnet-4-6",
       max_tokens: 3000,
+      system: AI_HOUSE_STYLE,
       messages: [{ role: "user", content: prompt }],
     });
 

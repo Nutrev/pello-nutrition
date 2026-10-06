@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
+import { AI_HOUSE_STYLE } from "@/lib/ai-style";
 import { rateLimit } from "@/lib/rate-limit";
 
 const client = new Anthropic();
@@ -65,6 +66,7 @@ Return ONLY this JSON (no other text):
     const message = await client.messages.create({
       model: "claude-sonnet-4-6",
       max_tokens: 800,
+      system: AI_HOUSE_STYLE,
       messages: [{ role: "user", content: prompt }],
     });
     const raw = message.content[0].type === "text" ? message.content[0].text : "{}";

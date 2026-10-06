@@ -17,19 +17,19 @@ export default function SportTestingGuide() {
     <GuideShell
       slug="sport-testing"
       title="Sport testing certifications"
-      intro={<>If you&apos;re drug tested, a contaminated supplement can cost you a positive test. These programmes test products for substances banned in sport. They differ in how often they test and what they check.</>}
+      intro={<>If you&apos;re drug tested, a contaminated supplement can cost you a positive test. These programs test products for substances banned in sport. They differ in how often they test and what they check.</>}
       sources={[SOURCES.fdaSupplements, SOURCES.nsfProgram, SOURCES.nsfSport, SOURCES.informed, SOURCES.bscg, SOURCES.cologneBackground, SOURCES.cologneFaq]}
     >
       <Section title="Why it matters">
         <p>
           In the US, the FDA states that it &ldquo;does not have the authority to approve dietary supplements before they are marketed&rdquo;.
-          Nobody checks a supplement for banned substances before it goes on sale unless the brand pays an independent programme to.
+          Nobody checks a supplement for banned substances before it goes on sale unless the brand pays an independent program to.
           Contamination can come from raw materials or shared manufacturing lines, not only from deliberate adulteration.
         </p>
       </Section>
 
       <Section id="nsf-sport" title="NSF Certified for Sport">
-        <p>Run by NSF. NSF describes the programme as covering:</p>
+        <p>Run by NSF. NSF describes the program as covering:</p>
         <Facts items={[
           "Product testing for banned substances. NSF tests for 290 stimulants, narcotics, steroids, diuretics, beta-2-agonists, masking agents and other substances.",
           "A review of the formula and the label.",
@@ -37,7 +37,7 @@ export default function SportTestingGuide() {
           "Ongoing monitoring of certified products.",
         ]} />
         <p>
-          It&apos;s recognised by the United States Anti-Doping Agency (USADA), Major League Baseball, the National Hockey League and the
+          It&apos;s recognized by the United States Anti-Doping Agency (USADA), Major League Baseball, the National Hockey League and the
           Canadian Football League, and recommended by the NFL, PGA, LPGA and other sports bodies.
         </p>
         <p>
@@ -55,8 +55,8 @@ export default function SportTestingGuide() {
       <Section id="informed-sport" title="Informed Sport and Informed Choice">
         <p>Both are run by LGC under the INFORMED name.</p>
         <Facts items={[
-          <><strong className="text-ink">Informed Sport</strong> tests every finished batch of a product before it&apos;s released to market, screening for over 300 compounds. LGC describes it as the only global certification programme that tests every batch before release.</>,
-          <><strong className="text-ink">Informed Choice</strong> is a monthly retail-monitoring programme: products are sampled and tested for banned substances, alongside third-party oversight of manufacturing facilities. It doesn&apos;t test every batch.</>,
+          <><strong className="text-ink">Informed Sport</strong> tests every finished batch of a product before it&apos;s released to market, screening for over 300 compounds. LGC describes it as the only global certification program that tests every batch before release.</>,
+          <><strong className="text-ink">Informed Choice</strong> is a monthly retail-monitoring program: products are sampled and tested for banned substances, alongside third-party oversight of manufacturing facilities. It doesn&apos;t test every batch.</>,
         ]} />
         <p>
           <strong className="text-ink">How to check:</strong> search the{" "}
@@ -71,7 +71,7 @@ export default function SportTestingGuide() {
       <Section id="bscg" title="BSCG (Banned Substances Control Group)">
         <Facts items={[
           <><strong className="text-ink">BSCG Certified Drug Free</strong> tests every finished product lot for 450+ banned substances, plus annual label-claim and contaminant testing and an initial quality-control and GMP audit.</>,
-          <><strong className="text-ink">BSCG Certified Quality</strong> is an annual testing programme for label claims, heavy metals, pesticides, microbes and banned substances. BSCG says it&apos;s &ldquo;not designed for anti-doping protection&rdquo;.</>,
+          <><strong className="text-ink">BSCG Certified Quality</strong> is an annual testing program for label claims, heavy metals, pesticides, microbes and banned substances. BSCG says it&apos;s &ldquo;not designed for anti-doping protection&rdquo;.</>,
         ]} />
         <p><strong className="text-ink">How to check:</strong> BSCG&apos;s site lets you search certified products by lot number, product, brand or category.</p>
         <OnPello>No products on Pello currently list a BSCG certification.</OnPello>
@@ -95,7 +95,7 @@ export default function SportTestingGuide() {
         <div className="overflow-x-auto">
           <table className="w-full text-xs border border-sand rounded-xl overflow-hidden">
             <thead className="bg-sand/40 text-ink">
-              <tr><th className="text-left p-2.5">Programme</th><th className="text-left p-2.5">How often products are tested</th><th className="text-left p-2.5">Banned substances screened</th></tr>
+              <tr><th className="text-left p-2.5">Program</th><th className="text-left p-2.5">How often products are tested</th><th className="text-left p-2.5">Banned substances screened</th></tr>
             </thead>
             <tbody className="divide-y divide-sand">
               <tr><td className="p-2.5 text-ink">NSF Certified for Sport</td><td className="p-2.5">Ongoing monitoring; facilities inspected</td><td className="p-2.5">290</td></tr>
@@ -110,13 +110,13 @@ export default function SportTestingGuide() {
 
       <Section title="What none of them can promise">
         <p>
-          No programme can guarantee a product is free of every banned substance. NSF describes its programme as helping to
+          No program can guarantee a product is free of every banned substance. NSF describes its program as helping to
           &ldquo;minimize the risk&rdquo;, and the Cologne List says no laboratory can test for every substance on the World Anti-Doping
           Agency list. Certification lowers the risk a lot, but it doesn&apos;t remove it.
         </p>
         <p>
-          If you&apos;re drug tested, check the exact product (and lot, where the programme lists lots) in the certifier&apos;s database,
-          and follow your sport&apos;s own rules. Some organisations, for example, prohibit hemp or CBD products.{" "}
+          If you&apos;re drug tested, check the exact product (and lot, where the program lists lots) in the certifier&apos;s database,
+          and follow your sport&apos;s own rules. Some organizations, for example, prohibit hemp or CBD products.{" "}
           <Link href="/guides/certifications/how-to-verify" className="text-moss underline">How to verify a certification →</Link>
         </p>
       </Section>

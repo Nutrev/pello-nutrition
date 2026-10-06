@@ -1,12 +1,12 @@
 // lib/retailers.ts
 // Where to buy a product, in priority order. Client-safe.
 // - The Feed: the exact product page, stored on the product (checked against The Feed's
-//   catalogue when it was added).
+//   catalog when it was added).
 // - Amazon: a search for the brand and product name (not a guessed product page).
 // - REI / Running Warehouse: only when a product has a verified link to them.
 // - Brand website: only when set on the product (e.g. a brand with its own affiliate
-//   programme); brand homepages are linked from brand pages instead.
-// Affiliate tracking is added only for programmes that are switched on (lib/affiliate.ts).
+//   program); brand homepages are linked from brand pages instead.
+// Affiliate tracking is added only for programs that are switched on (lib/affiliate.ts).
 import type { Product } from "./products";
 import { withAffiliate } from "./affiliate";
 

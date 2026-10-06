@@ -31,9 +31,9 @@ export default function HowToVerifyGuide() {
         <ol className="space-y-3 list-decimal pl-5">
           <li><strong className="text-ink">Find the mark on the package itself</strong>, not just on a product page or ad. The Non-GMO Project, for example, notes that products from unverified lots can stay on shelves.</li>
           <li><strong className="text-ink">Search the certifier&apos;s own database</strong> (links below), not the brand&apos;s site.</li>
-          <li><strong className="text-ink">Match the exact product.</strong> Listings are often per flavour, size or country. NSF, for example, lists some products separately for the US and Canada.</li>
-          <li><strong className="text-ink">Check the lot or batch</strong> where the programme lists them. NSF and BSCG both let you search by lot number.</li>
-          <li><strong className="text-ink">If you&apos;re drug tested, check your sport&apos;s rules too.</strong> NSF notes that some organisations prohibit hemp or CBD products, whatever their certification.</li>
+          <li><strong className="text-ink">Match the exact product.</strong> Listings are often per flavor, size or country. NSF, for example, lists some products separately for the US and Canada.</li>
+          <li><strong className="text-ink">Check the lot or batch</strong> where the program lists them. NSF and BSCG both let you search by lot number.</li>
+          <li><strong className="text-ink">If you&apos;re drug tested, check your sport&apos;s rules too.</strong> NSF notes that some organizations prohibit hemp or CBD products, whatever their certification.</li>
         </ol>
       </Section>
 
@@ -50,7 +50,7 @@ export default function HowToVerifyGuide() {
 
       <Section title="Red flags">
         <Facts items={[
-          <><strong className="text-ink">&ldquo;Third-party tested&rdquo; or &ldquo;lab tested&rdquo; with no named programme.</strong> Tested by whom, for what, and how often? Without a named certifier there&apos;s nothing to look up.</>,
+          <><strong className="text-ink">&ldquo;Third-party tested&rdquo; or &ldquo;lab tested&rdquo; with no named program.</strong> Tested by whom, for what, and how often? Without a named certifier there&apos;s nothing to look up.</>,
           <><strong className="text-ink">&ldquo;Doping-free&rdquo; or &ldquo;banned-substance free&rdquo; promises.</strong> The Cologne List makes listed companies agree not to advertise &ldquo;doping-free&rdquo;, because no laboratory can test for every banned substance.</>,
           <><strong className="text-ink">A seal you can&apos;t find in the certifier&apos;s database.</strong> Certifications lapse, and products change.</>,
           <><strong className="text-ink">Sourcing seals presented as safety testing.</strong> Organic and Non-GMO marks are about ingredients, not banned substances.</>,
