@@ -4,6 +4,7 @@
 import Link from "next/link";
 import { ACTIVE_PROGRAMMES } from "@/lib/affiliate";
 import { PRO_ENABLED } from "@/lib/pro";
+import { INTERVALS_ENABLED } from "@/lib/intervals";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -19,7 +20,7 @@ export default function PrivacyPage() {
         <div className="mb-10">
           <div className="text-xs text-muted uppercase tracking-widest mb-2">Legal</div>
           <h1 className="font-display font-bold text-4xl tracking-tight mb-2">Privacy Policy</h1>
-          <p className="text-muted text-sm">Last updated: September 2026</p>
+          <p className="text-muted text-sm">Last updated: October 2026</p>
         </div>
 
         <div className="prose prose-sm max-w-none space-y-6 text-muted leading-relaxed">
@@ -42,6 +43,9 @@ export default function PrivacyPage() {
                 <li><strong className="text-ink">Planner usage</strong> — the date of each nutrition plan you generate, to count the free plan&apos;s monthly allowance</li>
               )}
               <li><strong className="text-ink">Workout files</strong> — if you plan from a workout file, it&apos;s read in your browser and never uploaded or stored. Only a summary (its name, duration, intensity and power figures, with no location or time data) is used for your plan, and it&apos;s saved with the plan if you save it</li>
+              {INTERVALS_ENABLED && (
+                <li><strong className="text-ink">intervals.icu connection</strong> — if you connect your intervals.icu account: your intervals.icu athlete ID and name, and an access token that lets Pello read the planned workouts on your intervals.icu calendar (read-only; no activities, wellness or settings). When you choose to use today&apos;s workout, Pello fetches that day&apos;s planned workouts from intervals.icu and passes them to your browser, where they&apos;re read like an uploaded workout file. We don&apos;t store your calendar or workouts</li>
+              )}
               <li><strong className="text-ink">Community reviews</strong> — the display name, ratings and comments you choose to submit; these are public{PRO_ENABLED ? ". We also record which account wrote each review; that isn't shown publicly" : ""}</li>
               <li><strong className="text-ink">Emails you send us</strong> — if you contact us</li>
               <li><strong className="text-ink">Technical data</strong> — your IP address and browser details, which our hosting provider processes to deliver the site and which we use briefly to limit abuse of forms and AI features</li>
@@ -91,12 +95,13 @@ export default function PrivacyPage() {
               {PRO_ENABLED && <li>Stripe and Link — payments, tax and subscription billing for Pello Pro, as merchant of record</li>}
               <li>Anthropic (Claude) — AI features: planner inputs and product information are sent to generate plans and summaries</li>
               <li>Google — only if you choose to sign in with Google</li>
+              {INTERVALS_ENABLED && <li>intervals.icu — only if you connect your intervals.icu account, to read your planned workouts</li>}
             </ul>
           </section>
 
           <section>
             <h2 className="font-display font-semibold text-lg text-ink mb-2">7. Data retention</h2>
-            <p>We keep your account, profile and saved content until you delete them or ask us to delete your account. You can edit your profile and remove saved plans, favorites and stack items at any time from your account. When an account is deleted, all its profile data, saved plans, favorites and stack entries are deleted with it. Community reviews are kept unless you ask us to remove them.{PRO_ENABLED ? " If you subscribe to Pello Pro, Stripe keeps payment and invoice records as required for tax and accounting." : ""}</p>
+            <p>We keep your account, profile and saved content until you delete them or ask us to delete your account. You can edit your profile and remove saved plans, favorites and stack items at any time from your account. When an account is deleted, all its profile data, saved plans, favorites and stack entries are deleted with it.{INTERVALS_ENABLED ? " An intervals.icu connection is kept until you disconnect it from your account page or delete your account; disconnecting also revokes Pello's access on intervals.icu." : ""} Community reviews are kept unless you ask us to remove them.{PRO_ENABLED ? " If you subscribe to Pello Pro, Stripe keeps payment and invoice records as required for tax and accounting." : ""}</p>
           </section>
 
           <section>

@@ -12,6 +12,8 @@ import { formatDate } from "@/lib/format-date";
 import ProductCard from "@/components/ProductCard";
 import SignOutButton from "@/components/account/SignOutButton";
 import PendingPlanBanner from "@/components/account/PendingPlanBanner";
+import IntervalsConnection from "@/components/account/IntervalsConnection";
+import { INTERVALS_ENABLED, getConnection } from "@/lib/intervals";
 
 export const metadata: Metadata = { title: "Your account", robots: { index: false } };
 
@@ -130,10 +132,17 @@ function SubscriptionSection({ isPro, sub }: { isPro: boolean; sub: Subscription
   );
 }
 
-export default async function AccountPage() {
+// Shown after returning from intervals.icu (/api/intervals/callback).
+const INTERVALS_RESULT: Record<string, string> = {
+  connected: "intervals.icu is connected. Use today's workout from the Today's workout planner.",
+  declined: "intervals.icu wasn't connected, as you declined access.",
+  failed: "Connecting intervals.icu didn't work. Please try again.",
+};
+
+export default async function AccountPage({ searchParams }: { searchParams: { intervals?: string } }) {
   const { supabase, user } = await requireAccountUser("/account");
 
-  const [profileRes, plansRes, planCount, favRes, favCount, stackRes, access] = await Promise.all([
+  const [profileRes, plansRes, planCount, favRes, favCount, stackRes, access, intervals] = await Promise.all([
     supabase.from("user_profiles").select("*").eq("id", user.id).maybeSingle(),
     supabase.from("saved_plans").select("id, plan_name, plan_mode, created_at").order("created_at", { ascending: false }).limit(3),
     supabase.from("saved_plans").select("id", { count: "exact", head: true }),
@@ -141,6 +150,7 @@ export default async function AccountPage() {
     supabase.from("favourite_products").select("id", { count: "exact", head: true }),
     supabase.from("supplement_stack").select("*").order("created_at", { ascending: false }),
     accountAccess(supabase, user.id),
+    INTERVALS_ENABLED ? getConnection(user.id) : Promise.resolve(null),
   ]);
 
   const profile = profileRes.data as UserProfile | null;
@@ -186,6 +196,9 @@ export default async function AccountPage() {
       )}
 
       <Suspense fallback={null}><UpgradedBanner /></Suspense>
+      {searchParams.intervals && INTERVALS_RESULT[searchParams.intervals] && (
+        <div role="status" className="card mb-6 text-sm">{INTERVALS_RESULT[searchParams.intervals]}</div>
+      )}
       {access.gating && <SubscriptionSection isPro={access.isPro} sub={access.subscription} />}
 
       {access.allowed && <PendingPlanBanner />}
@@ -253,6 +266,13 @@ export default async function AccountPage() {
           </div>
         )}
       </section>
+
+      {INTERVALS_ENABLED && (
+        <section className="mt-10">
+          <h2 className="font-display font-semibold text-lg mb-3">Connected apps</h2>
+          <IntervalsConnection connected={!!intervals} athleteName={intervals?.athlete_name ?? null} locked={access.gating && !access.isPro} />
+        </section>
+      )}
     </div>
   );
 }

@@ -5,6 +5,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useUser, updateProfile } from "@/lib/auth";
+import IntervalsToday from "./IntervalsToday";
 import {
   parseZwo, parseErgMrc, parseTcx, fromFit, fitDataFrom, intensityLabel, zoneOf, MAX_FILE_BYTES,
   type WorkoutSummary, type WorkoutBlock, type Thresholds, type IntensityBasis,
@@ -151,6 +152,7 @@ export default function WorkoutUpload({ workout, onChange }: {
             {busy ? "Reading…" : "Choose a file"}
           </button>
           <p className="text-[11px] text-muted mt-2">or drag it here · .zwo .erg .mrc .fit .tcx</p>
+          <IntervalsToday onFile={choose} disabled={busy} />
         </div>
       )}
 
