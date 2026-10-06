@@ -45,7 +45,7 @@ export default function UpgradedBanner() {
     return (
       <div role="status" className="card bg-amber/5 border-amber/30 mb-6 flex items-start justify-between gap-3">
         <div>
-          <div className="font-display font-semibold">Welcome to Pello Pro! 🎉</div>
+          <div className="font-display font-semibold">Welcome to Pello Pro!</div>
           <p className="text-sm text-muted">Your account has been upgraded. All Pro features are now unlocked.</p>
         </div>
         <button type="button" onClick={() => setVisible(false)} aria-label="Dismiss" className="text-muted hover:text-ink text-sm">✕</button>

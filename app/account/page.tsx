@@ -7,6 +7,7 @@ import ManageSubscriptionButton from "@/components/pro/ManageSubscriptionButton"
 import { PRO_FEATURES, type SubscriptionRow } from "@/lib/pro";
 import { SAVED_PLAN_LABEL, type UserProfile, type SavedPlan, type FavouriteProduct, type StackItem } from "@/lib/account-types";
 import { formatWeight } from "@/lib/planner";
+import { PLANNER_MODES } from "@/lib/planner-modes";
 import { formatDate } from "@/lib/format-date";
 import ProductCard from "@/components/ProductCard";
 import SignOutButton from "@/components/account/SignOutButton";
@@ -28,6 +29,62 @@ function Empty({ text, href, cta }: { text: string; href: string; cta: string })
     <div className="card text-center py-8">
       <p className="text-sm text-muted mb-4">{text}</p>
       <Link href={href} className="btn-primary inline-flex">{cta}</Link>
+    </div>
+  );
+}
+
+// Recent plans, before any are saved: every planner as a tile that opens it directly.
+// Pro-only planners carry a PRO badge for members without Pro (only while Pro is on).
+function PlannerTiles({ locked }: { locked: boolean }) {
+  return (
+    <div className="card">
+      <p className="text-sm text-muted mb-4">
+        You haven&apos;t saved a plan yet. {locked ? "Pick a planner to start:" : "Every planner is ready for you. Pick one to start:"}
+      </p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        {PLANNER_MODES.map((m) => {
+          const pro = locked && m.access === "pro";
+          return (
+            <Link key={m.id} href={`/quiz?mode=${m.id}`}
+              className="group rounded-xl border border-sand bg-white/70 p-4 hover:border-moss hover:-translate-y-0.5 transition-all">
+              <div className="flex items-center justify-between gap-2 mb-1">
+                <span className="font-display font-semibold text-sm group-hover:text-moss transition-colors">{m.title}</span>
+                {pro ? <span className="text-[10px] font-semibold tracking-wider bg-moss text-cream px-2 py-0.5 rounded-full">PRO</span>
+                  : m.isNew ? <span className="text-[10px] font-semibold tracking-wider bg-moss/10 text-moss px-2 py-0.5 rounded-full">NEW</span>
+                  : null}
+              </div>
+              <p className="text-xs text-muted leading-relaxed">{m.desc}</p>
+              <div className="text-xs text-moss mt-2">{pro ? "See what Pro adds →" : "Start →"}</div>
+            </Link>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// Supplement stack, before anything is added: what the tracker does. The tracker is a Pro
+// feature, so members without Pro are pointed to Pello Pro instead of to products.
+function StackIntro({ locked }: { locked: boolean }) {
+  const features = [
+    { title: "Doses and timing", text: "Morning, pre-training or evening, for each product." },
+    { title: "Built on Pello data", text: "Every product links to its score and ingredients." },
+    { title: "A stack plan", text: "The supplement stack planner builds a protocol for your goals and budget." },
+  ];
+  return (
+    <div className="card">
+      <p className="text-sm text-muted mb-4">Keep track of what you take, how much and when.</p>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
+        {features.map((f) => (
+          <div key={f.title}>
+            <div className="font-display font-semibold text-sm mb-0.5">{f.title}</div>
+            <p className="text-xs text-muted leading-relaxed">{f.text}</p>
+          </div>
+        ))}
+      </div>
+      {locked
+        ? <Link href="/pricing" className="btn-primary inline-flex">See Pello Pro</Link>
+        : <Link href="/products" className="btn-primary inline-flex">Find products to add</Link>}
     </div>
   );
 }
@@ -104,7 +161,12 @@ export default async function AccountPage() {
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
         <div>
           <div className="font-mono text-[11px] uppercase tracking-widest text-muted mb-1">Your account</div>
-          <h1 className="font-display font-bold text-3xl tracking-tight">Welcome back, {name}</h1>
+          <h1 className="font-display font-bold text-3xl tracking-tight flex flex-wrap items-center gap-x-3 gap-y-1">
+            Welcome back, {name}
+            {access.gating && access.isPro && (
+              <span className="text-xs font-semibold tracking-wider bg-moss text-cream px-2.5 py-1 rounded-full">PELLO PRO</span>
+            )}
+          </h1>
           {profileBits.length > 0 && <p className="text-sm text-muted mt-1">{profileBits.join(" · ")}</p>}
         </div>
         <div className="flex items-center gap-2">
@@ -144,7 +206,7 @@ export default async function AccountPage() {
       <section className="mb-10">
         <SectionHeader title="Recent plans" href="/account/plans" linkLabel="All plans" />
         {plans.length === 0 ? (
-          <Empty text="Plans you save from the Pello Planner will appear here." href="/quiz" cta="Build a plan" />
+          <PlannerTiles locked={access.gating && !access.isPro} />
         ) : (
           <div className="card divide-y divide-sand p-0">
             {plans.map((p) => (
@@ -174,7 +236,7 @@ export default async function AccountPage() {
       <section>
         <SectionHeader title="Your supplement stack" href="/account/stack" linkLabel="Manage stack" />
         {activeStack.length === 0 ? (
-          <Empty text="Add products to your stack from any product page to track what you take and when." href="/products" cta="Find products" />
+          <StackIntro locked={access.gating && !access.isPro} />
         ) : (
           <div className="card divide-y divide-sand p-0">
             {activeStack.slice(0, 6).map((s) => {

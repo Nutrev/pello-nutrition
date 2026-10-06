@@ -444,9 +444,11 @@ const resetDay = (iso: string) => new Date(iso).toLocaleDateString("en-US", { mo
 
 // ── MAIN COMPONENT ────────────────────────────────────────────
 
-export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }) {
+export default function PlannerClient({ catalog, initialMode = null }: { catalog: ProductSummary[]; initialMode?: PlannerMode | null }) {
   const [step, setStep] = useState(1);
-  const [inputs, setInputs] = useState<PlannerInputs>(DEFAULT_INPUTS);
+  const [inputs, setInputs] = useState<PlannerInputs>(
+    initialMode === "event" || initialMode === "outcome" ? { ...DEFAULT_INPUTS, mode: initialMode } : DEFAULT_INPUTS,
+  );
   const [loading, setLoading] = useState(false);
   const [parsedPlan, setParsedPlan] = useState<ParsedPlan | null>(null);
   const { user, profile, loading: authLoading } = useUser();
@@ -456,7 +458,7 @@ export default function PlannerClient({ catalog }: { catalog: ProductSummary[] }
   const [prefilled, setPrefilled] = useState(false);
   const [workout, setWorkout] = useState<WorkoutSummary | null>(null);
   // Step 0: which planner. Null until chosen.
-  const [plannerMode, setPlannerMode] = useState<PlannerMode | null>(null);
+  const [plannerMode, setPlannerMode] = useState<PlannerMode | null>(initialMode);
   const chooseMode = (m: PlannerMode) => {
     setPlannerMode(m);
     if (m === "event" || m === "outcome") { setInputs(prev => ({ ...prev, mode: m })); setStep(1); }
