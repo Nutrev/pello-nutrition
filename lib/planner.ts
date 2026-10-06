@@ -7,7 +7,7 @@ import { describeBlocks, MAX_BLOCKS, type WorkoutBlock, type IntensityBasis } fr
 
 // ── TYPES ─────────────────────────────────────────────────────
 
-export type PlanMode = "event" | "outcome";
+export type PlanMode = "event" | "outcome" | "workout";
 export type EventType = "road-cycling" | "gravel" | "triathlon" | "running" | "trail-running" | "gym" | "training-day" | "recovery";
 export type OutcomeType = "finish-first-marathon" | "finish-first-triathlon" | "improve-cycling-endurance" | "improve-recovery" | "build-muscle-endurance" | "lose-weight-perform" | "race-faster" | "gut-health";
 export type Intensity = "easy" | "moderate" | "hard" | "race";
@@ -17,6 +17,9 @@ export type FormatPreference = "Energy Gel" | "Energy Chew" | "Energy Bar" | "Ca
 export type Retailer = "REI" | "Amazon" | "The Feed" | "Running Warehouse";
 export type WeightUnit = "kg" | "lbs";
 export type Sex = "male" | "female";
+// "Today's workout" planner only: when the session is, and when the athlete last ate.
+export type SessionTime = "morning" | "midday" | "evening";
+export type LastMeal = "under-1h" | "1-3h" | "over-3h" | "fasted";
 
 // A summary of an uploaded workout file (lib/workout-file.ts). Pello Pro.
 export interface WorkoutPlanInput {
@@ -49,6 +52,8 @@ export interface PlannerInputs {
   age: number;
   sex: Sex;
   trainingDaysPerWeek: number;
+  sessionTime?: SessionTime | null;  // "Today's workout" only
+  lastMeal?: LastMeal | null;        // "Today's workout" only
 }
 
 export const DEFAULT_INPUTS: PlannerInputs = {
@@ -69,6 +74,30 @@ export const EVENT_TYPES: { id: EventType; label: string; desc: string }[] = [
   { id: "gym", label: "Gym / Strength", desc: "Lifting, CrossFit, resistance training" },
   { id: "training-day", label: "Training day", desc: "General training session" },
   { id: "recovery", label: "Recovery day", desc: "Post-race or hard session recovery" },
+];
+
+// Session types for the "Today's workout" planner. They reuse the event types (so targets,
+// product matching and saved plans work the same) with labels for an everyday session.
+export const WORKOUT_TYPES: { id: EventType; label: string; desc: string }[] = [
+  { id: "road-cycling", label: "Ride", desc: "Road, gravel, mountain bike or indoor" },
+  { id: "running", label: "Run", desc: "Road, track or treadmill" },
+  { id: "trail-running", label: "Trail run or hike", desc: "Hills, trails, long days on foot" },
+  { id: "triathlon", label: "Brick or multisport", desc: "Bike-run, swim-bike or similar" },
+  { id: "gym", label: "Gym / strength", desc: "Lifting, CrossFit, classes" },
+  { id: "training-day", label: "Other session", desc: "Swim, team sport or anything else" },
+];
+
+export const SESSION_TIMES: { id: SessionTime; label: string }[] = [
+  { id: "morning", label: "Morning" },
+  { id: "midday", label: "Midday" },
+  { id: "evening", label: "Evening" },
+];
+
+export const LAST_MEALS: { id: LastMeal; label: string; desc: string }[] = [
+  { id: "under-1h", label: "Within the hour", desc: "A meal or snack less than an hour before" },
+  { id: "1-3h", label: "1–3 hours before", desc: "A normal meal a little earlier" },
+  { id: "over-3h", label: "More than 3 hours before", desc: "Lunch or breakfast was a while ago" },
+  { id: "fasted", label: "Nothing yet today", desc: "Training before breakfast" },
 ];
 
 export const OUTCOME_TYPES: { id: OutcomeType; label: string; desc: string; timeframe: string }[] = [
@@ -98,6 +127,19 @@ export function formatWeight(weightKg: number, unit: WeightUnit): string {
   return unit === "lbs" ? `${Math.round(weightKg * 2.205)}lbs` : `${Math.round(weightKg)}kg`;
 }
 
+// A training session needs carbs during it if it's at least 90 minutes, or at least an hour
+// and not easy. Shorter or easier sessions run fine on stored glycogen, with water to thirst.
+export function sessionNeedsFuel(durationHours: number, intensity: Intensity): boolean {
+  return durationHours >= 1.5 || (durationHours >= 1 && intensity !== "easy");
+}
+
+// Carbs to take during the session: the "Today's workout" planner uses the rule above;
+// race and goal plans use carbsNeeded as they always have.
+export function sessionCarbTarget(inputs: Pick<PlannerInputs, "mode" | "durationHours" | "intensity">): number {
+  if (inputs.mode === "workout" && !sessionNeedsFuel(inputs.durationHours, inputs.intensity)) return 0;
+  return carbsNeeded(inputs.durationHours, inputs.intensity);
+}
+
 export function carbsNeeded(durationHours: number, intensity: Intensity): number {
   const rates: Record<Intensity, number> = { easy: 30, moderate: 50, hard: 70, race: 90 };
   if (durationHours < 1) return Math.round(rates[intensity] * durationHours * 0.5);
@@ -118,13 +160,15 @@ export function sodiumNeeded(durationHours: number, intensity: Intensity, weight
 
 // ── VALIDATION ────────────────────────────────────────────────
 
-const PLAN_MODES: PlanMode[] = ["event", "outcome"];
+const PLAN_MODES: PlanMode[] = ["event", "outcome", "workout"];
 const CAFFEINE_PREFERENCES: CaffeinePreference[] = ["none", "moderate", "high"];
 const DIETARY_RESTRICTIONS: DietaryRestriction[] = ["vegan", "gluten-free", "dairy-free"];
 const FORMAT_PREFERENCES: FormatPreference[] = ["Energy Gel", "Energy Chew", "Energy Bar", "Carbohydrate Mix", "Hydration"];
 const RETAILERS: Retailer[] = ["REI", "Amazon", "The Feed", "Running Warehouse"];
 const WEIGHT_UNITS: WeightUnit[] = ["kg", "lbs"];
 const SEXES: Sex[] = ["male", "female"];
+const SESSION_TIME_IDS: SessionTime[] = ["morning", "midday", "evening"];
+const LAST_MEAL_IDS: LastMeal[] = ["under-1h", "1-3h", "over-3h", "fasted"];
 
 function oneOf<T>(value: unknown, allowed: readonly T[]): value is T {
   return allowed.includes(value as T);
@@ -178,7 +222,14 @@ export function parsePlannerInputs(raw: unknown): PlannerInputs | null {
   const outcomeType = r.outcomeType ?? null;
   if (eventType !== null && !EVENT_TYPES.some((e) => e.id === eventType)) return null;
   if (outcomeType !== null && !OUTCOME_TYPES.some((o) => o.id === outcomeType)) return null;
-  if (r.mode === "event" ? eventType === null : outcomeType === null) return null;
+  if (r.mode === "outcome" ? outcomeType === null : eventType === null) return null;
+  if (r.mode === "workout" && !WORKOUT_TYPES.some((w) => w.id === eventType)) return null;
+  // Only the "Today's workout" planner sends these; anything else must leave them out.
+  const sessionTime = r.sessionTime ?? null;
+  const lastMeal = r.lastMeal ?? null;
+  if (sessionTime !== null && !oneOf(sessionTime, SESSION_TIME_IDS)) return null;
+  if (lastMeal !== null && !oneOf(lastMeal, LAST_MEAL_IDS)) return null;
+  if (r.mode === "workout" && (sessionTime === null || lastMeal === null)) return null;
   if (!INTENSITY_OPTIONS.some((i) => i.id === r.intensity)) return null;
   if (!oneOf(r.caffeinePreference, CAFFEINE_PREFERENCES)) return null;
   if (!oneOf(r.weightUnit, WEIGHT_UNITS) || !oneOf(r.sex, SEXES)) return null;
@@ -216,6 +267,7 @@ export function parsePlannerInputs(raw: unknown): PlannerInputs | null {
     age: Math.round(age),
     sex: r.sex,
     trainingDaysPerWeek,
+    ...(r.mode === "workout" ? { sessionTime: sessionTime as SessionTime, lastMeal: lastMeal as LastMeal } : {}),
   };
 }
 
@@ -225,6 +277,7 @@ export function parsePlannerInputs(raw: unknown): PlannerInputs | null {
 function workoutSection(inputs: PlannerInputs): string {
   const w = inputs.workout;
   if (!w) return "";
+  const [pre, during, post] = inputs.mode === "workout" ? ["BEFORE", "DURING", "AFTER"] : ["PRE-EVENT", "DURING EVENT", "POST-EVENT"];
   const facts = [
     `- Workout: "${w.name}", ${w.durationMin} minutes${w.sport === "bike" ? ", cycling" : w.sport === "run" ? ", running" : ""}`,
     w.intensityFactor != null && w.basis === "power" ? `- Session intensity factor: ${w.intensityFactor} (normalized power as a fraction of FTP)` : null,
@@ -238,12 +291,12 @@ function workoutSection(inputs: PlannerInputs): string {
     ? `
 PLANNED WORKOUT (from the athlete's uploaded workout file):
 ${facts}
-Time the DURING EVENT schedule to this structure, using clock times from the start. Where practical, schedule carbs and fluid in the easier blocks just before the hardest efforts rather than during them.
+Time the ${during} schedule to this structure, using clock times from the start. Where practical, schedule carbs and fluid in the easier blocks just before the hardest efforts rather than during them.
 `
     : `
 COMPLETED WORKOUT (from the athlete's uploaded activity file; the session is already finished):
 ${facts}
-Under PRE-EVENT, briefly say how to fuel before a session like this next time. Under DURING EVENT, state what this session called for (carbs per hour, fluid and sodium) so the athlete can compare it with what they actually took. Under POST-EVENT, give recovery nutrition for the next 24 hours, starting now.
+Under ${pre}, briefly say how to fuel before a session like this next time. Under ${during}, state what this session called for (carbs per hour, fluid and sodium) so the athlete can compare it with what they actually took. Under ${post}, give recovery nutrition for the next 24 hours, starting now.
 `;
 }
 
@@ -264,6 +317,8 @@ export function buildPlanPrompt(inputs: PlannerInputs): string {
 - Sex: ${inputs.sex}
 - Training days per week: ${inputs.trainingDaysPerWeek}`;
   const personalise = `Tailor amounts to this athlete's age, sex, body weight and training load only where sports nutrition evidence supports a difference (for example, older athletes' higher protein needs for recovery, or more recovery emphasis with more training days). State quantities in ${inputs.weightUnit === "lbs" ? "pounds and ounces where natural, with metric in brackets" : "metric units"}.`;
+
+  if (inputs.mode === "workout") return buildWorkoutPrompt(inputs, weight, athlete, personalise);
 
   return isEvent
     ? `You are Pello's expert sports nutrition AI. Generate a complete, science-backed nutrition plan.
@@ -345,6 +400,61 @@ TOTALS
 Daily protein target: Xg
 Daily carb target: Xg
 Monthly supplement budget: $X
+
+KEY NOTES
+Write exactly 3 numbered tips as plain sentences. No bullet points, no asterisks.`;
+}
+
+// "Today's workout": fueling for one everyday training session, not a race.
+function buildWorkoutPrompt(inputs: PlannerInputs, weight: string, athlete: string, personalise: string): string {
+  const session = WORKOUT_TYPES.find((w) => w.id === inputs.eventType)?.label ?? "Training session";
+  const minutes = Math.round(inputs.durationHours * 60);
+  const carbs = sessionCarbTarget(inputs);
+  const sodium = sodiumNeeded(inputs.durationHours, inputs.intensity, inputs.weightKg, inputs.sex);
+  const time = SESSION_TIMES.find((t) => t.id === inputs.sessionTime)?.label.toLowerCase() ?? "not given";
+  const meal = LAST_MEALS.find((m) => m.id === inputs.lastMeal)?.label.toLowerCase() ?? "not given";
+  const perHour = INTENSITY_OPTIONS.find((i) => i.id === inputs.intensity)?.carbsPerHr;
+
+  return `You are Pello's expert sports nutrition AI. Plan fueling for one training session today. This is an everyday workout, not a race: keep it practical and proportionate.
+
+SESSION:
+- Session: ${session}
+- Duration: ${minutes} minutes
+- Intensity: ${inputs.intensity}
+- Time of day: ${time}
+- Last meal before the session: ${meal}
+- Body weight: ${weight}
+${athlete}
+- Caffeine preference: ${inputs.caffeinePreference}
+- Dietary: ${inputs.dietary.length > 0 ? inputs.dietary.join(", ") : "none"}
+- Quality standards required: ${standardsLine(inputs)}
+${workoutSection(inputs)}
+CALCULATED TARGETS FOR THE SESSION ITSELF:
+${carbs > 0
+  ? `- Carbs during the session: ${carbs}g (${perHour}g/hr)`
+  : "- Carbs during the session: none needed. It's short or easy enough to run on stored glycogen; water to thirst is enough."}
+- Sodium during the session: ${sodium}mg${inputs.sex === "female" ? " (adjusted 15% lower for average female sweat sodium losses)" : ""}
+Use these in DURING and TOTALS; don't recalculate them.
+
+${personalise}
+
+Use ONLY these exact section headers. No markdown, no tables, no asterisks, no hashtags. Plain text only.
+
+BEFORE
+Base this on the time of day and when the athlete last ate. If they ate within the hour, say they don't need anything more. If it was 1-3 hours ago, suggest at most a small top-up only if the session is long or hard. If it was more than 3 hours ago, or they haven't eaten today, suggest a light carb snack 30-60 minutes before, with specific foods, quantities and carb counts. For a fasted session that is easy and under an hour, say training fasted is fine and when to eat afterwards.
+
+DURING
+${carbs > 0
+  ? "A clear schedule as plain sentences: when to start, how much, how often, and fluid with it."
+  : "Say plainly that no fuel is needed during this session and that water to thirst is enough. Keep it to one or two sentences."}
+
+AFTER
+Recovery sized to this session: what to eat or drink within about an hour and how the next meal should look, with specific foods and amounts. After a short or easy session, a normal balanced meal is enough; say so.
+
+TOTALS
+Carbs during: Xg
+Sodium during: Xmg
+Fluid during: X ml
 
 KEY NOTES
 Write exactly 3 numbered tips as plain sentences. No bullet points, no asterisks.`;

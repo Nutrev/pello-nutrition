@@ -27,8 +27,9 @@ import { FieldList, FieldRow, NumberStepper, PillToggle, RangeSlider, WeightStep
 import {
   type PlannerInputs, type EventType, type OutcomeType, type Intensity,
   type CaffeinePreference, type DietaryRestriction, type FormatPreference, type Retailer,
-  type WeightUnit, type Sex,
-  EVENT_TYPES, OUTCOME_TYPES, INTENSITY_OPTIONS, DEFAULT_INPUTS, carbsNeeded, sodiumNeeded, formatWeight,
+  type WeightUnit, type Sex, type SessionTime,
+  EVENT_TYPES, OUTCOME_TYPES, WORKOUT_TYPES, SESSION_TIMES, LAST_MEALS, INTENSITY_OPTIONS, DEFAULT_INPUTS,
+  carbsNeeded, sessionCarbTarget, sodiumNeeded, formatWeight,
 } from "@/lib/planner";
 
 // ── TYPES ─────────────────────────────────────────────────────
@@ -106,7 +107,7 @@ function buildPhaseRecommendations(PRODUCTS: ProductSummary[], inputs: PlannerIn
   during: PhaseProduct[];
   post: PhaseProduct[];
 } {
-  const isEvent = inputs.mode === "event";
+  const isEvent = inputs.mode !== "outcome"; // race day and today's workout are single sessions
   const hasCaffeine = inputs.caffeinePreference !== "none";
   const needsFuelling = inputs.durationHours >= 1;
 
@@ -447,7 +448,7 @@ const resetDay = (iso: string) => new Date(iso).toLocaleDateString("en-US", { mo
 export default function PlannerClient({ catalog, initialMode = null }: { catalog: ProductSummary[]; initialMode?: PlannerMode | null }) {
   const [step, setStep] = useState(1);
   const [inputs, setInputs] = useState<PlannerInputs>(
-    initialMode === "event" || initialMode === "outcome" ? { ...DEFAULT_INPUTS, mode: initialMode } : DEFAULT_INPUTS,
+    initialMode === "event" || initialMode === "outcome" || initialMode === "workout" ? { ...DEFAULT_INPUTS, mode: initialMode } : DEFAULT_INPUTS,
   );
   const [loading, setLoading] = useState(false);
   const [parsedPlan, setParsedPlan] = useState<ParsedPlan | null>(null);
@@ -461,7 +462,7 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
   const [plannerMode, setPlannerMode] = useState<PlannerMode | null>(initialMode);
   const chooseMode = (m: PlannerMode) => {
     setPlannerMode(m);
-    if (m === "event" || m === "outcome") { setInputs(prev => ({ ...prev, mode: m })); setStep(1); }
+    if (m === "event" || m === "outcome" || m === "workout") { setInputs(prev => ({ ...prev, mode: m })); setStep(1); }
   };
 
   // An uploaded workout sets the session's sport, duration and (for bike files with power) intensity.
@@ -471,7 +472,7 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
     const detected = intensityFrom(w.intensityFactor, w.basis);
     setInputs(prev => ({
       ...prev,
-      mode: "event",
+      mode: prev.mode === "workout" ? "workout" : "event",
       eventType: prev.eventType ?? (w.sport === "bike" ? "road-cycling" : w.sport === "run" ? "running" : "training-day"),
       durationHours: Math.max(0.25, Math.round((w.durationMin / 60) * 100) / 100),
       intensity: detected ?? prev.intensity,
@@ -516,9 +517,11 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
     setInputs(prev => ({ ...prev, [key]: arr.includes(value) ? arr.filter(x => x !== value) : [...arr, value] }));
   };
 
-  const carbTarget = carbsNeeded(inputs.durationHours, inputs.intensity);
+  // Today's workout drops the carb target to 0 for sessions that don't need fuel (lib/planner.ts).
+  const carbTarget = sessionCarbTarget(inputs);
   const sodiumTarget = sodiumNeeded(inputs.durationHours, inputs.intensity, inputs.weightKg, inputs.sex);
-  const isEvent = inputs.mode === "event";
+  const isWorkout = inputs.mode === "workout";
+  const isEvent = inputs.mode === "event" || isWorkout; // single-session planners share the event flow
 
   // Build phase-specific recommendations
   const phaseRecs = useMemo(() => {
@@ -572,13 +575,15 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
   const completed = workout?.kind === "completed";
 
   // The race day and goal planners need a free account once Pro is on.
-  const classicMode = plannerMode === "event" || plannerMode === "outcome";
+  const classicMode = plannerMode === "event" || plannerMode === "outcome" || plannerMode === "workout";
   const needsAccount = classicMode && gating && !authLoading && !user;
   const filtersOn = inputs.dietary.length > 0 || (inputs.standards ?? []).length > 0;
-  const showLimitGate = classicMode && plannerMode === "event" && gating && !proAccess && (limitReached || blocked === "limit") && !parsedPlan && !loading;
+  const showLimitGate = classicMode && (plannerMode === "event" || plannerMode === "workout") && gating && !proAccess && (limitReached || blocked === "limit") && !parsedPlan && !loading;
 
   const planTitle = workout
     ? `${workout.name} · ${completed ? "recovery & review" : "fueling plan"}`
+    : isWorkout
+    ? `${WORKOUT_TYPES.find(w => w.id === inputs.eventType)?.label ?? "Workout"} · ${Math.round(inputs.durationHours * 60)} min fueling plan`
     : isEvent
     ? `${EVENT_TYPES.find(e => e.id === inputs.eventType)?.label} · ${inputs.durationHours}hr plan`
     : OUTCOME_TYPES.find(o => o.id === inputs.outcomeType)?.label ?? "Your plan";
@@ -608,7 +613,7 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
           <div className="card text-center py-10">
             <h2 className="font-display font-semibold text-lg mb-2">Create a free account to build your plan</h2>
             <p className="text-sm text-muted mb-5 max-w-md mx-auto">
-              Free accounts get one event plan a month. Pello Pro adds unlimited plans, goal-based plans and saving.
+              Free accounts get one plan a month, for race day or today&apos;s workout. Pello Pro adds unlimited plans, goal-based plans and saving.
             </p>
             <div className="flex flex-col sm:flex-row gap-2 justify-center">
               <Link href="/auth/login?mode=signup&redirect=%2Fquiz" className="btn-primary justify-center flex">Create a free account</Link>
@@ -647,11 +652,11 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
                     <WorkoutUpload workout={workout} onChange={applyWorkout} />
                   </ProGate>
                 )}
-                {inputs.mode === "event" && (
+                {isEvent && (
                   <div>
-                    <h2 className="font-display font-semibold text-base mb-4">What are you planning for?</h2>
+                    <h2 className="font-display font-semibold text-base mb-4">{isWorkout ? "What's the session?" : "What are you planning for?"}</h2>
                     <div className="space-y-2 mb-6">
-                      {EVENT_TYPES.map(e => (
+                      {(isWorkout ? WORKOUT_TYPES : EVENT_TYPES).map(e => (
                         <button key={e.id} onClick={() => update("eventType", e.id)}
                           className={`w-full flex items-center gap-4 p-4 rounded-xl border text-left transition-all ${inputs.eventType === e.id ? "border-moss bg-moss/5" : "border-sand hover:border-muted bg-white/40"}`}>
                           <div className="flex-1">
@@ -743,6 +748,27 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
                   </div>
                 )}
 
+                {isWorkout && (
+                  <div className="card mb-4">
+                    <div className="flex items-center justify-between gap-4 mb-5">
+                      <h3 className="font-display font-semibold">Time of day</h3>
+                      <PillToggle<SessionTime> label="Time of day" value={inputs.sessionTime ?? null} onChange={v => update("sessionTime", v)}
+                        options={SESSION_TIMES} />
+                    </div>
+                    <h3 className="font-display font-semibold mb-1">When did you last eat?</h3>
+                    <p className="text-xs text-muted mb-3">Decides whether you need anything before you start.</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {LAST_MEALS.map(m => (
+                        <button key={m.id} type="button" onClick={() => update("lastMeal", m.id)} aria-pressed={inputs.lastMeal === m.id}
+                          className={`p-3 rounded-xl border text-left transition-all ${inputs.lastMeal === m.id ? "border-moss bg-moss/5" : "border-sand hover:border-muted bg-white/40"}`}>
+                          <div className="font-medium text-sm">{m.label}</div>
+                          <div className="text-xs text-muted">{m.desc}</div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 <FieldList className="mb-4">
                   <FieldRow label="Body weight" aside={<WeightUnitToggle value={inputs.weightUnit} onChange={v => update("weightUnit", v)} />}>
                     {/* Stored in kg for every calculation; shown in the chosen unit. */}
@@ -788,18 +814,20 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
                   </div>
                 </div>
 
-                <div className="card !py-1 mb-4">
-                  <RangeSlider label={isEvent ? "Event budget" : "Monthly supplement budget"} min={10} max={200} step={5}
-                    value={inputs.budget} onChange={v => update("budget", v)} format={v => `$${v}`} />
-                </div>
+                {!isWorkout && (
+                  <div className="card !py-1 mb-4">
+                    <RangeSlider label={isEvent ? "Event budget" : "Monthly supplement budget"} min={10} max={200} step={5}
+                      value={inputs.budget} onChange={v => update("budget", v)} format={v => `$${v}`} />
+                  </div>
+                )}
 
                 {isEvent && (
                   <div className="bg-moss/5 border border-moss/20 rounded-xl p-4 mb-6">
                     <div className="text-xs text-moss uppercase tracking-widest mb-3">Calculated targets</div>
                     <div className="grid grid-cols-3 gap-4 text-center">
                       <div>
-                        <div className="font-display font-bold text-xl">{carbTarget}g</div>
-                        <div className="text-xs text-muted">total carbs</div>
+                        <div className="font-display font-bold text-xl">{isWorkout && carbTarget === 0 ? "None" : `${carbTarget}g`}</div>
+                        <div className="text-xs text-muted">{isWorkout && carbTarget === 0 ? "carbs needed" : "total carbs"}</div>
                       </div>
                       <div>
                         <div className="font-display font-bold text-xl">{sodiumTarget}mg</div>
@@ -815,7 +843,8 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
 
                 <div className="flex gap-3">
                   <button onClick={() => setStep(1)} className="btn-secondary flex-1 justify-center flex">← Back</button>
-                  <button onClick={() => setStep(3)} className="btn-primary flex-1 justify-center flex">Next →</button>
+                  <button onClick={() => setStep(3)} disabled={isWorkout && (!inputs.sessionTime || !inputs.lastMeal)}
+                    className="btn-primary flex-1 justify-center flex disabled:opacity-40">Next →</button>
                 </div>
               </div>
             )}
@@ -936,8 +965,8 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
                   <span className="text-moss text-xs font-bold">PRE</span>
                 </div>
                 <div>
-                  <h3 className="font-display font-bold text-base">{completed ? "Before a session like this" : isEvent ? "Pre-event" : "Before training"}</h3>
-                  <p className="text-xs text-muted">{completed ? "For next time" : isEvent ? "2-3 hours before" : "Daily preparation"}</p>
+                  <h3 className="font-display font-bold text-base">{completed ? "Before a session like this" : isWorkout ? "Before your session" : isEvent ? "Pre-event" : "Before training"}</h3>
+                  <p className="text-xs text-muted">{completed ? "For next time" : isWorkout ? "Based on when you last ate" : isEvent ? "2-3 hours before" : "Daily preparation"}</p>
                 </div>
               </div>
               <PlanLines lines={parsedPlan.preEvent} />
@@ -961,8 +990,8 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
                   <span className="text-amber text-xs font-bold">DUR</span>
                 </div>
                 <div>
-                  <h3 className="font-display font-bold text-base">{completed ? "What this session called for" : isEvent ? "During event" : "During training"}</h3>
-                  <p className="text-xs text-muted">{completed ? "Compare with what you took" : workout ? "Timed to your workout" : isEvent ? "Per-hour fueling plan" : "Intra-workout nutrition"}</p>
+                  <h3 className="font-display font-bold text-base">{completed ? "What this session called for" : isWorkout ? "During your session" : isEvent ? "During event" : "During training"}</h3>
+                  <p className="text-xs text-muted">{completed ? "Compare with what you took" : workout ? "Timed to your workout" : isWorkout && carbTarget === 0 ? "No fuel needed for this one" : isEvent ? "Per-hour fueling plan" : "Intra-workout nutrition"}</p>
                 </div>
               </div>
               <PlanLines lines={parsedPlan.duringEvent} />
@@ -1014,8 +1043,8 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
                   <span className="text-blue-600 text-xs font-bold">POST</span>
                 </div>
                 <div>
-                  <h3 className="font-display font-bold text-base">{completed ? "Recovery: the next 24 hours" : isEvent ? "Post-event recovery" : "Recovery protocol"}</h3>
-                  <p className="text-xs text-muted">{completed ? "Starting now" : isEvent ? "0-30 min · 30-120 min · overnight" : "Daily recovery habits"}</p>
+                  <h3 className="font-display font-bold text-base">{completed ? "Recovery: the next 24 hours" : isWorkout ? "After your session" : isEvent ? "Post-event recovery" : "Recovery protocol"}</h3>
+                  <p className="text-xs text-muted">{completed ? "Starting now" : isWorkout ? "Sized to this session" : isEvent ? "0-30 min · 30-120 min · overnight" : "Daily recovery habits"}</p>
                 </div>
               </div>
               <PlanLines lines={parsedPlan.postEvent} />
@@ -1035,7 +1064,7 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
             {/* Cost summary */}
             <div className="card bg-moss/5 border-moss/20 mb-4">
               <div className="text-xs text-moss uppercase tracking-widest mb-3">
-                {isEvent ? "Estimated event cost" : "Monthly supplement stack"}
+                {isWorkout ? "Products for this session" : isEvent ? "Estimated event cost" : "Monthly supplement stack"}
               </div>
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm text-muted">{isEvent ? "Recommended products total (cheapest carb option)" : "Recommended products total"}</span>

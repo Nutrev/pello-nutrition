@@ -3,7 +3,7 @@ import Link from "next/link";
 import { requireAccountUser, accountAccess } from "@/lib/account-server";
 import ReadOnlyNote from "@/components/pro/ReadOnlyNote";
 import { formatDate } from "@/lib/format-date";
-import { EVENT_TYPES, OUTCOME_TYPES } from "@/lib/planner";
+import { EVENT_TYPES, OUTCOME_TYPES, WORKOUT_TYPES } from "@/lib/planner";
 import { SAVED_PLAN_LABEL, type SavedPlan } from "@/lib/account-types";
 import DeleteRowButton from "@/components/account/DeleteRowButton";
 
@@ -38,7 +38,9 @@ export default async function PlansPage() {
       ) : (
         <div className="card divide-y divide-sand p-0">
           {plans.map((p) => {
-            const type = p.plan_mode === "event"
+            const type = p.plan_mode === "workout"
+              ? WORKOUT_TYPES.find((w) => w.id === p.inputs?.eventType)?.label
+              : p.plan_mode === "event"
               ? EVENT_TYPES.find((e) => e.id === p.inputs?.eventType)?.label
               : p.plan_mode === "outcome" ? OUTCOME_TYPES.find((o) => o.id === p.inputs?.outcomeType)?.label : null;
             return (

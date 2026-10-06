@@ -36,7 +36,7 @@ export interface ModePlanContent {
   productGroups: { title: string; note?: string; productIds: string[] }[];
 }
 
-export type SavedPlanMode = "event" | "outcome" | "supplement-stack" | "race-week" | "budget-optimiser";
+export type SavedPlanMode = "workout" | "event" | "outcome" | "supplement-stack" | "race-week" | "budget-optimiser";
 
 export interface SavedPlan {
   id: string;
@@ -51,7 +51,7 @@ export interface SavedPlan {
 }
 
 export const SAVED_PLAN_LABEL: Record<SavedPlanMode, string> = {
-  event: "Event", outcome: "Goal", "supplement-stack": "Supplement stack", "race-week": "Race week", "budget-optimiser": "Budget",
+  workout: "Workout", event: "Event", outcome: "Goal", "supplement-stack": "Supplement stack", "race-week": "Race week", "budget-optimiser": "Budget",
 };
 export const isModeContent = (c: PlanContent | ModePlanContent): c is ModePlanContent => (c as ModePlanContent)?.kind === "sections";
 

@@ -13,8 +13,8 @@ import { buildStackPrompt, buildRaceWeekPrompt, buildBudgetPrompt } from "@/lib/
 
 const client = new Anthropic();
 
-// Once Pello Pro is on: plans need a (free) account; free accounts get event plans only,
-// FREE_PLANS_PER_MONTH per calendar month. Pro is unlimited. Checked here, not just in the
+// Once Pello Pro is on: plans need a (free) account; free accounts get race day and
+// today's workout plans only, FREE_PLANS_PER_MONTH per calendar month between them. Pro is unlimited. Checked here, not just in the
 // page, so the limits can't be skipped.
 interface Usage { pro: boolean; used: number; limit: number; resetsOn: string }
 

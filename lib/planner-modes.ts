@@ -13,10 +13,11 @@ import { byWeightedRating } from "./catalog-types";
 import { meetsDiet, type DietId } from "./quality-standards";
 import { EVENT_TYPES, type CaffeinePreference, type DietaryRestriction, type EventType, type FormatPreference, type WeightUnit } from "./planner";
 
-export type PlannerMode = "event" | "outcome" | "supplement-stack" | "race-week" | "budget-optimiser";
+export type PlannerMode = "workout" | "event" | "outcome" | "supplement-stack" | "race-week" | "budget-optimiser";
 export type ModeAccess = "free-limited" | "pro" | "free";
 
 export const PLANNER_MODES: { id: PlannerMode; title: string; desc: string; access: ModeAccess; isNew?: boolean; steps: number; loading: string }[] = [
+  { id: "workout", title: "Today's workout", desc: "How to fuel the session you're doing today, before, during and after", access: "free-limited", isNew: true, steps: 3, loading: "Sizing up your session and building your fueling plan" },
   { id: "event", title: "Race day fueling", desc: "Pre, during and post nutrition for your next event", access: "free-limited", steps: 3, loading: "Calculating targets, matching products and building your protocol" },
   { id: "outcome", title: "Achieve a goal", desc: "Outcome-based nutrition to reach a specific target", access: "pro", steps: 3, loading: "Calculating targets, matching products and building your protocol" },
   { id: "supplement-stack", title: "Supplement stack", desc: "Daily supplement protocol matched to your goals and budget", access: "pro", isNew: true, steps: 3, loading: "Matching supplements to your goals..." },

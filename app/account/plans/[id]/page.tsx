@@ -42,11 +42,11 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
     : null;
   const classicTags = [
     i.workout ? `${i.workout.kind === "completed" ? "Completed" : "Planned"} workout: ${i.workout.name} (${i.workout.durationMin} min)` : null,
-    plan.plan_mode === "event" ? `${i.durationHours}hr · ${i.intensity}` : null,
+    plan.plan_mode === "event" || plan.plan_mode === "workout" ? `${i.durationHours}hr · ${i.intensity}` : null,
     i.weightKg ? formatWeight(i.weightKg, i.weightUnit ?? "kg") : null,
     i.age ? `${i.age} · ${i.sex}` : null,
     i.trainingDaysPerWeek ? `${i.trainingDaysPerWeek} training days/week` : null,
-    `$${i.budget} budget`,
+    plan.plan_mode === "workout" ? null : `$${i.budget} budget`,
     ...(i.dietary ?? []),
     ...(i.standards ?? []).map((id) => STANDARD_CHOICES.find((c) => c.id === id)?.label),
   ];
