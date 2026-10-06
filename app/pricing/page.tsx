@@ -20,6 +20,7 @@ const FREE: { text: string; included: boolean }[] = [
   { text: "Read community reviews", included: true },
   { text: "Save favorite products", included: true },
   { text: "1 event nutrition plan per month", included: true },
+  { text: "intervals.icu connection", included: false },
   { text: "Save plans", included: false },
   { text: "Advanced filters", included: false },
   { text: "Submit reviews", included: false },
