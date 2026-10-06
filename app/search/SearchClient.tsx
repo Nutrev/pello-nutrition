@@ -4,6 +4,15 @@ import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
 import type { ProductSummary } from "@/lib/catalog-types";
+import ProductTeaser from "./ProductTeaser";
+
+// The barcode scanner opens the camera but can't detect barcodes yet (only the test codes
+// work), so it stays hidden until detection is built.
+const BARCODE_SCANNER_ENABLED = false;
+
+// Shown below the search box before anyone types; each fills the search with a term that
+// matches products in the catalogue.
+const SUGGESTIONS = ["Energy gel", "Electrolyte", "Creatine", "Maurten", "Recovery", "Protein"];
 
 interface OFFProduct {
   code?: string;
@@ -35,7 +44,7 @@ const SCIENCE_COLORS: Record<string, string> = {
   "insufficient-data": "bg-sand text-muted",
 };
 
-export default function SearchClient({ catalog }: { catalog: ProductSummary[] }) {
+export default function SearchClient({ catalog, teaser }: { catalog: ProductSummary[]; teaser: ProductSummary[] }) {
   const PRODUCTS = catalog;
   const [Explore, setExplore] = useState("");
   const [searching, setSearching] = useState(false);
@@ -155,7 +164,9 @@ export default function SearchClient({ catalog }: { catalog: ProductSummary[] })
         <div className="mb-8">
           <div className="text-xs text-muted uppercase tracking-widest mb-2">Universal search</div>
           <h1 className="font-display font-bold text-3xl tracking-tight mb-2">Search any product</h1>
-          <p className="text-muted text-sm">Search across the Pello Explore and 3 million+ products from Open Food Facts. Get an instant AI analysis for any product not yet in our Explore.</p>
+          <p className="text-muted text-sm">
+            Search the {PRODUCTS.length} products we&apos;ve rated, plus 3 million+ more from Open Food Facts. Anything we haven&apos;t rated yet gets an instant AI analysis.
+          </p>
         </div>
 
         {/* Search input */}
@@ -166,16 +177,18 @@ export default function SearchClient({ catalog }: { catalog: ProductSummary[] })
             onChange={e => setExplore(e.target.value)}
             onKeyDown={e => e.key === "Enter" && searchExternal(Explore)}
             placeholder="Search any product or brand..."
-            className="w-full bg-white/80 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-muted font-body placeholder:text-muted pr-32"
+            className={`w-full bg-white/80 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-muted font-body placeholder:text-muted ${BARCODE_SCANNER_ENABLED ? "pr-32" : "pr-24"}`}
           />
           <div className="absolute right-2 top-2 flex gap-1">
-            <button
-              onClick={startScanner}
-              className="px-3 py-1.5 rounded-lg bg-sand text-xs hover:bg-sand/80 transition-all"
-              title="Scan barcode"
-            >
-              Scan
-            </button>
+            {BARCODE_SCANNER_ENABLED && (
+              <button
+                onClick={startScanner}
+                className="px-3 py-1.5 rounded-lg bg-sand text-xs hover:bg-sand/80 transition-all"
+                title="Scan barcode"
+              >
+                Scan
+              </button>
+            )}
             <button
               onClick={() => searchExternal(Explore)}
               disabled={searching || Explore.length < 3}
@@ -186,8 +199,32 @@ export default function SearchClient({ catalog }: { catalog: ProductSummary[] })
           </div>
         </div>
 
+        {/* Before anyone types: suggestions, and a row of well-reviewed products */}
+        {!Explore.trim() && !hasSearched && !selectedProduct && (
+          <div className="mb-8">
+            <div className="flex gap-2 flex-wrap items-center mb-6">
+              <span className="text-xs text-muted">Try</span>
+              {SUGGESTIONS.map((term) => (
+                <button
+                  key={term}
+                  type="button"
+                  onClick={() => setExplore(term)}
+                  className="text-xs px-3 py-1.5 rounded-full border border-sand bg-white/50 hover:border-moss hover:text-moss transition-colors"
+                >
+                  {term}
+                </button>
+              ))}
+            </div>
+            <div className="flex items-baseline justify-between mb-3">
+              <div className="text-xs text-muted uppercase tracking-widest">Well-reviewed right now</div>
+              <Link href="/products" className="text-xs text-moss hover:text-ink transition-colors">Browse all {PRODUCTS.length} →</Link>
+            </div>
+            <ProductTeaser products={teaser} />
+          </div>
+        )}
+
         {/* Camera scanner */}
-        {scanning && (
+        {BARCODE_SCANNER_ENABLED && scanning && (
           <div className="card mb-6">
             <div className="flex items-center justify-between mb-3">
               <div className="text-sm font-medium">Point camera at barcode</div>

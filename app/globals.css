@@ -63,3 +63,21 @@ body::before {
   a { text-decoration: none !important; }
   @page { margin: 14mm; }
 }
+
+/* Drifting product row on the search page (app/search/ProductTeaser.tsx). The track holds
+   the products twice, so moving it by half loops seamlessly. */
+.marquee-track {
+  animation: marquee 60s linear infinite;
+}
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee { overflow-x: auto; }
+  .marquee-track { animation: none; }
+  .marquee-copy { display: none; }
+}
