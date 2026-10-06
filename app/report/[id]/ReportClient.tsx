@@ -97,16 +97,15 @@ export interface ReportBrand extends Pick<Brand, "slug" | "name" | "founded" | "
 interface ReportClientProps {
   product: Product;
   similar: ProductSummary[];
-  directory: DirectoryEntry[];
   brand: ReportBrand;
   nsf: NsfCheck;
 }
 
-export default function ReportClient({ product, similar: similarProducts, directory, brand, nsf }: ReportClientProps) {
+export default function ReportClient({ product, similar: similarProducts, brand, nsf }: ReportClientProps) {
   const [summary, setSummary] = useState("");
   const [loading, setLoading] = useState(false);
   const [generated, setGenerated] = useState(false);
-  const [recentIds, setRecentIds] = useState<string[]>([]);
+  const [recent, setRecent] = useState<DirectoryEntry[]>([]);
   // Pello community reviews (loaded by ReviewSection); null until they've loaded.
   const [community, setCommunity] = useState<{ count: number; averages: AttributeAverages | null } | null>(null);
   const onReviewsLoaded = useCallback((count: number, averages: AttributeAverages | null) => setCommunity({ count, averages }), []);
@@ -115,17 +114,22 @@ export default function ReportClient({ product, similar: similarProducts, direct
   const nutrition = product ? productNutrition(product) : null;
   const PelloScore = productPelloScore(product);
 
+  // Recently viewed products are kept in this browser with the details needed to show them,
+  // so each product page doesn't have to carry the whole catalogue.
   useEffect(() => {
-    const key = "Pello_recently_viewed";
-    const existing = JSON.parse(localStorage.getItem(key) ?? "[]") as string[];
-    const updated = [product.id, ...existing.filter((id) => id !== product.id)].slice(0, 5);
-    localStorage.setItem(key, JSON.stringify(updated));
-  }, [product.id]);
-
-  useEffect(() => {
-    const existing = JSON.parse(localStorage.getItem("Pello_recently_viewed") ?? "[]") as string[];
-    setRecentIds(existing.filter((id) => id !== product.id).slice(0, 4));
-  }, [product.id]);
+    const key = "Pello_recently_viewed_items";
+    let existing: DirectoryEntry[] = [];
+    try {
+      const parsed = JSON.parse(localStorage.getItem(key) ?? "[]");
+      if (Array.isArray(parsed)) existing = parsed.filter((p) => p && typeof p.id === "string" && typeof p.name === "string");
+    } catch {}
+    setRecent(existing.filter((p) => p.id !== product.id).slice(0, 4));
+    const entry: DirectoryEntry = { id: product.id, name: product.name, brand: product.brand, logo: product.logo, logoDomain: product.logoDomain };
+    try {
+      localStorage.setItem(key, JSON.stringify([entry, ...existing.filter((p) => p.id !== product.id)].slice(0, 5)));
+      localStorage.removeItem("Pello_recently_viewed");
+    } catch {}
+  }, [product.id, product.name, product.brand, product.logo, product.logoDomain]);
 
   const generateSummary = async () => {
     setLoading(true);
@@ -508,14 +512,11 @@ export default function ReportClient({ product, similar: similarProducts, direct
       })()}
 
       {/* Recently viewed */}
-      {recentIds.length > 0 && (
+      {recent.length > 0 && (
         <div className="max-w-5xl mx-auto px-6 mt-6 mb-10">
           <h2 className="font-display font-semibold text-base mb-4">Recently viewed</h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {recentIds
-              .map((id) => directory.find((p) => p.id === id))
-              .filter(Boolean)
-              .map((p) => p && (
+            {recent.map((p) => (
                 <Link key={p.id} href={`/report/${p.id}`}>
                   <div className="card hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group">
                     <BrandLogo logoDomain={p.logoDomain} logo={p.logo} brand={p.brand} size="sm" className="mb-2" />

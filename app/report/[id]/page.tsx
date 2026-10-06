@@ -19,7 +19,6 @@ export default function ReportPage({ params }: { params: { id: string } }) {
     .filter((p) => p.category === product.category && p.id !== product.id)
     .sort(byWeightedRating)
     .slice(0, 3);
-  const directory = all.map(({ id, name, brand, logo, logoDomain }) => ({ id, name, brand, logo, logoDomain }));
 
   const b = getBrandByName(product.brand)!;
   const brand = {
@@ -30,5 +29,5 @@ export default function ReportPage({ params }: { params: { id: string } }) {
   const nsf = { listing: NSF_SPORT_LISTINGS[product.id] ?? null, notFound: NSF_NOT_FOUND.includes(product.id), checkedOn: NSF_CHECKED_ON };
 
   // Keyed by product so moving between products starts fresh (summary, selected size…).
-  return <ReportClient key={product.id} product={product} similar={similar} directory={directory} brand={brand} nsf={nsf} />;
+  return <ReportClient key={product.id} product={product} similar={similar} brand={brand} nsf={nsf} />;
 }
