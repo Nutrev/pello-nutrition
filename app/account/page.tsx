@@ -4,7 +4,8 @@ import { Suspense } from "react";
 import { requireAccountUser, productById, accountAccess } from "@/lib/account-server";
 import UpgradedBanner from "@/components/pro/UpgradedBanner";
 import ManageSubscriptionButton from "@/components/pro/ManageSubscriptionButton";
-import { PRO_FEATURES, type SubscriptionRow } from "@/lib/pro";
+import { PRO_FEATURES, PRO_PRICE_LABEL, type SubscriptionRow } from "@/lib/pro";
+import { trialHasPaymentMethod } from "@/lib/subscription-server";
 import { SAVED_PLAN_LABEL, type UserProfile, type SavedPlan, type FavouriteProduct, type StackItem } from "@/lib/account-types";
 import { formatWeight } from "@/lib/planner";
 import { PLANNER_MODES } from "@/lib/planner-modes";
@@ -91,25 +92,38 @@ function StackIntro({ locked }: { locked: boolean }) {
   );
 }
 
-function SubscriptionSection({ isPro, sub }: { isPro: boolean; sub: SubscriptionRow | null }) {
+// hasCard: for a trial that will carry on into a paid subscription, whether a payment method
+// is on file (null when Stripe couldn't say). Without one, the trial ends with Pro.
+function SubscriptionSection({ isPro, sub, hasCard }: { isPro: boolean; sub: SubscriptionRow | null; hasCard: boolean | null }) {
   if (isPro && sub) {
     const end = sub.current_period_end ? formatDate(sub.current_period_end) : null;
     const trialing = sub.stripe_status === "trialing";
     const pastDue = sub.stripe_status === "past_due";
+    const trialEnd = trialing && sub.trial_end ? formatDate(sub.trial_end) : null;
+    const needsCard = !!trialEnd && !sub.cancel_at_period_end && hasCard === false;
     const line = pastDue
       ? "Your last payment didn't go through. Update your card to keep Pro."
-      : trialing && sub.trial_end
-      ? `Free trial ends ${formatDate(sub.trial_end)}${sub.cancel_at_period_end ? ", then Pro ends" : ""}.`
+      : trialEnd && sub.cancel_at_period_end
+      ? `Free trial ends ${trialEnd}, then Pro ends.`
+      : needsCard
+      ? `Free trial ends ${trialEnd}. Add a card before then to keep Pro. Without one, your account goes back to the free plan on that date and you aren't charged.`
+      : trialEnd && hasCard
+      ? `Free trial ends ${trialEnd}. Pro then continues at ${PRO_PRICE_LABEL}/month (USD) plus any applicable tax, charged to the card you added.`
+      : trialEnd
+      ? `Free trial ends ${trialEnd}. If you haven't added a card by then, your account goes back to the free plan and you aren't charged.`
       : sub.cancel_at_period_end && end
       ? `Canceled. You keep Pro until ${end}.`
       : end ? `Renews ${end}.` : null;
     return (
-      <div className="card flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+      <div className={`card flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 ${needsCard ? "bg-amber/5 border-amber/30" : ""}`}>
         <div>
           <span className="font-mono text-[11px] uppercase tracking-widest bg-amber/10 text-amber px-2 py-0.5 rounded-md">Pello Pro</span>
-          {line && <p className={`text-sm mt-2 ${pastDue ? "text-rust" : "text-muted"}`}>{line}</p>}
+          {line && <p className={`text-sm mt-2 ${pastDue ? "text-rust" : needsCard ? "text-ink" : "text-muted"}`}>{line}</p>}
         </div>
-        <ManageSubscriptionButton className="btn-secondary text-sm whitespace-nowrap" />
+        <div className="flex flex-col gap-2 sm:items-end">
+          {needsCard && <ManageSubscriptionButton addCard className="btn-primary text-sm whitespace-nowrap" label="Add a card" />}
+          <ManageSubscriptionButton className={needsCard ? "text-xs text-muted hover:text-ink" : "btn-secondary text-sm whitespace-nowrap"} />
+        </div>
       </div>
     );
   }
@@ -153,6 +167,9 @@ export default async function AccountPage({ searchParams }: { searchParams: { in
     INTERVALS_ENABLED ? getConnection(user.id) : Promise.resolve(null),
   ]);
 
+  // Only a trial that will carry on needs to know whether a card is on file.
+  const trialSub = access.isPro && access.subscription?.stripe_status === "trialing" && !access.subscription.cancel_at_period_end ? access.subscription : null;
+  const hasCard = trialSub ? await trialHasPaymentMethod(trialSub) : null;
   const profile = profileRes.data as UserProfile | null;
   const plans = (plansRes.data ?? []) as Pick<SavedPlan, "id" | "plan_name" | "plan_mode" | "created_at">[];
   const favourites = ((favRes.data ?? []) as FavouriteProduct[]).map((f) => productById(f.product_id)).filter((p) => p != null);
@@ -199,7 +216,7 @@ export default async function AccountPage({ searchParams }: { searchParams: { in
       {searchParams.intervals && INTERVALS_RESULT[searchParams.intervals] && (
         <div role="status" className="card mb-6 text-sm">{INTERVALS_RESULT[searchParams.intervals]}</div>
       )}
-      {access.gating && <SubscriptionSection isPro={access.isPro} sub={access.subscription} />}
+      {access.gating && <SubscriptionSection isPro={access.isPro} sub={access.subscription} hasCard={hasCard} />}
 
       {access.allowed && <PendingPlanBanner />}
 
