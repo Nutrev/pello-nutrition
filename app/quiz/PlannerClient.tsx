@@ -471,7 +471,7 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
   const [loading, setLoading] = useState(false);
   const [parsedPlan, setParsedPlan] = useState<ParsedPlan | null>(null);
   const { user, profile, loading: authLoading } = useUser();
-  const { allowed: proAccess, gating } = useProAccess();
+  const { allowed: proAccess, gating, loading: accessLoading } = useProAccess();
   const [usage, setUsage] = useState<PlanUsage | null>(null);
   const [blocked, setBlocked] = useState<"limit" | "pro" | "signup" | null>(null);
   const [prefilled, setPrefilled] = useState(false);
@@ -668,10 +668,11 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
             {/* Step 1 */}
             {step === 1 && (
               <div>
-                {isEvent && (
-                  <ProGate feature="Plan from a workout file" description="Upload a planned or completed workout and get fueling built around its actual duration and intervals.">
-                    <WorkoutUpload workout={workout} onChange={applyWorkout} />
-                  </ProGate>
+                {/* Pro (or Pro switched off): the workout file / intervals.icu panel comes first, as a
+                    shortcut. Everyone else starts on the session choices; the Pro option is a quiet
+                    line further down, so the step never opens on a locked panel. */}
+                {isEvent && proAccess && !accessLoading && (
+                  <WorkoutUpload workout={workout} onChange={applyWorkout} />
                 )}
                 {isEvent && (
                   <div>
@@ -727,6 +728,17 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
                     </div>
                   </div>
                   </ProGate>
+                )}
+
+                {isEvent && !proAccess && !accessLoading && (
+                  <div className="flex items-start gap-3 rounded-xl border border-dashed border-sand px-4 py-3 mb-6">
+                    <ProTag />
+                    <p className="text-xs text-muted leading-relaxed">
+                      <span className="font-medium text-ink">Plan from a workout file or intervals.icu.</span>{" "}
+                      Get fueling timed to your session&apos;s actual intervals.{" "}
+                      <Link href="/pricing" className="text-moss hover:underline whitespace-nowrap">See Pello Pro →</Link>
+                    </p>
+                  </div>
                 )}
 
                 <div className="flex gap-3">
