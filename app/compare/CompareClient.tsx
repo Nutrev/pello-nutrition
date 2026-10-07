@@ -481,6 +481,13 @@ const filteredProducts = PRODUCTS.filter((p) => {
           </div>
         )}
 
+        {/* After a comparison: the next step */}
+        {selectedProducts.length > 1 && (
+          <p className="text-center text-sm mt-8">
+            <Link href="/quiz" className="text-moss hover:text-ink transition-colors">Ready to build your nutrition plan? →</Link>
+          </p>
+        )}
+
         {/* Empty state */}
         {selectedProducts.length === 0 && (
             <div className="card text-center py-16 relative z-0">

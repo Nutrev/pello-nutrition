@@ -13,10 +13,25 @@ import { buildStackPrompt, buildRaceWeekPrompt, buildBudgetPrompt } from "@/lib/
 
 const client = new Anthropic();
 
-// Once Pello Pro is on: plans need a (free) account; free accounts get race day and
-// today's workout plans only, FREE_PLANS_PER_MONTH per calendar month between them. Pro is unlimited. Checked here, not just in the
-// page, so the limits can't be skipped.
+// Once Pello Pro is on: signed-out visitors can build one race day or workout plan (or budget
+// strategy) without an account, tracked per browser by a cookie, then are asked to sign up.
+// Free accounts get race day and today's workout plans only, FREE_PLANS_PER_MONTH per calendar
+// month between them. Pro is unlimited. Checked here, not just in the page, so the limits
+// can't be skipped. (The per-IP rate limit below also applies to everyone.)
 interface Usage { pro: boolean; used: number; limit: number; resetsOn: string }
+
+// Signed-out visitors' one free plan. A cookie can be cleared, so this is a nudge to sign up
+// rather than a hard limit; the rate limit stops abuse.
+const GUEST_COOKIE = "pello_guest_plan";
+const guestUsed = (req: NextRequest) => req.cookies.get(GUEST_COOKIE)?.value === "1";
+const guestLimitResponse = () => NextResponse.json(
+  { error: "You've used your free plan. Create a free account to build another; free accounts get one plan a month.", code: "signup" },
+  { status: 403 },
+);
+function markGuestUsed(res: NextResponse) {
+  res.cookies.set(GUEST_COOKIE, "1", { httpOnly: true, sameSite: "lax", secure: process.env.NODE_ENV === "production", maxAge: 60 * 60 * 24 * 365, path: "/" });
+  return res;
+}
 
 async function usageFor(userId: string): Promise<Usage> {
   const pro = await isProUser(userId);
@@ -44,7 +59,7 @@ export async function POST(req: NextRequest) {
   // can't be used as a general-purpose Claude proxy on our API key.
   const body = await req.json().catch(() => null);
   if (body?.planner === "supplement-stack" || body?.planner === "race-week" || body?.planner === "budget-optimiser") {
-    return planMode(body.planner, body.inputs);
+    return planMode(req, body.planner, body.inputs);
   }
   const inputs = parsePlannerInputs(body?.inputs);
   if (!inputs) {
@@ -53,9 +68,15 @@ export async function POST(req: NextRequest) {
 
   let userId: string | null = null;
   let usage: Usage | null = null;
-  if (PRO_ENABLED) {
-    const { data: { user } } = await getServerSupabase().auth.getUser();
-    if (!user) return NextResponse.json({ error: "Please log in to build a plan.", code: "signin" }, { status: 401 });
+  let guest = false;
+  const user = PRO_ENABLED ? (await getServerSupabase().auth.getUser()).data.user : null;
+  if (PRO_ENABLED && !user) {
+    if (inputs.workout) return NextResponse.json({ error: "Workout file uploads are a Pello Pro feature.", code: "pro" }, { status: 403 });
+    if (inputs.mode === "outcome") return NextResponse.json({ error: "Goal-based plans are a Pello Pro feature.", code: "pro" }, { status: 403 });
+    if (guestUsed(req)) return guestLimitResponse();
+    guest = true;
+  }
+  if (PRO_ENABLED && user) {
     userId = user.id;
     usage = await usageFor(user.id);
     if (!usage.pro && inputs.workout) {
@@ -83,7 +104,8 @@ export async function POST(req: NextRequest) {
       await admin.from("planner_uses").insert({ user_id: userId });
       usage = { ...usage, used: usage.used + 1 };
     }
-    return NextResponse.json({ plan, ...(usage ? { usage: json(usage) } : {}) });
+    const res = NextResponse.json({ plan, ...(usage ? { usage: json(usage) } : {}) });
+    return guest ? markGuestUsed(res) : res;
   } catch (e) {
     console.error("Plan error:", e);
     return NextResponse.json({ error: "Failed to generate plan" }, { status: 500 });
@@ -92,7 +114,7 @@ export async function POST(req: NextRequest) {
 
 // Supplement stack and race week (Pello Pro), and the budget optimizer's strategy text (free
 // account). Products are chosen here from the catalog; the browser only sends answers.
-async function planMode(planner: "supplement-stack" | "race-week" | "budget-optimiser", raw: unknown) {
+async function planMode(req: NextRequest, planner: "supplement-stack" | "race-week" | "budget-optimiser", raw: unknown) {
   const all = getProductSummaries();
   let prompt: string;
   let products: { id: string; name: string; brand: string }[] = [];
@@ -115,11 +137,16 @@ async function planMode(planner: "supplement-stack" | "race-week" | "budget-opti
     prompt = buildBudgetPrompt(inputs);
   }
 
+  let guest = false;
   if (PRO_ENABLED) {
     const { data: { user } } = await getServerSupabase().auth.getUser();
-    if (!user) return NextResponse.json({ error: "Please log in to use this planner.", code: "signin" }, { status: 401 });
-    if (planner !== "budget-optimiser" && !(await isProUser(user.id))) {
+    if (planner !== "budget-optimiser" && (!user || !(await isProUser(user.id)))) {
       return NextResponse.json({ error: "This planner is a Pello Pro feature.", code: "pro" }, { status: 403 });
+    }
+    // The budget strategy is free; signed out, it uses the one free guest plan.
+    if (!user) {
+      if (guestUsed(req)) return guestLimitResponse();
+      guest = true;
     }
   }
 
@@ -131,7 +158,8 @@ async function planMode(planner: "supplement-stack" | "race-week" | "budget-opti
       messages: [{ role: "user", content: prompt }],
     });
     const plan = message.content[0].type === "text" ? message.content[0].text : "";
-    return NextResponse.json({ plan, products });
+    const res = NextResponse.json({ plan, products });
+    return guest ? markGuestUsed(res) : res;
   } catch (e) {
     console.error("Plan error:", e);
     return NextResponse.json({ error: "Failed to generate plan" }, { status: 500 });

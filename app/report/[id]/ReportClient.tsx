@@ -315,6 +315,9 @@ export default function ReportClient({ product, similar: similarProducts, brand,
           {PelloScore && (
             <div className="lg:col-span-2">
              <FulensScoreDisplay score={PelloScore} />
+             <p className="text-xs text-muted uppercase tracking-widest mt-2 text-right">
+               Independent analysis <span aria-hidden="true">·</span> No brand partnerships
+             </p>
             </div>
           )}
           {/* AI Summary */}

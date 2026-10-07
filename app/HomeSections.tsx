@@ -15,12 +15,13 @@ export type PostTeaser = { slug: string; title: string; description: string; cat
 export type HeadToHeadData = { post: string; products: ProductSummary[] };
 
 
-function SectionHeading({ eyebrow, title, link }: { eyebrow: string; title: string; link?: { href: string; label: string } }) {
+function SectionHeading({ eyebrow, title, subtitle, link }: { eyebrow: string; title: string; subtitle?: string; link?: { href: string; label: string } }) {
   return (
     <div className="flex items-end justify-between gap-4 mb-5 flex-wrap">
       <div>
         <div className="text-xs text-muted uppercase tracking-widest mb-1">{eyebrow}</div>
         <h2 className="font-display font-bold text-2xl">{title}</h2>
+        {subtitle && <p className="text-sm text-muted mt-1 max-w-xl">{subtitle}</p>}
       </div>
       {link && <Link href={link.href} className="text-sm text-moss hover:text-ink transition-colors">{link.label}</Link>}
     </div>
@@ -57,7 +58,9 @@ export function TopPicks({ groups, productCount }: { groups: PickGroup[]; produc
 
   return (
     <section>
-      <SectionHeading eyebrow="Top picks" title="Where we'd start" link={{ href: "/products", label: `Browse all ${productCount} products →` }} />
+      <SectionHeading eyebrow="Top picks" title="Where we'd start"
+        subtitle="Not sure where to start? These are the top-rated products in each category — a good place to begin."
+        link={{ href: "/products", label: `Browse all ${productCount} products →` }} />
       <div className="flex gap-2 flex-wrap mb-6">
         {chip("All", null)}
         {groups.map((g) => chip(g.short, g.label))}
@@ -83,7 +86,9 @@ export function FromTheBlog({ posts }: { posts: PostTeaser[] }) {
   if (!featured) return null;
   return (
     <section>
-      <SectionHeading eyebrow="From the blog" title="Read before you buy" link={{ href: "/blog", label: "All articles →" }} />
+      <SectionHeading eyebrow="From the blog" title="Read before you buy"
+        subtitle="New to sports nutrition or want to go deeper — start here."
+        link={{ href: "/blog", label: "All articles →" }} />
       <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-4">
         <Link href={`/blog/${featured.slug}`} className="group rounded-2xl bg-moss text-cream p-7 flex flex-col justify-end min-h-[240px] hover:bg-ink transition-colors">
           <span className="text-xs text-cream/70">{featured.category} · {featured.readingTime} min read</span>
@@ -209,12 +214,10 @@ export function PlanCallToAction() {
     <section className="card bg-moss/5 border-moss/20 text-center py-10">
       <h2 className="font-display font-bold text-xl mb-2">Not sure where to start?</h2>
       <p className="text-muted text-sm mb-5 max-w-md mx-auto">
-        Answer a few questions about your training and we&apos;ll build a fueling plan from the products we track.
+        Answer a few questions about your training and we&apos;ll build a complete nutrition plan — what to eat before, during
+        and after your sessions. Free, personalized and jargon-free.
       </p>
-      <div className="flex gap-3 justify-center flex-wrap">
-        <Link href="/quiz" className="btn-primary">Build my plan →</Link>
-        <Link href="/products" className="btn-secondary">Browse all products</Link>
-      </div>
+      <Link href="/quiz" className="btn-primary inline-flex">Build my plan →</Link>
     </section>
   );
 }

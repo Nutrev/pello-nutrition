@@ -108,7 +108,7 @@ export const OUTCOME_TYPES: { id: OutcomeType; label: string; desc: string; time
   { id: "improve-recovery", label: "Improve my recovery", desc: "Bounce back faster between sessions", timeframe: "Daily recovery protocol" },
   { id: "build-muscle-endurance", label: "Build muscle while training", desc: "Strength + endurance combined goals", timeframe: "Hybrid nutrition strategy" },
   { id: "lose-weight-perform", label: "Lose weight and perform", desc: "Body composition without losing power", timeframe: "Periodized nutrition" },
-  { id: "race-faster", label: "Race faster", desc: "Optimize nutrition for peak performance", timeframe: "Performance nutrition" },
+  { id: "race-faster", label: "Race faster", desc: "Fuel and recover for peak performance", timeframe: "Performance nutrition" },
   { id: "gut-health", label: "Fix my gut health", desc: "Reduce GI issues during training", timeframe: "GI protocol" },
 ];
 

@@ -31,9 +31,6 @@ export default function HomePage() {
     }))
     .filter((g) => g.products.length > 0);
 
-  // Hero cards are picked at random in the browser from the best-rated products.
-  const featuredPool = [...products].filter((p) => p.reviewCount > 0).sort(byWeightedRating).slice(0, 40);
-
   const headToHead = HEAD_TO_HEAD.ids
     .map((id) => products.find((p) => p.id === id))
     .filter((p): p is ProductSummary => p != null);
@@ -48,7 +45,6 @@ export default function HomePage() {
   return (
     <HomeClient
       pickGroups={pickGroups}
-      featuredPool={featuredPool}
       posts={posts}
       headToHead={showHeadToHead ? { post: HEAD_TO_HEAD.post, products: headToHead } : null}
       productCount={productCount}

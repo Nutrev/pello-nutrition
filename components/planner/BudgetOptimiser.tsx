@@ -10,8 +10,6 @@ import {
   type BudgetInputs, type StackGoal, type CurrentSupplement, type ValuePick,
 } from "@/lib/planner-modes";
 import { EVENT_TYPES, type CaffeinePreference, type DietaryRestriction, type EventType } from "@/lib/planner";
-import { useUser } from "@/lib/auth";
-import { PRO_ENABLED } from "@/lib/pro";
 import { StepIndicator, Loading, PlanLines, ModeProductCard, parseSections, toggleClass, chipClass } from "./shared";
 import { usePlanRequest } from "./usePlanRequest";
 import SaveModePlanButton from "./SaveModePlanButton";
@@ -42,7 +40,6 @@ export default function BudgetOptimiser({ catalog, onStartOver }: { catalog: Pro
   const [step, setStep] = useState(1);
   const [d, setD] = useState<Draft>(BUDGET_DEFAULTS);
   const [done, setDone] = useState(false);
-  const { user } = useUser();
   const { run, loading, error, result, reset } = usePlanRequest("budget-optimiser");
 
   const set = <K extends keyof Draft>(k: K, v: Draft[K]) => setD((x) => ({ ...x, [k]: v }));
@@ -52,7 +49,6 @@ export default function BudgetOptimiser({ catalog, onStartOver }: { catalog: Pro
   });
 
   const tiers = useMemo(() => (done && d.goal ? budgetTiers(catalog, d as BudgetInputs) : null), [done, d, catalog]);
-  const canUseAi = !PRO_ENABLED || !!user;
 
   if (loading) return <Loading text="Calculating value scores across the database..." />;
 
@@ -65,7 +61,7 @@ export default function BudgetOptimiser({ catalog, onStartOver }: { catalog: Pro
     return (
       <div>
         <div className="mb-6">
-          <div className="text-xs text-muted uppercase tracking-widest mb-2">Budget optimizer</div>
+          <div className="text-xs text-muted uppercase tracking-widest mb-2">Budget planner</div>
           <h1 className="font-display font-bold text-3xl tracking-tight mb-3">{goalLabel} · ${d.budget} a month</h1>
           <p className="text-sm text-muted">
             Ranked from {tiers.considered} products in Pello&apos;s database that fit your goal and choices, by value score: rating × transparency score ÷ price per serving.
@@ -106,16 +102,14 @@ export default function BudgetOptimiser({ catalog, onStartOver }: { catalog: Pro
                 <PlanLines lines={s.lines} />
               </div>
             ))
-          ) : canUseAi ? (
+          ) : (
             <>
               <p className="text-sm text-muted mb-3">Get AI guidance on how to split your budget across categories for this goal. It doesn&apos;t pick products; those come from the database above.</p>
               {error && <p role="alert" className="text-sm text-rust mb-3">{error.message}</p>}
+              {error?.code === "signup" && (
+                <p className="text-sm mb-3"><Link href="/auth/login?mode=signup&redirect=%2Fquiz" className="text-moss hover:underline">Create free account →</Link></p>
+              )}
               <button type="button" onClick={() => run(d)} className="btn-primary">Get my budget strategy</button>
-            </>
-          ) : (
-            <>
-              <p className="text-sm text-muted mb-3">Create a free account to get AI guidance on how to split your budget across categories.</p>
-              <Link href="/auth/login?mode=signup&redirect=%2Fquiz" className="btn-primary inline-flex">Create a free account</Link>
             </>
           )}
         </div>

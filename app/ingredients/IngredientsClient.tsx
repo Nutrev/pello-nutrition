@@ -280,6 +280,12 @@ export default function IngredientsClient({ productIndex }: { productIndex: Reco
             <button onClick={() => { setSearch(""); setSelectedCategory("all"); setShowFlaggedOnly(false); }} className="text-xs text-moss underline mt-2">Clear filters</button>
           </div>
         )}
+
+        {/* A quiet next step after browsing */}
+        <p className="text-center text-sm text-muted mt-12 pt-8 border-t border-sand">
+          See how these ingredients rate in real products →{" "}
+          <Link href="/quiz" className="text-moss hover:text-ink transition-colors">Build my plan</Link>
+        </p>
       </div>
     </div>
   );

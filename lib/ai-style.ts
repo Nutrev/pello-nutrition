@@ -3,4 +3,5 @@
 // drafts). Passed as the system prompt so every request follows it.
 
 export const AI_HOUSE_STYLE =
-  "Write in American English with US spelling (for example fueling, flavor, fiber, color, favorite, optimize, liter).";
+  "Write in American English with US spelling (for example fueling, flavor, fiber, color, favorite, liter). " +
+  "Don't use the word \"optimize\"; say what to do instead, using words like fuel, perform, train and recover.";

@@ -18,7 +18,7 @@ const GUIDES = [
   {
     slug: "recovery",
     title: "Post-Workout Recovery Guide",
-    desc: "The science-backed recovery window explained — what to eat, when to eat it, and how to optimize your body's repair process.",
+    desc: "The science-backed recovery window explained — what to eat, when to eat it, and how to help your body recover.",
     tags: ["Recovery", "Nutrition", "Science"],
     time: "5 min read",
   },

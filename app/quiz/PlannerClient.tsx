@@ -438,6 +438,24 @@ function NoMatch() {
   );
 }
 
+// Below a plan built while signed out. The plan itself is never gated; saving is part of
+// Pello Pro, which starts with a free account and a free trial.
+function GuestSaveCard() {
+  return (
+    <div className="card bg-moss/5 border-moss/20 text-center mb-3">
+      <h3 className="font-display font-semibold mb-1">Want to save this plan?</h3>
+      <p className="text-sm text-muted mb-4 max-w-md mx-auto">
+        Create a free Pello account, then start your free Pello Pro trial to save plans, track your supplement stack and get plans
+        tailored to your athlete profile.
+      </p>
+      <div className="flex flex-col sm:flex-row gap-2 justify-center">
+        <Link href="/auth/login?mode=signup&redirect=%2Fpricing" className="btn-primary justify-center flex">Create free account →</Link>
+        <Link href="/auth/login?redirect=%2Fquiz" className="btn-secondary justify-center flex">Sign in →</Link>
+      </div>
+    </div>
+  );
+}
+
 interface PlanUsage { pro: boolean; used: number; limit: number | null; resetsOn: string }
 
 const monthName = (iso: string) => new Date(iso).toLocaleDateString("en-US", { month: "long", timeZone: "UTC" });
@@ -455,7 +473,7 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
   const { user, profile, loading: authLoading } = useUser();
   const { allowed: proAccess, gating } = useProAccess();
   const [usage, setUsage] = useState<PlanUsage | null>(null);
-  const [blocked, setBlocked] = useState<"limit" | "pro" | null>(null);
+  const [blocked, setBlocked] = useState<"limit" | "pro" | "signup" | null>(null);
   const [prefilled, setPrefilled] = useState(false);
   const [workout, setWorkout] = useState<WorkoutSummary | null>(null);
   // Step 0: which planner. Null until chosen.
@@ -551,7 +569,7 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
       });
       const data = await res.json();
       if (data.usage) setUsage(data.usage);
-      if (res.status === 403 && (data.code === "limit" || data.code === "pro")) {
+      if (res.status === 403 && (data.code === "limit" || data.code === "pro" || data.code === "signup")) {
         setBlocked(data.code);
         setStep(1);
         setLoading(false);
@@ -575,9 +593,10 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
   };
   const completed = workout?.kind === "completed";
 
-  // The race day and goal planners need a free account once Pro is on.
+  // No account is needed to build a plan: signed-out visitors get one free plan (checked by
+  // /api/plan), then are asked to sign up.
   const classicMode = plannerMode === "event" || plannerMode === "outcome" || plannerMode === "workout";
-  const needsAccount = classicMode && gating && !authLoading && !user;
+  const guestLimit = classicMode && blocked === "signup" && !parsedPlan && !loading;
   const filtersOn = inputs.dietary.length > 0 || (inputs.standards ?? []).length > 0;
   const showLimitGate = classicMode && (plannerMode === "event" || plannerMode === "workout") && gating && !proAccess && (limitReached || blocked === "limit") && !parsedPlan && !loading;
 
@@ -609,16 +628,17 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
         {plannerMode === "race-week" && <RaceWeekPlanner catalog={catalog} onStartOver={reset} />}
         {plannerMode === "budget-optimiser" && <BudgetOptimiser catalog={catalog} onStartOver={reset} />}
 
-        {/* Pro is on: plans need a free account */}
-        {needsAccount && (
+        {/* Signed out and the free guest plan is used: sign up for one a month */}
+        {guestLimit && (
           <div className="card text-center py-10">
-            <h2 className="font-display font-semibold text-lg mb-2">Create a free account to build your plan</h2>
+            <h2 className="font-display font-semibold text-lg mb-2">You&apos;ve used your free plan</h2>
             <p className="text-sm text-muted mb-5 max-w-md mx-auto">
-              Free accounts get one plan a month, for race day or today&apos;s workout. Pello Pro adds unlimited plans, goal-based plans and saving.
+              Create a free account to build another. Free accounts get one plan a month, for race day or today&apos;s workout.
+              Pello Pro adds unlimited plans, goal-based plans and saving.
             </p>
             <div className="flex flex-col sm:flex-row gap-2 justify-center">
-              <Link href="/auth/login?mode=signup&redirect=%2Fquiz" className="btn-primary justify-center flex">Create a free account</Link>
-              <Link href="/auth/login?redirect=%2Fquiz" className="btn-secondary justify-center flex">Log in</Link>
+              <Link href="/auth/login?mode=signup&redirect=%2Fquiz" className="btn-primary justify-center flex">Create free account →</Link>
+              <Link href="/auth/login?redirect=%2Fquiz" className="btn-secondary justify-center flex">Sign in →</Link>
             </div>
           </div>
         )}
@@ -630,7 +650,7 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
         )}
 
         {/* Goal planner is Pro only */}
-        {plannerMode === "outcome" && gating && !proAccess && !authLoading && user && (
+        {plannerMode === "outcome" && gating && !proAccess && !authLoading && (
           <div>
             <ProGate feature="Goal-based plans" description={MODE_PRO_PITCH.outcome} />
             <div className="text-center mt-4"><button type="button" onClick={reset} className="text-sm text-muted hover:text-ink">Choose a different planner</button></div>
@@ -638,7 +658,7 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
         )}
 
         {/* Form */}
-        {classicMode && !parsedPlan && !loading && !needsAccount && !showLimitGate && !(plannerMode === "outcome" && gating && !proAccess) && (
+        {classicMode && !parsedPlan && !loading && !guestLimit && !showLimitGate && !(plannerMode === "outcome" && gating && !proAccess) && (
           <>
             {prefilled && proAccess && gating && step === 1 && (
               <p className="text-xs text-muted mb-4">Weight, age, sex, training and preferences are pre-filled from your <Link href="/account/onboarding?edit=1" className="text-moss hover:underline">athlete profile</Link>.</p>
@@ -1106,6 +1126,8 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
                   <SavePlanButton inputs={inputs} planContent={parsedPlan} defaultName={planTitle} />
                   {gating && <PrintButton label="Export plan as PDF" className="btn-secondary w-full justify-center flex mb-3" />}
                 </>
+              ) : !user && !authLoading ? (
+                <GuestSaveCard />
               ) : (
                 <div className="mb-3">
                   <ProGate compact feature="Save and export plans" description="Keep this plan in your account, revisit it any time and export it as a PDF." />

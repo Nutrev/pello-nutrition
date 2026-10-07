@@ -22,7 +22,7 @@ export const PLANNER_MODES: { id: PlannerMode; title: string; desc: string; acce
   { id: "outcome", title: "Achieve a goal", desc: "Outcome-based nutrition to reach a specific target", access: "pro", steps: 3, loading: "Calculating targets, matching products and building your protocol" },
   { id: "supplement-stack", title: "Supplement stack", desc: "Daily supplement protocol matched to your goals and budget", access: "pro", isNew: true, steps: 3, loading: "Matching supplements to your goals..." },
   { id: "race-week", title: "Race week protocol", desc: "Day-by-day nutrition for the days before your race", access: "pro", isNew: true, steps: 3, loading: "Building your countdown protocol..." },
-  { id: "budget-optimiser", title: "Budget optimizer", desc: "Maximum performance per dollar from your nutrition spend", access: "free", isNew: true, steps: 2, loading: "Calculating value scores across the database..." },
+  { id: "budget-optimiser", title: "Budget planner", desc: "Maximum performance per dollar from your nutrition spend", access: "free", isNew: true, steps: 2, loading: "Calculating value scores across the database..." },
 ];
 export const MODE_BY_ID = Object.fromEntries(PLANNER_MODES.map((m) => [m.id, m])) as Record<PlannerMode, (typeof PLANNER_MODES)[number]>;
 
