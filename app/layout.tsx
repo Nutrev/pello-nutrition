@@ -4,6 +4,7 @@ import "./globals.css";
 import Link from "next/link";
 import SiteNav from "@/components/SiteNav";
 import AuthProvider from "@/components/AuthProvider";
+import Analytics, { CookieSettingsLink } from "@/components/Analytics";
 import { AFFILIATES_ACTIVE, AMAZON_ACTIVE, AMAZON_ASSOCIATE_STATEMENT } from "@/lib/affiliate";
 import { LogoMark } from "@/components/Logo";
 import { getCatalogStats, getCategoryCounts } from "@/lib/catalog";
@@ -78,8 +79,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Link href="/legal/privacy">Privacy Policy</Link>
               <Link href="/legal/terms">Terms</Link>
               <Link href="/legal/affiliate-disclosure">Affiliate Disclosure</Link>
+              <CookieSettingsLink className="hover:text-ink" />
             </div>
           </footer>
+          <Analytics />
         </AuthProvider>
       </body>
     </html>

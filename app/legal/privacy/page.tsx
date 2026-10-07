@@ -48,9 +48,10 @@ export default function PrivacyPage() {
               )}
               <li><strong className="text-ink">Community reviews</strong> — the display name, ratings and comments you choose to submit; these are public{PRO_ENABLED ? ". We also record which account wrote each review; that isn't shown publicly" : ""}</li>
               <li><strong className="text-ink">Emails you send us</strong> — if you contact us</li>
+              <li><strong className="text-ink">Usage analytics (only if you accept)</strong> — if you accept analytics cookies, Google Analytics records which pages you visit, how you got here (for example a search engine or another site), how far you scroll, clicks on links to other sites, your approximate location (country and city), and your device, browser and screen size. It identifies your browser with a random ID in a cookie, not with your name or email. Account, admin and login pages are never tracked</li>
               <li><strong className="text-ink">Technical data</strong> — your IP address and browser details, which our hosting provider processes to deliver the site and which we use briefly to limit abuse of forms and AI features</li>
             </ul>
-            <p className="mt-2">All profile fields are optional. We do not collect payment information or government IDs, and we do not use analytics or advertising trackers.</p>
+            <p className="mt-2">All profile fields are optional. We do not collect payment information or government IDs, and we do not use advertising trackers.</p>
           </section>
 
           <section>
@@ -61,6 +62,7 @@ export default function PrivacyPage() {
               <li>To tailor nutrition plans: when you use the planner, the details you enter (such as body weight, age, sex, training days, event details and any workout-file summary) are sent to our AI provider to generate your plan</li>
               <li>To display community reviews on product pages</li>
               <li>To send account emails you trigger, such as email confirmation and password reset</li>
+              <li>To understand how the site is used and improve it, through Google Analytics, only if you accept analytics cookies</li>
               <li>To keep the site secure and comply with legal obligations</li>
             </ul>
             <p className="mt-2">We do not sell your personal data, and we do not use it for advertising.</p>
@@ -82,8 +84,10 @@ export default function PrivacyPage() {
             <ul className="list-disc pl-5 space-y-1 mt-2">
               <li><strong className="text-ink">Login cookies</strong> — set when you log in, to keep you signed in; removed when you log out</li>
               <li><strong className="text-ink">Recently viewed</strong> — your browser&apos;s local storage remembers the last few products you viewed; this stays on your device and is never sent to us</li>
+              <li><strong className="text-ink">Your cookie choice</strong> — local storage remembers whether you accepted or declined analytics cookies</li>
+              <li><strong className="text-ink">Analytics cookies (only if you accept)</strong> — Google Analytics sets <code>_ga</code> and <code>_ga_98QTVJE4V4</code>, which last up to 2 years, to recognise your browser between visits. If you decline, nothing is loaded from Google. You can change your choice at any time with &ldquo;Cookie settings&rdquo; at the bottom of every page; declining removes these cookies</li>
             </ul>
-            <p className="mt-2">We don&apos;t use analytics or advertising cookies. Retailers you visit through our links may set their own cookies under their own policies. You can clear cookies and local storage in your browser settings; you&apos;ll need to log in again afterwards.</p>
+            <p className="mt-2">We don&apos;t use advertising cookies. Retailers you visit through our links may set their own cookies under their own policies. You can clear cookies and local storage in your browser settings; you&apos;ll need to log in again afterwards.</p>
           </section>
 
           <section>
@@ -96,13 +100,14 @@ export default function PrivacyPage() {
               {PRO_ENABLED && <li>Stripe and Link — payments, tax and subscription billing for Pello Pro, as merchant of record</li>}
               <li>Anthropic (Claude) — AI features: planner inputs and product information are sent to generate plans and summaries</li>
               <li>Google — only if you choose to sign in with Google</li>
+              <li>Google Analytics (Google LLC) — usage analytics, only if you accept analytics cookies. Google Analytics doesn&apos;t log or store IP addresses</li>
               {INTERVALS_ENABLED && <li>intervals.icu — only if you connect your intervals.icu account, to read your planned workouts and the completed activities you choose</li>}
             </ul>
           </section>
 
           <section>
             <h2 className="font-display font-semibold text-lg text-ink mb-2">7. Data retention</h2>
-            <p>We keep your account, profile and saved content until you delete them or ask us to delete your account. You can edit your profile and remove saved plans, favorites and stack items at any time from your account. When an account is deleted, all its profile data, saved plans, favorites and stack entries are deleted with it.{INTERVALS_ENABLED ? " An intervals.icu connection is kept until you disconnect it from your account page or delete your account; disconnecting also revokes Pello's access on intervals.icu." : ""} Community reviews are kept unless you ask us to remove them.{PRO_ENABLED ? " If you subscribe to Pello Pro, Stripe keeps payment and invoice records as required for tax and accounting." : ""}</p>
+            <p>We keep your account, profile and saved content until you delete them or ask us to delete your account. You can edit your profile and remove saved plans, favorites and stack items at any time from your account. When an account is deleted, all its profile data, saved plans, favorites and stack entries are deleted with it.{INTERVALS_ENABLED ? " An intervals.icu connection is kept until you disconnect it from your account page or delete your account; disconnecting also revokes Pello's access on intervals.icu." : ""} Community reviews are kept unless you ask us to remove them. Google Analytics keeps the data linked to your browser&apos;s random ID for 2 months; after that only aggregated reports remain.{PRO_ENABLED ? " If you subscribe to Pello Pro, Stripe keeps payment and invoice records as required for tax and accounting." : ""}</p>
           </section>
 
           <section>
