@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 import { PRODUCTS } from "@/lib/products";
-import { rateLimit } from "@/lib/rate-limit";
+import { rateLimit, HOUR } from "@/lib/rate-limit";
 import { getServerSupabase } from "@/lib/supabase/server";
 import { isProUser } from "@/lib/subscription-server";
 import { PRO_ENABLED } from "@/lib/pro";
@@ -54,7 +54,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const limited = rateLimit(req, "reviews", 3, 10 * 60_000);
+  const limited = await rateLimit(req, "reviews", 5, HOUR);
   if (limited) return limited;
 
   // Once Pello Pro is on, only subscribers can submit reviews.

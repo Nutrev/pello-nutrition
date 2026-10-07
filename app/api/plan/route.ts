@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { AI_HOUSE_STYLE } from "@/lib/ai-style";
 import { buildPlanPrompt, parsePlannerInputs } from "@/lib/planner";
-import { rateLimit } from "@/lib/rate-limit";
+import { rateLimit, HOUR } from "@/lib/rate-limit";
 import { getServerSupabase } from "@/lib/supabase/server";
 import { supabase as admin } from "@/lib/supabase";
 import { isProUser } from "@/lib/subscription-server";
@@ -37,7 +37,7 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const limited = rateLimit(req, "plan", 5, 60_000);
+  const limited = await rateLimit(req, "plan", 10, HOUR);
   if (limited) return limited;
 
   // Only accept the quiz answers, never a raw prompt, so this endpoint

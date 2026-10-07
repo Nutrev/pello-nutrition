@@ -11,7 +11,7 @@ import { rateLimit } from "@/lib/rate-limit";
 // once per account and doesn't ask for a card up front; if no card has been added by the
 // end of the trial, Stripe cancels the subscription instead of charging.
 export async function POST(req: NextRequest) {
-  const limited = rateLimit(req, "checkout", 10, 60_000);
+  const limited = await rateLimit(req, "checkout", 10, 60_000);
   if (limited) return limited;
 
   const stripe = getStripe();

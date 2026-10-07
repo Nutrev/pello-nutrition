@@ -3,7 +3,7 @@ import { unstable_cache } from "next/cache";
 import Anthropic from "@anthropic-ai/sdk";
 import { AI_HOUSE_STYLE } from "@/lib/ai-style";
 import { PRODUCTS, Product } from "@/lib/products";
-import { rateLimit } from "@/lib/rate-limit";
+import { rateLimit, HOUR } from "@/lib/rate-limit";
 
 const client = new Anthropic();
 
@@ -47,7 +47,7 @@ const getCachedSummary = (product: Product) =>
   })();
 
 export async function POST(req: NextRequest) {
-  const limited = rateLimit(req, "summarize", 20, 60_000);
+  const limited = await rateLimit(req, "summarize", 10, HOUR);
   if (limited) return limited;
 
   const body = await req.json().catch(() => null);

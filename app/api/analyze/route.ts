@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { AI_HOUSE_STYLE } from "@/lib/ai-style";
-import { rateLimit } from "@/lib/rate-limit";
+import { rateLimit, HOUR } from "@/lib/rate-limit";
 
 const client = new Anthropic();
 
@@ -10,7 +10,7 @@ const MAX_FIELD = 200;
 const MAX_INGREDIENTS = 3000;
 
 export async function POST(req: NextRequest) {
-  const limited = rateLimit(req, "analyze", 10, 60_000);
+  const limited = await rateLimit(req, "analyze", 10, HOUR);
   if (limited) return limited;
 
   const body = await req.json().catch(() => null);

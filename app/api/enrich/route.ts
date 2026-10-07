@@ -3,7 +3,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { AI_HOUSE_STYLE } from "@/lib/ai-style";
 import { isIP } from "node:net";
 import { lookup } from "node:dns/promises";
-import { rateLimit } from "@/lib/rate-limit";
+import { rateLimit, HOUR } from "@/lib/rate-limit";
 
 const client = new Anthropic();
 
@@ -161,7 +161,7 @@ async function fetchPublicPage(startUrl: string): Promise<Response> {
 }
 
 export async function POST(req: NextRequest) {
-  const limited = rateLimit(req, "enrich", 10, 60_000);
+  const limited = await rateLimit(req, "enrich", 10, HOUR);
   if (limited) return limited;
 
   const body = await req.json().catch(() => null);

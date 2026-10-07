@@ -8,7 +8,7 @@ import { rateLimit } from "@/lib/rate-limit";
 // and cancel. { flow: "payment_method_update" } opens straight at adding a card; if Stripe
 // won't start that flow, the portal's home page opens instead.
 export async function POST(req: NextRequest) {
-  const limited = rateLimit(req, "portal", 10, 60_000);
+  const limited = await rateLimit(req, "portal", 10, 60_000);
   if (limited) return limited;
 
   const stripe = getStripe();

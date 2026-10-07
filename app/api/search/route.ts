@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+import { rateLimit, MINUTE } from "@/lib/rate-limit";
 
 export async function GET(req: NextRequest) {
+  const limited = await rateLimit(req, "search", 60, MINUTE);
+  if (limited) return limited;
   const { searchParams } = new URL(req.url);
   const Explore = searchParams.get("q");
   const barcode = searchParams.get("barcode");

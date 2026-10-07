@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 // One completed activity from intervals.icu as the planner's workout summary. ?id=<activity id>.
 // Pello Pro.
 export async function GET(req: NextRequest) {
-  const limited = rateLimit(req, "intervals-activity", 10, 60_000);
+  const limited = await rateLimit(req, "intervals-activity", 10, 60_000);
   if (limited) return limited;
   const id = req.nextUrl.searchParams.get("id") ?? "";
   if (!/^[A-Za-z0-9_-]{1,40}$/.test(id)) return NextResponse.json({ error: "Invalid activity." }, { status: 400 });

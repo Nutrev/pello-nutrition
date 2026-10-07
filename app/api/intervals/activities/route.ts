@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 // The member's recent completed activities from intervals.icu, for choosing one to plan
 // from. ?oldest=YYYY-MM-DD&newest=YYYY-MM-DD (local dates). Pello Pro.
 export async function GET(req: NextRequest) {
-  const limited = rateLimit(req, "intervals-activities", 10, 60_000);
+  const limited = await rateLimit(req, "intervals-activities", 10, 60_000);
   if (limited) return limited;
   const oldest = req.nextUrl.searchParams.get("oldest");
   const newest = req.nextUrl.searchParams.get("newest");
