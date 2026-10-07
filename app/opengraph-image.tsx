@@ -8,7 +8,7 @@ import { byWeightedRating, type ProductSummary } from "@/lib/catalog-types";
 // build time. Next adds the og:image tags automatically; X falls back to it too.
 // It mirrors the home page hero: cream background, headline, stats and product cards.
 
-export const alt = "Pello Nutrition — find sports nutrition that actually works";
+export const alt = "Pello Nutrition — fuel smarter, perform better";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -28,7 +28,7 @@ async function loadFonts() {
     return { name: family, data: await readFile(join(dir, `${pkg}-latin-${weight}-${style}.woff`)), weight, style };
   };
   return Promise.all([
-    font("DM Sans", 400), font("DM Sans", 500), font("DM Sans", 700), font("DM Sans", 800), font("DM Sans", 800, "italic"),
+    font("DM Sans", 400), font("DM Sans", 500), font("DM Sans", 700), font("DM Sans", 800),
     font("Montserrat", 600), font("Montserrat", 700),
   ]);
 }
@@ -147,11 +147,11 @@ export default async function OpengraphImage() {
           <LogoBadge s={0.8} />
           <div style={{ display: "flex", flexDirection: "column" }}>
             <div style={{ display: "flex", flexDirection: "column", fontSize: 68, fontWeight: 800, color: INK, lineHeight: 1.02, letterSpacing: -2 }}>
-              <span>Find nutrition</span>
-              <span style={{ color: GREEN, fontStyle: "italic" }}>that actually works</span>
+              <span>Fuel smarter.</span>
+              <span style={{ color: GREEN }}>Perform better.</span>
             </div>
             <div style={{ fontSize: 26, color: MUTED, marginTop: 18, maxWidth: 600, lineHeight: 1.4 }}>
-              Real reviews, verified labels and the science behind every ingredient.
+              Independent nutrition plans and product analysis for endurance athletes.
             </div>
           </div>
           <div style={{ display: "flex", gap: 56 }}>
