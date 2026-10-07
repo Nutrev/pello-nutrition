@@ -16,6 +16,10 @@ const montserrat = Montserrat({ subsets: ["latin"], weight: ["600", "700"], vari
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.pellonutrition.com"),
+  // Every page names its own address (without query strings) as the canonical one, so
+  // Google doesn't treat ?mode=…, ?ref=… and similar variants as duplicates. Pages that set
+  // their own canonical override this.
+  alternates: { canonical: "./" },
   title: {
     default: "Pello — Sports Nutrition Research for Endurance Athletes",
     template: "%s | Pello Nutrition",
