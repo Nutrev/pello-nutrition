@@ -110,6 +110,27 @@ export interface PlannedWorkout {
 }
 
 export class IntervalsAuthError extends Error {}
+// intervals.icu refused one item (e.g. an activity it won't share) while access itself is fine.
+export class IntervalsForbiddenError extends Error {}
+
+// Whether a failed request means Pello's access has been revoked. 401 always does. A 403 can
+// be about one item (an activity intervals.icu won't share), so it only counts if a basic
+// calendar read with the same token is refused too. Every connection has calendar access.
+async function accessRevoked(conn: IntervalsConnection, status: number): Promise<boolean> {
+  if (status === 401) return true;
+  if (status !== 403) return false;
+  const today = new Date().toISOString().slice(0, 10);
+  try {
+    const probe = await fetch(`${SITE}/api/v1/athlete/0/events?${new URLSearchParams({ oldest: today, newest: today, limit: "1" })}`, {
+      headers: { Authorization: `Bearer ${conn.access_token}` },
+      cache: "no-store",
+    });
+    return probe.status === 401 || probe.status === 403;
+  } catch {
+    // Couldn't check: keep the connection rather than delete it.
+    return false;
+  }
+}
 
 // The planned workouts on the member's calendar for one day (their local date, YYYY-MM-DD),
 // each with its workout file in .fit format, ready for the planner's workout reader.
@@ -120,7 +141,8 @@ export async function plannedWorkouts(conn: IntervalsConnection, date: string): 
     cache: "no-store",
   });
   // A revoked or expired token: the member needs to connect again.
-  if (res.status === 401 || res.status === 403) throw new IntervalsAuthError("intervals.icu access was revoked");
+  if (!res.ok && (await accessRevoked(conn, res.status))) throw new IntervalsAuthError("intervals.icu access was revoked");
+  if (res.status === 403) throw new IntervalsForbiddenError("intervals.icu refused this request");
   if (!res.ok) throw new Error(`intervals.icu events request failed (${res.status})`);
   const events = await res.json();
   if (!Array.isArray(events)) return [];
@@ -151,7 +173,8 @@ const authHeaders = (conn: IntervalsConnection) => ({ Authorization: `Bearer ${c
 
 async function getJson(conn: IntervalsConnection, path: string) {
   const res = await fetch(`${SITE}${path}`, { headers: authHeaders(conn), cache: "no-store" });
-  if (res.status === 401 || res.status === 403) throw new IntervalsAuthError("intervals.icu access was revoked");
+  if (!res.ok && (await accessRevoked(conn, res.status))) throw new IntervalsAuthError("intervals.icu access was revoked");
+  if (res.status === 403) throw new IntervalsForbiddenError("intervals.icu refused this request");
   if (!res.ok) throw new Error(`intervals.icu request failed (${res.status}): ${path.split("?")[0]}`);
   return res.json();
 }

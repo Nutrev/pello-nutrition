@@ -4,7 +4,7 @@
 import "server-only";
 import { NextResponse } from "next/server";
 import { getServerSupabase } from "./supabase/server";
-import { INTERVALS_ENABLED, IntervalsAuthError, canUseIntervals, getConnection, removeConnection, type IntervalsConnection } from "./intervals";
+import { INTERVALS_ENABLED, IntervalsAuthError, IntervalsForbiddenError, canUseIntervals, getConnection, removeConnection, type IntervalsConnection } from "./intervals";
 
 export async function intervalsMember(): Promise<{ userId: string; conn: IntervalsConnection } | NextResponse> {
   if (!INTERVALS_ENABLED) return NextResponse.json({ error: "Not available." }, { status: 404 });
@@ -22,6 +22,9 @@ export async function intervalsError(userId: string, e: unknown): Promise<NextRe
   if (e instanceof IntervalsAuthError) {
     await removeConnection(userId);
     return NextResponse.json({ error: "Your intervals.icu connection has expired. Connect it again.", code: "not-connected" }, { status: 409 });
+  }
+  if (e instanceof IntervalsForbiddenError) {
+    return NextResponse.json({ error: "intervals.icu didn't allow Pello to read this. Your connection is still in place." }, { status: 403 });
   }
   console.error("intervals.icu fetch error:", e);
   return NextResponse.json({ error: "Couldn't reach intervals.icu. Try again in a moment." }, { status: 502 });
