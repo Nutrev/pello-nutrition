@@ -92,6 +92,7 @@ export default function PrivacyPage() {
             <ul className="list-disc pl-5 space-y-1 mt-2">
               <li>Supabase — database and account login (stores your account, profile, saved content and reviews)</li>
               <li>Vercel — website hosting</li>
+              <li>Upstash — rate limiting: your IP address is stored briefly to count requests so we can limit abuse, and is deleted automatically within about two hours</li>
               {PRO_ENABLED && <li>Stripe and Link — payments, tax and subscription billing for Pello Pro, as merchant of record</li>}
               <li>Anthropic (Claude) — AI features: planner inputs and product information are sent to generate plans and summaries</li>
               <li>Google — only if you choose to sign in with Google</li>
