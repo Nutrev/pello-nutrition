@@ -451,8 +451,6 @@ export const FULENS_SCORE_METHODOLOGY = {
   principles: [
     "No brand can pay to influence their Pello Score",
     "The full methodology is published and transparent",
-    "Value is benchmarked within each category (gels against gels); the other pillars use the same scale for every product, so scores compare most fairly within a category",
-    "Science and transparency are weighted equally at 25 points each",
     "GI comfort is given special weight as it is uniquely critical for endurance athletes",
     "Scores are recalculated when new reviews or formula changes occur",
   ],

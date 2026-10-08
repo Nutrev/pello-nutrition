@@ -1,125 +1,56 @@
 import Link from "next/link";
 import { FULENS_SCORE_METHODOLOGY } from "@/lib/fulens-score";
+import { SCORE_BANDS } from "@/lib/pello-grade";
+import { PillarSwitcher, ScoreScale } from "./MethodologyCards";
 
-const PILLAR_COLORS: Record<string, string> = {
-  "Science": "bg-moss/10 text-moss border-moss/20",
-  "Transparency": "bg-moss/5 text-moss border-moss/10",
-  "Value": "bg-amber/10 text-amber border-amber/20",
-  "Athlete Experience": "bg-blue-50 text-blue-700 border-blue-100",
-  "Quality": "bg-purple-50 text-purple-700 border-purple-100",
-};
-
+// Pillars, weights, principles and score bands all come from the scoring code, so this page
+// always matches how products are actually scored.
 export default function MethodologyPage() {
+  const m = FULENS_SCORE_METHODOLOGY;
+  // lastUpdated is a calendar date (YYYY-MM-DD), so format it in UTC to keep the same day.
+  const updated = new Date(m.lastUpdated).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
   return (
-    <div className="min-h-screen">
+    <div className="max-w-3xl mx-auto px-6 py-14">
+      <div className="text-xs text-muted uppercase tracking-widest mb-2">Methodology</div>
+      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-2 mb-3">
+        <h1 className="font-display font-bold text-4xl tracking-tight">Pello Score™</h1>
+        <span className="text-xs text-muted border border-sand rounded-full px-2.5 py-0.5">{m.totalPoints}-point scale</span>
+        <span className="text-xs text-muted border border-sand rounded-full px-2.5 py-0.5">Version {m.version} · updated {updated}</span>
+      </div>
+      <p className="text-muted leading-relaxed mb-8 max-w-2xl">
+        One question: <strong className="text-ink">how good is this product, really?</strong> Not its marketing, packaging or
+        endorsements. Every product is scored with the same published formula, and no brand can pay to change its score.
+      </p>
 
-      <div className="max-w-2xl mx-auto px-6 py-16">
-        <div className="mb-12">
-          <div className="text-xs text-muted uppercase tracking-widest mb-3">Methodology</div>
-          <h1 className="font-display font-bold text-4xl tracking-tight mb-4">
-            Pello Score™
-          </h1>
-          <p className="text-muted text-lg leading-relaxed mb-4">
-            A transparent, five-pillar scoring system that evaluates every sports nutrition product on the same objective criteria. Version {FULENS_SCORE_METHODOLOGY.version}.
-          </p>
-          <div className="flex items-center gap-3">
-            <span className="text-xs text-muted">Last updated {FULENS_SCORE_METHODOLOGY.lastUpdated}</span>
-            <span className="text-xs bg-moss/10 text-moss px-2 py-0.5 rounded-md">
-              {FULENS_SCORE_METHODOLOGY.totalPoints} point scale
-            </span>
+      <div className="space-y-4">
+        <PillarSwitcher pillars={m.pillars} />
+        <ScoreScale bands={SCORE_BANDS} />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="card">
+            <h2 className="font-display font-semibold text-base mb-2">Category adjustment</h2>
+            <p className="text-sm text-muted leading-relaxed">
+              Value is compared within a category: a gel against other gels, never against protein powder. The other pillars use
+              one scale for every product, so typical scores differ by category (hydration products tend to score higher than
+              probiotics, for example), and scores compare most fairly within one.
+            </p>
+          </div>
+          <div className="card">
+            <h2 className="font-display font-semibold text-base mb-2">Principles</h2>
+            <ul className="space-y-1.5">
+              {m.principles.map((p: string) => (
+                <li key={p} className="flex gap-2 text-sm leading-snug">
+                  <span aria-hidden="true" className="text-moss font-bold">✓</span>
+                  <span>{p}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
+      </div>
 
-        {/* Core principle */}
-        <div className="card bg-moss/5 border-moss/20 mb-10">
-          <h2 className="font-display font-bold text-xl mb-3">The core principle</h2>
-          <p className="text-muted leading-relaxed">
-            The Pello Score™ is designed to answer one question: <strong>how good is this product, really?</strong> Not how well-marketed it is. Not how pretty the packaging is. Not how much the brand spent on athlete endorsements. Just whether the product is genuinely worth buying.
-          </p>
-          <p className="text-muted leading-relaxed mt-3">
-            Every score is calculated using the same transparent formula. No brand can pay to improve their score. The methodology is published in full so athletes, brands and researchers can scrutinize it.
-          </p>
-        </div>
-
-        {/* The five pillars */}
-        <div className="mb-10">
-          <h2 className="font-display font-bold text-2xl mb-6">The five pillars</h2>
-          <div className="space-y-4">
-            {FULENS_SCORE_METHODOLOGY.pillars.map((pillar: { name: string; weight: number; description: string; factors: string[] }) => (
-              <div key={pillar.name} className={`card border ${PILLAR_COLORS[pillar.name] ?? "border-sand"}`}>
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-display font-bold text-lg">{pillar.name}</h3>
-                  <span className="font-bold text-2xl">{pillar.weight}</span>
-                </div>
-                <p className="text-sm text-muted leading-relaxed mb-3">{pillar.description}</p>
-                <ul className="space-y-1.5">
-                  {pillar.factors.map((factor, i) => (
-                    <li key={i} className="flex items-start gap-2 text-xs text-muted">
-                      <span className="flex-shrink-0 mt-0.5">→</span>
-                      {factor}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Score labels */}
-        <div className="mb-10">
-          <h2 className="font-display font-bold text-2xl mb-5">Score labels</h2>
-          <div className="space-y-2">
-            {[
-              { range: "90-100", label: "Exceptional", color: "bg-moss/10 text-moss", desc: "Best in class — top science, transparency and athlete experience" },
-              { range: "75-89", label: "Excellent", color: "bg-moss/5 text-moss", desc: "Strong across all pillars — highly recommended" },
-              { range: "60-74", label: "Good", color: "bg-amber/10 text-amber", desc: "Above average — minor trade-offs worth knowing about" },
-              { range: "45-59", label: "Average", color: "bg-sand text-muted", desc: "Meets the basics — check individual pillar scores" },
-              { range: "25-44", label: "Below average", color: "bg-rust/10 text-rust", desc: "Notable weaknesses in one or more pillars" },
-              { range: "0-24", label: "Poor", color: "bg-rust/20 text-rust", desc: "Significant concerns — transparency or evidence issues" },
-            ].map((item) => (
-              <div key={item.range} className="card flex items-center gap-4">
-                <span className={`text-xs px-2 py-1 rounded-md font-medium flex-shrink-0 ${item.color}`}>
-                  {item.label}
-                </span>
-                <div className="flex-1">
-                  <span className="text-xs text-muted">{item.desc}</span>
-                </div>
-                <span className="text-xs text-muted flex-shrink-0">{item.range}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Category adjustment */}
-        <div className="mb-10">
-          <h2 className="font-display font-bold text-2xl mb-4">Category adjustment</h2>
-          <p className="text-muted leading-relaxed">
-            Value scores are benchmarked against category averages — not across all products. An energy gel is compared to other energy gels, not to a protein powder. This ensures scores reflect genuine value within the context athletes actually care about. The other pillars use the same scale for every product, so typical scores differ between categories (hydration products tend to score higher than probiotics, for example). Scores compare most fairly within a category.
-          </p>
-        </div>
-
-        {/* Principles */}
-        <div className="mb-12">
-          <h2 className="font-display font-bold text-2xl mb-5">Principles</h2>
-          <div className="space-y-2">
-            {FULENS_SCORE_METHODOLOGY.principles.map((principle: string, i: number) => (
-              <div key={i} className="flex items-start gap-3 py-2 border-b border-sand last:border-0">
-                <span className="text-moss text-xs flex-shrink-0 mt-0.5">✓</span>
-                <p className="text-sm text-muted">{principle}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* CTA */}
-        <div className="card text-center py-8">
-          <h3 className="font-display font-semibold mb-2">See the scores in action</h3>
-          <p className="text-xs text-muted mb-4">Browse products and see their Pello Scores across all five pillars</p>
-          <div className="flex gap-3 justify-center">
-            <Link href="/products" className="btn-primary">Browse products</Link>
-            <Link href="/query" className="btn-secondary">Explore</Link>
-          </div>
-        </div>
+      <div className="mt-8">
+        <Link href="/products" className="btn-primary inline-flex">Browse products →</Link>
       </div>
     </div>
   );
