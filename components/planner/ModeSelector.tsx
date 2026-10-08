@@ -10,7 +10,7 @@ import { useProAccess, useSubscription } from "@/lib/subscription";
 import { FREE_PLANS_PER_MONTH, TRIAL_DAYS } from "@/lib/pro";
 import LockIcon from "@/components/pro/LockIcon";
 
-const tag = "text-xs bg-moss/10 text-moss font-mono px-2 py-0.5 rounded-md";
+const tag = "text-xs bg-moss/10 text-moss px-2 py-0.5 rounded-md";
 type Mode = (typeof PLANNER_MODES)[number];
 
 function freeTag(access: ModeAccess): string | null {
@@ -57,10 +57,10 @@ export default function ModeSelector({ onChoose }: { onChoose: (m: PlannerMode) 
       <div role="radiogroup" aria-label="Planner" className="mb-6">
         {locked ? (
           <>
-            <div className="font-mono text-[11px] uppercase tracking-widest text-moss mb-2">Free</div>
+            <div className="text-[11px] uppercase tracking-widest text-moss mb-2">Free</div>
             <div className={`${grid} mb-6`}>{free.map((m) => card(m, false))}</div>
             <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 mb-2">
-              <div className="font-mono text-[11px] uppercase tracking-widest text-amber">Pello Pro</div>
+              <div className="text-[11px] uppercase tracking-widest text-amber">Pello Pro</div>
               <div className="text-xs text-muted">{hadTrial ? "Upgrade to unlock these planners" : `Unlock with a free ${TRIAL_DAYS}-day trial`}</div>
             </div>
             <div className={grid}>{pro.map((m) => card(m, true))}</div>

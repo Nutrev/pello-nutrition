@@ -57,7 +57,7 @@ export default function SavePlanButton({ inputs, planContent, defaultName }: {
       <button type="button" onClick={click} className="btn-primary w-full justify-center flex mb-3">Save this plan</button>
       <Modal open={open} onClose={() => setOpen(false)} title="Save this plan">
         <label className="block mb-4">
-          <span className="block font-mono text-[11px] uppercase tracking-widest text-muted mb-1">Plan name</span>
+          <span className="block text-[11px] uppercase tracking-widest text-muted mb-1">Plan name</span>
           <input autoFocus value={name} onChange={(e) => setName(e.target.value)} maxLength={100}
             className="w-full text-sm bg-white/60 border border-sand rounded-lg px-3 py-2.5 focus:outline-none focus:border-moss" />
         </label>

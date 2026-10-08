@@ -157,7 +157,7 @@ export default function SiteNav({ categories }: { categories: CategoryCount[] })
           {/* Account: hidden until the session check finishes, so the wrong state never flashes */}
           <div className={`hidden md:flex items-center gap-3 ${authLoading ? "invisible" : ""}`}>
             {PRO_ENABLED && user && !isPro && (
-              <Link href="/pricing" className="text-xs bg-amber/10 text-amber font-mono px-2 py-1 rounded-md whitespace-nowrap hover:bg-amber/20 transition-colors">Upgrade to Pro</Link>
+              <Link href="/pricing" className="text-xs bg-amber/10 text-amber px-2 py-1 rounded-md whitespace-nowrap hover:bg-amber/20 transition-colors">Upgrade to Pro</Link>
             )}
             {PRO_ENABLED && !user && (
               <Link href="/pricing" className={`text-sm transition-colors ${pathname === "/pricing" ? "text-ink font-medium" : "text-muted hover:text-ink"}`}>Pricing</Link>
@@ -166,7 +166,7 @@ export default function SiteNav({ categories }: { categories: CategoryCount[] })
               <Link href="/account" aria-label={showPro ? "Your account (Pello Pro)" : "Your account"} className={`flex items-center gap-2 text-sm transition-colors ${pathname.startsWith("/account") ? "text-ink font-medium" : "text-muted hover:text-ink"}`}>
                 <span aria-hidden="true" className="h-7 w-7 rounded-full bg-moss text-cream flex items-center justify-center text-xs font-medium">{initial}</span>
                 Account
-                {showPro && <span aria-hidden="true" className="font-mono text-[10px] uppercase tracking-wider bg-amber/10 text-amber px-1.5 py-0.5 rounded">Pro</span>}
+                {showPro && <span aria-hidden="true" className="text-[10px] uppercase tracking-wider bg-amber/10 text-amber px-1.5 py-0.5 rounded">Pro</span>}
               </Link>
             ) : (
               <Link href="/auth/login" className="btn-primary text-xs py-1.5 px-3 whitespace-nowrap">Log in</Link>

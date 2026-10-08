@@ -117,7 +117,7 @@ function SubscriptionSection({ isPro, sub, hasCard }: { isPro: boolean; sub: Sub
     return (
       <div className={`card flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 ${needsCard ? "bg-amber/5 border-amber/30" : ""}`}>
         <div>
-          <span className="font-mono text-[11px] uppercase tracking-widest bg-amber/10 text-amber px-2 py-0.5 rounded-md">Pello Pro</span>
+          <span className="text-[11px] uppercase tracking-widest bg-amber/10 text-amber px-2 py-0.5 rounded-md">Pello Pro</span>
           {line && <p className={`text-sm mt-2 ${pastDue ? "text-rust" : needsCard ? "text-ink" : "text-muted"}`}>{line}</p>}
         </div>
         <div className="flex flex-col gap-2 sm:items-end">
@@ -187,7 +187,7 @@ export default async function AccountPage({ searchParams }: { searchParams: { in
     <div className="max-w-5xl mx-auto px-6 py-10">
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
         <div>
-          <div className="font-mono text-[11px] uppercase tracking-widest text-muted mb-1">Your account</div>
+          <div className="text-[11px] uppercase tracking-widest text-muted mb-1">Your account</div>
           <h1 className="font-display font-bold text-3xl tracking-tight flex flex-wrap items-center gap-x-3 gap-y-1">
             Welcome back, {name}
             {access.gating && access.isPro && (

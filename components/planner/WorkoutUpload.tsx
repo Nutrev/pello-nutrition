@@ -162,7 +162,7 @@ export default function WorkoutUpload({ workout, onChange }: {
       {workout && (
         <div>
           <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 mb-2">
-            <span className={`text-[11px] font-mono uppercase tracking-widest px-1.5 py-0.5 rounded ${workout.kind === "planned" ? "bg-moss/10 text-moss" : "bg-amber/10 text-amber"}`}>
+            <span className={`text-[11px] uppercase tracking-widest px-1.5 py-0.5 rounded ${workout.kind === "planned" ? "bg-moss/10 text-moss" : "bg-amber/10 text-amber"}`}>
               {workout.kind === "planned" ? "Planned" : "Completed"}
             </span>
             <span className="font-medium text-sm">{workout.name}</span>

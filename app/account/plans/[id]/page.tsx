@@ -60,7 +60,7 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
     <div className="max-w-3xl mx-auto px-6 py-10">
       <Link href="/account/plans" className="text-xs text-muted hover:text-ink print:hidden">← Saved plans</Link>
       <div className="mt-3 mb-6">
-        <div className="font-mono text-[11px] uppercase tracking-widest text-muted mb-1">Saved {formatDate(plan.created_at)}</div>
+        <div className="text-[11px] uppercase tracking-widest text-muted mb-1">Saved {formatDate(plan.created_at)}</div>
         <h1 className="font-display font-bold text-3xl tracking-tight mb-3">{plan.plan_name}</h1>
         <div className="flex flex-wrap gap-2">{tags.map((t) => <span key={t} className="text-xs bg-sand px-2 py-0.5 rounded-md">{t}</span>)}</div>
       </div>

@@ -45,7 +45,7 @@ export default function GuideShell({ slug, title, intro, sources, children }: {
       {children}
 
       <section className="border-t border-sand pt-6 mt-12">
-        <h2 className="font-mono text-[11px] uppercase tracking-widest text-muted mb-2">Sources</h2>
+        <h2 className="text-[11px] uppercase tracking-widest text-muted mb-2">Sources</h2>
         <ul className="space-y-1 text-xs">
           {sources.map((s) => (
             <li key={s.url}><a href={s.url} target="_blank" rel="noopener noreferrer" className="text-moss hover:underline">{s.label} ↗</a></li>
@@ -55,7 +55,7 @@ export default function GuideShell({ slug, title, intro, sources, children }: {
       </section>
 
       <section className="mt-10">
-        <h2 className="font-mono text-[11px] uppercase tracking-widest text-muted mb-3">More certification guides</h2>
+        <h2 className="text-[11px] uppercase tracking-widest text-muted mb-3">More certification guides</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {others.map((g) => (
             <Link key={g.slug} href={`/guides/certifications/${g.slug}`} className="card hover:shadow-md transition-all">

@@ -105,7 +105,7 @@ export default function Onboarding() {
 
   return (
     <div className="max-w-xl mx-auto px-6 py-10">
-      <div className="font-mono text-[11px] uppercase tracking-widest text-muted mb-1">
+      <div className="text-[11px] uppercase tracking-widest text-muted mb-1">
         {editing ? "Edit profile" : "Welcome to Pello"} · Step {step} of 3
       </div>
       <h1 className="font-display font-bold text-3xl tracking-tight mb-2">

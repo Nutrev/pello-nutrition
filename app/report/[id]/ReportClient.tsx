@@ -205,7 +205,7 @@ export default function ReportClient({ product, similar: similarProducts, brand,
               <span className="text-xs bg-moss/10 text-moss px-2 py-0.5 rounded-md">{product.category}</span>
             </div>
             {shown.reviewCount > 0 && reviewSource && (
-              <p className="text-xs text-muted font-mono mb-3">
+              <p className="text-xs text-muted mb-3">
                 Rating and review count from {reviewSource}&apos;s customers. <a href="#reviews" className="underline hover:text-ink">Pello community reviews</a> are submitted separately on Pello.
               </p>
             )}
@@ -386,7 +386,7 @@ export default function ReportClient({ product, similar: similarProducts, brand,
                 <>
                   {bars.length > 0 && (
                     <div className={isCommunity ? "" : "opacity-40"}>
-                      {!isCommunity && <div className="font-mono text-[10px] uppercase tracking-widest text-muted mb-2">Estimated</div>}
+                      {!isCommunity && <div className="text-[10px] uppercase tracking-widest text-muted mb-2">Estimated</div>}
                       <div className="space-y-3">
                         {bars.map(({ label, pct }) => (
                           <div key={label}>

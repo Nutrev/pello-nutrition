@@ -9,5 +9,5 @@ export default function LockIcon({ className = "h-4 w-4" }: { className?: string
 
 // Small "Pro" tag for locked options.
 export function ProTag() {
-  return <span className="font-mono text-[10px] uppercase tracking-wider bg-amber/10 text-amber px-1.5 py-0.5 rounded">Pro</span>;
+  return <span className="text-[10px] font-semibold uppercase tracking-wider bg-amber/10 text-amber px-1.5 py-0.5 rounded">Pro</span>;
 }

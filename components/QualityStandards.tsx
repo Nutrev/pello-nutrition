@@ -91,15 +91,15 @@ export default function QualityStandards({ certifications, diet, nsf }: {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-x-6">
         <div>
-          <h3 className="font-mono text-[11px] uppercase tracking-widest text-muted">Tested for sport</h3>
+          <h3 className="text-[11px] uppercase tracking-widest text-muted">Tested for sport</h3>
           <ul className="divide-y divide-sand">{sport.map((s) => <StandardRow key={s.id} s={s} met={met.has(s.id)} nsf={nsf} />)}</ul>
         </div>
         <div>
-          <h3 className="font-mono text-[11px] uppercase tracking-widest text-muted">Food &amp; sourcing</h3>
+          <h3 className="text-[11px] uppercase tracking-widest text-muted">Food &amp; sourcing</h3>
           <ul className="divide-y divide-sand">{sourcing.map((s) => <StandardRow key={s.id} s={s} met={met.has(s.id)} nsf={nsf} />)}</ul>
         </div>
         <div>
-          <h3 className="font-mono text-[11px] uppercase tracking-widest text-muted">Diet claims</h3>
+          <h3 className="text-[11px] uppercase tracking-widest text-muted">Diet claims</h3>
           <ul className="divide-y divide-sand">
             <ClaimRow label="Vegan" value={diet.isVegan ?? null} note="Brand or retailer label claim, not a certification." />
             <ClaimRow label="Gluten-free" value={diet.isGlutenFree ?? null} note="Brand or retailer label claim. In the US a gluten-free label means under 20 ppm gluten." />

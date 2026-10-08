@@ -25,7 +25,7 @@ export default function ProGate({ feature, description, children, fallback, comp
       <div className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-amber/10 text-amber mb-2">
         <LockIcon />
       </div>
-      <div className="font-mono text-[10px] uppercase tracking-widest text-amber mb-1">Pello Pro feature</div>
+      <div className="text-[10px] uppercase tracking-widest text-amber mb-1">Pello Pro feature</div>
       <div className="font-display font-semibold text-ink">{feature}</div>
       {description && <p className="text-xs text-muted mt-1 leading-relaxed">{description}</p>}
       <div className="flex flex-col items-center gap-1.5 mt-3">

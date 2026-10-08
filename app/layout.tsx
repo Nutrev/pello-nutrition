@@ -60,7 +60,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {AFFILIATES_ACTIVE && (
             <div className="border-t border-sand bg-sand/30 py-3 print:hidden">
               <div className="max-w-5xl mx-auto px-6">
-                <p className="text-xs text-muted font-mono">
+                <p className="text-xs text-muted">
                   {AMAZON_ACTIVE && `${AMAZON_ASSOCIATE_STATEMENT} `}
                   Pello Nutrition participates in affiliate programs and may earn commissions on purchases made through
                   links on this site — this never influences our editorial scores or recommendations.

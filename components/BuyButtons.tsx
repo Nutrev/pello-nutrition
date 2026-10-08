@@ -42,7 +42,7 @@ export default function BuyButtons({ retailerLinks, productName, brand, logoDoma
   if (layout === "inline") {
     return (
       <div>
-        <div className="text-xs font-mono text-muted uppercase tracking-widest mb-2">Where to buy</div>
+        <div className="text-xs text-muted uppercase tracking-widest mb-2">Where to buy</div>
         <div className="flex flex-wrap gap-2">
           {links.map((l, i) => (
             <a key={l.id} href={l.url} target="_blank" rel={linkRel(l)} title={l.subtitle}
@@ -62,7 +62,7 @@ export default function BuyButtons({ retailerLinks, productName, brand, logoDoma
 
   return (
     <div>
-      <div className="text-xs font-mono text-muted uppercase tracking-widest mb-3">Where to buy</div>
+      <div className="text-xs text-muted uppercase tracking-widest mb-3">Where to buy</div>
       <div className={layout === "row" ? "grid grid-cols-1 sm:grid-cols-3 gap-2" : "space-y-2"}>
         {links.map((l, i) => (
           <a key={l.id} href={l.url} target="_blank" rel={linkRel(l)}

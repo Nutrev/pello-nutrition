@@ -51,16 +51,16 @@ export default function StackModal({ open, onClose, productId, productName, defa
     <Modal open={open} onClose={onClose} title={existing ? "Edit stack item" : "Add to my stack"}>
       <p className="text-sm text-muted mb-4">{productName}</p>
       <label className="block mb-3">
-        <span className="block font-mono text-[11px] uppercase tracking-widest text-muted mb-1">Daily dose</span>
+        <span className="block text-[11px] uppercase tracking-widest text-muted mb-1">Daily dose</span>
         <input value={dose} onChange={(e) => setDose(e.target.value)} maxLength={200} placeholder="e.g. 1 scoop, 2 capsules" className={input} />
       </label>
       <label className="block mb-3">
-        <span className="block font-mono text-[11px] uppercase tracking-widest text-muted mb-1">When you take it</span>
+        <span className="block text-[11px] uppercase tracking-widest text-muted mb-1">When you take it</span>
         <input value={timing} onChange={(e) => setTiming(e.target.value)} maxLength={200} list="stack-timings" placeholder="e.g. Before bed" className={input} />
         <datalist id="stack-timings">{TIMINGS.map((t) => <option key={t} value={t} />)}</datalist>
       </label>
       <label className="block mb-4">
-        <span className="block font-mono text-[11px] uppercase tracking-widest text-muted mb-1">Notes</span>
+        <span className="block text-[11px] uppercase tracking-widest text-muted mb-1">Notes</span>
         <textarea value={notes} onChange={(e) => setNotes(e.target.value)} maxLength={2000} rows={3} className={input} />
       </label>
       {error && <p role="alert" className="text-sm text-rust mb-3">{error}</p>}

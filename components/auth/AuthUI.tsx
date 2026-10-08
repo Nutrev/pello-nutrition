@@ -14,7 +14,7 @@ export function AuthShell({ eyebrow, title, subtitle, children }: {
     <div className="min-h-[calc(100vh-3.5rem)] flex items-start justify-center px-4 py-12 sm:py-20">
       <div className="w-full max-w-md">
         <div className="text-center mb-6">
-          <div className="font-mono text-[11px] uppercase tracking-widest text-muted mb-2">{eyebrow}</div>
+          <div className="text-[11px] uppercase tracking-widest text-muted mb-2">{eyebrow}</div>
           <h1 className="font-display font-bold text-3xl tracking-tight">{title}</h1>
           {subtitle && <p className="text-sm text-muted mt-2">{subtitle}</p>}
         </div>
@@ -27,7 +27,7 @@ export function AuthShell({ eyebrow, title, subtitle, children }: {
 export function Field({ label, children, hint }: { label: string; children: React.ReactNode; hint?: string }) {
   return (
     <label className="block mb-4">
-      <span className="block font-mono text-[11px] uppercase tracking-widest text-muted mb-1.5">{label}</span>
+      <span className="block text-[11px] uppercase tracking-widest text-muted mb-1.5">{label}</span>
       {children}
       {hint && <span className="block text-xs text-muted mt-1">{hint}</span>}
     </label>

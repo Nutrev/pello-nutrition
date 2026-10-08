@@ -87,7 +87,7 @@ export default function PricingPage() {
 
         {/* Pro */}
         <div className="card flex flex-col border-2 border-moss relative">
-          <span className="absolute -top-3 left-6 font-mono text-[10px] uppercase tracking-widest bg-amber text-cream px-2 py-1 rounded-md">
+          <span className="absolute -top-3 left-6 text-[10px] uppercase tracking-widest bg-amber text-cream px-2 py-1 rounded-md">
             {TRIAL_DAYS}-day free trial
           </span>
           <h2 className="font-display font-semibold text-xl">Pello Pro</h2>
