@@ -7,6 +7,7 @@ import Link from "next/link";
 import ReviewSection, { getAttributesForCategory } from "@/components/ReviewSection";
 import type { AttributeAverages } from "@/lib/supabase";
 import BrandLogo from "@/components/BrandLogo";
+import WarningIcon from "@/components/WarningIcon";
 import ProductActions from "@/components/account/ProductActions";
 import BuyButtons from "@/components/BuyButtons";
 import { PRICE_POSITION_LABEL, PRICE_POSITION_STYLE, type Brand } from "@/lib/brand-types";
@@ -172,7 +173,7 @@ export default function ReportClient({ product, similar: similarProducts, brand,
         {/* Ingredient warning banner */}
         {disputedIngredients.length > 0 && (
           <div className="bg-amber/10 border border-amber/20 rounded-xl px-5 py-3 mb-6 flex items-start gap-3">
-            <span className="text-amber text-xs flex-shrink-0 mt-0.5">⚠ Note</span>
+            <span className="text-amber text-xs flex-shrink-0 mt-0.5 flex items-center gap-1"><WarningIcon className="h-3.5 w-3.5" />Note</span>
             <p className="text-xs text-muted leading-relaxed">
               This product contains {disputedIngredients.length} disputed ingredient{disputedIngredients.length > 1 ? "s" : ""}:{" "}
               <strong>{disputedIngredients.map((i) => i.name).join(", ")}</strong>.{" "}
@@ -188,7 +189,7 @@ export default function ReportClient({ product, similar: similarProducts, brand,
             logo={product.logo}
             brand={product.brand} size="lg" />
           <div className="flex-1">
-            <div className="text-sm text-muted mb-1">{product.brand}</div>
+            <Link href={`/brands/${brand.slug}`} className="inline-block text-sm text-muted hover:text-moss hover:underline mb-1">{product.brand}</Link>
             <h1 className="font-display font-bold text-3xl tracking-tight mb-2">{product.name}</h1>
             <div className="flex flex-wrap items-center gap-3 mb-2">
               {shown.reviewCount > 0 ? (
@@ -438,7 +439,7 @@ export default function ReportClient({ product, similar: similarProducts, brand,
                       ing.verdict === "likely" ? "bg-amber/10 text-amber" :
                       "bg-rust/10 text-rust"
                     }`}>
-                      {ing.verdict === "proven" ? "✓ Proven" : ing.verdict === "likely" ? "~ Likely" : "⚠ Disputed"}
+                      {ing.verdict === "proven" ? "✓ Proven" : ing.verdict === "likely" ? "~ Likely" : "Disputed"}
                     </span>
                   </div>
                   <p className="text-xs text-muted mt-1 leading-relaxed">{ing.note}</p>
@@ -481,7 +482,7 @@ export default function ReportClient({ product, similar: similarProducts, brand,
             <div className="divide-y divide-sand">
               {product.sources.map((src, i) => (
                 <div key={i} className="flex items-center justify-between py-2.5 text-sm">
-                  <span>{src.icon} {src.name}</span>
+                  <span>{src.name}</span>
                   <div className="flex items-center gap-2">
                     <span className="text-xs text-muted">{src.count.toLocaleString()} {src.unit}</span>
                     <span className={`text-xs px-2 py-0.5 rounded-md ${src.credibility === "high" ? "bg-moss/10 text-moss" : "bg-amber/10 text-amber"}`}>

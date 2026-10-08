@@ -1,6 +1,7 @@
 "use client";
 
 import { INGREDIENT_TAXONOMY, IngredientFlag } from "@/lib/ingredient-taxonomy";
+import WarningIcon from "@/components/WarningIcon";
 
 interface IngredientFlagsProps {
   ingredientNames: string[];
@@ -64,7 +65,7 @@ export default function IngredientFlags({ ingredientNames, compact = false }: In
           return (
             <span key={flag} title={config.note}
               className={`text-xs px-1.5 py-0.5 rounded ${config.severity === "warn" ? "bg-rust/10 text-rust" : "bg-amber/10 text-amber"}`}>
-              ⚠ {config.label}
+              <WarningIcon className="h-3 w-3 inline-block align-[-2px] mr-1" />{config.label}
             </span>
           );
         })}
@@ -85,7 +86,7 @@ export default function IngredientFlags({ ingredientNames, compact = false }: In
               const config = FLAG_CONFIG[flag];
               return (
                 <div key={flag} className="flex items-start gap-2">
-                  <span className="text-rust text-xs flex-shrink-0 mt-0.5">⚠</span>
+                  <WarningIcon className="h-3.5 w-3.5 text-rust flex-shrink-0 mt-0.5" />
                   <div>
                     <span className="text-xs font-medium text-rust">{config.label}</span>
                     <span className="text-xs text-muted ml-2">{config.note}</span>
