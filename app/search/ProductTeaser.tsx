@@ -4,7 +4,7 @@
 // anyone types. It pauses on hover or keyboard focus, and stays still (and scrolls by
 // hand) for people who prefer reduced motion. See .marquee-* in app/globals.css.
 import Link from "next/link";
-import type { ProductSummary } from "@/lib/catalog-types";
+import { reviewsAt, type ProductSummary } from "@/lib/catalog-types";
 
 function Card({ product, hidden = false }: { product: ProductSummary; hidden?: boolean }) {
   return (
@@ -20,7 +20,7 @@ function Card({ product, hidden = false }: { product: ProductSummary; hidden?: b
         {product.name}
       </div>
       <div className="text-xs text-muted whitespace-nowrap">
-        <span className="text-amber">{"★".repeat(Math.round(product.rating))}{"☆".repeat(5 - Math.round(product.rating))}</span> {product.rating} ({product.reviewCount.toLocaleString()})
+        <span className="text-amber">{"★".repeat(Math.round(product.rating))}{"☆".repeat(5 - Math.round(product.rating))}</span> {product.rating} ({reviewsAt(product.reviewCount, product.reviewSource)})
       </div>
     </Link>
   );

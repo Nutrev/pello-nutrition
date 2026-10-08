@@ -63,7 +63,7 @@ export default function HomeClient({ pickGroups, posts, headToHead, productCount
         <div className="border-y border-sand py-5 grid grid-cols-3 gap-6 text-center">
           <div>
             <div className="font-display font-semibold text-2xl">{reviewTotal.toLocaleString()}</div>
-            <div className="text-muted text-xs mt-0.5">Customer reviews</div>
+            <div className="text-muted text-xs mt-0.5">Customer reviews at The Feed</div>
           </div>
           <div>
             <div className="font-display font-semibold text-2xl">{productCount}</div>

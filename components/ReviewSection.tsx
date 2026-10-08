@@ -212,7 +212,8 @@ export default function ReviewSection({ productId, category, onLoaded }: ReviewS
         {/* Header */}
         <div className="flex items-start justify-between mb-6">
           <div>
-            <h2 className="font-display font-semibold text-base mb-1">Community reviews</h2>
+            <h2 className="font-display font-semibold text-base mb-0.5">Pello community reviews</h2>
+            <p className="text-xs text-muted mb-2">Submitted by athletes on Pello, separate from the retailer rating at the top of the page.</p>
             {avgRating ? (
               <div className="flex items-center gap-2">
                 <StarRating rating={Math.round(Number(avgRating))} size="sm" />

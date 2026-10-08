@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import type { Product } from "@/lib/products";
-import type { ProductSummary } from "@/lib/catalog-types";
+import { reviewsAt, reviewSourceOf, type ProductSummary } from "@/lib/catalog-types";
 import Link from "next/link";
 import ReviewSection, { getAttributesForCategory } from "@/components/ReviewSection";
 import type { AttributeAverages } from "@/lib/supabase";
@@ -113,6 +113,7 @@ export default function ReportClient({ product, similar: similarProducts, brand,
 
   const nutrition = product ? productNutrition(product) : null;
   const PelloScore = productPelloScore(product);
+  const reviewSource = reviewSourceOf(product);
 
   // Recently viewed products are kept in this browser with the details needed to show them,
   // so each product page doesn't have to carry the whole catalogue.
@@ -195,13 +196,18 @@ export default function ReportClient({ product, similar: similarProducts, brand,
                   <div className="flex text-amber text-lg">{"★".repeat(Math.round(shown.rating))}{"☆".repeat(5 - Math.round(shown.rating))}</div>
                   <span className="text-sm text-muted">{shown.rating} / 5</span>
                   <span className="text-muted">·</span>
-                  <span className="text-sm text-muted">{shown.reviewCount.toLocaleString()} reviews{variant ? ` for ${variant.label}` : ""}</span>
+                  <span className="text-sm text-muted">{reviewsAt(shown.reviewCount, reviewSource)}{variant ? ` for ${variant.label}` : ""}</span>
                 </>
               ) : (
                 <span className="text-sm text-muted">No reviews yet</span>
               )}
               <span className="text-xs bg-moss/10 text-moss px-2 py-0.5 rounded-md">{product.category}</span>
             </div>
+            {shown.reviewCount > 0 && reviewSource && (
+              <p className="text-xs text-muted font-mono mb-3">
+                Rating and review count from {reviewSource}&apos;s customers. <a href="#reviews" className="underline hover:text-ink">Pello community reviews</a> are submitted separately on Pello.
+              </p>
+            )}
             {product.variants && product.variants.length > 1 && (
               <div className="flex flex-wrap gap-2 mb-3" role="radiogroup" aria-label="Choose a version">
                 {product.variants.map((v) => (
@@ -299,7 +305,7 @@ export default function ReportClient({ product, similar: similarProducts, brand,
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4 mb-6">
           {[
-            { val: product.reviewCount > 0 ? product.reviewCount.toLocaleString() : "—", label: "Customer reviews" },
+            { val: product.reviewCount > 0 ? product.reviewCount.toLocaleString() : "—", label: reviewSource ? `Reviews at ${reviewSource}` : "Customer reviews" },
             { val: standardsFrom(product.certifications).length, label: "Quality standards" },
             { val: product.ingredients.length, label: "Key ingredients" },
           ].map((s) => (
@@ -468,7 +474,7 @@ export default function ReportClient({ product, similar: similarProducts, brand,
                     : product.transparencyScore >= 85 ? "High transparency" : product.transparencyScore >= 70 ? "Good transparency" : "Moderate transparency"}
                 </div>
                 <div className="text-xs text-muted mt-0.5">
-                  {product.certifications?.length ?? 0} certification{(product.certifications?.length ?? 0) === 1 ? "" : "s"} · {product.reviewCount > 0 ? `${product.reviewCount.toLocaleString()} reviews on The Feed` : "no reviews yet"}
+                  {product.certifications?.length ?? 0} certification{(product.certifications?.length ?? 0) === 1 ? "" : "s"} · {product.reviewCount > 0 ? reviewsAt(product.reviewCount, reviewSource) : "no reviews yet"}
                 </div>
               </div>
             </div>

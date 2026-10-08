@@ -5,6 +5,7 @@ import BrandLogo from "@/components/BrandLogo";
 import ProductCard from "@/components/ProductCard";
 import { getBrand, getBrandProducts, getBrands } from "@/lib/brands";
 import { getProductSummaries } from "@/lib/catalog";
+import { reviewsAt } from "@/lib/catalog-types";
 import { productPelloScore } from "@/lib/product-score";
 import { getFulensScoreLabel } from "@/lib/fulens-score";
 import { formatPrice } from "@/lib/servings";
@@ -59,7 +60,7 @@ export default function BrandPage({ params }: { params: { slug: string } }) {
   const insights = [
     best && { label: "Best product", product: best, why: `Highest Pello Score: ${scores.get(best.id)}` },
     value && value.id !== best?.id && { label: "Best value", product: value, why: `Most Pello Score per dollar: ${scores.get(value.id)} at ${formatPrice(Number(value.pricePerServing.toFixed(2)))} a serving` },
-    mostReviewed && mostReviewed.reviewCount > 0 && { label: "Most reviewed", product: mostReviewed, why: `${mostReviewed.reviewCount.toLocaleString()} reviews, ${mostReviewed.rating}/5` },
+    mostReviewed && mostReviewed.reviewCount > 0 && { label: "Most reviewed", product: mostReviewed, why: `${reviewsAt(mostReviewed.reviewCount, mostReviewed.reviewSource)}, ${mostReviewed.rating}/5` },
   ].filter(Boolean) as { label: string; product: (typeof summaries)[number]; why: string }[];
 
   const grade = getFulensScoreLabel(brand.avgPelloScore);

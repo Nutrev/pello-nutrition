@@ -3,7 +3,7 @@
 // (e.g. "★ Best Energy Gel").
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
-import type { ProductSummary } from "@/lib/catalog-types";
+import { reviewsAt, reviewSourceNote, type ProductSummary } from "@/lib/catalog-types";
 import { servingsPerContainer, formatPrice } from "@/lib/servings";
 import { getFulensScoreLabel } from "@/lib/pello-grade";
 import CardBuyMenu from "@/components/CardBuyMenu";
@@ -49,7 +49,7 @@ export default function ProductCard({ product, badge }: { product: ProductSummar
           <span className="text-xs text-muted">{product.rating}</span>
           </>) : <span className="text-xs text-muted">No reviews yet</span>}
           <span className="text-xs text-muted">·</span>
-          {product.reviewCount > 0 && <span className="text-xs text-muted">{product.reviewCount.toLocaleString()} reviews</span>}
+          {product.reviewCount > 0 && <span className="text-xs text-muted" title={reviewSourceNote(product.reviewSource)}>{reviewsAt(product.reviewCount, product.reviewSource)}</span>}
         </div>
         <div className="flex items-center justify-between">
           <div className="flex gap-1 flex-wrap">

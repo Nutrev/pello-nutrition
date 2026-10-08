@@ -1,5 +1,5 @@
 import { getProductSummaries } from "@/lib/catalog";
-import { byWeightedRating, categorySlug } from "@/lib/catalog-types";
+import { byWeightedRating, categorySlug, reviewsAt } from "@/lib/catalog-types";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import BrandLogo from "@/components/BrandLogo";
@@ -42,7 +42,7 @@ export default function CategoryPage({ params }: { params: { category: string } 
             <div className="flex-1">
               <div className="text-xs text-moss mb-0.5">★ Top rated in {matched}</div>
               <div className="font-display font-semibold">{topProduct.name}</div>
-              <div className="text-xs text-muted">{topProduct.brand}{topProduct.reviewCount > 0 && ` · ${topProduct.rating}/5 · ${topProduct.reviewCount.toLocaleString()} reviews`}</div>
+              <div className="text-xs text-muted">{topProduct.brand}{topProduct.reviewCount > 0 && ` · ${topProduct.rating}/5 · ${reviewsAt(topProduct.reviewCount, topProduct.reviewSource)}`}</div>
             </div>
             <Link href={`/report/${topProduct.id}`} className="btn-primary text-xs py-1.5 px-3 whitespace-nowrap">
               View report →

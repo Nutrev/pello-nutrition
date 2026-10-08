@@ -5,7 +5,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import type { ProductSummary } from "@/lib/catalog-types";
+import { reviewsAt, type ProductSummary } from "@/lib/catalog-types";
 import { formatPrice } from "@/lib/servings";
 import { INTENSITY_MULTIPLIERS, type Intensity } from "@/lib/fuelling";
 import ProductCard from "@/components/ProductCard";
@@ -168,7 +168,7 @@ export function HeadToHead({ data }: { data: HeadToHeadData }) {
   const [a, b] = data.products;
   // Rows where neither product has a value are left out.
   const rows: [string, (p: ProductSummary) => string | number | null][] = [
-    ["Rating", (p) => (p.reviewCount > 0 ? `${p.rating} (${p.reviewCount.toLocaleString()})` : "No reviews yet")],
+    ["Rating", (p) => (p.reviewCount > 0 ? `${p.rating} (${reviewsAt(p.reviewCount, p.reviewSource)})` : "No reviews yet")],
     ["Carbs per serving", (p) => (p.nutrition.carbsPerServing != null ? `${p.nutrition.carbsPerServing}g` : null)],
     ["Glucose : fructose", (p) => p.nutrition.glucoseFructoseRatio],
     ["Hydrogel", (p) => (p.nutrition.isHydrogel ? "Yes" : "No")],

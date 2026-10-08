@@ -155,7 +155,7 @@ export default async function OpengraphImage() {
             </div>
           </div>
           <div style={{ display: "flex", gap: 56 }}>
-            <Stat value={reviewTotal.toLocaleString("en-US")} label="customer reviews" />
+            <Stat value={reviewTotal.toLocaleString("en-US")} label="customer reviews at The Feed" />
             <Stat value={String(productCount)} label="products tracked" />
             <Stat value="100%" label="independent" />
           </div>

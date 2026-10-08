@@ -7,7 +7,7 @@ import { PRODUCTS, type Product } from "./products";
 import { productNutrition } from "./nutrition";
 import { pricePerServing } from "./servings";
 import { weightedRating } from "./ratings";
-import type { ProductSummary } from "./catalog-types";
+import { reviewSourceOf, type ProductSummary } from "./catalog-types";
 import { standardsFrom } from "./quality-standards";
 import { productPelloScore } from "./product-score";
 
@@ -37,6 +37,7 @@ function toSummary(p: Product): ProductSummary {
     weightedRating: weightedRating(p),
     standards: standardsFrom(p.certifications),
     pelloScore: productPelloScore(p)?.overall ?? null,
+    reviewSource: reviewSourceOf(p),
   };
 }
 

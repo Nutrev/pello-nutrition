@@ -3,7 +3,7 @@
 // Building blocks shared by the supplement stack, race week and budget optimizer planners.
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
-import type { ProductSummary } from "@/lib/catalog-types";
+import { reviewsAt, reviewSourceNote, type ProductSummary } from "@/lib/catalog-types";
 import { formatPrice } from "@/lib/servings";
 import { PelloScoreTag } from "@/components/ProductCard";
 
@@ -106,7 +106,7 @@ export function ModeProductCard({ p, note }: { p: ProductSummary; note?: string 
         <div className="text-right flex-shrink-0 text-xs">
           {p.price > 0 && <div className="font-medium text-ink">{formatPrice(p.price)}</div>}
           {p.pricePerServing > 0 && <div className="text-muted">{formatPrice(p.pricePerServing)}/serving</div>}
-          {p.reviewCount > 0 && <div className="text-muted">{p.rating.toFixed(1)} from {p.reviewCount.toLocaleString()} reviews</div>}
+          {p.reviewCount > 0 && <div className="text-muted" title={reviewSourceNote(p.reviewSource)}>{p.rating.toFixed(1)} from {reviewsAt(p.reviewCount, p.reviewSource)}</div>}
         </div>
       </div>
       {note && <p className="text-xs text-muted mt-2 leading-relaxed">{note}</p>}

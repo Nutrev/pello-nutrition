@@ -3,7 +3,7 @@
 import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
-import type { ProductSummary } from "@/lib/catalog-types";
+import { reviewsAt, type ProductSummary } from "@/lib/catalog-types";
 import ProductTeaser from "./ProductTeaser";
 
 // The barcode scanner opens the camera but can't detect barcodes yet (only the test codes
@@ -265,7 +265,7 @@ export default function SearchClient({ catalog, teaser }: { catalog: ProductSumm
                         <span className="text-xs text-muted">{p.category}</span>
                       </div>
                       <div className="font-display font-semibold text-sm group-hover:text-moss transition-colors">{p.name}</div>
-                      <div className="text-xs text-muted">{p.brand}{p.reviewCount > 0 ? ` · ${p.rating}★ · ${p.reviewCount.toLocaleString()} reviews` : " · No reviews yet"}</div>
+                      <div className="text-xs text-muted">{p.brand}{p.reviewCount > 0 ? ` · ${p.rating}★ · ${reviewsAt(p.reviewCount, p.reviewSource)}` : " · No reviews yet"}</div>
                     </div>
                     <div className="text-xs text-moss flex-shrink-0">Full report →</div>
                   </div>

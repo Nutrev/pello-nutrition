@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import type { ProductSummary as Product } from "@/lib/catalog-types";
+import { reviewsAt, reviewSourceNote, type ProductSummary as Product } from "@/lib/catalog-types";
 import { pricePerServing, servingsPerContainer, formatPrice } from "@/lib/servings";
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
@@ -291,7 +291,7 @@ const filteredProducts = PRODUCTS.filter((p) => {
                         <>
                           <StarRating rating={p.rating} />
                           <div className="text-sm font-medium mt-0.5">{p.rating} / 5</div>
-                          <div className="text-xs text-muted">{p.reviewCount.toLocaleString()} reviews</div>
+                          <div className="text-xs text-muted" title={reviewSourceNote(p.reviewSource)}>{reviewsAt(p.reviewCount, p.reviewSource)}</div>
                         </>
                       ) : (
                         <div className="text-xs text-muted">No reviews yet</div>
@@ -450,7 +450,7 @@ const filteredProducts = PRODUCTS.filter((p) => {
                   {selectedProducts.map((p) => (
                     <td key={p.id} className="px-4 py-4">
                       <div className="text-sm font-display font-bold">
-                        {p.reviewCount > 0 ? `${p.reviewCount.toLocaleString()} reviews` : "No reviews yet"}
+                        {p.reviewCount > 0 ? reviewsAt(p.reviewCount, p.reviewSource) : "No reviews yet"}
                       </div>
                       <div className="text-xs text-muted">
                         {p.certifications?.length ? p.certifications.join(", ") : "No certifications"}

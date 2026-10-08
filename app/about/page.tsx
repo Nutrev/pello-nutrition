@@ -35,8 +35,8 @@ export default function AboutPage() {
           <h2 className="font-display font-semibold text-lg text-ink mb-3">Our mission</h2>
           <div className="text-muted text-sm leading-relaxed space-y-3">
             <p>
-              Pello Nutrition LLC is an independent sports nutrition research platform. We bring together thousands of real
-              customer reviews, cross-reference ingredients with peer-reviewed science, and use AI to generate clear, unbiased
+              Pello Nutrition LLC is an independent sports nutrition research platform. We draw on thousands of real
+              customer ratings from The Feed, cross-reference ingredients with peer-reviewed science, and use AI to generate clear, unbiased
               product reports.
             </p>
             <p>

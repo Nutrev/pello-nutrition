@@ -24,7 +24,27 @@ export type ProductSummary = Pick<
   standards: StandardId[];
   // Pello Score overall (0–100), as shown on the product page.
   pelloScore: number | null;
+  // Where the rating and review count come from (e.g. "The Feed"); null if not recorded.
+  reviewSource: string | null;
 };
+
+// The retailer whose customer ratings a product's rating and review count are, from its
+// sources ("reviews" entries). Pello community reviews are separate (components/ReviewSection).
+export function reviewSourceOf(p: Pick<Product, "sources">): string | null {
+  return p.sources.find((s) => s.unit === "reviews")?.name ?? null;
+}
+
+// "1,426 reviews at The Feed" — the count always names whose reviews they are.
+export function reviewsAt(count: number, source: string | null): string {
+  return `${count.toLocaleString()} review${count === 1 ? "" : "s"}${source ? ` at ${source}` : ""}`;
+}
+
+// Hover text explaining a retailer review count.
+export function reviewSourceNote(source: string | null): string {
+  return source
+    ? `Rating and review count from ${source}'s customers. Pello community reviews are shown separately on each product page.`
+    : "Pello community reviews are shown separately on each product page.";
+}
 
 // Comparator for Array.sort: best-rated first, weighting ratings by how many reviews back them.
 export function byWeightedRating(a: { weightedRating: number }, b: { weightedRating: number }): number {
