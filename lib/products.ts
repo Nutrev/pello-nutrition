@@ -752,8 +752,8 @@ const CURATED_PRODUCTS: Product[] = [
   sources: [],
 },{
   id: "carbs-fuel-gel",
-  name: "Fuel Original Energy Gel",
-  brand: "Carbs",
+  name: "Original Energy Gel",
+  brand: "Carbs Fuel",
   logo: "/logo/carbs.png",
   category: "Energy Gel",
   rating: 4.6,
