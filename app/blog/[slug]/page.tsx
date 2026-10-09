@@ -115,7 +115,10 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           <div className="flex items-center gap-3 text-xs text-muted">
             <span>{post.author}</span>
             <span>·</span>
-            <span>{post.date}</span>
+            {/* The date is a calendar date (YYYY-MM-DD), so format it in UTC to keep the same day. */}
+            <time dateTime={post.date}>
+              {new Date(post.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" })}
+            </time>
             <span>·</span>
             <span>{post.readingTime} min read</span>
           </div>
