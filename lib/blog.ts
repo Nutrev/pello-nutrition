@@ -12,6 +12,11 @@ export interface BlogPost {
   relatedProducts: string[];
   content: string;
   readingTime: number;
+  // Optional cover photo, e.g. { src: "/blog/marathon.jpg", alt: "..." } with the file in
+  // public/blog/. Posts without one get a drawn cover for their category.
+  image?: { src: string; alt: string };
+  // Shown as the large featured card at the top of the blog page.
+  startHere?: boolean;
 }
 
 export const BLOG_POSTS: BlogPost[] = [
@@ -246,6 +251,7 @@ Use the Pello Planner to get a personalized recommendation based on your specifi
 
   {
     slug: "marathon-nutrition-guide",
+    startHere: true,
     title: "The Complete Marathon Nutrition Guide",
     description: "Everything you need to know about fueling a marathon — from pre-race carb loading to mid-race gel strategy and post-race recovery.",
     date: "2026-09-22",

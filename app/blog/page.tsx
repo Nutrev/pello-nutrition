@@ -1,5 +1,7 @@
 import Link from "next/link";
-import { getPostBySlug, getAllPosts } from "@/lib/blog";
+import { getAllPosts } from "@/lib/blog";
+import { PRODUCTS } from "@/lib/products";
+import BlogIndex, { type BlogCard } from "./BlogIndex";
 import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Sports Nutrition Blog",
@@ -11,60 +13,45 @@ export const metadata: Metadata = {
   },
 };
 
-const CATEGORY_COLORS: Record<string, string> = {
-  "Reviews": "bg-moss/10 text-moss",
-  "Science": "bg-amber/10 text-amber",
-  "Guides": "bg-blue-50 text-blue-700",
-  "Comparisons": "bg-purple-50 text-purple-700",
-  "Race Nutrition": "bg-rust/10 text-rust",
-};
-
 export default function BlogPage() {
-  const posts = getAllPosts();
+  // Only what the cards need, so post bodies aren't sent to the browser. Product counts
+  // include only linked products that are still on the site.
+  const posts: BlogCard[] = getAllPosts().map((post) => ({
+    slug: post.slug,
+    title: post.title,
+    description: post.description,
+    category: post.category,
+    readingTime: post.readingTime,
+    productCount: post.relatedProducts.filter((id) => PRODUCTS.some((p) => p.id === id)).length,
+    image: post.image,
+    startHere: post.startHere,
+  }));
 
   return (
     <div className="min-h-screen">
+      <div className="max-w-5xl mx-auto px-6 py-14">
+        <div className="text-xs text-muted uppercase tracking-widest mb-2">Pello Blog</div>
+        <h1 className="font-display font-bold text-4xl sm:text-5xl tracking-tight mb-3">Sports nutrition, explained</h1>
+        <p className="text-muted text-lg leading-relaxed max-w-xl">
+          Guides, product comparisons and the science behind fueling — written for runners, cyclists and triathletes.
+        </p>
 
-      <div className="max-w-3xl mx-auto px-6 py-16">
-        <div className="mb-12">
-          <div className="text-xs text-muted uppercase tracking-widest mb-3">Pello Blog</div>
-          <h1 className="font-display font-bold text-4xl tracking-tight mb-4">Sports Nutrition</h1>
-          <p className="text-muted text-lg leading-relaxed">
-            Science-backed guides, product comparisons and race nutrition advice for endurance athletes.
-          </p>
-        </div>
-
-        <div className="space-y-6">
-          {posts.map((post) => (
-            <Link key={post.slug} href={`/blog/${post.slug}`}>
-              <div className="card hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group">
-                <div className="flex items-start justify-between gap-4 mb-3">
-                  <span className={`text-xs px-2 py-0.5 rounded-md ${CATEGORY_COLORS[post.category] ?? "bg-sand text-muted"}`}>
-                    {post.category}
-                  </span>
-                  <span className="text-xs text-muted flex-shrink-0">{post.readingTime} min read</span>
-                </div>
-                <h2 className="font-display font-bold text-xl mb-2 group-hover:text-moss transition-colors leading-tight">
-                  {post.title}
-                </h2>
-                <p className="text-muted text-sm leading-relaxed mb-4">{post.description}</p>
-                <div className="flex items-center gap-3">
-                  <span className="text-xs text-muted">{post.date}</span>
-                  {post.tags.slice(0, 3).map(tag => (
-                    <span key={tag} className="text-xs bg-sand px-2 py-0.5 rounded-md">{tag}</span>
-                  ))}
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-
-        {posts.length === 0 && (
+        {posts.length > 0 ? (
+          <BlogIndex posts={posts} />
+        ) : (
           <div className="text-center py-16 text-muted">
             <p className="font-display font-medium mb-2">No posts yet</p>
             <p className="text-sm">Check back soon — new articles coming weekly.</p>
           </div>
         )}
+
+        <div className="mt-10 rounded-2xl border border-sand p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h2 className="font-display font-semibold text-lg">Ready to put it into practice?</h2>
+            <p className="text-sm text-muted">Build a fueling plan for your next session or race in about a minute.</p>
+          </div>
+          <Link href="/quiz" className="btn-primary inline-flex justify-center whitespace-nowrap">Build my plan →</Link>
+        </div>
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getPostBySlug, getAllPosts } from "@/lib/blog";
 import { PRODUCTS } from "@/lib/products";
 import { notFound } from "next/navigation";
@@ -25,14 +26,6 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     twitter: { card: "summary_large_image", title: post.title, description: post.description },
   };
 }
-
-const CATEGORY_COLORS: Record<string, string> = {
-  "Reviews": "bg-moss/10 text-moss",
-  "Science": "bg-amber/10 text-amber",
-  "Guides": "bg-blue-50 text-blue-700",
-  "Comparisons": "bg-purple-50 text-purple-700",
-  "Race Nutrition": "bg-rust/10 text-rust",
-};
 
 function renderMarkdown(content: string) {
   const lines = content.split("\n");
@@ -113,7 +106,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         <div className="mb-10">
           <div className="flex items-center gap-3 mb-4">
             <Link href="/blog" className="text-xs text-muted hover:text-ink transition-colors">← Blog</Link>
-            <span className={`text-xs px-2 py-0.5 rounded-md ${CATEGORY_COLORS[post.category] ?? "bg-sand text-muted"}`}>
+            <span className="text-xs text-muted border border-sand rounded-full px-2.5 py-0.5">
               {post.category}
             </span>
           </div>
@@ -132,6 +125,12 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
             ))}
           </div>
         </div>
+
+        {post.image && (
+          <div className="relative aspect-[16/9] rounded-2xl overflow-hidden mb-10 bg-sand/50">
+            <Image src={post.image.src} alt={post.image.alt} fill priority sizes="(min-width: 672px) 624px, 100vw" className="object-cover" />
+          </div>
+        )}
 
         {/* Content */}
         <div className="mb-16">
