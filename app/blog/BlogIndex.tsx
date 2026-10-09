@@ -13,6 +13,7 @@ export type BlogCard = {
   readingTime: number;
   productCount: number;
   image?: { src: string; alt: string };
+  packshots?: { src: string; alt: string }[];
   startHere?: boolean;
 };
 
@@ -34,6 +35,8 @@ export default function BlogIndex({ posts }: { posts: BlogCard[] }) {
   // The "Start here" post leads the full list; a filtered list leads with its newest post.
   const featured = (!filter && shown.find((p) => p.startHere)) || shown[0];
   const rest = shown.filter((p) => p !== featured);
+  // Pack shots sit on sand rather than moss, so the products keep their own colors.
+  const featuredOnSand = !featured?.image && !!featured?.packshots?.length;
 
   const pill = (label: string, count: number, value: string | null) => {
     const on = filter === value;
@@ -55,13 +58,13 @@ export default function BlogIndex({ posts }: { posts: BlogCard[] }) {
       {featured && (
         <Link href={`/blog/${featured.slug}`}
           className="group grid md:grid-cols-[1.1fr_1fr] rounded-2xl overflow-hidden border border-sand bg-white/60 hover:shadow-md transition-all">
-          <div className="relative bg-moss min-h-[200px] md:min-h-[300px] overflow-hidden">
-            <BlogCover slug={featured.slug} category={featured.category} image={featured.image} featured />
+          <div className={`relative ${featuredOnSand ? "bg-sand/50" : "bg-moss"} min-h-[200px] md:min-h-[300px] overflow-hidden`}>
+            <BlogCover slug={featured.slug} category={featured.category} image={featured.image} packshots={featured.packshots} featured />
             <div className="relative p-6 flex flex-col h-full justify-between min-h-[200px] md:min-h-[300px]">
               {featured.startHere && !filter ? (
-                <span className="self-start text-xs text-cream/90 border border-cream/40 rounded-full px-2.5 py-0.5 backdrop-blur-sm">Start here</span>
+                <span className={`self-start text-xs ${featuredOnSand ? "text-ink/80 border-ink/20" : "text-cream/90 border-cream/40"} border rounded-full px-2.5 py-0.5 backdrop-blur-sm`}>Start here</span>
               ) : <span />}
-              {!featured.image && <div className="text-cream/90 font-display font-semibold text-sm">{featured.category}</div>}
+              {!featured.image && !featuredOnSand && <div className="text-cream/90 font-display font-semibold text-sm">{featured.category}</div>}
             </div>
           </div>
           <div className="p-6 sm:p-8 flex flex-col justify-center">
@@ -84,7 +87,7 @@ export default function BlogIndex({ posts }: { posts: BlogCard[] }) {
             <Link key={post.slug} href={`/blog/${post.slug}`}
               className="group card !p-0 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all flex flex-col">
               <div className="relative h-28 bg-sand/50 overflow-hidden">
-                <BlogCover slug={post.slug} category={post.category} image={post.image} />
+                <BlogCover slug={post.slug} category={post.category} image={post.image} packshots={post.packshots} />
               </div>
               <div className="p-5 flex flex-col flex-1">
                 <div className="text-xs text-muted">{meta(post)}</div>

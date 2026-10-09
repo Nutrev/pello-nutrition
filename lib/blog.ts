@@ -15,6 +15,9 @@ export interface BlogPost {
   // Optional cover photo, e.g. { src: "/blog/marathon.jpg", alt: "..." } with the file in
   // public/blog/. Posts without one get a drawn cover for their category.
   image?: { src: string; alt: string };
+  // Optional product pack shots shown side by side on the cover (a comparison's two
+  // products, say), files in public/blog/. Used when there's no cover photo.
+  packshots?: { src: string; alt: string }[];
   // Shown as the large featured card at the top of the blog page.
   startHere?: boolean;
 }
@@ -22,6 +25,7 @@ export interface BlogPost {
 export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "best-energy-gels-cycling-2026",
+    image: { src: "/blog/energy-gels.jpg", alt: "Energy gels from Maurten, Carbs Fuel, GU, Honey Stinger, Precision Fuel, SiS and others" },
     title: "Best Energy Gels for Cycling 2026",
     description: "We compared 15+ energy gels for cyclists. Here are the top picks across price, carbohydrate science and ingredient quality.",
     date: "2026-09-22",
@@ -173,6 +177,10 @@ Start with 3-5g daily and give it 4 weeks to fully saturate. Don't load. Don't o
 
   {
     slug: "maurten-vs-sis-beta-fuel",
+    packshots: [
+      { src: "/blog/maurten-gel-100.png", alt: "Maurten Gel 100" },
+      { src: "/blog/sis-go-isotonic-gel.png", alt: "SiS GO Isotonic Energy gel" },
+    ],
     title: "Maurten vs SiS Beta Fuel — Which is Better?",
     description: "Two of the most popular high-carb fueling systems compared head to head. Ingredients, GI comfort, carb density, price and who each is best for.",
     date: "2026-09-22",
@@ -431,6 +439,112 @@ If you cramp regularly in long events, you're almost certainly sodium depleted. 
 Test your sodium strategy in training before race day. Sodium needs are individual — what works for one athlete may be insufficient for another with higher sweat rates or saltier sweat.
 
 Start with a moderate sodium strategy and increase if you experience cramping, headaches or excessive fatigue in the late stages of long events.`,
+  },
+  {
+    slug: "best-protein-powder-cyclists-2026",
+    title: "Best Protein Powder for Cyclists in 2026",
+    description: "Cyclists have different protein needs to gym athletes. We compared protein powders on Pello's data — protein per serving, price per gram, certifications and Pello Score — against what the research says riders need.",
+    date: "2026-10-09",
+    author: "Pello Nutrition",
+    category: "Reviews",
+    tags: ["protein", "cycling", "recovery", "supplements"],
+    relatedProducts: ["transparent-labs-grass-fed-whey", "momentous-whey-isolate", "promix-whey-isolate", "amacx-recovery-shake", "momentous-collagen", "swissrx-collagen"],
+    readingTime: 8,
+    content: `Cyclists are not bodybuilders. The protein requirements, timing and product characteristics that matter for a rider are different from someone training for muscle size.
+
+Yet most protein powder guides are written for gym athletes. The result is recommendations that miss what cyclists actually need — products that support recovery between sessions, help maintain muscle through heavy training and sit well on a stomach that has just spent three hours on the bike processing gels and drink mix.
+
+This guide is for cyclists. We compared the protein products in Pello's database — their labels, prices and certifications — against what the research says matters for endurance athletes.
+
+## Do cyclists actually need protein powder?
+
+Need is a strong word: you can reach your protein target from food. But a powder is one of the simplest ways to close the gap.
+
+Long rides increase muscle protein breakdown and deplete muscle glycogen. Protein supports the repair and adaptation that follow, and falling short over a training block makes recovery harder.
+
+The 2016 joint position stand from the American College of Sports Medicine, the Academy of Nutrition and Dietetics and Dietitians of Canada recommends 1.2-2.0g of protein per kg of body weight per day for athletes. For a 70kg rider that's 84-140g a day, with heavier training blocks toward the top of that range.
+
+Many riders find the upper end hard to reach from food alone, especially when appetite drops after a long ride. That's where a powder earns its place.
+
+## What matters in a protein powder for cyclists
+
+**Leucine content.** Leucine is the amino acid most closely tied to switching on muscle protein synthesis. The International Society of Sports Nutrition (ISSN) suggests each serving provide roughly 0.7-3g of leucine. Whey is naturally rich in it — a 20-25g serving typically provides around 2-3g. Plant proteins usually contain less per gram, so check the amino acid profile, not just the total protein.
+
+**Digestion speed.** Whey is digested quickly and is higher in leucine than casein, which is why it's the usual choice after training. Casein digests slowly, which is why it's used before sleep.
+
+**GI tolerance.** Whey isolate is filtered to remove most of the lactose, so people with lactose sensitivity usually tolerate it better than whey concentrate. If dairy doesn't agree with you at all, a plant protein is the alternative.
+
+**What's in the tub.** Read the label for added sugar and for proprietary blends that hide ingredient amounts. Some flavored powders add sugar — fine after a ride, but worth knowing if you're counting it.
+
+**Certifications.** If you race in a tested event, choose a product that is NSF Certified for Sport or Informed Sport certified. Both test for substances banned in sport; NSF Certified for Sport also checks that the contents match the label.
+
+## Our picks for cyclists
+
+These picks come from Pello's product data. Prices are The Feed's at the time of writing, and Pello Scores are out of 100.
+
+### Best overall: Transparent Labs 100% Grass-Fed Whey Protein Isolate
+
+The highest Pello Score of the whey powders here at 84. Each scoop provides 28g of protein with 1g of carbohydrate and 130 calories, and it's NSF Certified for Sport.
+
+At $64.99 for 30 servings it works out at about $2.17 a serving — around $1.55 for every 20g of protein. An unflavored version is available if you'd rather mix it into food or a smoothie.
+
+Best for: most cyclists, including those in tested events.
+
+### Also NSF certified: Momentous Whey Protein Isolate
+
+Momentous is NSF Certified for Sport and provides 20g of protein per scoop with 2g of carbohydrate and 90 calories — a lighter serving than the others here. It's available unflavored.
+
+It also contains ProHydrolase, a protease enzyme blend; the evidence for added digestive enzymes like this is mixed. At $59.99 for 25 servings ($2.40 a serving) it's the most expensive per gram of protein of the three isolates, at $2.40 for every 20g. Pello Score: 66.
+
+Best for: riders in tested events who want a smaller serving.
+
+### Most protein per dollar: Promix Whey Isolate
+
+Promix provides 31g of protein per two-scoop serving, and at $68.99 for 30 servings it's the lowest cost per gram of protein here — about $1.48 for every 20g.
+
+Two things to know: it has no third-party sport certification listed, and the version on Pello includes 9g of carbohydrate from sucrose per serving. Pello Score: 65.
+
+Best for: riders who aren't drug tested and want the most protein for the money.
+
+### Best recovery shake: Amacx Recovery Shake
+
+If you'd otherwise drink a protein shake and eat a banana, this combines both: 20g of protein and 30g of carbohydrate (maltodextrin, fructose and sucrose) per serving. It's Informed Sport certified.
+
+It costs more — $64.99 for 15 servings, about $4.33 a serving — because you're also paying for the carbohydrate. Pello Score: 69.
+
+Best for: back-to-back training days, when glycogen needs restoring as well as muscle.
+
+### For tendons and joints: Momentous Collagen Peptides
+
+Collagen is not a complete protein and shouldn't replace whey. Its interest for cyclists is connective tissue. In a small 2017 study (Shaw et al.), 15g of gelatin taken with vitamin C an hour before exercise increased markers of collagen synthesis — promising, but early evidence.
+
+Each Momentous Collagen packet provides 15g of protein (11.6g of collagen peptides plus 5.2g of Fortigel collagen hydrolysate) with 50mg of vitamin C, and it's NSF Certified for Sport. At $29.95 for 10 packets it's about $3.00 a serving. Pello Score: 75.
+
+SwissRX Collagen is a popular alternative, but each scoop contains 5.2g of Fortigel — well short of the 15g used in that study — and it lists no sport certification. Pello Score: 44.
+
+Best for: cyclists managing tendon or joint issues, alongside a proper training and rehab plan.
+
+## Timing — what actually matters
+
+The post-workout "anabolic window" is wider than gym lore suggests. Total daily protein matters most, and the ISSN notes that protein within about two hours after exercise is an effective strategy.
+
+For cyclists the time-sensitive part is carbohydrate. If your next session is within about eight hours, the 2016 position stand recommends 1.0-1.2g of carbohydrate per kg of body weight per hour for the first four hours to restore glycogen quickly.
+
+A practical protocol:
+
+After hard rides: 20-40g of protein (about 0.25g per kg of body weight) with carbohydrate. A shake with a banana, a recovery shake or a proper meal all work.
+
+Through the day: spread protein across 4-5 meals and snacks of 20-40g each rather than one or two large servings.
+
+Before sleep on back-to-back training days: the ISSN reports that 30-40g of casein before sleep can increase overnight muscle protein synthesis.
+
+## The bottom line
+
+For most cyclists, a whey isolate after hard sessions is a simple way to reach a daily protein target that food alone can miss.
+
+On Pello's data, Transparent Labs offers the best combination of protein per serving, NSF certification and price. Promix is the cheapest per gram of protein if you don't need a certified product. Amacx covers protein and carbohydrate in one shake, and Momentous Collagen is the option worth considering for connective tissue.
+
+Use the Pello planner to build fueling and recovery around your next event.`,
   },
 ];
 

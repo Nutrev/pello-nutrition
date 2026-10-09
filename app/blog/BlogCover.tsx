@@ -3,14 +3,32 @@ import Image from "next/image";
 // A post's cover: its photo when it has one, otherwise a quiet drawing for its category
 // (two boxes for comparisons, ranked bars for reviews, a data line for science, the logo
 // wave for everything else). Fills its parent, which sets the size.
-export default function BlogCover({ slug, category, image, featured = false }: {
+export default function BlogCover({ slug, category, image, packshots, featured = false }: {
   slug: string;
   category: string;
   image?: { src: string; alt: string };
+  packshots?: { src: string; alt: string }[];
   featured?: boolean;
 }) {
   if (image) {
     return <Image src={image.src} alt={image.alt} fill sizes={featured ? "(min-width: 768px) 560px, 100vw" : "(min-width: 640px) 480px, 100vw"} className="object-cover" />;
+  }
+
+  // Pack shots stand side by side (with "vs" between two of them). Multiply blends any
+  // white photo background into the sand.
+  if (packshots?.length) {
+    return (
+      <div className={`absolute inset-0 flex items-center justify-center ${featured ? "gap-8 py-8" : "gap-5 py-3"}`}>
+        {packshots.map((shot, i) => (
+          <div key={shot.src} className="contents">
+            {i > 0 && packshots.length === 2 && <span aria-hidden="true" className="text-xs font-semibold text-moss/60 tracking-widest">VS</span>}
+            <div className={`relative h-full ${featured ? "w-28 md:w-32" : "w-14"}`}>
+              <Image src={shot.src} alt={shot.alt} fill sizes={featured ? "128px" : "56px"} className="object-contain mix-blend-multiply" />
+            </div>
+          </div>
+        ))}
+      </div>
+    );
   }
 
   if (featured) {
