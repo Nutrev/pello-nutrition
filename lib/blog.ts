@@ -261,7 +261,7 @@ Use the Pello Planner to get a personalized recommendation based on your specifi
     slug: "marathon-nutrition-guide",
     image: { src: "/blog/marathon-course.jpg", alt: "Map of a marathon course from start to finish" },
     startHere: true,
-    title: "The Complete Marathon Nutrition Guide",
+    title: "Marathon Nutrition Guide 2026 — What to Eat Before, During and After",
     description: "Everything you need to know about fueling a marathon — from pre-race carb loading to mid-race gel strategy and post-race recovery.",
     date: "2026-09-22",
     author: "Pello Nutrition",
