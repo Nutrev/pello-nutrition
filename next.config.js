@@ -15,6 +15,10 @@ const nextConfig = {
       // Carbs and Carbs Fuel were listed as separate brands; they're one brand, Carbs Fuel
       { source: "/brands/carbs", destination: "/brands/carbs-fuel", permanent: true },
       { source: "/report/chia-smash", destination: "/products/energy-gel", permanent: true },
+      { source: "/report/brutal-salty-energy-endurance-fuel-blend", destination: "/products/energy-gel", permanent: true },
+      { source: "/report/trail-butter", destination: "/products/energy-gel", permanent: true },
+      { source: "/brands/brutal-salty-energy", destination: "/brands", permanent: true },
+      { source: "/brands/trail-butter", destination: "/brands", permanent: true },
       { source: "/brands/smash-foods", destination: "/brands", permanent: true },
       // Knowledge graph page removed
       { source: "/graph", destination: "/ingredients", permanent: true },
