@@ -293,7 +293,8 @@ export default function ReportClient({ product, similar: similarProducts, brand,
         </div>
 
         {/* The short version, built from the product's own data (lib/product-summary.ts) */}
-        <div className="card mt-8">
+        <section className="card mt-8" aria-labelledby="summary">
+          <h2 id="summary" className="font-display font-semibold text-base mb-2">Summary</h2>
           <p className="text-sm leading-relaxed">{summary.opening}</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 mt-4">
             <div>
@@ -307,7 +308,7 @@ export default function ReportClient({ product, similar: similarProducts, brand,
               ) : <p className="text-sm text-muted">No standout strengths.</p>}
             </div>
             <div>
-              <h3 className="text-[11px] uppercase tracking-widest text-amber mb-2">Watch out for</h3>
+              <h3 className="text-[11px] uppercase tracking-widest text-amber mb-2">Weaknesses</h3>
               <ul className="space-y-1.5">
                 {summary.weaknesses.map((w) => (
                   <li key={w} className="flex items-start gap-2 text-sm"><span aria-hidden="true" className="text-amber flex-shrink-0">→</span>{w}</li>
@@ -318,7 +319,7 @@ export default function ReportClient({ product, similar: similarProducts, brand,
           {summary.bestFor && (
             <p className="text-sm mt-4 pt-4 border-t border-sand"><span className="font-medium">Best for:</span> <span className="text-muted">{summary.bestFor}</span></p>
           )}
-        </div>
+        </section>
 
         {/* Score breakdown */}
         {PelloScore && (
