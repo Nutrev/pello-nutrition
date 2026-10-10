@@ -10,6 +10,33 @@ import { formatWeight } from "@/lib/planner";
 import { isModeContent, type SavedPlan, type PlanContent } from "@/lib/account-types";
 import { STANDARD_CHOICES } from "@/lib/quality-standards";
 import DeleteRowButton from "@/components/account/DeleteRowButton";
+import RaceDayPlanCard, { type RaceDayProduct } from "@/components/fueling/RaceDayPlanCard";
+import { getProductSummaries } from "@/lib/catalog";
+import { byWeightedRating, type ProductSummary } from "@/lib/catalog-types";
+import { meetsAll, meetsDiet } from "@/lib/quality-standards";
+import { INTENSITY_OPTIONS } from "@/lib/planner";
+import { sodiumPlan, FLUID_ML_PER_HOUR } from "@/lib/fueling";
+
+// Products for the race-day card: the plan's own diet, quality-standard and caffeine choices,
+// in Pello's usual ranking order (rating weighted by review count).
+function raceDayOptions(plan: SavedPlan): { carbs: RaceDayProduct[]; sodium: RaceDayProduct[] } {
+  const i = plan.inputs;
+  const ok = (p: ProductSummary) =>
+    (i.dietary ?? []).every((d) => meetsDiet({ isVegan: p.nutrition.isVegan, isGlutenFree: p.nutrition.isGlutenFree, allergens: p.allergens }, d)) &&
+    meetsAll(p.standards, i.standards ?? []) &&
+    !(i.caffeinePreference === "none" && p.nutrition.hasCaffeine);
+  const slim = (p: ProductSummary): RaceDayProduct => ({
+    id: p.id, name: p.name, brand: p.brand, category: p.category, pricePerServing: p.pricePerServing, pelloScore: p.pelloScore,
+    nutrition: { carbsPerServing: p.nutrition.carbsPerServing, sodiumPerServing: p.nutrition.sodiumPerServing, hasCaffeine: p.nutrition.hasCaffeine },
+  });
+  const all = getProductSummaries().filter(ok).sort(byWeightedRating);
+  const formats = (i.formats ?? []).filter((f) => ["Energy Gel", "Energy Chew", "Carbohydrate Mix"].includes(f));
+  const carbCats = formats.length ? formats : ["Energy Gel", "Energy Chew", "Carbohydrate Mix"];
+  return {
+    carbs: all.filter((p) => carbCats.includes(p.category as never) && (p.nutrition.carbsPerServing ?? 0) >= 10 && p.pricePerServing > 0).map(slim),
+    sodium: all.filter((p) => p.category === "Hydration" && (p.nutrition.sodiumPerServing ?? 0) > 0 && p.pricePerServing > 0).map(slim),
+  };
+}
 
 export const metadata: Metadata = { title: "Saved plan", robots: { index: false } };
 
@@ -32,7 +59,6 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
   const i = plan.inputs;
   const content = plan.plan_content;
   // Summary tags for the newer planners' inputs.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const m = plan.inputs as any;
   const label = <T extends { id: string; label: string }>(list: readonly T[], id: string) => list.find((x) => x.id === id)?.label;
   const modeTags: string[] | null =
@@ -55,6 +81,12 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
   const tags = (modeTags ?? classicTags).filter(Boolean) as string[];
   // Section titles were saved as written by the planner (often in capitals).
   const nice = (t: string) => (t === t.toUpperCase() ? t.charAt(0) + t.slice(1).toLowerCase() : t);
+  // Race-day card: event plans of an hour or more.
+  const raceDay = plan.plan_mode === "event" && i.durationHours >= 1 ? {
+    carbsPerHour: INTENSITY_OPTIONS.find((o) => o.id === i.intensity)?.carbsPerHr ?? 60,
+    sodium: sodiumPlan(i),
+    options: raceDayOptions(plan),
+  } : null;
 
   return (
     <div className="max-w-3xl mx-auto px-6 py-10">
@@ -64,6 +96,7 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
         <h1 className="font-display font-bold text-3xl tracking-tight mb-3">{plan.plan_name}</h1>
         <div className="flex flex-wrap gap-2">{tags.map((t) => <span key={t} className="text-xs bg-sand px-2 py-0.5 rounded-md">{t}</span>)}</div>
       </div>
+      <div className="print-hide-for-race-card">
       {isModeContent(content) ? (
         <div className="space-y-4">
           {content.sections.filter((sec) => sec.lines.length).map((sec, n) => (
@@ -100,7 +133,15 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
       </div>
       )}
       {plan.notes && <div className="card mt-4"><h2 className="font-display font-semibold mb-2">Notes</h2><p className="text-sm whitespace-pre-wrap">{plan.notes}</p></div>}
-      <div className="flex items-center justify-between gap-3 mt-8 print:hidden">
+      </div>
+      {raceDay && (
+        <div className="mt-4">
+          <RaceDayPlanCard durationHours={i.durationHours} carbsPerHour={raceDay.carbsPerHour} sodiumPerHour={raceDay.sodium.perHour}
+            sodiumBasis={raceDay.sodium.basis} fluidPerHourMl={FLUID_ML_PER_HOUR[i.conditions ?? "mild"]}
+            carbOptions={raceDay.options.carbs} sodiumOptions={raceDay.options.sodium} />
+        </div>
+      )}
+      <div className="flex items-center justify-between gap-3 mt-8 print:hidden print-hide-for-race-card">
         <div className="flex flex-wrap gap-2">
           <Link href="/quiz" className="btn-secondary">Build another plan</Link>
           {access.gating && access.allowed && <PrintButton label="Export as PDF" />}

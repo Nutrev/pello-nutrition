@@ -3,6 +3,7 @@
 // Wraps a Pello Pro feature. Pro users (and everyone, while Pro is switched off) see the
 // feature itself. Everyone else sees a faded preview with a short note on what Pro adds.
 import Link from "next/link";
+import { INDEPENDENCE_SHORT } from "@/lib/pro";
 import { usePathname } from "next/navigation";
 import { useProAccess } from "@/lib/subscription";
 import LockIcon from "@/components/pro/LockIcon";
@@ -36,6 +37,7 @@ export default function ProGate({ feature, description, children, fallback, comp
           </Link>
         )}
       </div>
+      <p className="text-[11px] text-muted mt-3">{INDEPENDENCE_SHORT}</p>
     </div>
   );
 

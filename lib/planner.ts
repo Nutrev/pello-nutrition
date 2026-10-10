@@ -4,6 +4,7 @@
 
 import { STANDARD_CHOICES, STANDARD_CHOICE_IDS, type StandardChoice } from "./quality-standards";
 import { describeBlocks, MAX_BLOCKS, type WorkoutBlock, type IntensityBasis } from "./workout-file";
+import { sodiumPlan, CONDITIONS, type Conditions } from "./fueling";
 
 // ── TYPES ─────────────────────────────────────────────────────
 
@@ -55,6 +56,8 @@ export interface PlannerInputs {
   trainingDaysPerWeek: number;
   sessionTime?: SessionTime | null;  // "Today's workout" only
   lastMeal?: LastMeal | null;        // "Today's workout" only
+  conditions?: Conditions | null;    // weather for the session; default mild
+  saltySweater?: boolean | null;     // from the athlete profile
 }
 
 export const DEFAULT_INPUTS: PlannerInputs = {
@@ -147,16 +150,16 @@ export function carbsNeeded(durationHours: number, intensity: Intensity): number
   return Math.round(rates[intensity] * durationHours);
 }
 
-// Estimated sodium lost in sweat (mg). Sweat rates are liters per hour for a 70kg athlete,
-// scaled by body weight; 500mg of sodium per liter of sweat. An average, not a personal figure
-// (a sweat test gives the real one).
-export function sodiumNeeded(durationHours: number, intensity: Intensity, weightKg: number, sex: Sex = "male"): number {
-  const sweatLitresPerHour: Record<Intensity, number> = { easy: 0.5, moderate: 0.8, hard: 1.1, race: 1.4 };
-  const SODIUM_MG_PER_LITRE = 500;
-  // Women sweat less on average, so lose roughly 15% less sodium.
-  const sexFactor = sex === "female" ? 0.85 : 1;
-  const litres = sweatLitresPerHour[intensity] * (weightKg / 70) * durationHours;
-  return Math.round(litres * SODIUM_MG_PER_LITRE * sexFactor);
+// Sodium to take during the session (mg), from lib/fueling.ts (Pello's sodium article ranges,
+// by duration, conditions and whether the athlete is a salty sweater).
+export function sodiumNeeded(inputs: Pick<PlannerInputs, "durationHours" | "intensity" | "conditions" | "saltySweater">): number {
+  return sodiumPlan(inputs).total;
+}
+
+function sodiumLine(inputs: PlannerInputs, label: string): string {
+  const s = sodiumPlan(inputs);
+  if (!s.total) return `- ${label}: none needed for a session under an hour`;
+  return `- ${label}: ${s.total}mg (${s.perHour}mg/hr; ${s.basis.toLowerCase()} range ${s.perHourLow}-${s.perHourHigh}mg/hr${inputs.conditions ? `, ${inputs.conditions} conditions` : ""})`;
 }
 
 // ── VALIDATION ────────────────────────────────────────────────
@@ -234,6 +237,8 @@ export function parsePlannerInputs(raw: unknown): PlannerInputs | null {
   if (sessionTime !== null && !oneOf(sessionTime, SESSION_TIME_IDS)) return null;
   if (lastMeal !== null && !oneOf(lastMeal, LAST_MEAL_IDS)) return null;
   if (r.mode === "workout" && (sessionTime === null || lastMeal === null)) return null;
+  const conditions = r.conditions ?? null;
+  if (conditions !== null && !CONDITIONS.some((c) => c.id === conditions)) return null;
   if (!INTENSITY_OPTIONS.some((i) => i.id === r.intensity)) return null;
   if (!oneOf(r.caffeinePreference, CAFFEINE_PREFERENCES)) return null;
   if (!oneOf(r.weightUnit, WEIGHT_UNITS) || !oneOf(r.sex, SEXES)) return null;
@@ -272,6 +277,8 @@ export function parsePlannerInputs(raw: unknown): PlannerInputs | null {
     sex: r.sex,
     trainingDaysPerWeek,
     ...(r.mode === "workout" ? { sessionTime: sessionTime as SessionTime, lastMeal: lastMeal as LastMeal } : {}),
+    ...(conditions !== null ? { conditions: conditions as Conditions } : {}),
+    ...(typeof r.saltySweater === "boolean" ? { saltySweater: r.saltySweater } : {}),
   };
 }
 
@@ -313,7 +320,6 @@ export function buildPlanPrompt(inputs: PlannerInputs): string {
   const outcomeData = OUTCOME_TYPES.find(o => o.id === inputs.outcomeType);
   const eventData = EVENT_TYPES.find(e => e.id === inputs.eventType);
   const carbTarget = carbsNeeded(inputs.durationHours, inputs.intensity);
-  const sodiumTarget = sodiumNeeded(inputs.durationHours, inputs.intensity, inputs.weightKg, inputs.sex);
   const weight = inputs.weightUnit === "lbs"
     ? `${formatWeight(inputs.weightKg, "lbs")} (${Math.round(inputs.weightKg)}kg)`
     : formatWeight(inputs.weightKg, "kg");
@@ -340,7 +346,7 @@ ${athlete}
 ${workoutSection(inputs)}
 CALCULATED TARGETS:
 - Total carbs: ${carbTarget}g (${INTENSITY_OPTIONS.find(i => i.id === inputs.intensity)?.carbsPerHr}g/hr)
-- Total sodium: ${sodiumTarget}mg${inputs.sex === "female" ? " (adjusted 15% lower for average female sweat sodium losses)" : ""}
+${sodiumLine(inputs, "Total sodium")}
 Use these totals exactly in DURING EVENT and TOTALS; don't recalculate them.
 
 ${personalise}
@@ -414,7 +420,6 @@ function buildWorkoutPrompt(inputs: PlannerInputs, weight: string, athlete: stri
   const session = WORKOUT_TYPES.find((w) => w.id === inputs.eventType)?.label ?? "Training session";
   const minutes = Math.round(inputs.durationHours * 60);
   const carbs = sessionCarbTarget(inputs);
-  const sodium = sodiumNeeded(inputs.durationHours, inputs.intensity, inputs.weightKg, inputs.sex);
   const time = SESSION_TIMES.find((t) => t.id === inputs.sessionTime)?.label.toLowerCase() ?? "not given";
   const meal = LAST_MEALS.find((m) => m.id === inputs.lastMeal)?.label.toLowerCase() ?? "not given";
   const perHour = INTENSITY_OPTIONS.find((i) => i.id === inputs.intensity)?.carbsPerHr;
@@ -437,7 +442,7 @@ CALCULATED TARGETS FOR THE SESSION ITSELF:
 ${carbs > 0
   ? `- Carbs during the session: ${carbs}g (${perHour}g/hr)`
   : "- Carbs during the session: none needed. It's short or easy enough to run on stored glycogen; water to thirst is enough."}
-- Sodium during the session: ${sodium}mg${inputs.sex === "female" ? " (adjusted 15% lower for average female sweat sodium losses)" : ""}
+${sodiumLine(inputs, "Sodium during the session")}
 Use these in DURING and TOTALS; don't recalculate them.
 
 ${personalise}

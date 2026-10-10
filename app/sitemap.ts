@@ -16,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/search`, priority: 0.8, changeFrequency: "weekly" as const },
     { url: `${base}/query`, priority: 0.8, changeFrequency: "weekly" as const },
     { url: `${base}/ingredients`, priority: 0.7, changeFrequency: "monthly" as const },
+    { url: `${base}/fueling`, priority: 0.6, changeFrequency: "monthly" as const },
     { url: `${base}/guides`, priority: 0.7, changeFrequency: "monthly" as const },
     { url: `${base}/guides/carb-calculator`, priority: 0.7, changeFrequency: "monthly" as const },
     { url: `${base}/guides/recovery`, priority: 0.7, changeFrequency: "monthly" as const },

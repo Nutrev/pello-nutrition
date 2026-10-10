@@ -14,6 +14,7 @@ export interface UserProfile {
   ftp_watts?: number | null;     // cycling FTP, for reading power-based workout files
   threshold_pace_sec_per_km?: number | null;  // running threshold pace, for run workout files
   threshold_hr?: number | null;  // running threshold heart rate (bpm)
+  salty_sweater?: boolean | null; // self-reported (white residue on skin or kit); raises sodium targets
   caffeine_preference: "none" | "moderate" | "high" | null;
   dietary: string[];
   goals: string[];

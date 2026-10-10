@@ -31,6 +31,8 @@ import {
   EVENT_TYPES, OUTCOME_TYPES, WORKOUT_TYPES, SESSION_TIMES, LAST_MEALS, INTENSITY_OPTIONS, DEFAULT_INPUTS,
   carbsNeeded, sessionCarbTarget, sodiumNeeded, formatWeight,
 } from "@/lib/planner";
+import { CONDITIONS, type Conditions } from "@/lib/fueling";
+import FuelingCost from "@/components/fueling/FuelingCost";
 
 // ── TYPES ─────────────────────────────────────────────────────
 
@@ -101,6 +103,14 @@ function getCarbsPerServing(p: ProductSummary): number | null {
 }
 
 // ── SMART RECOMMENDATION ENGINE ───────────────────────────────
+
+// Whether a product meets the plan's diet, quality-standard and caffeine choices (the same rules
+// the recommendations use). Used by the fueling cost tool's cheapest-equivalent suggestion.
+function fitsPlan(p: ProductSummary, inputs: PlannerInputs): boolean {
+  return inputs.dietary.every(d => meetsDiet({ isVegan: p.nutrition.isVegan, isGlutenFree: p.nutrition.isGlutenFree, allergens: p.allergens }, d)) &&
+    meetsAll(p.standards, inputs.standards ?? []) &&
+    !(inputs.caffeinePreference === "none" && p.ingredients?.some(i => /caffeine|green tea/i.test(i.name)));
+}
 
 function buildPhaseRecommendations(PRODUCTS: ProductSummary[], inputs: PlannerInputs, carbTarget: number, sodiumTarget: number): {
   pre: PhaseProduct[];
@@ -522,6 +532,7 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
       ...(profile.training_days_per_week != null ? { trainingDaysPerWeek: profile.training_days_per_week } : {}),
       ...(profile.caffeine_preference ? { caffeinePreference: profile.caffeine_preference } : {}),
       ...(profile.dietary?.length ? { dietary: profile.dietary as DietaryRestriction[] } : {}),
+      ...(profile.salty_sweater != null ? { saltySweater: profile.salty_sweater } : {}),
     }));
     setPrefilled(true);
   }, [profile, proAccess, user, prefilled]);
@@ -538,7 +549,7 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
 
   // Today's workout drops the carb target to 0 for sessions that don't need fuel (lib/planner.ts).
   const carbTarget = sessionCarbTarget(inputs);
-  const sodiumTarget = sodiumNeeded(inputs.durationHours, inputs.intensity, inputs.weightKg, inputs.sex);
+  const sodiumTarget = sodiumNeeded(inputs);
   const isWorkout = inputs.mode === "workout";
   const isEvent = inputs.mode === "event" || isWorkout; // single-session planners share the event flow
 
@@ -755,7 +766,7 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
             {step === 2 && (
               <div>
                 <h2 className="font-display font-semibold text-lg mb-1">Your targets</h2>
-                <p className="text-xs text-muted mb-5">We'll use these to calculate your exact nutrition needs</p>
+                <p className="text-xs text-muted mb-5">We&apos;ll use these to calculate your exact nutrition needs</p>
 
                 {isEvent && (
                   <div className="card mb-4">
@@ -777,6 +788,19 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
                           </div>
                         </button>
                       ))}
+                    </div>
+                  </div>
+                )}
+
+                {isEvent && (
+                  <div className="card mb-4">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <div>
+                        <h3 className="font-display font-semibold">Conditions</h3>
+                        <p className="text-xs text-muted">Heat raises how much sodium you need.</p>
+                      </div>
+                      <PillToggle<Conditions> label="Conditions" value={inputs.conditions ?? "mild"} onChange={v => update("conditions", v)}
+                        options={CONDITIONS} />
                     </div>
                   </div>
                 )}
@@ -1054,6 +1078,12 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
                             ))}
                           </div>
                         </div>
+                      )}
+                      {isEvent && carbTarget > 0 && (
+                        <FuelingCost scope={inputs.mode === "workout" ? "session" : "event"} carbTarget={carbTarget}
+                          carbOptions={phaseRecs.during.filter(i => i.group === "carb-option").map(i => i.product)}
+                          extrasCost={phaseRecs.during.filter(i => i.group === "electrolytes").reduce((s, i) => s + i.totalCost, 0)}
+                          catalog={catalog} eligible={(p) => fitsPlan(p, inputs)} />
                       )}
                     </div>
                   ) : (

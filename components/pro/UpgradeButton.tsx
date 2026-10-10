@@ -23,7 +23,8 @@ function Label({ text }: { text: string }) {
   );
 }
 
-export default function UpgradeButton({ className = PRIMARY }: { className?: string }) {
+// `interval` picks monthly or annual billing (annual only when it's set up; see lib/stripe.ts).
+export default function UpgradeButton({ className = PRIMARY, interval = "month" }: { className?: string; interval?: "month" | "year" }) {
   const { user, loading } = useUser();
   const { isPro, hadTrial } = useSubscription();
   const [busy, setBusy] = useState(false);
@@ -34,13 +35,13 @@ export default function UpgradeButton({ className = PRIMARY }: { className?: str
 
   const label = hadTrial ? "Upgrade to Pro" : `Start Pro free for ${TRIAL_DAYS} days`;
   if (!user) {
-    return <Link href="/auth/login?mode=signup&redirect=%2Fpricing" className={className}><Label text={label} /></Link>;
+    return <Link href={`/auth/login?mode=signup&redirect=${encodeURIComponent(interval === "year" ? "/pricing?billing=year" : "/pricing")}`} className={className}><Label text={label} /></Link>;
   }
 
   const start = async () => {
     setBusy(true); setError(null);
     try {
-      const res = await fetch("/api/stripe/checkout", { method: "POST" });
+      const res = await fetch("/api/stripe/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ interval }) });
       const data = await res.json();
       if (!res.ok || !data.url) throw new Error(data.error);
       window.location.href = data.url;

@@ -4,6 +4,7 @@
 import Link from "next/link";
 import Modal from "@/components/Modal";
 import LockIcon from "./LockIcon";
+import { INDEPENDENCE_SHORT } from "@/lib/pro";
 
 export default function UpgradePrompt({ open, onClose, feature, description }: {
   open: boolean; onClose: () => void; feature: string; description: string;
@@ -18,6 +19,7 @@ export default function UpgradePrompt({ open, onClose, feature, description }: {
         <Link href="/pricing" className="btn-primary justify-center flex">See Pello Pro</Link>
         <button type="button" onClick={onClose} className="btn-secondary justify-center flex">Not now</button>
       </div>
+      <p className="text-[11px] text-muted text-center mt-3">{INDEPENDENCE_SHORT}</p>
     </Modal>
   );
 }

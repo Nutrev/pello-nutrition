@@ -13,21 +13,54 @@ export const PRO_ENABLED = !!process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID?.trim()
 export const PRO_PRICE_LABEL = "$8";
 export const TRIAL_DAYS = 8; // over 7 so Managed Payments sends a trial-ending reminder
 
-// What Pro adds over the free plan, shown on the pricing page and to free users on their
-// account page. Every line must be true of the site as built; update it with the features.
-export const PRO_FEATURES = [
-  "Unlimited nutrition plans",
-  "Plans built from your workout files (.fit, .zwo, .erg, .mrc, .tcx)",
-  "intervals.icu connection: plan from today's scheduled workout or review a completed one in one tap",
-  "Save and revisit plans",
-  "Goal-based planner (first marathon, recovery, building muscle and more)",
-  "Compare up to 5 products",
-  "All advanced filters (G:F ratio, hydrogel, transparency, rating)",
-  "Submit community reviews",
-  "Supplement stack tracker",
-  "Plans pre-filled from your saved athlete profile",
-  "Export plans and comparisons as PDF",
+// Annual billing (shown when STRIPE_PRICE_PRO_ANNUAL is set). Must match the price in Stripe:
+// $80 a year, which is $6.67 a month and saves $16 on twelve monthly payments of $8.
+export const PRO_ANNUAL_PRICE_LABEL = "$80";
+export const PRO_ANNUAL_MONTHLY_LABEL = "$6.67";
+export const PRO_ANNUAL_SAVING_LABEL = "$16";
+
+// The independence line, in full under the Pro card and short in upgrade prompts.
+export const INDEPENDENCE_LINE = "Pello takes no money from brands. Pro members help keep our scores independent.";
+export const INDEPENDENCE_SHORT = "No brand money. Members keep Pello independent.";
+
+// What Pro adds over the free plan, grouped as on the pricing page. Every line must be true of
+// the site as built; update it with the features.
+export const PRO_PROMISE = "Fuel plans for every session, built from your actual training.";
+export const PRO_FEATURE_GROUPS: { heading: string | null; collapsed?: boolean; items: string[] }[] = [
+  {
+    heading: null,
+    items: [
+      "Plans built from your workout files (.fit, .zwo, .erg, .mrc, .tcx)",
+      "intervals.icu connection: plan from today's scheduled workout or a completed one in one tap. intervals.icu syncs with Garmin, Strava and other devices (activities imported from Strava can't be shared with other apps)",
+    ],
+  },
+  {
+    heading: "Train your gut and race-day fueling",
+    items: [
+      "Gut-training program: build from about 60g toward 90g of carbs per hour over several weeks",
+      "Race-day plan: a gel, fluid and sodium timeline from a saved event plan, printable",
+      "Personalized sodium plan from your session length, conditions and sweat",
+    ],
+  },
+  {
+    heading: "Plus everything you need to go deeper",
+    collapsed: true,
+    items: [
+      "Unlimited nutrition plans",
+      "Save and revisit plans",
+      "Goal-based planner (first marathon, recovery, building muscle and more)",
+      "Supplement stack and race week planners",
+      "Compare up to 5 products",
+      "All advanced filters (G:F ratio, hydrogel, transparency, rating)",
+      "Submit community reviews",
+      "Supplement stack tracker",
+      "Plans pre-filled from your saved athlete profile",
+      "Export plans and comparisons as PDF",
+      "Fueling cost per session and event, with the cheapest equivalent product and its Pello Score",
+    ],
+  },
 ];
+export const PRO_FEATURES = PRO_FEATURE_GROUPS.flatMap((g) => g.items);
 
 export const FREE_PLANS_PER_MONTH = 1;
 export const FREE_COMPARE_LIMIT = 2;
@@ -45,6 +78,8 @@ export interface SubscriptionRow {
   cancel_at_period_end: boolean;
   trial_end: string | null;
   had_trial: boolean;
+  billing_interval?: "month" | "year" | null;  // supabase/pro-v2.sql
+  started_at?: string | null;                   // supabase/pro-v2.sql
 }
 
 // Stripe statuses that keep Pro access. past_due covers Stripe's retries of a failed

@@ -4,12 +4,12 @@ import { Suspense } from "react";
 import { requireAccountUser, productById, accountAccess } from "@/lib/account-server";
 import UpgradedBanner from "@/components/pro/UpgradedBanner";
 import ManageSubscriptionButton from "@/components/pro/ManageSubscriptionButton";
-import { PRO_FEATURES, PRO_PRICE_LABEL, type SubscriptionRow } from "@/lib/pro";
+import { PRO_FEATURES, PRO_PRICE_LABEL, PRO_ANNUAL_PRICE_LABEL, type SubscriptionRow } from "@/lib/pro";
 import { trialHasPaymentMethod } from "@/lib/subscription-server";
 import { SAVED_PLAN_LABEL, type UserProfile, type SavedPlan, type FavouriteProduct, type StackItem } from "@/lib/account-types";
 import { formatWeight } from "@/lib/planner";
 import { PLANNER_MODES } from "@/lib/planner-modes";
-import { formatDate } from "@/lib/format-date";
+import { formatDate, formatMonthYear } from "@/lib/format-date";
 import ProductCard from "@/components/ProductCard";
 import SignOutButton from "@/components/account/SignOutButton";
 import PendingPlanBanner from "@/components/account/PendingPlanBanner";
@@ -101,6 +101,8 @@ function SubscriptionSection({ isPro, sub, hasCard }: { isPro: boolean; sub: Sub
     const pastDue = sub.stripe_status === "past_due";
     const trialEnd = trialing && sub.trial_end ? formatDate(sub.trial_end) : null;
     const needsCard = !!trialEnd && !sub.cancel_at_period_end && hasCard === false;
+    const annual = sub.billing_interval === "year";
+    const price = annual ? `${PRO_ANNUAL_PRICE_LABEL}/year` : `${PRO_PRICE_LABEL}/month`;
     const line = pastDue
       ? "Your last payment didn't go through. Update your card to keep Pro."
       : trialEnd && sub.cancel_at_period_end
@@ -108,17 +110,20 @@ function SubscriptionSection({ isPro, sub, hasCard }: { isPro: boolean; sub: Sub
       : needsCard
       ? `Free trial ends ${trialEnd}. Add a card before then to keep Pro. Without one, your account goes back to the free plan on that date and you aren't charged.`
       : trialEnd && hasCard
-      ? `Free trial ends ${trialEnd}. Pro then continues at ${PRO_PRICE_LABEL}/month (USD) plus any applicable tax, charged to the card you added.`
+      ? `Free trial ends ${trialEnd}. Pro then continues at ${price} (USD) plus any applicable tax, charged to the card you added.`
       : trialEnd
       ? `Free trial ends ${trialEnd}. If you haven't added a card by then, your account goes back to the free plan and you aren't charged.`
       : sub.cancel_at_period_end && end
       ? `Canceled. You keep Pro until ${end}.`
-      : end ? `Renews ${end}.` : null;
+      : end ? `${annual ? "Annual plan. " : sub.billing_interval === "month" ? "Monthly plan. " : ""}Renews ${end}.` : null;
+    // Paying members only (not during the free trial), once the start date is stored.
+    const since = !trialing && sub.started_at ? formatMonthYear(sub.started_at) : null;
     return (
       <div className={`card flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 ${needsCard ? "bg-amber/5 border-amber/30" : ""}`}>
         <div>
           <span className="text-[11px] uppercase tracking-widest bg-amber/10 text-amber px-2 py-0.5 rounded-md">Pello Pro</span>
           {line && <p className={`text-sm mt-2 ${pastDue ? "text-rust" : needsCard ? "text-ink" : "text-muted"}`}>{line}</p>}
+          {since && <p className="text-xs text-moss mt-1">Supporting independent research since {since}</p>}
         </div>
         <div className="flex flex-col gap-2 sm:items-end">
           {needsCard && <ManageSubscriptionButton addCard className="btn-primary text-sm whitespace-nowrap" label="Add a card" />}

@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PRO_ENABLED, PRO_FEATURES, PRO_PRICE_LABEL, TRIAL_DAYS } from "@/lib/pro";
-import UpgradeButton from "@/components/pro/UpgradeButton";
+import { PRO_ENABLED, PRO_ANNUAL_PRICE_LABEL, PRO_ANNUAL_MONTHLY_LABEL, PRO_ANNUAL_SAVING_LABEL, INDEPENDENCE_LINE, TRIAL_DAYS } from "@/lib/pro";
+import { ANNUAL_ENABLED } from "@/lib/stripe";
+import ProPlanCard from "@/components/pro/ProPlanCard";
 
 export const metadata: Metadata = {
   title: "Pricing",
-  description: "Pello is free to use. Pello Pro adds unlimited nutrition plans, saved plans, a supplement stack tracker, advanced filters and more.",
+  description: "Pello is free to use. Pello Pro builds fuel plans for every session from your actual training: workout files, intervals.icu, gut training, race-day and sodium plans, and more.",
   alternates: { canonical: "https://www.pellonutrition.com/pricing" },
 };
 
@@ -28,13 +29,15 @@ const FREE: { text: string; included: boolean }[] = [
   { text: "Plans pre-filled from your athlete profile", included: false },
 ];
 
-const PRO = ["Everything in Free", ...PRO_FEATURES];
-
 const FAQ = [
   {
     q: "Can I cancel anytime?",
-    a: "Yes — cancel from your account settings at any time. You keep Pro access until the end of your billing period.",
+    a: "Yes — cancel from your account settings at any time, on monthly or annual billing. You keep Pro access until the end of the period you've paid for, and you won't be charged again. Refunds are covered in our terms.",
   },
+  ...(ANNUAL_ENABLED ? [{
+    q: "Can I pay annually?",
+    a: `Yes — ${PRO_ANNUAL_PRICE_LABEL} a year (${PRO_ANNUAL_MONTHLY_LABEL} a month), which saves ${PRO_ANNUAL_SAVING_LABEL} compared with paying monthly. The ${TRIAL_DAYS}-day free trial works the same way. Annual plans renew automatically each year until you cancel, and we'll email you before each renewal.`,
+  }] : []),
   {
     q: "Is there a free trial?",
     a: `Yes — ${TRIAL_DAYS} days free, no credit card required upfront. If you haven't added a card by the end of the trial, your account simply goes back to the free plan and you aren't charged. One free trial per account.`,
@@ -86,24 +89,9 @@ export default function PricingPage() {
         </div>
 
         {/* Pro */}
-        <div className="card flex flex-col border-2 border-moss relative">
-          <span className="absolute -top-3 left-6 text-[10px] uppercase tracking-widest bg-amber text-cream px-2 py-1 rounded-md">
-            {TRIAL_DAYS}-day free trial
-          </span>
-          <h2 className="font-display font-semibold text-xl">Pello Pro</h2>
-          <div className="mt-2 mb-1"><span className="font-display font-bold text-3xl">{PRO_PRICE_LABEL}</span> <span className="text-muted text-sm">/ month</span></div>
-          <p className="text-sm text-muted mb-5">For serious athletes who want the full picture</p>
-          <ul className="space-y-2 text-sm mb-6 flex-1">
-            {PRO.map((f) => (
-              <li key={f} className="flex gap-2"><Check on /><span>{f}</span></li>
-            ))}
-          </ul>
-          <UpgradeButton />
-          <p className="text-xs text-muted text-center mt-3 leading-relaxed">
-            Cancel anytime. No commitment.<br />
-            New accounts get {TRIAL_DAYS} days free, then {PRO_PRICE_LABEL}/month (USD) plus any applicable tax. Renews automatically each month until you
-            cancel, which you can do from your account at any time. See our <Link href="/legal/terms" className="underline">terms</Link>.
-          </p>
+        <div>
+          <ProPlanCard annualEnabled={ANNUAL_ENABLED} />
+          <p className="text-sm text-muted text-center mt-4 px-4">{INDEPENDENCE_LINE}</p>
         </div>
       </div>
 

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import type Stripe from "stripe";
 import { getStripe } from "@/lib/stripe";
 import { supabase as admin } from "@/lib/supabase";
-import { PRO_STRIPE_STATUSES } from "@/lib/pro";
+import { subscriptionRow } from "@/lib/billing";
 
 // Stripe → Supabase: keeps the subscriptions table in step with Stripe. Every event is
 // verified with STRIPE_WEBHOOK_SECRET. Subscription events carry the Supabase user id in
@@ -65,28 +65,19 @@ async function syncSubscription(stripe: Stripe, subscriptionId: string, userIdHi
     return;
   }
 
-  // The current billing period is set per subscription item.
-  const periodEnd = Math.max(0, ...sub.items.data.map((i) => i.current_period_end ?? 0));
-  const isPro = PRO_STRIPE_STATUSES.includes(sub.status);
-  const toIso = (s: number | null | undefined) => (s ? new Date(s * 1000).toISOString() : null);
+  const { base, extra } = subscriptionRow(sub, userId);
+  const isPro = base.status === "pro";
 
   // An old subscription ending must not overwrite a newer one that's still running.
   const { data: existing } = await admin.from("subscriptions")
     .select("stripe_subscription_id, status").eq("user_id", userId).maybeSingle();
   if (!isPro && existing?.status === "pro" && existing.stripe_subscription_id && existing.stripe_subscription_id !== sub.id) return;
 
-  const { error } = await admin.from("subscriptions").upsert({
-    user_id: userId,
-    status: isPro ? "pro" : "free",
-    stripe_status: sub.status,
-    stripe_customer_id: customerId,
-    stripe_subscription_id: sub.id,
-    current_period_end: toIso(periodEnd),
-    cancel_at_period_end: sub.cancel_at_period_end || sub.cancel_at != null,
-    trial_end: toIso(sub.trial_end),
-    // Once a trial has started, the account doesn't get another.
-    ...(sub.trial_start ? { had_trial: true } : {}),
-    updated_at: new Date().toISOString(),
-  }, { onConflict: "user_id" });
+  const row = { ...base, updated_at: new Date().toISOString() };
+  let { error } = await admin.from("subscriptions").upsert({ ...row, ...extra }, { onConflict: "user_id" });
+  // billing_interval and started_at need supabase/pro-v2.sql; until it's run, save the rest.
+  if (error && /billing_interval|started_at/.test(error.message ?? "")) {
+    ({ error } = await admin.from("subscriptions").upsert(row, { onConflict: "user_id" }));
+  }
   if (error) throw error;
 }

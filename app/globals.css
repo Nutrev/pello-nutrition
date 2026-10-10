@@ -62,6 +62,9 @@ body::before {
   .card { box-shadow: none !important; break-inside: avoid; }
   a { text-decoration: none !important; }
   @page { margin: 14mm; }
+  /* "Print race-day card" (components/fueling/RaceDayPlanCard.tsx) prints only the card. */
+  body[data-print="race-card"] .print-hide-for-race-card,
+  body[data-print="race-card"] footer { display: none !important; }
 }
 
 /* Drifting product row on the search page (app/search/ProductTeaser.tsx). The track holds

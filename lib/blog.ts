@@ -97,6 +97,8 @@ A rough guide based on intensity:
 
 Start fueling at 30-45 minutes into the ride. Don't wait until you feel hungry — by then it's too late.
 
+[[pro:/quiz?mode=event|See what your race fueling costs, gel by gel]]
+
 ## The bottom line
 
 For most cyclists, a combination of Maurten Gel 100 for GI-sensitive moments and a cheaper gel like SiS GO Energy + Electrolyte for training is the most practical approach. Reserve the expensive gels for race day and key training sessions.
@@ -220,6 +222,8 @@ Both are built for gut comfort, from different angles: Maurten through its hydro
 
 Gut tolerance is highly individual, so the only reliable test is trying each in training at race intensity before you commit to one on race day.
 
+[[pro:/fueling#gut-training|Start a gut-training plan to build toward 90g per hour]]
+
 ## Ingredient cleanliness
 
 Maurten wins here. Gel 100 has six ingredients — water, glucose, fructose, calcium carbonate, gluconic acid and sodium alginate — with no flavorings, colors, preservatives or sweeteners.
@@ -303,6 +307,8 @@ Total: approximately 150g carbs, low fiber, low fat.
 ## During the race — gel strategy
 
 For marathon running, target 60g of carbs per hour. Elite runners may push to 90g/hr but this requires gut training and a carefully planned dual-transporter approach.
+
+[[pro:/quiz?mode=event|Build this plan for your race]]
 
 A simple gel strategy for a 4-hour marathon:
 

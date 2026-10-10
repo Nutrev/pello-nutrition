@@ -14,3 +14,7 @@ export function getStripe(): Stripe | null {
 }
 
 export const PRO_PRICE_ID = process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID?.trim() ?? "";
+// Annual billing: set STRIPE_PRICE_PRO_ANNUAL (Vercel → Settings → Environment Variables) to the
+// annual price's ID. Without it, only monthly billing is offered.
+export const PRO_ANNUAL_PRICE_ID = process.env.STRIPE_PRICE_PRO_ANNUAL?.trim() || null;
+export const ANNUAL_ENABLED = !!PRO_ANNUAL_PRICE_ID;

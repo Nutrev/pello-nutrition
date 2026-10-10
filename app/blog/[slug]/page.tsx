@@ -35,6 +35,19 @@ function renderMarkdown(content: string) {
   while (i < lines.length) {
     const line = lines[i];
 
+    // [[pro:/path|Text]]: one understated prompt to a Pello Pro tool (at most one per article).
+    const pro = line.match(/^\[\[pro:(\/[^|\]]*)\|([^\]]+)\]\]$/);
+    if (pro) {
+      elements.push(
+        <p key={i} className="my-5 border-l-2 border-moss/40 pl-3 text-sm">
+          <Link href={pro[1]} className="text-moss hover:underline">{pro[2]}</Link>
+          <span className="text-muted"> · Pello Pro</span>
+        </p>
+      );
+      i++;
+      continue;
+    }
+
     if (line.startsWith("## ")) {
       elements.push(
         <h2 key={i} className="font-display font-bold text-2xl mt-10 mb-4 text-ink">
@@ -160,7 +173,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         {/* CTA */}
         <div className="card bg-moss/5 border-moss/20 text-center py-8 mt-10">
           <h3 className="font-display font-semibold mb-2">Get your personalized nutrition plan</h3>
-          <p className="text-xs text-muted mb-4">Tell us about your event and we'll build a complete pre, during and post protocol</p>
+          <p className="text-xs text-muted mb-4">Tell us about your event and we&apos;ll build a complete pre, during and post protocol</p>
           <Link href="/quiz" className="btn-primary">Build my plan →</Link>
         </div>
       </article>
