@@ -11,7 +11,7 @@ import { categoryAvgPricePerServing } from "./fulens-score";
 import { reviewSourceOf } from "./catalog-types";
 import {
   PILLAR_MAX, PILLAR_ORDER, STRENGTH_THRESHOLD, WEAKNESS_THRESHOLD, MAX_STRENGTHS, MAX_WEAKNESSES, NO_WEAKNESSES,
-  MIXED_RATING_BELOW, FEW_REVIEWS, STRENGTH_PHRASES, WEAKNESS_PHRASES, FEW_REVIEWS_PHRASE, BEST_FOR_RULES,
+  MIXED_RATING_BELOW, FEW_REVIEWS, STRENGTH_PHRASES, WEAKNESS_PHRASES, FEW_REVIEWS_PHRASE,
   CATEGORY_PHRASE, KEY_FACT_BY_CATEGORY, KEY_FACT_PHRASE, type Pillar, type PhraseFacts,
 } from "./summary-config";
 
@@ -31,14 +31,12 @@ export interface SummaryInput {
   hasIngredientData: boolean;            // science is only judged with ingredient data
   transparencyScored: boolean;           // transparency is only judged once the label is scored
   categoryAvgPrice: number | null;       // value is only judged in categories with a price benchmark
-  usedFor: string | null;
 }
 
 export interface ProductSummaryText {
   opening: string;
   strengths: string[];
   weaknesses: string[];   // ["No major weaknesses."] when there are none
-  bestFor: string | null;
 }
 
 const pct = (input: SummaryInput, p: Pillar) => input.scores[p] / PILLAR_MAX[p];
@@ -100,21 +98,17 @@ export function buildProductSummary(input: SummaryInput): ProductSummaryText {
   const weaknessText = (p: Pillar) =>
     p === "athleteExperience" && input.rating! >= MIXED_RATING_BELOW ? FEW_REVIEWS_PHRASE(facts) : WEAKNESS_PHRASES[p](facts);
 
-  // d) Best for: first matching rule.
-  const ctx = { strengths: strong, weaknesses: weak, hasTestingCertification: !!input.testingCertification, usedFor: input.usedFor };
-  const rule = BEST_FOR_RULES.find((r) => r.when(ctx));
-
   return {
     opening,
     strengths: strong.map((p) => STRENGTH_PHRASES[p](facts)),
     weaknesses: weak.length ? weak.map(weaknessText) : [NO_WEAKNESSES],
-    bestFor: rule ? rule.text(ctx) : null,
   };
 }
 
 // ── From a product ────────────────────────────────────────────
 
-// What the product is used for, from its goals (for supplements, The Feed's classification).
+// What the product is used for, from its goals (for supplements, The Feed's classification),
+// shown as the "Used for" line on product pages.
 const GOAL_PHRASES: Record<string, string> = {
   muscle: "building muscle",
   endurance: "endurance athletes",
@@ -162,7 +156,6 @@ export function summaryInputFor(product: Product): SummaryInput {
     hasIngredientData: product.ingredients.length > 0,
     transparencyScored: product.transparencyScore != null,
     categoryAvgPrice: categoryAvgPricePerServing(product.category),
-    usedFor: usedForText(product),
   };
 }
 

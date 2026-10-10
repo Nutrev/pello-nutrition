@@ -1,6 +1,6 @@
 // lib/summary-config.ts
 // Everything editable about the static product summary on report pages (lib/product-summary.ts):
-// thresholds, limits, phrases, category wording, key facts and the "Best for" rules. Change the
+// thresholds, limits, phrases, category wording and key facts. Change the
 // wording here without touching the logic. Every phrase is filled only with the product's own
 // data; a figure that isn't in the data is left out, never guessed.
 
@@ -54,22 +54,6 @@ export const WEAKNESS_PHRASES: Record<Pillar, (f: PhraseFacts) => string> = {
 };
 // Used instead of the athlete-experience weakness when the rating is good but there are few reviews.
 export const FEW_REVIEWS_PHRASE = (f: PhraseFacts) => `Few reviews so far${reviews(f)}.`;
-
-// "Best for": the first rule that matches wins. `strengths` and `weaknesses` are the pillars shown.
-export interface BestForContext {
-  strengths: Pillar[];
-  weaknesses: Pillar[];
-  hasTestingCertification: boolean;
-  usedFor: string | null;  // e.g. "endurance athletes and post-workout recovery"
-}
-export const BEST_FOR_RULES: { when: (c: BestForContext) => boolean; text: (c: BestForContext) => string }[] = [
-  { when: (c) => c.strengths.includes("athleteExperience") && c.weaknesses.includes("value"), text: () => "Athletes who put performance ahead of price." },
-  { when: (c) => c.strengths.includes("value") && c.strengths.includes("athleteExperience"), text: () => "Athletes who want proven performance without paying a premium." },
-  { when: (c) => c.strengths.includes("value"), text: () => "Athletes on a budget or with high training volume." },
-  { when: (c) => c.strengths.includes("quality") && c.hasTestingCertification, text: () => "Athletes who are drug tested." },
-  { when: (c) => c.strengths.includes("science") && c.strengths.includes("transparency"), text: () => "Athletes who want well-researched, clearly labeled ingredients." },
-  { when: (c) => !!c.usedFor, text: (c) => `${c.usedFor!.charAt(0).toUpperCase()}${c.usedFor!.slice(1)}.` },
-];
 
 // How each category reads in the opening line ("… is an energy gel with …").
 export const CATEGORY_PHRASE: Record<string, string> = {

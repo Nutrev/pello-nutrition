@@ -10,13 +10,12 @@ const maurten: SummaryInput = {
   carbsPerServing: 25, proteinPerServing: null, sodiumPerServing: null, creatinePerServingG: null,
   pricePerServing: 3.75, rating: 4.8, reviewCount: 1426, reviewSource: "The Feed",
   testingCertification: "Informed Sport", hasIngredientData: true, transparencyScored: true,
-  categoryAvgPrice: 2.5, usedFor: "endurance athletes and post-workout recovery",
+  categoryAvgPrice: 2.5,
 };
 const MAURTEN_OUTPUT = {
   opening: "Maurten Gel 100 is an energy gel with 25g of carbs per serving.",
   strengths: ["Highly rated by athletes (4.8/5 from 1,426 reviews at The Feed).", "Batch-tested for banned substances (Informed Sport)."],
   weaknesses: ["Expensive at $3.75 per serving."],
-  bestFor: "Athletes who put performance ahead of price.",
 };
 
 // A plain middle-of-the-road product to vary in each test.
@@ -118,40 +117,11 @@ describe("guards: only judge a pillar on real data, and only say what's true", (
   });
 });
 
-describe("Best for rules, in order", () => {
-  const cert = { testingCertification: "Informed Sport" };
-  it("1: athlete experience strong and value weak", () => {
-    expect(buildProductSummary(with_({ pricePerServing: 4 }, { athleteExperience: 18, value: 6 })).bestFor).toBe("Athletes who put performance ahead of price.");
-  });
-  it("2: value and athlete experience both strong", () => {
-    expect(buildProductSummary(with_({ pricePerServing: 1 }, { athleteExperience: 18, value: 18 })).bestFor).toBe("Athletes who want proven performance without paying a premium.");
-  });
-  it("3: value strong", () => {
-    expect(buildProductSummary(with_({ pricePerServing: 1 }, { value: 18 })).bestFor).toBe("Athletes on a budget or with high training volume.");
-  });
-  it("4: quality strong with a testing certification", () => {
-    expect(buildProductSummary(with_(cert, { quality: 9 })).bestFor).toBe("Athletes who are drug tested.");
-  });
-  it("5: science and transparency both strong", () => {
-    expect(buildProductSummary(with_({}, { science: 22, transparency: 22 })).bestFor).toBe("Athletes who want well-researched, clearly labeled ingredients.");
-  });
-  it("6: falls back to 'Used for', in sentence case", () => {
-    expect(buildProductSummary(base).bestFor).toBe("Endurance athletes and post-workout recovery.");
-  });
-  it("7: omitted when nothing applies", () => {
-    expect(buildProductSummary(with_({ usedFor: null })).bestFor).toBeNull();
-  });
-  it("takes the first matching rule", () => {
-    // value strong and quality strong with certification: rule 3 wins over rule 4
-    expect(buildProductSummary(with_({ ...cert, pricePerServing: 1 }, { value: 18, quality: 9 })).bestFor).toBe("Athletes on a budget or with high training volume.");
-  });
-});
-
 describe("every product", () => {
   it("builds a summary with no figures the data lacks", () => {
     for (const p of PRODUCTS) {
       const s = productSummary(p);
-      const all = [s.opening, ...s.strengths, ...s.weaknesses, s.bestFor ?? ""].join(" ");
+      const all = [s.opening, ...s.strengths, ...s.weaknesses, ""].join(" ");
       expect(all).not.toMatch(/undefined|null|NaN|\(\/5|\$0\.00/);
       expect(s.strengths.length).toBeLessThanOrEqual(2);
       expect(s.weaknesses.length).toBeGreaterThanOrEqual(1);

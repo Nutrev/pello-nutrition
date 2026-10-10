@@ -83,7 +83,7 @@ function plural(n: number, word: string) {
 }
 
 // What the product is used for, from its goals (lib/product-summary.ts). Empty when no goal is known.
-function getBestForStatement(product: Product): string {
+function usedForStatement(product: Product): string {
   const usedFor = usedForText(product);
   return usedFor ? `Used for: ${usedFor}` : "";
 }
@@ -142,7 +142,7 @@ export default function ReportClient({ product, similar: similarProducts, brand,
   const shownNutrition = productNutrition(shown);
   const facts = servingFacts(shown, shownNutrition);
   const unit = servingUnit(product);
-  const bestFor = getBestForStatement(product);
+  const usedFor = usedForStatement(product);
   const disputedIngredients = getDisputedIngredients(product.ingredients);
 
   // One-line answers for the folded sections.
@@ -246,7 +246,7 @@ export default function ReportClient({ product, similar: similarProducts, brand,
                 </Link>
                 <ProductActions productId={product.id} productName={`${product.brand} ${product.name}`} servingSize={product.servingSize} inline />
               </div>
-              {bestFor && <p className="text-xs text-muted mt-3">{bestFor}</p>}
+              {usedFor && <p className="text-xs text-muted mt-3">{usedFor}</p>}
             </div>
           </div>
 
@@ -316,9 +316,6 @@ export default function ReportClient({ product, similar: similarProducts, brand,
               </ul>
             </div>
           </div>
-          {summary.bestFor && (
-            <p className="text-sm mt-4 pt-4 border-t border-sand"><span className="font-medium">Best for:</span> <span className="text-muted">{summary.bestFor}</span></p>
-          )}
         </section>
 
         {/* Score breakdown */}
