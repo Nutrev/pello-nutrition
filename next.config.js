@@ -14,6 +14,8 @@ const nextConfig = {
       { source: "/report/kind-bar-original", destination: "/products/energy-bar", permanent: true },
       // Carbs and Carbs Fuel were listed as separate brands; they're one brand, Carbs Fuel
       { source: "/brands/carbs", destination: "/brands/carbs-fuel", permanent: true },
+      { source: "/report/chia-smash", destination: "/products/energy-gel", permanent: true },
+      { source: "/brands/smash-foods", destination: "/brands", permanent: true },
       // Knowledge graph page removed
       { source: "/graph", destination: "/ingredients", permanent: true },
     ];
