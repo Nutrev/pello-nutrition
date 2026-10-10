@@ -217,7 +217,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logo: "/logo/precision.png",
     category: "Energy Gel",
     rating: 4.9,
-    reviewCount: 310,
+    reviewCount: 322,
     price: 59.49,      // 10 Gels on The Feed
     servingsPerContainer: 10,
     carbsPerServing: 90,
@@ -242,7 +242,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Maltodextrin + Fructose", dose: "90g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 310, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 322, unit: "reviews", credibility: "medium" },
       { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
     ],
   },
@@ -479,9 +479,9 @@ export const THE_FEED_PRODUCTS: Product[] = [
     brand: "Maurten",
     logoDomain: "maurten.com",
     logo: "/logo/maurten.png",
-    category: "Energy Gel",
-    rating: 4.2,
-    reviewCount: 9,
+    category: "Carbohydrate Mix",
+    rating: 4.4,
+    reviewCount: 13,
     price: 50,      // Box of 6 on The Feed
     servingsPerContainer: 6,
     carbsPerServing: 121,
@@ -506,7 +506,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Sodium", dose: "55mg", verdict: "proven", note: "A small amount of sodium; plan separate electrolytes for long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 9, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 13, unit: "reviews", credibility: "medium" },
     ],
   },
   {

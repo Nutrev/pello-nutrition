@@ -1,16 +1,21 @@
 // scripts/check-prices.ts
-// Re-checks every product's price against its page at The Feed and prints a report.
+// Re-checks every product's price, rating and review count against its page at The Feed and prints
+// a report.
 //
 // Run:  npm run check:prices                 (report only; changes nothing)
 //       npm run check:prices -- report.md    (also saves the report as Markdown)
 //       npm run check:prices -- --apply      (also updates the clear-cut price changes in lib/products*.ts)
 //       npm run check:prices -- --apply --include-single-size   (… and the single-size ones, once checked)
+//       npm run check:prices -- --only=id1,id2   (check just these products)
 //
 // Each stored price notes the exact size it came from, e.g. `price: 47.49, // Box of 12 on The Feed`.
 // The check reads that size's current price from the product page's structured data (one offer per
 // flavour and size). A price only counts as a clear-cut change when every in-stock flavour of that
 // size has the same new price. Anything else (size gone, prices differing by flavour, page missing,
 // everything out of stock) is reported for a person to look at and never changed automatically.
+//
+// Ratings and review counts are read from the same page's structured data (aggregateRating). With
+// --apply, changed ones are updated too (rating, reviewCount and The Feed's review count in sources).
 import { readFileSync, writeFileSync } from "fs";
 import { PRODUCTS } from "../lib/products";
 
@@ -45,6 +50,9 @@ function storedPrices(): Map<string, Stored> {
   return out;
 }
 
+// Rating and review count from each page's structured data, by URL, filled in as pages are read.
+const liveRatings = new Map<string, { rating: number; count: number }>();
+
 async function offersFor(url: string): Promise<Offer[] | "gone"> {
   const res = await fetch(url, { headers: { "User-Agent": UA }, signal: AbortSignal.timeout(20000) });
   if (res.status === 404) return "gone";
@@ -57,6 +65,9 @@ async function offersFor(url: string): Promise<Offer[] | "gone"> {
     for (const item of (Array.isArray(data) ? data : [data]) as Record<string, unknown>[]) {
       if (item?.["@type"] !== "Product") continue;
       const name = String(item.name ?? "");
+      const agg = item.aggregateRating as Record<string, unknown> | undefined;
+      const rv = Number(agg?.ratingValue), rc = Number(agg?.reviewCount ?? agg?.ratingCount);
+      if (!liveRatings.has(url) && Number.isFinite(rv) && Number.isFinite(rc) && rc > 0) liveRatings.set(url, { rating: Math.round(rv * 10) / 10, count: rc });
       const raw = item.offers;
       for (const o of ((Array.isArray(raw) ? raw : raw ? [raw] : []) as Record<string, unknown>[])) {
         const price = Number(o.price);
@@ -105,6 +116,27 @@ async function check(s: Stored, url: string): Promise<Result> {
   }
 }
 
+interface RatingChange { id: string; file: string; from: { rating: number; count: number }; to: { rating: number; count: number } }
+
+// Updates rating, reviewCount and The Feed's review count in each product's block.
+function applyRatings(changes: RatingChange[]) {
+  const byFile = new Map<string, string>();
+  for (const c of changes) {
+    const src = byFile.get(c.file) ?? readFileSync(c.file, "utf8");
+    const start = src.indexOf(`id: "${c.id}"`);
+    const next = src.indexOf('id: "', start + 5);
+    const end = next === -1 ? src.length : next;
+    const block = src.slice(start, end);
+    const updated = block
+      .replace(/(\n\s*rating: )[\d.]+(,)/, `$1${c.to.rating}$2`)
+      .replace(/(\n\s*reviewCount: )\d+(,)/, `$1${c.to.count}$2`)
+      .replace(/(name: "The Feed",[^}]*?count: )\d+(, unit: "reviews")/, `$1${c.to.count}$2`);
+    if (updated === block) throw new Error(`Couldn't find the rating lines for ${c.id}`);
+    byFile.set(c.file, src.slice(0, start) + updated + src.slice(end));
+  }
+  byFile.forEach((src, file) => writeFileSync(file, src));
+}
+
 function apply(changes: { s: Stored; price: number }[]) {
   const byFile = new Map<string, string>();
   for (const { s, price } of changes) {
@@ -125,9 +157,11 @@ async function main() {
   const doApply = args.includes("--apply");
   const includeSingle = args.includes("--include-single-size");
   const out = args.find((a) => !a.startsWith("--"));
+  const only = args.find((a) => a.startsWith("--only="))?.slice(7).split(",").filter(Boolean);
   const stored = storedPrices();
   const jobs = PRODUCTS.flatMap((p) => {
     const s = stored.get(p.id);
+    if (only && !only.includes(p.id)) return [];
     return s && p.retailerLinks?.theFeed ? [{ s, url: p.retailerLinks.theFeed }] : [];
   });
 
@@ -171,6 +205,20 @@ async function main() {
     ...by("error").map((r) => `- **${name(r.s.id)}** (\`${r.s.id}\`): ${r.message}`),
     ...by("no-label").map((r) => `- **${name(r.s.id)}** (\`${r.s.id}\`): stored price has no "… on The Feed" size note`),
   ]);
+
+  // Ratings and review counts. A product with no reviews stored that now has some is included; one
+  // whose page shows no rating keeps what's stored.
+  const ratingChanges: RatingChange[] = jobs.flatMap(({ s, url }) => {
+    const live = liveRatings.get(url);
+    const p = PRODUCTS.find((x) => x.id === s.id);
+    if (!live || !p || p.variants?.length) return [];
+    const from = { rating: p.reviewCount > 0 ? p.rating : 0, count: p.reviewCount };
+    return from.rating === live.rating && from.count === live.count ? [] : [{ id: s.id, file: s.file, from, to: live }];
+  }).sort((a, b) => a.id.localeCompare(b.id));
+  say(`\n## Rating or review count changed (${ratingChanges.length})${doApply ? ": updated" : ""}`);
+  if (!ratingChanges.length) say("None.");
+  ratingChanges.forEach((c) => say(`- **${name(c.id)}** (\`${c.id}\`): ${c.from.rating}/5 from ${c.from.count} → ${c.to.rating}/5 from ${c.to.count}`));
+  if (doApply && ratingChanges.length) applyRatings(ratingChanges);
 
   const toApply = [...changed, ...(includeSingle ? single : [])];
   if (doApply && toApply.length) {

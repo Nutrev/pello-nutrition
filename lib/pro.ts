@@ -47,6 +47,7 @@ export const PRO_FEATURE_GROUPS: { heading: string | null; collapsed?: boolean; 
     collapsed: true,
     items: [
       "Unlimited nutrition plans",
+      "Ask Pello: ask about the product library in plain English (\"which gels have the most carbs?\") and get every result, answered from Pello's data",
       "Save and revisit plans",
       "Goal-based planner (first marathon, recovery, building muscle and more)",
       "Supplement stack and race week planners",

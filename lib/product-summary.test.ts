@@ -32,9 +32,15 @@ describe("Maurten Gel 100 reference output", () => {
   it("matches the brief exactly from the fixture", () => {
     expect(buildProductSummary(maurten)).toEqual(MAURTEN_OUTPUT);
   });
-  it("matches from Pello's live product data too", () => {
+  it("matches from Pello's live product data too (ratings refresh monthly, so the figures come from the data)", () => {
     const p = PRODUCTS.find((x) => x.id === "maurten-gel-100")!;
-    expect(productSummary(p)).toEqual(MAURTEN_OUTPUT);
+    const live = productSummary(p);
+    expect(live.opening).toBe(MAURTEN_OUTPUT.opening);
+    expect(live.strengths).toEqual([
+      `Highly rated by athletes (${p.rating}/5 from ${p.reviewCount.toLocaleString("en-US")} reviews at The Feed).`,
+      "Batch-tested for banned substances (Informed Sport).",
+    ]);
+    expect(live.weaknesses).toEqual(MAURTEN_OUTPUT.weaknesses);
   });
 });
 

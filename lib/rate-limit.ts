@@ -14,6 +14,8 @@ import { Redis } from "@upstash/redis";
 const REDIS_URL = (process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL)?.trim();
 const REDIS_TOKEN = (process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN)?.trim();
 const redis = REDIS_URL && REDIS_TOKEN ? new Redis({ url: REDIS_URL, token: REDIS_TOKEN }) : null;
+// Also used as a small shared cache (e.g. Ask Pello's question → query cache).
+export const sharedRedis = redis;
 
 export const MINUTE = 60_000;
 export const HOUR = 60 * MINUTE;

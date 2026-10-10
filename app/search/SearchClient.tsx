@@ -5,6 +5,8 @@ import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
 import { reviewsAt, type ProductSummary } from "@/lib/catalog-types";
 import ProductTeaser from "./ProductTeaser";
+import AskPanel from "@/components/search/AskPanel";
+import { looksLikeQuestion } from "@/lib/ask/detect";
 
 // The barcode scanner opens the camera but can't detect barcodes yet (only the test codes
 // work), so it stays hidden until detection is built.
@@ -13,6 +15,7 @@ const BARCODE_SCANNER_ENABLED = false;
 // Shown below the search box before anyone types; each fills the search with a term that
 // matches products in the catalog.
 const SUGGESTIONS = ["Energy gel", "Electrolyte", "Creatine", "Maurten", "Recovery", "Protein"];
+const QUESTION_SUGGESTIONS = ["Which gels have the most carbs?", "Caffeine-free drink mixes under $2"];
 
 interface OFFProduct {
   code?: string;
@@ -47,6 +50,14 @@ const SCIENCE_COLORS: Record<string, string> = {
 export default function SearchClient({ catalog, teaser }: { catalog: ProductSummary[]; teaser: ProductSummary[] }) {
   const PRODUCTS = catalog;
   const [Explore, setExplore] = useState("");
+  // A question for Ask Pello (components/search/AskPanel); null when the search is a plain name.
+  const [askQuestion, setAskQuestion] = useState<string | null>(null);
+  const submit = (q: string) => {
+    if (looksLikeQuestion(q)) { setAskQuestion(q.trim()); return; }
+    setAskQuestion(null);
+    searchExternal(q);
+  };
+  const ask = (q: string) => { setExplore(q); setAskQuestion(q); };
   const [searching, setSearching] = useState(false);
   const [results, setResults] = useState<OFFProduct[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<OFFProduct | null>(null);
@@ -165,7 +176,7 @@ export default function SearchClient({ catalog, teaser }: { catalog: ProductSumm
           <div className="text-xs text-muted uppercase tracking-widest mb-2">Universal search</div>
           <h1 className="font-display font-bold text-3xl tracking-tight mb-2">Search any product</h1>
           <p className="text-muted text-sm">
-            Search the {PRODUCTS.length} products we&apos;ve rated, plus 3 million+ more from Open Food Facts. Anything we haven&apos;t rated yet gets an instant AI analysis.
+            Search the {PRODUCTS.length} products we&apos;ve rated, plus 3 million+ more from Open Food Facts. Anything we haven&apos;t rated yet gets an instant AI analysis. Or ask a question, like which gels have the most carbs.
           </p>
         </div>
 
@@ -175,8 +186,8 @@ export default function SearchClient({ catalog, teaser }: { catalog: ProductSumm
             type="text"
             value={Explore}
             onChange={e => setExplore(e.target.value)}
-            onKeyDown={e => e.key === "Enter" && searchExternal(Explore)}
-            placeholder="Search any product or brand..."
+            onKeyDown={e => e.key === "Enter" && submit(Explore)}
+            placeholder="Search a product or brand, or ask a question..."
             className={`w-full bg-white/80 border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-muted font-body placeholder:text-muted ${BARCODE_SCANNER_ENABLED ? "pr-32" : "pr-24"}`}
           />
           <div className="absolute right-2 top-2 flex gap-1">
@@ -190,7 +201,7 @@ export default function SearchClient({ catalog, teaser }: { catalog: ProductSumm
               </button>
             )}
             <button
-              onClick={() => searchExternal(Explore)}
+              onClick={() => submit(Explore)}
               disabled={searching || Explore.length < 3}
               className="btn-primary text-xs py-1.5 px-3 disabled:opacity-40"
             >
@@ -198,6 +209,9 @@ export default function SearchClient({ catalog, teaser }: { catalog: ProductSumm
             </button>
           </div>
         </div>
+
+        {/* Ask Pello: a question about the product library, answered from Pello's data */}
+        {askQuestion && <AskPanel question={askQuestion} onAsk={ask} />}
 
         {/* Before anyone types: suggestions, and a row of well-reviewed products */}
         {!Explore.trim() && !hasSearched && !selectedProduct && (
@@ -212,6 +226,16 @@ export default function SearchClient({ catalog, teaser }: { catalog: ProductSumm
                   className="text-xs px-3 py-1.5 rounded-full border border-sand bg-white/50 hover:border-moss hover:text-moss transition-colors"
                 >
                   {term}
+                </button>
+              ))}
+              {QUESTION_SUGGESTIONS.map((q) => (
+                <button
+                  key={q}
+                  type="button"
+                  onClick={() => ask(q)}
+                  className="text-xs px-3 py-1.5 rounded-full border border-moss/30 bg-moss/5 text-moss hover:border-moss transition-colors"
+                >
+                  {q}
                 </button>
               ))}
             </div>

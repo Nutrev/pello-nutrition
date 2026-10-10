@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
 import ProGate from "@/components/ProGate";
@@ -76,6 +76,29 @@ export default function ExploreClient({ catalog }: { catalog: ProductSummary[] }
   const applyFilter = (key: string, value: any) => setFilters(prev => ({ ...prev, [key]: value }));
   const clearFilter = (key: string) => setFilters(prev => { const n = { ...prev }; delete n[key]; return n; });
 
+  // Filters and sort from the address bar, e.g. Ask Pello's "Open in Explore" link:
+  // /query?category=Energy+Gel&sort=carbsPerServing&dir=desc&maxPricePerServing=3&isVegan=1
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search);
+    if (!p.toString()) return;
+    const f: Record<string, any> = {};
+    const list = (k: string) => p.get(k)?.split(",").map((x) => x.trim()).filter(Boolean);
+    if (list("category")?.length) f.category = list("category");
+    if (list("standards")?.length) f.standards = list("standards");
+    if (p.get("search")) f.search = p.get("search");
+    for (const k of ["maxPricePerServing", "minCarbsPerServing", "minSodiumPerServing", "minProteinPerServing"]) {
+      const n = Number(p.get(k));
+      if (p.has(k) && Number.isFinite(n) && n > 0) f[k] = n;
+    }
+    for (const k of ["isVegan", "isGlutenFree", "isDairyFree", "isHydrogel"]) if (p.get(k) === "1") f[k] = true;
+    if (p.get("hasCaffeine") === "yes" || p.get("hasCaffeine") === "no") f.hasCaffeine = p.get("hasCaffeine");
+    setFilters(f);
+    const SORTS: SortKey[] = ["rating", "pricePerServing", "carbsPerServing", "sodiumPerServing", "transparencyScore", "caffeinePerServing", "reviewCount"];
+    const sort = p.get("sort") as SortKey | null;
+    if (sort && SORTS.includes(sort)) setSortBy(sort);
+    if (p.get("dir") === "asc" || p.get("dir") === "desc") setSortDir(p.get("dir") as "asc" | "desc");
+  }, []);
+
   const applyExampleExplore = (q: typeof EXAMPLE_QUERIES[0]) => {
     setFilters(q.filters as Record<string, any>);
     setActiveExplore(q.label);
@@ -103,8 +126,9 @@ export default function ExploreClient({ catalog }: { catalog: ProductSummary[] }
       if (filters.search && !`${p.name} ${p.brand} ${p.category}`.toLowerCase().includes(filters.search.toLowerCase())) return false;
       return true;
     }).sort((a: any, b: any) => {
-      const aVal = a[sortBy] ?? 0;
-      const bVal = b[sortBy] ?? 0;
+      // Products without the figure go last either way, rather than counting as zero.
+      const aVal = a[sortBy], bVal = b[sortBy];
+      if (aVal == null || bVal == null) return aVal == null && bVal == null ? 0 : aVal == null ? 1 : -1;
       return sortDir === "desc" ? bVal - aVal : aVal - bVal;
     });
   }, [enrichedProducts, activeFilters, proAccess, sortBy, sortDir]);
