@@ -494,7 +494,7 @@ const filteredProducts = PRODUCTS.filter((p) => {
             <div className="text-4xl mb-3"></div>
             <h3 className="font-display font-bold text-xl mb-2">Pick products to compare</h3>
             <p className="text-muted text-sm max-w-sm mx-auto mb-6">
-              Search for any two or three products above — gels, proteins, probiotics, anything — and we'll line them up side by side.
+              Search for any two or three products above — gels, proteins, probiotics, anything — and we&apos;ll line them up side by side.
             </p>
             <div className="flex flex-wrap gap-2 justify-center">
               {["Maurten", "SiS", "Skratch", "Thorne", "Momentous"].map((brand) => (

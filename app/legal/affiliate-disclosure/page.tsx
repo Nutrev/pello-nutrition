@@ -62,12 +62,12 @@ export default function AffiliateDisclosurePage() {
           <section>
             <h2 className="font-display font-semibold text-lg text-ink mb-2">Our commitment to independence</h2>
             <p>The Pello Score™ is calculated using a transparent, published methodology. Affiliate relationships play no role in scoring. Products are not ranked higher because we earn more commission on them. We will always recommend the best product for the athlete, not the most profitable one for us.</p>
-            <p className="mt-2">No brand can pay to improve their Pello Score. No advertiser can influence our editorial content. Our independence is the foundation of Pello's credibility — without it, the scores mean nothing.</p>
+            <p className="mt-2">No brand can pay to improve their Pello Score. No advertiser can influence our editorial content. Our independence is the foundation of Pello&apos;s credibility — without it, the scores mean nothing.</p>
           </section>
 
           <section>
             <h2 className="font-display font-semibold text-lg text-ink mb-2">FTC compliance</h2>
-            <p>This disclosure is made in compliance with the Federal Trade Commission's guidelines on endorsements and testimonials (16 CFR Part 255). We are committed to full transparency about our commercial relationships.</p>
+            <p>This disclosure is made in compliance with the Federal Trade Commission&apos;s guidelines on endorsements and testimonials (16 CFR Part 255). We are committed to full transparency about our commercial relationships.</p>
           </section>
 
           <section>

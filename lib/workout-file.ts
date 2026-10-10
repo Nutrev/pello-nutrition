@@ -372,7 +372,6 @@ export interface FitData {
 
 // Adapts fit-file-parser's output (mode "list"). Its top-level workout_step keeps only the last
 // step, so the steps come from `messages`, which keeps every message in order.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function fitDataFrom(parsed: any): FitData {
   const m = parsed?.messages ?? {};
   return {

@@ -146,7 +146,7 @@ export default function RecoveryGuidePage() {
             Recovery Guide
           </h1>
           <p className="text-muted leading-relaxed">
-            Tell us about your session and goals — we'll build you a personalized recovery protocol with exact targets and timing.
+            Tell us about your session and goals — we&apos;ll build you a personalized recovery protocol with exact targets and timing.
           </p>
         </div>
 
@@ -193,7 +193,7 @@ export default function RecoveryGuidePage() {
 
             {/* Recovery goal */}
             <div className="card">
-              <h2 className="font-display font-semibold mb-4">What's your recovery goal?</h2>
+              <h2 className="font-display font-semibold mb-4">What&apos;s your recovery goal?</h2>
               <div className="space-y-2">
                 {RECOVERY_GOALS.map((g) => (
                   <button

@@ -334,7 +334,7 @@ export default function ReportClient({ product, similar: similarProducts, brand,
               <div>
                 <p className="text-sm leading-relaxed">{summary}</p>
                 <div className="mt-3 text-xs text-muted">
-                  AI-generated from this product's label, ingredient and rating data
+                  AI-generated from this product&apos;s label, ingredient and rating data
                 </div>
               </div>
             ) : loading ? (
@@ -349,7 +349,7 @@ export default function ReportClient({ product, similar: similarProducts, brand,
                       Get an AI breakdown of this product
                     </div>
                     <div className="text-sm text-muted mb-1">
-                      Based on this product's label, ingredients and rating data
+                      Based on this product&apos;s label, ingredients and rating data
                     </div>
                     <div className="flex flex-wrap gap-4 mt-3">
                       {["Overall verdict", "Key strengths", "Weaknesses", "Who it's best for"].map((label) => (

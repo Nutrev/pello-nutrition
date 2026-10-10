@@ -268,7 +268,7 @@ export default function ReviewSection({ productId, category, onLoaded }: ReviewS
         {/* Success message */}
         {submitted && (
           <div className="bg-moss/10 border border-moss/20 rounded-xl p-4 mb-4 text-sm text-moss font-medium">
-            ✓ Thanks for your review! It's now live.
+            ✓ Thanks for your review! It&apos;s now live.
           </div>
         )}
 

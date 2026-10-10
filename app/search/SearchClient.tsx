@@ -490,7 +490,7 @@ export default function SearchClient({ catalog, teaser }: { catalog: ProductSumm
 
                 {/* CTA */}
                 <div className="card text-center py-6">
-                  <p className="text-sm font-medium mb-1">This product isn't in the Pello Explore yet</p>
+                  <p className="text-sm font-medium mb-1">This product isn&apos;t in the Pello Explore yet</p>
                   <p className="text-xs text-muted mb-4">Browse similar products with full Pello reports, ingredient science and community reviews</p>
                   <Link href={`/products?q=${encodeURIComponent(analysis.pelloCategoryGuess)}`} className="btn-primary text-sm">
                     Browse {analysis.pelloCategoryGuess}s →

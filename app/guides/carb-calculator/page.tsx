@@ -182,7 +182,7 @@ export default function CarbCalculatorPage() {
           {/* Format selector */}
           <div className="card">
             <h2 className="font-display font-semibold mb-1">Preferred carb formats</h2>
-            <p className="text-xs text-muted mb-4">Select all you use — we'll split your carb target across them. Leave blank to see all options.</p>
+            <p className="text-xs text-muted mb-4">Select all you use — we&apos;ll split your carb target across them. Leave blank to see all options.</p>
             <div className="space-y-2">
               {FORMATS.map((f) => (
                 <button
@@ -242,13 +242,13 @@ export default function CarbCalculatorPage() {
                 <div className="bg-amber/10 border border-amber/20 rounded-xl p-4">
                   <p className="text-sm text-amber font-medium mb-1">Short session — carbs optional</p>
                   <p className="text-xs text-muted leading-relaxed">
-                    For sessions under 60 minutes, glycogen stores are usually sufficient. Focus on hydration. If you feel depleted, a small carb hit won't hurt.
+                    For sessions under 60 minutes, glycogen stores are usually sufficient. Focus on hydration. If you feel depleted, a small carb hit won&apos;t hurt.
                   </p>
                 </div>
               ) : (
                 <div className="bg-white/60 rounded-xl p-4">
                   <p className="text-xs text-muted leading-relaxed">
-                    Start fueling at <strong>30–45 minutes</strong> in — don't wait until you feel hungry. Aim for <strong>{carbsPerHour}g per hour</strong>. Use a 2:1 glucose-to-fructose product for anything above 60g/hr.
+                    Start fueling at <strong>30–45 minutes</strong> in — don&apos;t wait until you feel hungry. Aim for <strong>{carbsPerHour}g per hour</strong>. Use a 2:1 glucose-to-fructose product for anything above 60g/hr.
                   </p>
                 </div>
               )}

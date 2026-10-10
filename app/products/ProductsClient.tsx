@@ -75,7 +75,7 @@ export default function ProductsClient({ catalog }: { catalog: ProductSummary[] 
           />
           {search && (
             <p className="text-xs text-muted mt-2">
-              {filteredProducts.length} result{filteredProducts.length !== 1 ? "s" : ""} for "{search}"
+              {filteredProducts.length} result{filteredProducts.length !== 1 ? "s" : ""} for &quot;{search}&quot;
             </p>
           )}
         </div>
