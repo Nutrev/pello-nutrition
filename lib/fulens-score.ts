@@ -203,6 +203,12 @@ function scoreTransparency(input: ScoringInput): { score: number; notes: string[
   return { score: Math.max(0, Math.min(25, score)), notes };
 }
 
+// The category's average price per serving, when the Value pillar benchmarks against one
+// (null means the Value score is a neutral default). Used by the product summary.
+export function categoryAvgPricePerServing(category: string): number | null {
+  return CATEGORY_BENCHMARKS[category]?.avgPricePerServing ?? null;
+}
+
 // ── PILLAR 3: VALUE (0-20) ────────────────────────────────────
 
 function scoreValue(input: ScoringInput): { score: number; notes: string[] } {

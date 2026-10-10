@@ -98,7 +98,7 @@ export default function PrivacyPage() {
               <li>Vercel — website hosting</li>
               <li>Upstash — rate limiting: your IP address is stored briefly to count requests so we can limit abuse, and is deleted automatically within about two hours</li>
               {PRO_ENABLED && <li>Stripe and Link — payments, tax and subscription billing for Pello Pro, as merchant of record</li>}
-              <li>Anthropic (Claude) — AI features: planner inputs and product information are sent to generate plans and summaries</li>
+              <li>Anthropic (Claude) — AI features: planner inputs and product information are sent to generate nutrition plans and the product analyses on the search page</li>
               <li>Google — only if you choose to sign in with Google</li>
               <li>Google Analytics (Google LLC) — usage analytics, only if you accept analytics cookies. Google Analytics doesn&apos;t log or store IP addresses</li>
               {INTERVALS_ENABLED && <li>intervals.icu — only if you connect your intervals.icu account, to read your planned workouts and the completed activities you choose</li>}

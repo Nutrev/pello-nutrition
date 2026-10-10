@@ -11,6 +11,8 @@ interface ReviewSectionProps {
   category?: Category;
   // Called after each load with the community reviews, so the page can show their sentiment.
   onLoaded?: (reviewCount: number, averages: AttributeAverages | null) => void;
+  // Drops the outer card and page-width wrapper, for use inside another section.
+  bare?: boolean;
 }
 
 // Which attributes to show based on category
@@ -114,7 +116,7 @@ function timeAgo(dateStr: string) {
   return new Date(dateStr).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 }
 
-export default function ReviewSection({ productId, category, onLoaded }: ReviewSectionProps) {
+export default function ReviewSection({ productId, category, onLoaded, bare = false }: ReviewSectionProps) {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [attributeAverages, setAttributeAverages] = useState<AttributeAverages | null>(null);
   const [loading, setLoading] = useState(true);
@@ -207,8 +209,8 @@ export default function ReviewSection({ productId, category, onLoaded }: ReviewS
     .some(([k, v]) => k !== "count" && v !== null);
 
   return (
-    <div id="reviews" className="max-w-5xl mx-auto px-6 mt-6 scroll-mt-20">
-      <div className="card">
+    <div id={bare ? undefined : "reviews"} className={bare ? "" : "max-w-5xl mx-auto px-6 mt-6 scroll-mt-20"}>
+      <div className={bare ? "" : "card"}>
         {/* Header */}
         <div className="flex items-start justify-between mb-6">
           <div>

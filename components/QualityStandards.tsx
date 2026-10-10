@@ -64,10 +64,12 @@ function ClaimRow({ label, value, note }: { label: string; value: boolean | null
   );
 }
 
-export default function QualityStandards({ certifications, diet, nsf }: {
+// "bare" drops the card and heading, for use inside a section that already has a title.
+export default function QualityStandards({ certifications, diet, nsf, bare = false }: {
   certifications: string[] | undefined;
   diet: DietFacts;
   nsf: NsfCheck;
+  bare?: boolean;
 }) {
   const met = new Set(standardsFrom(certifications));
   const sport = QUALITY_STANDARDS.filter((s) => s.group === "sport");
@@ -76,10 +78,10 @@ export default function QualityStandards({ certifications, diet, nsf }: {
   const dairyFree = meetsDiet(diet, "dairy-free") ? true : diet.allergens?.some((a) => /milk/i.test(a)) ? false : null;
 
   return (
-    <div className="card lg:col-span-2" id="quality-standards">
+    <div className={bare ? "" : "card lg:col-span-2"} id={bare ? undefined : "quality-standards"}>
       <div className="flex flex-wrap items-baseline justify-between gap-2 mb-1">
-        <h2 className="font-display font-semibold text-base">Quality standards</h2>
-        <Link href="/guides/certifications" className="text-xs text-moss hover:underline">What these mean →</Link>
+        {!bare && <h2 className="font-display font-semibold text-base">Quality standards</h2>}
+        <Link href="/guides/certifications" className={`text-xs text-moss hover:underline ${bare ? "order-last" : ""}`}>What these mean →</Link>
       </div>
       <p className="text-sm mb-4">
         <span className="font-medium">{met.size} of {QUALITY_STANDARDS.length}</span>

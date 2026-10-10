@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, createContext, useContext } from "react";
 import type { Product } from "@/lib/products";
-import { reviewsAt, reviewSourceOf, type ProductSummary } from "@/lib/catalog-types";
+import { reviewsAt, reviewSourceOf, categorySlug, type ProductSummary } from "@/lib/catalog-types";
+import { usedForText, type ProductSummaryText } from "@/lib/product-summary";
 import Link from "next/link";
 import ReviewSection, { getAttributesForCategory } from "@/components/ReviewSection";
 import type { AttributeAverages } from "@/lib/supabase";
@@ -11,13 +12,13 @@ import WarningIcon from "@/components/WarningIcon";
 import ProductActions from "@/components/account/ProductActions";
 import BuyButtons from "@/components/BuyButtons";
 import { PRICE_POSITION_LABEL, PRICE_POSITION_STYLE, type Brand } from "@/lib/brand-types";
-import IngredientFlags from "@/components/IngredientFlags";
+import IngredientFlags, { detectFlags } from "@/components/IngredientFlags";
 import QualityStandards, { type NsfCheck } from "@/components/QualityStandards";
-import { standardsFrom } from "@/lib/quality-standards";
+import { QUALITY_STANDARDS, standardsFrom, meetsDiet } from "@/lib/quality-standards";
 import { productPelloScore } from "@/lib/product-score";
 import { pricePerServing as calcPricePerServing, servingsPerContainer, formatPrice } from "@/lib/servings";
-import { productNutrition } from "@/lib/nutrition";
-import FulensScoreDisplay from "@/components/FulensScore";
+import { productNutrition, type ProductNutrition } from "@/lib/nutrition";
+import FulensScoreDisplay, { ScoreSummary } from "@/components/FulensScore";
 
 function ScoreCircle({ score }: { score: number }) {
   const r = 22;
@@ -35,23 +36,6 @@ function ScoreCircle({ score }: { score: number }) {
   );
 }
 
-function getProsAndCons(sentiment: Record<string, number>, ingredients: { verdict: string; name: string }[]) {
-  const pros: string[] = [];
-  const cons: string[] = [];
-
-  Object.entries(sentiment).forEach(([key, val]) => {
-    if (val >= 85) pros.push(`Strong ${key.toLowerCase()} scores (${val}%)`);
-    else if (val < 60) cons.push(`Lower ${key.toLowerCase()} scores (${val}%)`);
-  });
-
-  const provenCount = ingredients.filter((i) => i.verdict === "proven").length;
-  const disputedCount = ingredients.filter((i) => i.verdict === "disputed").length;
-  if (provenCount >= 2) pros.push(`${provenCount} science-backed ingredients`);
-  if (disputedCount > 0) cons.push(`${disputedCount} disputed ingredient${disputedCount > 1 ? "s" : ""} — check label`);
-
-  return { pros: pros.slice(0, 4), cons: cons.slice(0, 4) };
-}
-
 const SERVING_UNIT: Record<string, string> = {
   "Energy Gel": "gel", "Energy Chew": "pack", "Energy Bar": "bar",
 };
@@ -62,25 +46,46 @@ function servingUnit(product: Product): string {
   return m ? m[1].toLowerCase() : SERVING_UNIT[product.category] ?? "serving";
 }
 
-function getPricePerServing(product: Product): string {
-  return `$${calcPricePerServing(product).toFixed(2)} per ${servingUnit(product)}`;
+// The numbers people compare first, per serving, from the product's own data only: up to four
+// of creatine, protein, carbs, sodium, caffeine and calories. Caffeine shows as "None" for fuel
+// products (10g+ carbs) that have none, since that's a deliberate choice for those. When caffeine
+// is only listed as an ingredient, its dose is shown as written ("up to 50mg", some flavors).
+function servingFacts(product: Product, n: ProductNutrition): { label: string; value: string }[] {
+  const facts: { label: string; value: string }[] = [];
+  const { carbsPerServing: carbs, proteinPerServing: protein, sodiumPerServing: sodium } = n;
+  const creatine = product.category === "Creatine" ? product.ingredients.filter((i) => /creatine/i.test(i.name)) : [];
+  if (creatine.length === 1 && creatine[0].dose && /^\s*[\d.]+\s*(mg|g)\b/i.test(creatine[0].dose)) {
+    facts.push({ label: "Creatine", value: creatine[0].dose.trim() });
+  }
+  const proteinFirst = protein != null && protein >= 10;
+  if (proteinFirst) facts.push({ label: "Protein", value: `${protein}g` });
+  if (carbs != null && carbs > 0) facts.push({ label: "Carbs", value: `${carbs}g` });
+  if (!proteinFirst && protein != null && protein > 0) facts.push({ label: "Protein", value: `${protein}g` });
+  if (sodium != null && sodium > 0) facts.push({ label: "Sodium", value: `${sodium}mg` });
+  const caffeineIngredient = product.ingredients.find((i) => /caffeine/i.test(i.name));
+  if (product.caffeinePerServing != null && product.caffeinePerServing > 0) {
+    facts.push({ label: "Caffeine", value: `${product.caffeinePerServing}mg` });
+  } else if (caffeineIngredient) {
+    const dose = caffeineIngredient.dose?.trim();
+    facts.push({
+      label: /some flavou?rs/i.test(caffeineIngredient.name) ? "Caffeine, some flavors" : "Caffeine",
+      value: dose ? dose.charAt(0).toUpperCase() + dose.slice(1) : "Yes",
+    });
+  } else if (n.caffeinePerServing === 0 && carbs != null && carbs >= 10) {
+    facts.push({ label: "Caffeine", value: "None" });
+  }
+  if (product.caloriesPerServing) facts.push({ label: "Calories", value: String(product.caloriesPerServing) });
+  return facts.slice(0, 4);
 }
 
-// What the product is used for, from its goals (for supplements, The Feed's classification).
-// Empty when no goal is known.
+function plural(n: number, word: string) {
+  return `${n} ${word}${n === 1 ? "" : "s"}`;
+}
+
+// What the product is used for, from its goals (lib/product-summary.ts). Empty when no goal is known.
 function getBestForStatement(product: Product): string {
-  const goalMap: Record<string, string> = {
-    muscle: "building muscle",
-    endurance: "endurance athletes",
-    recovery: "post-workout recovery",
-    health: "general health",
-    sleep: "sleep and recovery",
-    immunity: "immune support",
-    "gut health": "gut health",
-  };
-  if (product.goals.length === 0) return "";
-  const goalStr = product.goals.map((g) => goalMap[g] ?? g).join(" and ");
-  return `Used for: ${goalStr}`;
+  const usedFor = usedForText(product);
+  return usedFor ? `Used for: ${usedFor}` : "";
 }
 
 function getDisputedIngredients(ingredients: Product["ingredients"]) {
@@ -100,12 +105,10 @@ interface ReportClientProps {
   similar: ProductSummary[];
   brand: ReportBrand;
   nsf: NsfCheck;
+  summary: ProductSummaryText;  // built on the server (lib/product-summary.ts)
 }
 
-export default function ReportClient({ product, similar: similarProducts, brand, nsf }: ReportClientProps) {
-  const [summary, setSummary] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [generated, setGenerated] = useState(false);
+export default function ReportClient({ product, similar: similarProducts, brand, nsf, summary }: ReportClientProps) {
   const [recent, setRecent] = useState<DirectoryEntry[]>([]);
   // Pello community reviews (loaded by ReviewSection); null until they've loaded.
   const [community, setCommunity] = useState<{ count: number; averages: AttributeAverages | null } | null>(null);
@@ -133,42 +136,48 @@ export default function ReportClient({ product, similar: similarProducts, brand,
     } catch {}
   }, [product.id, product.name, product.brand, product.logo, product.logoDomain]);
 
-  const generateSummary = async () => {
-    setLoading(true);
-    setSummary("");
-    try {
-      const res = await fetch("/api/summarize", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productId: product.id }),
-      });
-      const data = await res.json();
-      if (!res.ok || !data.summary) {
-        setSummary(res.status === 429
-          ? "Too many requests. Please wait a moment and try again."
-          : "Couldn't generate a summary right now. Please try again.");
-      } else {
-        setSummary(data.summary);
-        setGenerated(true);
-      }
-    } catch {
-      setSummary("Couldn't generate a summary right now. Please try again.");
-    }
-    setLoading(false);
-  };
-
   // The selected variant (e.g. a strength) overrides the product's price, servings, sodium and rating.
   const variant = product.variants?.find((v) => v.id === variantId);
   const shown: Product = variant ? { ...product, ...variant, id: product.id } : product;
-  const pricePerServing = getPricePerServing(shown);
-  const { pros, cons } = getProsAndCons(product.sentiment, product.ingredients);
+  const shownNutrition = productNutrition(shown);
+  const facts = servingFacts(shown, shownNutrition);
+  const unit = servingUnit(product);
   const bestFor = getBestForStatement(product);
   const disputedIngredients = getDisputedIngredients(product.ingredients);
+
+  // One-line answers for the folded sections.
+  const flags = detectFlags(product.ingredients.map((i) => i.name));
+  const verdictCounts = (["proven", "likely", "disputed"] as const)
+    .map((v) => ({ v, n: product.ingredients.filter((i) => i.verdict === v).length }))
+    .filter((c) => c.n > 0)
+    .map((c) => `${c.n} ${c.v}`);
+  const ingredientsLine = product.ingredients.length === 0 ? "No ingredient details yet" : [
+    plural(product.ingredients.length, "key ingredient"),
+    verdictCounts.join(", "),
+    flags.length > 0 ? `${flags.length} flagged` : "nothing flagged",
+  ].filter(Boolean).join(" · ");
+
+  const met = new Set(standardsFrom(product.certifications));
+  const metStandards = QUALITY_STANDARDS.filter((s) => met.has(s.id));
+  const sportTested = metStandards.filter((s) => s.group === "sport");
+  const diet = { isVegan: product.isVegan ?? null, isGlutenFree: product.isGlutenFree, allergens: product.allergens };
+  const dietYes = (["vegan", "gluten-free", "dairy-free"] as const).filter((d) => meetsDiet(diet, d));
+  const qualityLine = [...metStandards.map((s) => s.name), ...dietYes].join(" · ") || "No certifications or diet claims listed";
+
+  const communityLine = community === null ? "" : community.count > 0 ? plural(community.count, "Pello community review") : "no Pello community reviews yet";
+  const reviewsLine = [
+    shown.reviewCount > 0 ? `${shown.rating} from ${reviewsAt(shown.reviewCount, reviewSource)}` : "No retailer reviews yet",
+    communityLine,
+  ].filter(Boolean).join(" · ");
+
+  const transparencyLabel = product.transparencyScore == null ? "Not yet scored"
+    : product.transparencyScore >= 85 ? "High transparency" : product.transparencyScore >= 70 ? "Good transparency" : "Moderate transparency";
+  const sourcesLine = [transparencyLabel, product.sources.map((src) => src.name).join(", ")].filter(Boolean).join(" · ");
 
   return (
     <div className="min-h-screen">
 
-      <div className="max-w-5xl mx-auto px-6 py-10">
+      <div className="max-w-5xl mx-auto px-6 py-8 sm:py-10">
 
         {/* Ingredient warning banner */}
         {disputedIngredients.length > 0 && (
@@ -177,369 +186,378 @@ export default function ReportClient({ product, similar: similarProducts, brand,
             <p className="text-xs text-muted leading-relaxed">
               This product contains {disputedIngredients.length} disputed ingredient{disputedIngredients.length > 1 ? "s" : ""}:{" "}
               <strong>{disputedIngredients.map((i) => i.name).join(", ")}</strong>.{" "}
-              Evidence is mixed or doses are undisclosed — see the ingredient science section below for details.
+              Evidence is mixed or doses are undisclosed — see <a href="#ingredients" className="underline">Ingredients</a> below for details.
             </p>
           </div>
         )}
 
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-start gap-6 mb-6">
-          <BrandLogo
-            logoDomain={product.logoDomain}
-            logo={product.logo}
-            brand={product.brand} size="lg" />
-          <div className="flex-1">
-            <Link href={`/brands/${brand.slug}`} className="inline-block text-sm text-muted hover:text-moss hover:underline mb-1">{product.brand}</Link>
-            <h1 className="font-display font-bold text-3xl tracking-tight mb-2">{product.name}</h1>
-            <div className="flex flex-wrap items-center gap-3 mb-2">
-              {shown.reviewCount > 0 ? (
-                <>
-                  <div className="flex text-amber text-lg">{"★".repeat(Math.round(shown.rating))}{"☆".repeat(5 - Math.round(shown.rating))}</div>
-                  <span className="text-sm text-muted">{shown.rating} / 5</span>
-                  <span className="text-muted">·</span>
-                  <span className="text-sm text-muted">{reviewsAt(shown.reviewCount, reviewSource)}{variant ? ` for ${variant.label}` : ""}</span>
-                </>
-              ) : (
-                <span className="text-sm text-muted">No reviews yet</span>
+        {/* Header: what it is, what it costs, where to buy, and the score */}
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_260px] gap-5">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 min-w-0">
+            <BrandLogo logoDomain={product.logoDomain} logo={product.logo} brand={product.brand} size="lg" />
+            <div className="flex-1 min-w-0">
+              <Link href={`/brands/${brand.slug}`} className="inline-block text-sm text-muted hover:text-moss hover:underline">{product.brand}</Link>
+              <h1 className="font-display font-bold text-3xl tracking-tight leading-tight">{product.name}</h1>
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mt-1 text-sm text-muted">
+                {shown.reviewCount > 0 ? (
+                  <>
+                    <span className="text-amber" aria-hidden="true">{"★".repeat(Math.round(shown.rating))}{"☆".repeat(5 - Math.round(shown.rating))}</span>
+                    <span className="text-ink font-medium">{shown.rating}<span className="sr-only"> out of 5</span></span>
+                    <a href="#ratings" className="hover:text-ink">· {reviewsAt(shown.reviewCount, reviewSource)}{variant ? ` for ${variant.label}` : ""}</a>
+                  </>
+                ) : (
+                  <span>No reviews yet</span>
+                )}
+                <Link href={`/products/${categorySlug(product.category)}`}
+                  className="text-xs border border-sand rounded-full px-2 py-0.5 hover:bg-sand/60">{product.category}</Link>
+              </div>
+
+              {product.variants && product.variants.length > 1 && (
+                <div className="flex flex-wrap gap-2 mt-3" role="radiogroup" aria-label="Choose a version">
+                  {product.variants.map((v) => (
+                    <button
+                      key={v.id}
+                      type="button"
+                      role="radio"
+                      aria-checked={v.id === variantId}
+                      onClick={() => setVariantId(v.id)}
+                      className={`text-sm px-3 py-1.5 rounded-lg border transition-colors ${
+                        v.id === variantId ? "border-moss bg-moss/10 text-moss font-medium" : "border-sand text-muted hover:border-muted hover:text-ink"
+                      }`}
+                    >
+                      {v.label}
+                      {v.sodiumPerServing != null && <span className="text-xs"> · {v.sodiumPerServing}mg sodium</span>}
+                    </button>
+                  ))}
+                </div>
               )}
-              <span className="text-xs bg-moss/10 text-moss px-2 py-0.5 rounded-md">{product.category}</span>
+
+              <div className="flex flex-wrap items-baseline gap-x-2 mt-4">
+                <span className="font-display font-bold text-2xl">${calcPricePerServing(shown).toFixed(2)}</span>
+                <span className="text-sm text-muted">per {unit} · {formatPrice(shown.price)} for {servingsPerContainer(shown)}</span>
+              </div>
+              <div className="mt-3">
+                <BuyButtons retailerLinks={product.retailerLinks} productName={product.name} brand={product.brand}
+                  logoDomain={product.logoDomain} layout="inline" />
+              </div>
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-3">
+                <Link href={`/compare?ids=${product.id}`} className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-ink transition-colors">
+                  <span aria-hidden="true">⇄</span> Compare
+                </Link>
+                <ProductActions productId={product.id} productName={`${product.brand} ${product.name}`} servingSize={product.servingSize} inline />
+              </div>
+              {bestFor && <p className="text-xs text-muted mt-3">{bestFor}</p>}
             </div>
-            {shown.reviewCount > 0 && reviewSource && (
-              <p className="text-xs text-muted mb-3">
-                Rating and review count from {reviewSource}&apos;s customers. <a href="#reviews" className="underline hover:text-ink">Pello community reviews</a> are submitted separately on Pello.
-              </p>
-            )}
-            {product.variants && product.variants.length > 1 && (
-              <div className="flex flex-wrap gap-2 mb-3" role="radiogroup" aria-label="Choose a version">
-                {product.variants.map((v) => (
-                  <button
-                    key={v.id}
-                    type="button"
-                    role="radio"
-                    aria-checked={v.id === variantId}
-                    onClick={() => setVariantId(v.id)}
-                    className={`text-sm px-3 py-1.5 rounded-lg border transition-colors ${
-                      v.id === variantId ? "border-moss bg-moss/10 text-moss font-medium" : "border-sand text-muted hover:border-muted hover:text-ink"
-                    }`}
-                  >
-                    {v.label}
-                    {v.sodiumPerServing != null && <span className="text-xs"> · {v.sodiumPerServing}mg sodium</span>}
-                  </button>
+          </div>
+
+          {PelloScore && <div className="md:self-start"><ScoreSummary score={PelloScore} /></div>}
+        </div>
+
+        {/* At a glance: the numbers people compare, then the key facts as tags */}
+        <div className="mt-8">
+          {facts.length > 0 && (
+            <>
+              <div className="text-xs text-muted uppercase tracking-widest mb-2">Per {unit}</div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                {facts.map((f) => (
+                  <div key={f.label} className="card !px-4 !py-3">
+                    <div className="font-display font-bold text-xl">{f.value}</div>
+                    <div className="text-xs text-muted">{f.label}</div>
+                  </div>
                 ))}
               </div>
+            </>
+          )}
+          <div className={`flex flex-wrap gap-2 ${facts.length > 0 ? "mt-3" : ""}`}>
+            {sportTested.map((s) => (
+              <a key={s.id} href="#quality-standards" className="text-xs bg-moss/10 text-moss px-2.5 py-1 rounded-full hover:bg-moss/15">✓ {s.name}</a>
+            ))}
+            {metStandards.filter((s) => s.group !== "sport").map((s) => (
+              <span key={s.id} className="text-xs bg-sand/70 px-2.5 py-1 rounded-full">{s.name}</span>
+            ))}
+            {shownNutrition.isHydrogel && <span className="text-xs bg-sand/70 px-2.5 py-1 rounded-full">Hydrogel</span>}
+            {shownNutrition.glucoseFructoseRatio && (
+              <span className="text-xs bg-sand/70 px-2.5 py-1 rounded-full">{shownNutrition.glucoseFructoseRatio} glucose:fructose</span>
             )}
-            <div className="flex items-center gap-3 mb-2">
-              <span className="font-display font-bold text-xl">{formatPrice(shown.price)}</span>
-              <span className="text-sm text-muted">for {servingsPerContainer(shown)} servings</span>
-              {pricePerServing && (
-                <span className="text-base font-medium text-ink">· {pricePerServing}</span>
-              )}
-            </div>
-            {/* Where to buy: in the header so it's the first thing after the price */}
-            <div className="mt-3 mb-3">
-              <BuyButtons retailerLinks={product.retailerLinks} productName={product.name} brand={product.brand}
-                logoDomain={product.logoDomain} layout="inline" />
-            </div>
-            {bestFor && (
-              <div className="inline-flex items-center gap-2 bg-moss/10 text-moss px-3 py-1.5 rounded-lg mt-1">
-                <span className="text-xs font-medium">{bestFor}</span>
-              </div>
-            )}
-          </div>
-         <div className="flex flex-col gap-2 flex-shrink-0">
-            <Link
-              href={`/compare?ids=${product.id}`}
-              className="btn-secondary flex items-center justify-center gap-2 text-sm whitespace-nowrap"
-            >
-              Compare this product
-            </Link>
-            <ProductActions productId={product.id} productName={`${product.brand} ${product.name}`} servingSize={product.servingSize} />
+            {dietYes.map((d) => (
+              <span key={d} className="text-xs bg-sand/70 px-2.5 py-1 rounded-full">{d.charAt(0).toUpperCase() + d.slice(1)}</span>
+            ))}
+            {product.ingredients.length > 0 && (flags.length === 0 ? (
+              <span className="text-xs bg-sand/70 px-2.5 py-1 rounded-full">Nothing flagged in ingredients</span>
+            ) : (
+              <a href="#ingredients" className="text-xs bg-amber/10 text-amber px-2.5 py-1 rounded-full hover:bg-amber/15">
+                {plural(flags.length, "ingredient flag")}
+              </a>
+            ))}
           </div>
         </div>
 
-        {/* Brand */}
-        <div className="card flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
-          <BrandLogo logoDomain={product.logoDomain} logo={product.logo} brand={brand.name} size="md" />
-          <div className="flex-1 min-w-0">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="font-display font-semibold">{brand.name}</span>
-              <span className={`text-xs px-2 py-0.5 rounded-md ${PRICE_POSITION_STYLE[brand.pricePosition]}`}>{PRICE_POSITION_LABEL[brand.pricePosition]}</span>
-              {(brand.founded || brand.hq) && (
-                <span className="text-xs text-muted">{[brand.founded && `Founded ${brand.founded}`, brand.hq].filter(Boolean).join(" · ")}</span>
-              )}
+        {/* The short version, built from the product's own data (lib/product-summary.ts) */}
+        <div className="card mt-8">
+          <p className="text-sm leading-relaxed">{summary.opening}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 mt-4">
+            <div>
+              <h3 className="text-[11px] uppercase tracking-widest text-moss mb-2">Strengths</h3>
+              {summary.strengths.length > 0 ? (
+                <ul className="space-y-1.5">
+                  {summary.strengths.map((s) => (
+                    <li key={s} className="flex items-start gap-2 text-sm"><span aria-hidden="true" className="text-moss flex-shrink-0">✓</span>{s}</li>
+                  ))}
+                </ul>
+              ) : <p className="text-sm text-muted">No standout strengths.</p>}
             </div>
-            <p className="text-sm text-muted mt-0.5">{brand.line}</p>
+            <div>
+              <h3 className="text-[11px] uppercase tracking-widest text-amber mb-2">Watch out for</h3>
+              <ul className="space-y-1.5">
+                {summary.weaknesses.map((w) => (
+                  <li key={w} className="flex items-start gap-2 text-sm"><span aria-hidden="true" className="text-amber flex-shrink-0">→</span>{w}</li>
+                ))}
+              </ul>
+            </div>
           </div>
-          <Link href={`/brands/${brand.slug}`} className="text-sm text-moss hover:underline whitespace-nowrap">
-            {brand.productCount > 1 ? `View all ${brand.productCount} ${brand.name} products →` : `About ${brand.name} →`}
-          </Link>
+          {summary.bestFor && (
+            <p className="text-sm mt-4 pt-4 border-t border-sand"><span className="font-medium">Best for:</span> <span className="text-muted">{summary.bestFor}</span></p>
+          )}
         </div>
 
-        {/* Pros & Cons */}
-        {(pros.length > 0 || cons.length > 0) && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-            <div className="card bg-moss/5 border-moss/20">
-              <div className="text-xs text-moss uppercase tracking-widest mb-3">Strengths</div>
-              <ul className="space-y-2">
-                {pros.length > 0 ? pros.map((pro, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm">
-                    <span className="text-moss flex-shrink-0 mt-0.5">✓</span>
-                    {pro}
-                  </li>
-                )) : <li className="text-xs text-muted">Insufficient data</li>}
-              </ul>
-            </div>
-            <div className="card bg-rust/5 border-rust/20">
-              <div className="text-xs text-rust uppercase tracking-widest mb-3">Watch out for</div>
-              <ul className="space-y-2">
-                {cons.length > 0 ? cons.map((con, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm">
-                    <span className="text-rust flex-shrink-0 mt-0.5">→</span>
-                    {con}
-                  </li>
-                )) : <li className="text-xs text-muted">No major concerns identified</li>}
-              </ul>
-            </div>
+        {/* Score breakdown */}
+        {PelloScore && (
+          <div className="mt-4 scroll-mt-20" id="score">
+            <FulensScoreDisplay score={PelloScore} />
           </div>
         )}
 
-        {/* Stats */}
-        <div className="grid grid-cols-3 gap-4 mb-6">
-          {[
-            { val: product.reviewCount > 0 ? product.reviewCount.toLocaleString() : "—", label: reviewSource ? `Reviews at ${reviewSource}` : "Customer reviews" },
-            { val: standardsFrom(product.certifications).length, label: "Quality standards" },
-            { val: product.ingredients.length, label: "Key ingredients" },
-          ].map((s) => (
-            <div key={s.label} className="card text-center">
-              <div className="font-display font-bold text-2xl">{s.val}</div>
-              <div className="text-muted text-xs mt-1">{s.label}</div>
-            </div>
-          ))}
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {/* Pello Score */}
-          {PelloScore && (
-            <div className="lg:col-span-2">
-             <FulensScoreDisplay score={PelloScore} />
-             <p className="text-xs text-muted uppercase tracking-widest mt-2 text-right">
-               Independent analysis <span aria-hidden="true">·</span> No brand partnerships
-             </p>
-            </div>
-          )}
-          {/* AI Summary */}
-          <div className="card lg:col-span-2">
-            <h2 className="font-display font-semibold text-base mb-3">AI Summary</h2>
-            {summary ? (
-              <div>
-                <p className="text-sm leading-relaxed">{summary}</p>
-                <div className="mt-3 text-xs text-muted">
-                  AI-generated from this product&apos;s label, ingredient and rating data
-                </div>
-              </div>
-            ) : loading ? (
-              <div className="bg-sand/40 rounded-xl p-4 text-center text-sm text-muted">
-                Writing summary...
-              </div>
-            ) : (
-              <div className="bg-sand/30 border border-sand rounded-xl p-6">
-                <div className="flex items-start justify-between gap-6">
-                  <div>
-                    <div className="font-display font-semibold text-base mb-1">
-                      Get an AI breakdown of this product
-                    </div>
-                    <div className="text-sm text-muted mb-1">
-                      Based on this product&apos;s label, ingredients and rating data
-                    </div>
-                    <div className="flex flex-wrap gap-4 mt-3">
-                      {["Overall verdict", "Key strengths", "Weaknesses", "Who it's best for"].map((label) => (
-                        <div key={label} className="text-xs text-muted flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-moss inline-block" />
-                          {label}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <button onClick={generateSummary} className="btn-primary whitespace-nowrap flex-shrink-0">
-                    Generate AI summary
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Sentiment: only from Pello community reviews. Estimated values are shown grayed out. */}
-          <div className="card">
-            <h2 className="font-display font-semibold text-base mb-4">Sentiment breakdown</h2>
-            {(() => {
-              const communityBars = community && community.count > 0 && community.averages
-                ? getAttributesForCategory(product.category)
-                    .map(({ key, label }) => ({ label, value: community.averages![key as keyof AttributeAverages] }))
-                    .filter((b): b is { label: string; value: number } => b.value != null)
-                    .map((b) => ({ label: b.label, pct: Math.round((b.value / 5) * 100) }))
-                : [];
-              const estimated = Object.entries(product.sentiment).map(([label, pct]) => ({ label, pct }));
-              const bars = communityBars.length > 0 ? communityBars : estimated;
-              const isCommunity = communityBars.length > 0;
-              if (community === null) return <p className="text-sm text-muted">Loading community reviews…</p>;
-              return (
-                <>
-                  {bars.length > 0 && (
-                    <div className={isCommunity ? "" : "opacity-40"}>
-                      {!isCommunity && <div className="text-[10px] uppercase tracking-widest text-muted mb-2">Estimated</div>}
-                      <div className="space-y-3">
-                        {bars.map(({ label, pct }) => (
-                          <div key={label}>
-                            <div className="flex justify-between text-sm mb-1">
-                              <span>{label}</span>
-                              <span className="font-medium">{pct}%</span>
-                            </div>
-                            <div className="h-1.5 bg-sand rounded-full overflow-hidden">
-                              <div className="h-full rounded-full" style={{ width: `${pct}%`, background: pct >= 80 ? "#2D4A2D" : pct >= 60 ? "#C8860A" : "#B84C2E" }} />
-                            </div>
-                          </div>
-                        ))}
+        {/* The details: everything else, folded, each with a one-line answer */}
+        <div className="mt-8">
+          <h2 className="font-display font-semibold text-base mb-3">The details</h2>
+          <DetailList initialOpen="ingredients">
+            <DetailItem id="ingredients" title="Ingredients" summary={ingredientsLine}>
+              <p className="text-xs text-muted mb-3">Cross-referenced with PubMed &amp; Examine.com</p>
+              <IngredientFlags ingredientNames={product.ingredients.map((i) => i.name)} />
+              <div className="space-y-3 mt-3">
+                {product.ingredients.map((ing, i) => (
+                  <div key={i} className="pb-3 border-b border-sand last:border-0 last:pb-0">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1">
+                        <span className="text-sm font-medium">{ing.name}</span>
+                        {ing.dose && <span className="text-xs text-muted ml-2">{ing.dose}</span>}
                       </div>
+                      <span className={`text-xs px-2 py-0.5 rounded-md flex-shrink-0 ${
+                        ing.verdict === "proven" ? "bg-moss/10 text-moss" :
+                        ing.verdict === "likely" ? "bg-amber/10 text-amber" :
+                        "bg-rust/10 text-rust"
+                      }`}>
+                        {ing.verdict === "proven" ? "✓ Proven" : ing.verdict === "likely" ? "~ Likely" : "Disputed"}
+                      </span>
                     </div>
-                  )}
-                  {isCommunity ? (
-                    <p className="text-xs text-muted mt-3">From {community.count} Pello community review{community.count !== 1 ? "s" : ""}.</p>
-                  ) : (
-                    <div className={bars.length > 0 ? "mt-4" : ""}>
-                      <p className="text-sm text-muted mb-3">
-                        {community.count > 0
-                          ? "Community reviews for this product don't include attribute ratings yet. Sentiment data will appear here as athletes rate them."
-                          : "No community reviews yet for this product. Sentiment data will appear here as athletes submit reviews."}
-                      </p>
-                      <a href="#reviews" className="btn-secondary text-xs py-1.5 px-3 inline-block">
-                        {community.count > 0 ? "Write a review →" : "Write the first review →"}
-                      </a>
+                    <p className="text-sm text-muted mt-1 leading-relaxed">{ing.note}</p>
+                    <div className="flex gap-3 mt-1.5">
+                      {ing.pubmedUrl && <a href={ing.pubmedUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-moss underline underline-offset-2">PubMed →</a>}
+                      {ing.examineUrl && <a href={ing.examineUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-moss underline underline-offset-2">Examine →</a>}
                     </div>
-                  )}
-                </>
-              );
-            })()}
-          </div>
-
-          {/* Ingredients */}
-          <div className="card">
-            <h2 className="font-display font-semibold text-base mb-1">Ingredient science</h2>
-            <p className="text-xs text-muted mb-4">Cross-referenced with PubMed & Examine.com</p>
-            <IngredientFlags ingredientNames={product.ingredients.map((i) => i.name)} />
-            <div className="space-y-3">
-              {product.ingredients.map((ing, i) => (
-                <div key={i} className="pb-3 border-b border-sand last:border-0 last:pb-0">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex-1">
-                      <span className="text-sm font-medium">{ing.name}</span>
-                      {ing.dose && <span className="text-xs text-muted ml-2">{ing.dose}</span>}
-                    </div>
-                    <span className={`text-xs px-2 py-0.5 rounded-md flex-shrink-0 ${
-                      ing.verdict === "proven" ? "bg-moss/10 text-moss" :
-                      ing.verdict === "likely" ? "bg-amber/10 text-amber" :
-                      "bg-rust/10 text-rust"
-                    }`}>
-                      {ing.verdict === "proven" ? "✓ Proven" : ing.verdict === "likely" ? "~ Likely" : "Disputed"}
-                    </span>
                   </div>
-                  <p className="text-xs text-muted mt-1 leading-relaxed">{ing.note}</p>
-                  <div className="flex gap-2 mt-1.5">
-                    {ing.pubmedUrl && <a href={ing.pubmedUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-moss underline underline-offset-2">PubMed →</a>}
-                    {ing.examineUrl && <a href={ing.examineUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-moss underline underline-offset-2">Examine →</a>}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Quality standards */}
-          <QualityStandards certifications={product.certifications} nsf={nsf}
-            diet={{ isVegan: product.isVegan ?? null, isGlutenFree: product.isGlutenFree, allergens: product.allergens }} />
-
-          {/* Transparency */}
-          <div className="card lg:col-span-2">
-            <h2 className="font-display font-semibold text-base mb-4">Transparency & Sources</h2>
-            <div className="flex items-center gap-4 mb-5 p-4 bg-sand/40 rounded-xl">
-              {product.transparencyScore != null ? (
-                <ScoreCircle score={product.transparencyScore} />
-              ) : (
-                <div className="h-14 w-14 rounded-full border-4 border-sand flex items-center justify-center text-muted text-lg flex-shrink-0" aria-hidden="true">?</div>
-              )}
-              <div>
-                <div className="lg:col-span-2">
-            </div>
-            <div className="lg:col-span-2">
+                ))}
               </div>
-                <div className="font-semibold">
-                  {product.transparencyScore == null ? "Not yet scored — full label not available"
-                    : product.transparencyScore >= 85 ? "High transparency" : product.transparencyScore >= 70 ? "Good transparency" : "Moderate transparency"}
-                </div>
-                <div className="text-xs text-muted mt-0.5">
-                  {product.certifications?.length ?? 0} certification{(product.certifications?.length ?? 0) === 1 ? "" : "s"} · {product.reviewCount > 0 ? reviewsAt(product.reviewCount, reviewSource) : "no reviews yet"}
+            </DetailItem>
+
+            <DetailItem id="quality-standards" title="Quality standards" summary={qualityLine}>
+              <QualityStandards certifications={product.certifications} nsf={nsf} diet={diet} bare />
+            </DetailItem>
+
+            <DetailItem id="ratings" aliases="reviews" title="Reviews" summary={reviewsLine}>
+              <SentimentBreakdown product={product} community={community} />
+              <div className="border-t border-sand mt-5 pt-5">
+                <ReviewSection productId={product.id} category={product.category} onLoaded={onReviewsLoaded} bare />
+              </div>
+            </DetailItem>
+
+            <DetailItem id="sources" title="Sources & transparency" summary={sourcesLine}>
+              <div className="flex items-center gap-4 mb-4 p-4 bg-sand/40 rounded-xl">
+                {product.transparencyScore != null ? (
+                  <ScoreCircle score={product.transparencyScore} />
+                ) : (
+                  <div className="h-14 w-14 rounded-full border-4 border-sand flex items-center justify-center text-muted text-lg flex-shrink-0" aria-hidden="true">?</div>
+                )}
+                <div>
+                  <div className="font-semibold">
+                    {product.transparencyScore == null ? "Not yet scored — full label not available" : transparencyLabel}
+                  </div>
+                  <div className="text-xs text-muted mt-0.5">
+                    {plural(product.certifications?.length ?? 0, "certification")} · {product.reviewCount > 0 ? reviewsAt(product.reviewCount, reviewSource) : "no reviews yet"}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="divide-y divide-sand">
-              {product.sources.map((src, i) => (
-                <div key={i} className="flex items-center justify-between py-2.5 text-sm">
-                  <span>{src.name}</span>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs text-muted">{src.count.toLocaleString()} {src.unit}</span>
-                    <span className={`text-xs px-2 py-0.5 rounded-md ${src.credibility === "high" ? "bg-moss/10 text-moss" : "bg-amber/10 text-amber"}`}>
-                      {src.credibility}
-                    </span>
+              <div className="divide-y divide-sand">
+                {product.sources.map((src, i) => (
+                  <div key={i} className="flex items-center justify-between py-2.5 text-sm">
+                    <span>{src.name}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-muted">{src.count.toLocaleString()} {src.unit}</span>
+                      <span className={`text-xs px-2 py-0.5 rounded-md ${src.credibility === "high" ? "bg-moss/10 text-moss" : "bg-amber/10 text-amber"}`}>
+                        {src.credibility}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </div>
+                ))}
+              </div>
+            </DetailItem>
+
+            <DetailItem id="brand" title={`About ${brand.name}`}
+              summary={[PRICE_POSITION_LABEL[brand.pricePosition], plural(brand.productCount, "product") + " on Pello"].join(" · ")}>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className={`text-xs px-2 py-0.5 rounded-md ${PRICE_POSITION_STYLE[brand.pricePosition]}`}>{PRICE_POSITION_LABEL[brand.pricePosition]}</span>
+                {(brand.founded || brand.hq) && (
+                  <span className="text-xs text-muted">{[brand.founded && `Founded ${brand.founded}`, brand.hq].filter(Boolean).join(" · ")}</span>
+                )}
+              </div>
+              <p className="text-sm text-muted mt-2">{brand.line}</p>
+              <Link href={`/brands/${brand.slug}`} className="inline-block text-sm text-moss hover:underline mt-2">
+                {brand.productCount > 1 ? `View all ${brand.productCount} ${brand.name} products →` : `About ${brand.name} →`}
+              </Link>
+            </DetailItem>
+          </DetailList>
         </div>
       </div>
 
-      {/* You might also like */}
-      {(() => {
-        const similar = similarProducts;
-        return similar.length > 0 ? (
-          <div className="max-w-5xl mx-auto px-6 mt-6">
-            <h2 className="font-display font-semibold text-base mb-4">You might also like</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {similar.map((p) => (
-                <Link key={p.id} href={`/report/${p.id}`}>
-                  <div className="card hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group">
-                    <div className="flex items-start justify-between mb-3">
-                      <BrandLogo logoDomain={p.logoDomain} logo={p.logo} brand={p.brand} />
-                      <span className="text-xs text-muted">{p.reviewCount > 0 ? `${p.rating} ★` : "No reviews"}</span>
-                    </div>
-                    <div className="text-xs text-muted mb-0.5">{p.brand}</div>
-                    <div className="font-display font-semibold text-sm group-hover:text-moss transition-colors">{p.name}</div>
-                    <div className="text-xs text-muted mt-1">{formatPrice(p.price)} · {servingsPerContainer(p)} servings</div>
+      {/* Similar products */}
+      {similarProducts.length > 0 && (
+        <div className="max-w-5xl mx-auto px-6 mt-2">
+          <h2 className="font-display font-semibold text-base mb-3">You might also like</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {similarProducts.map((p) => (
+              <Link key={p.id} href={`/report/${p.id}`}>
+                <div className="card hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group">
+                  <div className="flex items-start justify-between mb-3">
+                    <BrandLogo logoDomain={p.logoDomain} logo={p.logo} brand={p.brand} />
+                    <span className="text-xs text-muted">{p.reviewCount > 0 ? `${p.rating} ★` : "No reviews"}</span>
                   </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        ) : null;
-      })()}
-
-      {/* Recently viewed */}
-      {recent.length > 0 && (
-        <div className="max-w-5xl mx-auto px-6 mt-6 mb-10">
-          <h2 className="font-display font-semibold text-base mb-4">Recently viewed</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {recent.map((p) => (
-                <Link key={p.id} href={`/report/${p.id}`}>
-                  <div className="card hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group">
-                    <BrandLogo logoDomain={p.logoDomain} logo={p.logo} brand={p.brand} size="sm" className="mb-2" />
-                    <div className="text-xs text-muted mb-0.5">{p.brand}</div>
-                    <div className="font-display font-semibold text-xs group-hover:text-moss transition-colors leading-tight">{p.name}</div>
-                  </div>
-                </Link>
-              ))}
+                  <div className="text-xs text-muted mb-0.5">{p.brand}</div>
+                  <div className="font-display font-semibold text-sm group-hover:text-moss transition-colors">{p.name}</div>
+                  <div className="text-xs text-muted mt-1">{formatPrice(p.price)} · {servingsPerContainer(p)} servings</div>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       )}
 
-      <ReviewSection productId={product.id} category={product.category} onLoaded={onReviewsLoaded} />
+      {/* Recently viewed */}
+      {recent.length > 0 && (
+        <div className="max-w-5xl mx-auto px-6 mt-8">
+          <h2 className="font-display font-semibold text-base mb-3">Recently viewed</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {recent.map((p) => (
+              <Link key={p.id} href={`/report/${p.id}`}>
+                <div className="card hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group">
+                  <BrandLogo logoDomain={p.logoDomain} logo={p.logo} brand={p.brand} size="sm" className="mb-2" />
+                  <div className="text-xs text-muted mb-0.5">{p.brand}</div>
+                  <div className="font-display font-semibold text-xs group-hover:text-moss transition-colors leading-tight">{p.name}</div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+      <div className="h-10" />
     </div>
+  );
+}
+
+// Sentiment: only from Pello community reviews. Estimated values are shown grayed out.
+function SentimentBreakdown({ product, community }: {
+  product: Product;
+  community: { count: number; averages: AttributeAverages | null } | null;
+}) {
+  if (community === null) return <p className="text-sm text-muted">Loading community reviews…</p>;
+  const communityBars = community.count > 0 && community.averages
+    ? getAttributesForCategory(product.category)
+        .map(({ key, label }) => ({ label, value: community.averages![key as keyof AttributeAverages] }))
+        .filter((b): b is { label: string; value: number } => b.value != null)
+        .map((b) => ({ label: b.label, pct: Math.round((b.value / 5) * 100) }))
+    : [];
+  const estimated = Object.entries(product.sentiment).map(([label, pct]) => ({ label, pct }));
+  const isCommunity = communityBars.length > 0;
+  const bars = isCommunity ? communityBars : estimated;
+  if (bars.length === 0) return null;
+  return (
+    <div>
+      <h3 className="text-[11px] uppercase tracking-widest text-muted mb-3">Sentiment breakdown{isCommunity ? "" : " · estimated"}</h3>
+      <div className={`grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 ${isCommunity ? "" : "opacity-50"}`}>
+        {bars.map(({ label, pct }) => (
+          <div key={label}>
+            <div className="flex justify-between text-sm mb-1">
+              <span>{label}</span>
+              <span className="text-muted">{pct}%</span>
+            </div>
+            <div className="h-1.5 bg-sand rounded-full overflow-hidden">
+              <div className={`h-full rounded-full ${pct >= 60 ? "bg-moss" : "bg-amber/70"}`} style={{ width: `${pct}%` }} />
+            </div>
+          </div>
+        ))}
+      </div>
+      {isCommunity && <p className="text-xs text-muted mt-3">From {plural(community.count, "Pello community review")}.</p>}
+    </div>
+  );
+}
+
+// A list of folded sections. One can start open; a link to a section's id or one of its
+// aliases (#reviews, which also opens the review form) opens it and scrolls to it.
+function DetailList({ initialOpen, children }: { initialOpen?: string; children: React.ReactNode }) {
+  const [open, setOpen] = useState<Set<string>>(() => new Set(initialOpen ? [initialOpen] : []));
+  useEffect(() => {
+    const openFromHash = () => {
+      const hash = window.location.hash.slice(1);
+      if (!/^[\w-]+$/.test(hash)) return;
+      const section = document.querySelector<HTMLElement>(`[data-detail]#${hash}, [data-detail][data-aliases~="${hash}"]`);
+      if (!section) return;
+      setOpen((prev) => new Set(prev).add(section.id));
+      requestAnimationFrame(() => section.scrollIntoView({ behavior: "smooth", block: "start" }));
+    };
+    openFromHash();
+    window.addEventListener("hashchange", openFromHash);
+    // A click on a link to the current hash doesn't fire hashchange, so handle in-page links too.
+    const onClick = (e: MouseEvent) => {
+      const a = (e.target as HTMLElement).closest?.("a[href^='#']");
+      if (a && a.getAttribute("href") === window.location.hash) openFromHash();
+    };
+    document.addEventListener("click", onClick);
+    return () => { window.removeEventListener("hashchange", openFromHash); document.removeEventListener("click", onClick); };
+  }, []);
+  const toggle = (id: string) => setOpen((prev) => {
+    const next = new Set(prev);
+    if (next.has(id)) next.delete(id); else next.add(id);
+    return next;
+  });
+  return (
+    <DetailContext.Provider value={{ open, toggle }}>
+      <div className="card !p-0 divide-y divide-sand">{children}</div>
+    </DetailContext.Provider>
+  );
+}
+
+const DetailContext = createContext<{ open: Set<string>; toggle: (id: string) => void }>({ open: new Set(), toggle: () => {} });
+
+// The content stays rendered while folded (just hidden), so sections like reviews still load.
+function DetailItem({ id, aliases, title, summary, children }: {
+  id: string; aliases?: string; title: string; summary: string; children: React.ReactNode;
+}) {
+  const { open, toggle } = useContext(DetailContext);
+  const isOpen = open.has(id);
+  return (
+    <section id={id} data-detail data-aliases={aliases} className="scroll-mt-20">
+      <h3>
+        <button type="button" onClick={() => toggle(id)} aria-expanded={isOpen} aria-controls={`${id}-panel`}
+          className="w-full flex items-center gap-4 px-5 py-4 text-left hover:bg-sand/30 transition-colors first:rounded-t-2xl">
+          <span className="flex-1 min-w-0">
+            <span className="block font-medium text-sm">{title}</span>
+            {summary && <span className="block text-xs text-muted mt-0.5">{summary}</span>}
+          </span>
+          <svg aria-hidden="true" viewBox="0 0 20 20" className={`h-4 w-4 text-muted flex-shrink-0 transition-transform ${isOpen ? "rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth="1.8">
+            <path d="M5 8l5 5 5-5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+      </h3>
+      <div id={`${id}-panel`} hidden={!isOpen} className="px-5 pb-5">{children}</div>
+    </section>
   );
 }

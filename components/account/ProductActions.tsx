@@ -11,7 +11,11 @@ import UpgradePrompt from "@/components/pro/UpgradePrompt";
 import { ProTag } from "@/components/pro/LockIcon";
 import { useProAccess } from "@/lib/subscription";
 
-export default function ProductActions({ productId, productName, servingSize }: { productId: string; productName: string; servingSize?: string }) {
+// "inline" shows them as quiet text links in a row (the product page header) instead of
+// stacked buttons.
+export default function ProductActions({ productId, productName, servingSize, inline = false }: {
+  productId: string; productName: string; servingSize?: string; inline?: boolean;
+}) {
   const { user, loading } = useUser();
   const [favId, setFavId] = useState<string | null>(null);
   const [inStack, setInStack] = useState(false);
@@ -52,21 +56,24 @@ export default function ProductActions({ productId, productName, servingSize }: 
   };
 
   const saved = !!favId;
+  const button = inline
+    ? "inline-flex items-center gap-1.5 text-sm text-muted hover:text-ink transition-colors whitespace-nowrap disabled:opacity-60"
+    : "btn-secondary flex items-center justify-center gap-2 text-sm whitespace-nowrap disabled:opacity-60";
   return (
-    <div className={`flex flex-col gap-2 ${loading ? "invisible" : ""}`}>
+    <div className={`flex ${inline ? "flex-wrap items-center gap-x-4 gap-y-2" : "flex-col gap-2"} ${loading ? "invisible" : ""}`}>
       <button type="button" onClick={toggleFavourite} disabled={busy} aria-pressed={saved}
-        className={`btn-secondary flex items-center justify-center gap-2 text-sm whitespace-nowrap disabled:opacity-60 ${saved ? "text-rust border-rust/30" : ""}`}>
+        className={`${button} ${saved ? (inline ? "text-rust hover:text-rust" : "text-rust border-rust/30") : ""}`}>
         <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill={saved ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
           <path d="M12 21s-7.5-4.6-9.5-9.2C1 8.4 3.2 5 6.6 5c2 0 3.4 1.1 4.4 2.5C12 6.1 13.4 5 15.4 5 18.8 5 21 8.4 21.5 11.8 19.5 16.4 12 21 12 21z" />
         </svg>
-        {saved ? "Saved to favorites" : "Save to favorites"}
+        {saved ? (inline ? "Saved" : "Saved to favorites") : (inline ? "Save" : "Save to favorites")}
       </button>
       {inStack ? (
-        <Link href="/account/stack" className="btn-secondary flex items-center justify-center gap-2 text-sm whitespace-nowrap">✓ In your stack</Link>
+        <Link href="/account/stack" className={button}>✓ In your stack</Link>
       ) : (
         <button type="button" onClick={() => (!user ? setPrompt("build your supplement stack") : canStack ? setStackOpen(true) : setUpgradeOpen(true))}
-          className="btn-secondary flex items-center justify-center gap-2 text-sm whitespace-nowrap">
-          + Add to my stack {gating && !canStack && user && <ProTag />}
+          className={button}>
+          + Add to {inline ? "stack" : "my stack"} {gating && !canStack && user && <ProTag />}
         </button>
       )}
       <AuthPrompt open={!!prompt} onClose={() => setPrompt(null)} action={prompt ?? ""} />

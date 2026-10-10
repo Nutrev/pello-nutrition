@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 const WHAT_WE_DO = [
   { title: "Independent research", text: "We analyze ingredients against peer-reviewed science." },
   { title: "Community reviews", text: "Real athlete ratings across taste, GI comfort, energy and value." },
-  { title: "AI-powered analysis", text: "Claude AI writes on-demand product summaries from each product's label, ingredients and ratings." },
+  { title: "AI-powered plans", text: "Claude AI builds personalized nutrition plans from your training and Pello's product data." },
   { title: "Pello Score™", text: "Our 5-pillar scoring system rates every product on science, transparency, value, athlete experience and quality." },
 ];
 

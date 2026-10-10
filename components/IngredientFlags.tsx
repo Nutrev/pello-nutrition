@@ -31,7 +31,7 @@ const FLAG_CONFIG: Record<IngredientFlag, { label: string; note: string; severit
   "enriched-flour": { label: "Enriched flour", note: "Refined flour with added synthetic vitamins", severity: "info" },
 };
 
-function detectFlags(ingredientNames: string[]): IngredientFlag[] {
+export function detectFlags(ingredientNames: string[]): IngredientFlag[] {
   const flags = new Set<IngredientFlag>();
   ingredientNames.forEach((name) => {
     const nameLower = name.toLowerCase();

@@ -43,7 +43,7 @@ export default function TermsPage() {
 
           <section>
             <h2 className="font-display font-semibold text-lg text-ink mb-2">4. AI-generated content</h2>
-            <p>Some features, including product summaries and personalized nutrition plans, are generated automatically using artificial intelligence. AI-generated content can contain errors or omissions and is not reviewed by a qualified professional before it is shown to you. Treat it as a starting point for your own research, not as advice, and check quantities such as carbohydrate, sodium and caffeine intake against your own needs and a professional&apos;s guidance.</p>
+            <p>Some features, including personalized nutrition plans, are generated automatically using artificial intelligence. AI-generated content can contain errors or omissions and is not reviewed by a qualified professional before it is shown to you. Treat it as a starting point for your own research, not as advice, and check quantities such as carbohydrate, sodium and caffeine intake against your own needs and a professional&apos;s guidance.</p>
           </section>
 
           <section>
