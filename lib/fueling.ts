@@ -16,6 +16,47 @@ export const CONDITIONS: { id: Conditions; label: string }[] = [
   { id: "hot", label: "Hot or humid" },
 ];
 
+// ── CARBOHYDRATE DURING EXERCISE ─────────────────────────────
+
+// The single source for carbs during exercise: the planner (all modes), the carb calculator, the
+// home page calculator and the race-day card all use carbsPerHour/carbsDuring.
+//
+// The rate by intensity (Pello's long-standing figures, also in the energy gel guide) is capped by
+// session length, following the 2016 ACSM / Academy of Nutrition and Dietetics / Dietitians of
+// Canada position stand (Table 1), the same guideline the race-week planner uses:
+//   under 45 minutes ............................ not needed
+//   45-75 minutes, sustained high intensity ..... small amounts, including mouth rinse
+//   1-2.5 hours ................................. 30-60g per hour
+//   over 2.5-3 hours ............................ up to 90g per hour
+// "Small amounts" is set at up to 30g per hour, for hard and race efforts only.
+// TODO: needs editorial review ("small amounts" as 30g/hr; the 75-minute and 2.5-hour cut-offs).
+export const CARB_RATE_BY_INTENSITY: Record<Intensity, number> = { easy: 30, moderate: 50, hard: 70, race: 90 };
+
+export function carbsPerHour(durationHours: number, intensity: Intensity): number {
+  const minutes = durationHours * 60;
+  const rate = CARB_RATE_BY_INTENSITY[intensity];
+  if (minutes < 45) return 0;
+  if (minutes <= 75) return intensity === "hard" || intensity === "race" ? Math.min(rate, 30) : 0;
+  if (minutes <= 150) return Math.min(rate, 60);
+  return rate;
+}
+
+// Total carbs for the session (g).
+export function carbsDuring(durationHours: number, intensity: Intensity): number {
+  return Math.round(carbsPerHour(durationHours, intensity) * durationHours);
+}
+
+// Why the rate is what it is, in plain words, for showing next to it.
+export function carbRateNote(durationHours: number, intensity: Intensity): string {
+  const minutes = durationHours * 60;
+  if (minutes < 45) return "Under 45 minutes, you don't need carbs during the session.";
+  if (minutes <= 75) return intensity === "hard" || intensity === "race"
+    ? "For 45-75 minutes at high intensity, small amounts (or a carb mouth rinse) are enough."
+    : "For 45-75 minutes at this intensity, stored glycogen is enough.";
+  if (minutes <= 150) return "Up to 2.5 hours, 30-60g per hour is the guideline range.";
+  return intensity === "race" ? "Beyond 2.5 hours, up to 90g per hour, if your gut is trained for it." : "Beyond 2.5 hours, up to 90g per hour is possible at higher intensities.";
+}
+
 // ── SODIUM ────────────────────────────────────────────────────
 
 export interface SodiumInputs {
@@ -88,6 +129,13 @@ export function sodiumPlan({ durationHours, intensity, conditions, saltySweater 
 // thirst within it: lower in cool conditions, higher in heat. Individual sweat rates vary widely.
 // TODO: needs editorial review (source and per-condition defaults).
 export const FLUID_ML_PER_HOUR: Record<Conditions, number> = { cool: 400, mild: 600, hot: 800 };
+export const FLUID_RANGE_ML_PER_HOUR = [400, 800] as const;
+
+// Fluid during the session (ml), or 0 when it's short enough to drink to thirst only.
+export function fluidDuring(durationHours: number, conditions?: Conditions | null): number {
+  if (durationHours < 0.75) return 0;
+  return Math.round((FLUID_ML_PER_HOUR[conditions ?? "mild"] * durationHours) / 50) * 50;
+}
 
 // ── GUT TRAINING ──────────────────────────────────────────────
 

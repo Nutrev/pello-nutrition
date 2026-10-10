@@ -14,8 +14,7 @@ import RaceDayPlanCard, { type RaceDayProduct } from "@/components/fueling/RaceD
 import { getProductSummaries } from "@/lib/catalog";
 import { byWeightedRating, type ProductSummary } from "@/lib/catalog-types";
 import { meetsAll, meetsDiet } from "@/lib/quality-standards";
-import { INTENSITY_OPTIONS } from "@/lib/planner";
-import { sodiumPlan, FLUID_ML_PER_HOUR } from "@/lib/fueling";
+import { sodiumPlan, carbsPerHour, FLUID_ML_PER_HOUR } from "@/lib/fueling";
 
 // Products for the race-day card: the plan's own diet, quality-standard and caffeine choices,
 // in Pello's usual ranking order (rating weighted by review count).
@@ -81,9 +80,9 @@ export default async function PlanPage({ params }: { params: { id: string } }) {
   const tags = (modeTags ?? classicTags).filter(Boolean) as string[];
   // Section titles were saved as written by the planner (often in capitals).
   const nice = (t: string) => (t === t.toUpperCase() ? t.charAt(0) + t.slice(1).toLowerCase() : t);
-  // Race-day card: event plans of an hour or more.
-  const raceDay = plan.plan_mode === "event" && i.durationHours >= 1 ? {
-    carbsPerHour: INTENSITY_OPTIONS.find((o) => o.id === i.intensity)?.carbsPerHr ?? 60,
+  // Race-day card: event plans long enough to need carbs during (lib/fueling.ts).
+  const raceDay = plan.plan_mode === "event" && carbsPerHour(i.durationHours, i.intensity) > 0 ? {
+    carbsPerHour: carbsPerHour(i.durationHours, i.intensity),
     sodium: sodiumPlan(i),
     options: raceDayOptions(plan),
   } : null;

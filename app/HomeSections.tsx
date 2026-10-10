@@ -8,6 +8,7 @@ import { useState } from "react";
 import { reviewsAt, type ProductSummary } from "@/lib/catalog-types";
 import { formatPrice } from "@/lib/servings";
 import { INTENSITY_MULTIPLIERS, type Intensity } from "@/lib/fuelling";
+import { carbsPerHour, carbsDuring } from "@/lib/fueling";
 import ProductCard from "@/components/ProductCard";
 
 export type PickGroup = { label: string; short: string; products: ProductSummary[] };
@@ -115,7 +116,7 @@ const DURATIONS = [1, 2, 3, 4];
 export function FuelCalculator() {
   const [hours, setHours] = useState(2);
   const [intensity, setIntensity] = useState<Intensity>("moderate");
-  const perHour = INTENSITY_MULTIPLIERS[intensity].carbs;
+  const perHour = carbsPerHour(hours, intensity);
 
   const option = (active: boolean) =>
     `text-sm px-3 py-2 rounded-xl border transition-colors ${active ? "border-moss bg-moss/5 text-moss font-medium" : "border-sand bg-white/40 text-muted hover:text-ink"}`;
@@ -149,12 +150,12 @@ export function FuelCalculator() {
           <div className="text-xs text-muted mt-1">carbs per hour</div>
         </div>
         <div className="bg-white/60 rounded-xl p-4 text-center">
-          <div className="font-display font-bold text-3xl text-moss">{perHour * hours}g</div>
+          <div className="font-display font-bold text-3xl text-moss">{carbsDuring(hours, intensity)}g</div>
           <div className="text-xs text-muted mt-1">carbs in total</div>
         </div>
       </div>
       <Link href="/guides/carb-calculator" className="text-sm text-moss hover:text-ink transition-colors mt-auto">
-        Add body weight, fluid and sodium in the full calculator →
+        Add fluid, sodium and product counts in the full calculator →
       </Link>
     </div>
   );

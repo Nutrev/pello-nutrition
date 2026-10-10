@@ -46,7 +46,7 @@ export default function RecoveryGuidePage() {
     if (intensity === "easy") return { low: 0.5, high: 0.8 };
     if (intensity === "moderate") return { low: 0.8, high: 1.0 };
     if (intensity === "hard") return { low: 1.0, high: 1.2 };
-    return { low: 1.2, high: 1.5 };
+    return { low: 1.0, high: 1.2 };
   };
 
   // Protein recs
@@ -69,7 +69,7 @@ export default function RecoveryGuidePage() {
     const steps = [];
 
     steps.push({
-      window: "0–30 min",
+      window: "First hour",
       priority: "critical",
       title: "Immediate refuel",
       items: [
@@ -81,7 +81,7 @@ export default function RecoveryGuidePage() {
     });
 
     steps.push({
-      window: "30 min – 2 hrs",
+      window: "1–2 hrs",
       priority: "important",
       title: "Proper meal",
       items: [
@@ -100,7 +100,7 @@ export default function RecoveryGuidePage() {
         items: [
           "Another carb-rich snack — rice cakes, oat bar, fruit",
           "Tart cherry juice or concentrate — reduces inflammation and DOMS",
-          `Continue distributing protein: aim for 1.6–2.2g per kg total (${Math.round(1.6 * weightKg)}–${Math.round(2.2 * weightKg)}g across the day)`,
+          `Continue distributing protein: aim for 1.2–2.0g per kg total (${Math.round(1.2 * weightKg)}–${Math.round(2.0 * weightKg)}g across the day)`,
           recoveryGoal === "competition" ? "Avoid heavy fats or fiber — keep gut comfortable for tomorrow" : "Normal dietary fat intake is fine",
         ],
       });
@@ -290,7 +290,7 @@ export default function RecoveryGuidePage() {
               <h3 className="font-display font-semibold text-base mb-4">Key recovery supplements</h3>
               <div className="space-y-3">
                 {[
-                  { name: "Whey Protein Isolate", dose: `${proteinRec.low}–${proteinRec.high}g within 30 min`, verdict: "proven", note: "Fastest-absorbing protein with highest leucine content — triggers muscle protein synthesis" },
+                  { name: "Whey Protein Isolate", dose: `${proteinRec.low}–${proteinRec.high}g within an hour`, verdict: "proven", note: "Fastest-absorbing protein with highest leucine content — triggers muscle protein synthesis" },
                   { name: "Creatine Monohydrate", dose: "3–5g daily", verdict: "proven", note: "Replenishes phosphocreatine stores. Daily dosing maximizes saturation — timing doesn't matter much" },
                   { name: "Tart Cherry Extract", dose: "480mg anthocyanins or 30ml concentrate x2", verdict: "proven", note: "Reduces inflammation and DOMS. Take immediately post-workout and again before bed" },
                   { name: "Magnesium Glycinate", dose: "200–400mg before bed", verdict: "proven", note: "Supports deep sleep, muscle relaxation and 300+ enzymatic recovery processes" },
@@ -324,7 +324,7 @@ export default function RecoveryGuidePage() {
                 {[
                   { item: "Alcohol", reason: "Significantly blunts muscle protein synthesis — even moderate amounts reduce MPS by up to 37%" },
                   { item: "NSAIDs (ibuprofen) routinely", reason: "Blunts the inflammatory response needed for adaptation. Reserve for genuine injury, not soreness" },
-                  { item: "Skipping post-workout nutrition", reason: "Even if not hungry — the 30-minute window matters most for glycogen resynthesis" },
+                  { item: "Skipping post-workout nutrition", reason: "Even if not hungry — starting carbs soon after hard sessions restocks glycogen fastest, which matters most if you train again within about 8 hours" },
                   ...(isUrgent ? [{ item: "Heavy fats or fiber before next session", reason: "Slow gastric emptying and can cause GI issues — keep meals lighter and easily digestible" }] : []),
                 ].map((item, i) => (
                   <div key={i} className="flex items-start gap-3 p-3 bg-rust/5 rounded-xl border border-rust/10">

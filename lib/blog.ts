@@ -44,7 +44,7 @@ Before getting into picks, here's what actually matters in a gel:
 
 **Carbohydrate type and ratio.** The best gels use a mix of glucose and fructose at a 2:1 or 1:0.8 ratio. This unlocks two separate intestinal transporters, allowing absorption of up to 90g of carbs per hour — significantly more than glucose alone (60g/hr ceiling).
 
-**Dose per gel.** Most gels provide 20-30g of carbs. For high-intensity cycling, you need 60-90g per hour — so gel frequency matters.
+**Dose per gel.** Most gels provide 20-30g of carbs. On long, hard rides you'll want 60-90g per hour (up to 60g on rides under about 2.5 hours) — so gel frequency matters.
 
 **Osmolality.** Isotonic gels can be taken without water. Non-isotonic gels need water to dilute them in the gut, otherwise they can draw fluid from your body and cause cramping.
 
@@ -88,7 +88,7 @@ Best for: Athletes who want caffeine but struggle with GI distress from standard
 
 ## How many gels do you need?
 
-A rough guide based on intensity:
+A rough guide based on intensity, for rides over about 2.5 hours. On shorter rides, keep to 30-60g per hour, the range in the 2016 position stand from the American College of Sports Medicine, the Academy of Nutrition and Dietetics and Dietitians of Canada. Under 45 minutes, you don't need carbs at all.
 
 - Easy ride (Z1-Z2): 30g carbs/hr — 1 gel per hour
 - Moderate (Z2-Z3): 50g carbs/hr — 2 gels per hour
@@ -281,9 +281,9 @@ This guide covers everything you need to fuel a marathon well — from the week 
 
 Carb loading isn't about eating pasta the night before. That's a myth that leads to heavy legs and a poor night's sleep.
 
-Effective carb loading means gradually increasing carbohydrate intake over 2-3 days before the race while reducing training volume. The goal is to top up muscle glycogen stores beyond their normal resting level.
+Effective carb loading means raising carbohydrate intake for the last 36-48 hours before the race while reducing training volume. The goal is to top up muscle glycogen stores beyond their normal resting level.
 
-Target 8-10g of carbohydrate per kg of body weight per day for the 2-3 days before the race. For a 70kg runner, that's 560-700g of carbs daily — significantly more than a typical diet.
+The 2016 position stand from the American College of Sports Medicine, the Academy of Nutrition and Dietetics and Dietitians of Canada recommends 10-12g of carbohydrate per kg of body weight per day for those 36-48 hours. For a 70kg runner, that's 700-840g of carbs a day — significantly more than a typical diet.
 
 Focus on easily digestible sources: white rice, pasta, bread, potatoes, bananas, sports drinks. Reduce fiber, fat and protein relative to normal. This reduces gut bulk and minimizes the risk of GI issues on race day.
 
@@ -319,7 +319,7 @@ A simple gel strategy for a 4-hour marathon:
 
 For a 4-hour race you'll need approximately 8-10 gels depending on carb content. Pack more than you think you need.
 
-**Sodium matters.** At marathon pace you'll lose 1-2g of sodium per hour through sweat. If you're only taking gels, supplement with electrolyte capsules or choose gels with higher sodium content. Cramping in the late miles is often sodium depletion, not just fatigue.
+**Sodium matters.** At marathon pace you can lose 1-2g of sodium per hour through sweat, depending on your sweat rate and how salty your sweat is. You don't need to replace all of it: [our sodium guide](/blog/sodium-endurance-athletes) suggests 800-1500mg per hour for races of 3 hours or more or in the heat, and less for shorter races. If you're only taking gels, add electrolyte capsules or choose gels with more sodium. Sodium loss may play a part in late-race cramping, though cramping has several causes and the evidence is mixed.
 
 ## The wall — and how to avoid it
 
@@ -333,9 +333,9 @@ Second, pace correctly. Going out too fast in miles 1-10 burns glycogen at an ac
 
 ## Post-race recovery
 
-The 30-minute window after finishing is the most important nutrition moment of the day. Muscle cells are maximally receptive to glucose uptake and protein synthesis.
+Eat soon after you finish. The post-race window is wider than often claimed, but your glycogen is low after a marathon and starting early helps recovery.
 
-- Within 30 minutes: 20-25g protein plus 40-60g fast carbs. Chocolate milk is a classic and genuinely effective option.
+- Within about an hour: 20-40g protein plus fast carbs. Chocolate milk is a classic and genuinely effective option. If you're training hard again within about 8 hours, aim for 1.0-1.2g of carbohydrate per kg of body weight per hour for the first 4 hours.
 - Within 2 hours: a proper meal with protein, carbs and vegetables.
 - That evening: prioritize sleep and continue eating — a marathon depletes glycogen stores that take 24-48 hours to fully replenish.
 

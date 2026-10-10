@@ -31,7 +31,7 @@ import {
   EVENT_TYPES, OUTCOME_TYPES, WORKOUT_TYPES, SESSION_TIMES, LAST_MEALS, INTENSITY_OPTIONS, DEFAULT_INPUTS,
   carbsNeeded, sessionCarbTarget, sodiumNeeded, formatWeight,
 } from "@/lib/planner";
-import { CONDITIONS, type Conditions } from "@/lib/fueling";
+import { CONDITIONS, carbsPerHour, carbRateNote, type Conditions } from "@/lib/fueling";
 import FuelingCost from "@/components/fueling/FuelingCost";
 
 // ── TYPES ─────────────────────────────────────────────────────
@@ -774,6 +774,7 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
                     {workout && (workoutIntensityNote(workout)
                       ? <p className="text-xs text-moss -mt-2 mb-3">Set from your workout file. {workoutIntensityNote(workout)}.</p>
                       : <p className="text-xs text-muted -mt-2 mb-3">Your workout file doesn&apos;t give a power-based intensity, so choose the closest.</p>)}
+                    <p className="text-xs text-muted -mt-2 mb-3">{carbRateNote(inputs.durationHours, inputs.intensity)}</p>
                     <div className="space-y-2">
                       {INTENSITY_OPTIONS.map(opt => (
                         <button key={opt.id} onClick={() => update("intensity", opt.id)}
@@ -783,7 +784,7 @@ export default function PlannerClient({ catalog, initialMode = null }: { catalog
                             <div className="text-xs text-muted">{opt.desc}</div>
                           </div>
                           <div className="text-right flex-shrink-0 ml-4">
-                            <div className="text-sm font-medium text-moss">{opt.carbsPerHr}g</div>
+                            <div className="text-sm font-medium text-moss">{carbsPerHour(inputs.durationHours, opt.id)}g</div>
                             <div className="text-xs text-muted">carbs/hr</div>
                           </div>
                         </button>

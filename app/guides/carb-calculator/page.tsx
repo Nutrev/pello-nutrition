@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { INTENSITY_MULTIPLIERS, type Intensity } from "@/lib/fuelling";
-import { FieldList, FieldRow, NumberStepper, WeightUnitToggle, WEIGHT_RANGE, convertWeight } from "@/components/form/Fields";
+import { carbsPerHour as carbsPerHourFor, carbsDuring, carbRateNote, fluidDuring, sodiumPlan, FLUID_ML_PER_HOUR } from "@/lib/fueling";
 
 const DURATION_OPTIONS = [
   { value: 0.5, label: "30 min" },
@@ -69,23 +69,18 @@ type FormatId = typeof FORMATS[number]["id"];
 export default function CarbCalculatorPage() {
   const [duration, setDuration] = useState(2);
   const [intensity, setIntensity] = useState<Intensity>("moderate");
-  const [weight, setWeight] = useState(70);
-  const [unit, setUnit] = useState<"kg" | "lbs">("kg");
   const [selectedFormats, setSelectedFormats] = useState<FormatId[]>([]);
   const [calculated, setCalculated] = useState(false);
 
-  const weightKg = unit === "lbs" ? weight * 0.453592 : weight;
-  const intensityData = INTENSITY_MULTIPLIERS[intensity];
+  // Carbs, sodium and fluid all come from lib/fueling.ts, the same rules as the planner.
+  const carbsPerHour = carbsPerHourFor(duration, intensity);
+  const carbsNeeded = carbsDuring(duration, intensity);
+  const needsCarbFuelling = carbsPerHour > 0;
 
-  const carbsPerHour = intensityData.carbs;
-  const totalCarbs = Math.round(carbsPerHour * duration);
-  const carbsNeeded = duration < 1 ? Math.round(totalCarbs * 0.5) : totalCarbs;
-  const needsCarbFuelling = duration >= 1;
-
-  const fluidPerHour = Math.round(intensityData.sweat * weightKg * 10) / 10;
-  const totalFluid = Math.round(fluidPerHour * duration * 10) / 10;
-  const sodiumPerHour = Math.round(intensityData.sweat * 500);
-  const totalSodium = Math.round(sodiumPerHour * duration);
+  const fluidPerHour = FLUID_ML_PER_HOUR.mild / 1000;
+  const totalFluid = Math.round(fluidDuring(duration) / 100) / 10;
+  const sodium = sodiumPlan({ durationHours: duration, intensity });
+  const sodiumPerHour = sodium.perHour;
 
   const toggleFormat = (id: FormatId) => {
     setSelectedFormats((prev) =>
@@ -161,23 +156,13 @@ export default function CarbCalculatorPage() {
                     <div className="text-xs text-muted">{val.desc}</div>
                   </div>
                   <div className="text-right flex-shrink-0 ml-4">
-                    <div className="text-sm font-medium text-moss">{val.carbs}g</div>
+                    <div className="text-sm font-medium text-moss">{carbsPerHourFor(duration, key)}g</div>
                     <div className="text-xs text-muted">carbs/hr</div>
                   </div>
                 </button>
               ))}
             </div>
           </div>
-
-          {/* Body weight */}
-          <FieldList>
-            <FieldRow label="Body weight" aside={
-              <WeightUnitToggle value={unit} onChange={(u) => { setWeight((w) => convertWeight(w, unit, u)); setUnit(u); setCalculated(false); }} />
-            }>
-              <NumberStepper label="Body weight" unit={unit} min={WEIGHT_RANGE[unit][0]} max={WEIGHT_RANGE[unit][1]} value={weight}
-                onChange={(v) => { setWeight(v); setCalculated(false); }} />
-            </FieldRow>
-          </FieldList>
 
           {/* Format selector */}
           <div className="card">
@@ -240,15 +225,15 @@ export default function CarbCalculatorPage() {
 
               {!needsCarbFuelling ? (
                 <div className="bg-amber/10 border border-amber/20 rounded-xl p-4">
-                  <p className="text-sm text-amber font-medium mb-1">Short session — carbs optional</p>
+                  <p className="text-sm text-amber font-medium mb-1">No carbs needed during this session</p>
                   <p className="text-xs text-muted leading-relaxed">
-                    For sessions under 60 minutes, glycogen stores are usually sufficient. Focus on hydration. If you feel depleted, a small carb hit won&apos;t hurt.
+                    {carbRateNote(duration, intensity)} Drink to thirst.
                   </p>
                 </div>
               ) : (
                 <div className="bg-white/60 rounded-xl p-4">
                   <p className="text-xs text-muted leading-relaxed">
-                    Start fueling at <strong>30–45 minutes</strong> in — don&apos;t wait until you feel hungry. Aim for <strong>{carbsPerHour}g per hour</strong>. Use a 2:1 glucose-to-fructose product for anything above 60g/hr.
+                    Start fueling at <strong>30–45 minutes</strong> in — don&apos;t wait until you feel hungry. Aim for <strong>{carbsPerHour}g per hour</strong>. {carbRateNote(duration, intensity)} Use a 2:1 glucose-to-fructose product for anything above 60g/hr.
                   </p>
                 </div>
               )}
@@ -315,7 +300,7 @@ export default function CarbCalculatorPage() {
             )}
 
             {/* Per hour breakdown */}
-            {needsCarbFuelling && selectedFormats.length > 0 && duration >= 1 && (
+            {needsCarbFuelling && selectedFormats.length > 0 && (
               <div className="card">
                 <h3 className="font-display font-semibold text-base mb-4">Per hour guide</h3>
                 <div className="space-y-2">
@@ -352,7 +337,7 @@ export default function CarbCalculatorPage() {
                 </div>
               </div>
               <p className="text-xs text-muted mt-3 leading-relaxed">
-                Estimates based on {intensity} intensity. Hot or humid conditions increase needs by 20–50%. Drink to thirst rather than forcing fluid intake.
+                Fluid: a 0.4–0.8 L per hour starting range (toward 0.8 L in heat); drink to thirst rather than forcing it. Sodium: {sodium.perHourLow}–{sodium.perHourHigh}mg per hour for {sodium.basis.toLowerCase()}, rising to 800–1,500mg in hot conditions. See our <a href="/blog/sodium-endurance-athletes" className="underline">sodium guide</a>.
               </p>
             </div>
 

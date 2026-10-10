@@ -4,7 +4,7 @@
 
 import { STANDARD_CHOICES, STANDARD_CHOICE_IDS, type StandardChoice } from "./quality-standards";
 import { describeBlocks, MAX_BLOCKS, type WorkoutBlock, type IntensityBasis } from "./workout-file";
-import { sodiumPlan, CONDITIONS, type Conditions } from "./fueling";
+import { sodiumPlan, carbsPerHour, carbsDuring, fluidDuring, FLUID_ML_PER_HOUR, CONDITIONS, type Conditions } from "./fueling";
 
 // ── TYPES ─────────────────────────────────────────────────────
 
@@ -131,29 +131,31 @@ export function formatWeight(weightKg: number, unit: WeightUnit): string {
   return unit === "lbs" ? `${Math.round(weightKg * 2.205)}lbs` : `${Math.round(weightKg)}kg`;
 }
 
-// A training session needs carbs during it if it's at least 90 minutes, or at least an hour
-// and not easy. Shorter or easier sessions run fine on stored glycogen, with water to thirst.
+// Carbs during the session (g), from lib/fueling.ts: the rate by intensity, capped by session
+// length per the 2016 position stand. Every planner mode, the carb calculator and the race-day
+// card use the same rule, so a session gets the same number everywhere.
 export function sessionNeedsFuel(durationHours: number, intensity: Intensity): boolean {
-  return durationHours >= 1.5 || (durationHours >= 1 && intensity !== "easy");
+  return carbsPerHour(durationHours, intensity) > 0;
 }
 
-// Carbs to take during the session: the "Today's workout" planner uses the rule above;
-// race and goal plans use carbsNeeded as they always have.
-export function sessionCarbTarget(inputs: Pick<PlannerInputs, "mode" | "durationHours" | "intensity">): number {
-  if (inputs.mode === "workout" && !sessionNeedsFuel(inputs.durationHours, inputs.intensity)) return 0;
-  return carbsNeeded(inputs.durationHours, inputs.intensity);
+export function sessionCarbTarget(inputs: Pick<PlannerInputs, "durationHours" | "intensity">): number {
+  return carbsDuring(inputs.durationHours, inputs.intensity);
 }
 
 export function carbsNeeded(durationHours: number, intensity: Intensity): number {
-  const rates: Record<Intensity, number> = { easy: 30, moderate: 50, hard: 70, race: 90 };
-  if (durationHours < 1) return Math.round(rates[intensity] * durationHours * 0.5);
-  return Math.round(rates[intensity] * durationHours);
+  return carbsDuring(durationHours, intensity);
 }
 
 // Sodium to take during the session (mg), from lib/fueling.ts (Pello's sodium article ranges,
 // by duration, conditions and whether the athlete is a salty sweater).
 export function sodiumNeeded(inputs: Pick<PlannerInputs, "durationHours" | "intensity" | "conditions" | "saltySweater">): number {
   return sodiumPlan(inputs).total;
+}
+
+function fluidLine(inputs: PlannerInputs, label: string): string {
+  const ml = fluidDuring(inputs.durationHours, inputs.conditions);
+  if (!ml) return `- ${label}: drink to thirst; the session is short`;
+  return `- ${label}: about ${ml}ml (${FLUID_ML_PER_HOUR[inputs.conditions ?? "mild"]}ml/hr, within a 400-800ml/hr starting range; drink to thirst and adjust for conditions)`;
 }
 
 function sodiumLine(inputs: PlannerInputs, label: string): string {
@@ -345,8 +347,9 @@ ${athlete}
 - Quality standards required: ${standardsLine(inputs)}
 ${workoutSection(inputs)}
 CALCULATED TARGETS:
-- Total carbs: ${carbTarget}g (${INTENSITY_OPTIONS.find(i => i.id === inputs.intensity)?.carbsPerHr}g/hr)
+- Total carbs: ${carbTarget}g (${carbsPerHour(inputs.durationHours, inputs.intensity)}g/hr)
 ${sodiumLine(inputs, "Total sodium")}
+${fluidLine(inputs, "Total fluid during")}
 Use these totals exactly in DURING EVENT and TOTALS; don't recalculate them.
 
 ${personalise}
@@ -363,12 +366,12 @@ DURING EVENT
 Write a clear per-hour fueling schedule as plain sentences. Example:
 Start fueling at 30 minutes with 1 gel (25g carbs).
 Take 1 gel every 25 minutes after that.
-Sip 150-200ml water with each gel.
+Sip about 200ml of fluid with each gel (keep to the fluid total above).
 
 POST-EVENT
 Three clear windows as plain text:
-0-30 minutes: specific food and amounts
-30-120 minutes: specific food and amounts
+Within about an hour: specific food and amounts (20-40g protein with carbohydrate)
+1-4 hours: specific food and amounts (if training again within about 8 hours, 1.0-1.2g of carbohydrate per kg of body weight per hour for the first 4 hours)
 Overnight: specific recommendations
 
 TOTALS
@@ -390,6 +393,11 @@ ${athlete}
 - Dietary: ${inputs.dietary.length > 0 ? inputs.dietary.join(", ") : "none"}
 - Quality standards required: ${standardsLine(inputs)}
 
+GUIDELINES (2016 ACSM / Academy of Nutrition and Dietetics / Dietitians of Canada position stand; keep within them):
+- Daily protein: 1.2-2.0g per kg of body weight (${Math.round(1.2 * inputs.weightKg)}-${Math.round(2.0 * inputs.weightKg)}g), toward the top in heavy training; 20-40g per meal.
+- Carbs during sessions: none under 45 minutes; 30-60g per hour up to about 2.5 hours; up to 90g per hour beyond that.
+- Sodium during long sessions: 300-500mg per hour for 1-2 hours, 500-800mg for 2-3 hours, 800-1500mg for 3+ hours or heat.
+
 ${personalise} Calibrate recovery and supplement recommendations to ${inputs.trainingDaysPerWeek} training day${inputs.trainingDaysPerWeek === 1 ? "" : "s"} a week: more training days need more emphasis on recovery nutrition.
 
 Use ONLY these exact section headers. No markdown, no tables, no asterisks. Plain text only.
@@ -402,8 +410,8 @@ Intra-training nutrition as plain sentences. What to take, when and how much.
 
 POST-EVENT
 Three windows as plain text:
-0-30 minutes: specific recommendations
-30-120 minutes: specific recommendations
+Within about an hour: specific recommendations (20-40g protein with carbohydrate)
+1-4 hours: specific recommendations
 Daily habits: ongoing recovery nutrition
 
 TOTALS
@@ -422,7 +430,7 @@ function buildWorkoutPrompt(inputs: PlannerInputs, weight: string, athlete: stri
   const carbs = sessionCarbTarget(inputs);
   const time = SESSION_TIMES.find((t) => t.id === inputs.sessionTime)?.label.toLowerCase() ?? "not given";
   const meal = LAST_MEALS.find((m) => m.id === inputs.lastMeal)?.label.toLowerCase() ?? "not given";
-  const perHour = INTENSITY_OPTIONS.find((i) => i.id === inputs.intensity)?.carbsPerHr;
+  const perHour = carbsPerHour(inputs.durationHours, inputs.intensity);
 
   return `You are Pello's expert sports nutrition AI. Plan fueling for one training session today. This is an everyday workout, not a race: keep it practical and proportionate.
 
@@ -443,6 +451,7 @@ ${carbs > 0
   ? `- Carbs during the session: ${carbs}g (${perHour}g/hr)`
   : "- Carbs during the session: none needed. It's short or easy enough to run on stored glycogen; water to thirst is enough."}
 ${sodiumLine(inputs, "Sodium during the session")}
+${fluidLine(inputs, "Fluid during the session")}
 Use these in DURING and TOTALS; don't recalculate them.
 
 ${personalise}

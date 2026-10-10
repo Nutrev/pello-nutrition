@@ -96,3 +96,46 @@ describe("race-day timeline", () => {
     expect(timelineTotals(rows)).toEqual({ carbs: 120, fluidMl: 1200, sodium: 200 });
   });
 });
+
+import { carbsPerHour, carbsDuring, fluidDuring } from "./fueling";
+import { carbsNeeded, sessionCarbTarget, sessionNeedsFuel, sodiumNeeded } from "./planner";
+
+describe("carbs during exercise (2016 position stand, by duration)", () => {
+  it("needs none under 45 minutes", () => {
+    for (const i of ["easy", "moderate", "hard", "race"] as const) expect(carbsPerHour(0.5, i)).toBe(0);
+  });
+  it("uses small amounts at 45-75 minutes only for hard or race efforts", () => {
+    expect(carbsPerHour(1, "race")).toBe(30);
+    expect(carbsPerHour(1, "hard")).toBe(30);
+    expect(carbsPerHour(1, "moderate")).toBe(0);
+  });
+  it("caps at 60g/hr up to 2.5 hours", () => {
+    expect(carbsPerHour(1.5, "race")).toBe(60);
+    expect(carbsPerHour(2.5, "hard")).toBe(60);
+    expect(carbsPerHour(2, "moderate")).toBe(50);
+    expect(carbsPerHour(2, "easy")).toBe(30);
+  });
+  it("allows up to 90g/hr beyond 2.5 hours", () => {
+    expect(carbsPerHour(3, "race")).toBe(90);
+    expect(carbsPerHour(4, "hard")).toBe(70);
+  });
+});
+
+describe("the planner and calculators agree", () => {
+  it("planner carb totals match lib/fueling for every mode", () => {
+    for (const h of [0.5, 1, 1.5, 2, 3, 5]) for (const i of ["easy", "moderate", "hard", "race"] as const) {
+      expect(carbsNeeded(h, i)).toBe(carbsDuring(h, i));
+      expect(sessionCarbTarget({ durationHours: h, intensity: i })).toBe(carbsDuring(h, i));
+      expect(sessionNeedsFuel(h, i)).toBe(carbsPerHour(h, i) > 0);
+    }
+  });
+  it("planner sodium matches the sodium plan", () => {
+    expect(sodiumNeeded({ durationHours: 3, intensity: "moderate", conditions: "mild" })).toBe(sodiumPlan({ durationHours: 3, intensity: "moderate", conditions: "mild" }).total);
+  });
+  it("fluid stays within 400-800ml per hour", () => {
+    expect(fluidDuring(0.5)).toBe(0);
+    expect(fluidDuring(2)).toBe(1200);
+    expect(fluidDuring(2, "hot")).toBe(1600);
+    expect(fluidDuring(2, "cool")).toBe(800);
+  });
+});
