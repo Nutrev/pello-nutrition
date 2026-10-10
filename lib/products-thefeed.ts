@@ -2754,7 +2754,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     transparencyScore: 85,
     sentiment: {},
     ingredients: [
-      { name: "Maltodextrin + Fructose + Glucose", dose: "90g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
+      { name: "Maltodextrin + Fructose + Glucose", dose: "60g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
       { name: "Sodium", dose: "590mg", verdict: "proven", note: "A meaningful dose of sodium to help replace sweat losses in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
     ],
     sources: [
@@ -2941,7 +2941,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     transparencyScore: 85,
     sentiment: {},
     ingredients: [
-      { name: "Maltodextrin + Glucose + Fructose", dose: "90g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
+      { name: "Maltodextrin + Glucose + Fructose", dose: "60g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
       { name: "Sodium", dose: "590mg", verdict: "proven", note: "A meaningful dose of sodium to help replace sweat losses in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
       { name: "Caffeine", dose: "184mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
