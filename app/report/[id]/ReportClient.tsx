@@ -203,7 +203,7 @@ export default function ReportClient({ product, similar: similarProducts, brand,
                   <>
                     <span className="text-amber" aria-hidden="true">{"★".repeat(Math.round(shown.rating))}{"☆".repeat(5 - Math.round(shown.rating))}</span>
                     <span className="text-ink font-medium">{shown.rating}<span className="sr-only"> out of 5</span></span>
-                    <a href="#ratings" className="hover:text-ink">· {reviewsAt(shown.reviewCount, reviewSource)}{variant ? ` for ${variant.label}` : ""}</a>
+                    <a href="#ratings" className="hover:text-ink">· {reviewsAt(shown.reviewCount, reviewSource)}{variant?.reviewCount != null ? ` for ${variant.label}` : ""}</a>
                   </>
                 ) : (
                   <span>No reviews yet</span>
