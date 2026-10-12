@@ -3283,8 +3283,15 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Performance",
     rating: 4.0,
     reviewCount: 9,
-    price: 63,      // 68 Servings on The Feed
-    servingsPerContainer: 68,
+    price: 29.5,      // 45 Servings on The Feed
+    servingsPerContainer: 45,
+    // The capsules, which the label below describes (2 capsules). The powder has its own label and
+    // isn't included. Sizes on The Feed, 2026-10-12.
+    defaultVariantId: "45-servings",
+    variants: [
+      { id: "45-servings", label: "45 Servings", price: 29.5, servingsPerContainer: 45 },
+      { id: "125-servings", label: "125 Servings", price: 67, servingsPerContainer: 125 },
+    ],
     caffeinePerServing: 0,
     servingSize: "2 Capsules",
     isBatchTested: false,
@@ -3292,8 +3299,8 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     isGlutenFree: true,
     certifications: ["Non-GMO Project Verified"],
     allergens: [],
-    flavours: ["Capsules", "Powder"],
-    imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/pureencap_bcaa_227g_1200x1200.png?v=1786569783",
+    flavours: ["Capsules"],
+    imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/pureencap_bcaa_90cap_1200x1200.png",
     retailerLinks: {"theFeed": "https://thefeed.com/products/pure-encapsulations-bcaa"},
     goals: ["recovery"],
     imageEmoji: "⚡",

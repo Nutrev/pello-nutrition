@@ -2176,8 +2176,16 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/ka-ex.png",
   rating: 4.6,
   reviewCount: 7,
-  price: 49.99,                    // 30 Pack on The Feed
-  servingsPerContainer: 30,
+  price: 89.99,                    // 12 Pack / Ready to Drink on The Feed
+  servingsPerContainer: 12,
+  // The ready-to-drink bottle, which the label below describes (1 bottle). The Drink Mix sachets
+  // have their own label and aren't included. Sizes on The Feed, 2026-10-12.
+  defaultVariantId: "12-pack",
+  variants: [
+    { id: "single-serving", label: "Single Serving", price: 7.99, servingsPerContainer: 1 },
+    { id: "3-pack", label: "3 Pack", price: 23.97, servingsPerContainer: 3 },
+    { id: "12-pack", label: "12 Pack", price: 89.99, servingsPerContainer: 12 },
+  ],
   caffeinePerServing: 105,
   caloriesPerServing: 15,
   servingSize: "1 bottle",
@@ -2200,13 +2208,6 @@ const CURATED_PRODUCTS: Product[] = [
       verdict: "proven",
       note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=caffeine+endurance+performance",
-    },
-    {
-      name: "Creatine Creapre®",
-      dose: "3g",
-      verdict: "proven",
-      note: "The most researched sports supplement: 3–5g a day raises muscle creatine stores, improving repeated high-intensity efforts, strength training and recovery. Creapure® is a well-known high-purity creatine monohydrate.",
-      pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=creatine+monohydrate+performance",
     },
     {
       name: "L-Citrulline",
