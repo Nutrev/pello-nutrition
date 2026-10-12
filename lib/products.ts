@@ -10,7 +10,7 @@ import { THE_FEED_SUPPLEMENTS } from "./products-supplements";
 
 export type Verdict = "proven" | "likely" | "disputed";
 export type Goal = "muscle" | "endurance" | "recovery" | "health" | "sleep" | "immunity" | "gut health";
-export type Category = "Creatine" | "Energy" | "Energy Gel" | "Carbohydrate Mix" | "Energy Chew" | "Energy Bar" | "Supplement" | "Hydration" | "Protein" | "Probiotic" | "Omega-3" | "Vitamin" | "Mineral" | "Performance" | "Recovery" | "Sleep" | "Gut Health" | "Immune" | "Greens";
+export type Category = "Creatine" | "Energy" | "Energy Gel" | "Carbohydrate Mix" | "Energy Chew" | "Energy Bar" | "Supplement" | "Hydration" | "Protein" | "Probiotic" | "Omega-3" | "Vitamin" | "Mineral" | "Performance" | "Recovery" | "Sleep" | "Gut Health" | "Immune" | "Greens" | "Bicarb";
 export interface Ingredient {
   name: string;
   dose?: string;
@@ -36,6 +36,7 @@ export interface ProductVariant {
   price: number;
   servingsPerContainer: number;
   sodiumPerServing?: number;
+  bicarbPerServingG?: number;   // grams of sodium bicarbonate in this size (Bicarb products)
   rating?: number;
   reviewCount?: number;
   imageUrl?: string;
@@ -100,6 +101,7 @@ export interface Product {
   // Selectable versions shown on the product page. The product's own price, servings,
   // sodium and rating describe the default one (defaultVariantId).
   variants?: ProductVariant[];
+  bicarbPerServingG?: number;   // grams of sodium bicarbonate per serving (Bicarb products)
   defaultVariantId?: string;
 }
 
@@ -2903,13 +2905,14 @@ const CURATED_PRODUCTS: Product[] = [
   id: "maurten-bicarb-system",
   name: "Bicarb System",
   brand: "Maurten",
-  category: "Supplement",
+  category: "Bicarb",
   logoDomain: "maurten.com",
   logo: "/logo/maurten.png",
   rating: 0,
   reviewCount: 0,
   price: 70,                          // box of 4, any size (confirmed)
   servingsPerContainer: 4,
+  bicarbPerServingG: 19,
   carbsPerServing: 39.2,
   sodiumPerServing: 5200,
   proteinPerServing: 0,
@@ -2917,11 +2920,11 @@ const CURATED_PRODUCTS: Product[] = [
   servingSize: "1 system (bicarb + carb components)",
   defaultVariantId: "system-19",
   variants: [
-    { id: "system-12", label: "System 12", price: 70, servingsPerContainer: 4, sodiumPerServing: 3300 },
-    { id: "system-15", label: "System 15", price: 70, servingsPerContainer: 4, sodiumPerServing: 4100 },
-    { id: "system-19", label: "System 19", price: 70, servingsPerContainer: 4, sodiumPerServing: 5200 },
-    { id: "system-22", label: "System 22", price: 70, servingsPerContainer: 4, sodiumPerServing: 6000 },
-    { id: "system-25", label: "System 25", price: 70, servingsPerContainer: 4, sodiumPerServing: 6900 },
+    { id: "system-12", label: "System 12", price: 70, servingsPerContainer: 4, sodiumPerServing: 3300, bicarbPerServingG: 12 },
+    { id: "system-15", label: "System 15", price: 70, servingsPerContainer: 4, sodiumPerServing: 4100, bicarbPerServingG: 15 },
+    { id: "system-19", label: "System 19", price: 70, servingsPerContainer: 4, sodiumPerServing: 5200, bicarbPerServingG: 19 },
+    { id: "system-22", label: "System 22", price: 70, servingsPerContainer: 4, sodiumPerServing: 6000, bicarbPerServingG: 22 },
+    { id: "system-25", label: "System 25", price: 70, servingsPerContainer: 4, sodiumPerServing: 6900, bicarbPerServingG: 25 },
   ],
   retailerLinks: { theFeed: "https://thefeed.com/products/sodium-bicarbonate" },
   goals: ["endurance"],
@@ -2952,11 +2955,12 @@ const CURATED_PRODUCTS: Product[] = [
   name: "Bicarb",
   brand: "Carbs Fuel",
   logo: "/logo/carbs.png",
-  category: "Supplement",
+  category: "Bicarb",
   rating: 0,
   reviewCount: 0,
   price: 50,                          // 15g / 20 Serving on The Feed
   servingsPerContainer: 20,
+  bicarbPerServingG: 15,
   sodiumPerServing: 4100,
   servingSize: "1 pouch (15 enteric-coated capsules for the 15g size)",
   certifications: [],
@@ -2966,9 +2970,9 @@ const CURATED_PRODUCTS: Product[] = [
   // to the nearest 100mg; replace them with the labels' figures once The Feed shows those panels.
   defaultVariantId: "15g-20",
   variants: [
-    { id: "15g-20", label: "15g, 20 servings", price: 50, servingsPerContainer: 20, sodiumPerServing: 4100 },
-    { id: "20g-20", label: "20g, 20 servings", price: 60, servingsPerContainer: 20, sodiumPerServing: 5500 },
-    { id: "25g-20", label: "25g, 20 servings", price: 70, servingsPerContainer: 20, sodiumPerServing: 6800 },
+    { id: "15g-20", label: "15g, 20 servings", price: 50, servingsPerContainer: 20, sodiumPerServing: 4100, bicarbPerServingG: 15 },
+    { id: "20g-20", label: "20g, 20 servings", price: 60, servingsPerContainer: 20, sodiumPerServing: 5500, bicarbPerServingG: 20 },
+    { id: "25g-20", label: "25g, 20 servings", price: 70, servingsPerContainer: 20, sodiumPerServing: 6800, bicarbPerServingG: 25 },
   ],
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/carbs_fuel_bicarb_300g_pouch_1200x1200.png?v=1789747599",
   retailerLinks: { theFeed: "https://thefeed.com/products/carbs-fuel-bicarb" },
@@ -2992,13 +2996,14 @@ const CURATED_PRODUCTS: Product[] = [
   id: "flycarb-bicarb",
   name: "Bicarb",
   brand: "Flycarb",
-  category: "Supplement",
+  category: "Bicarb",
   logoDomain: "flycarb.com",
   logo: "/logo/flycarb.png",
   rating: 4.2,
   reviewCount: 91,
   price: 39.99,                    // 4 Pack on The Feed
   servingsPerContainer: 4,
+  bicarbPerServingG: 12,
   isBatchTested: true,
   certifications: ["Informed Sport"],
   isHydrogel: false,

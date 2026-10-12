@@ -9,7 +9,7 @@ import type { Category } from "../products";
 import type { StandardChoice } from "../quality-standards";
 
 export const ASK_CATEGORIES: Category[] = [
-  "Energy Gel", "Energy Chew", "Energy Bar", "Carbohydrate Mix", "Hydration", "Protein", "Creatine",
+  "Energy Gel", "Energy Chew", "Energy Bar", "Carbohydrate Mix", "Hydration", "Protein", "Creatine", "Bicarb",
   "Recovery", "Performance", "Supplement", "Vitamin", "Mineral", "Omega-3", "Probiotic", "Sleep",
   "Gut Health", "Immune", "Greens",
 ];

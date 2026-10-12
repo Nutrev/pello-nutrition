@@ -25,6 +25,7 @@ export function productPelloScore(product: Product): FulensScoreBreakdown {
     // Informed Sport / NSF Certified for Sport / Cologne List certification is banned-substance testing.
     bannedSubstanceTested: nutrition.isBatchTested,
     pricePerServing: pricePerServing(product),
+    bicarbPerServingG: product.bicarbPerServingG ?? null,
     carbsPerServing: nutrition.carbsPerServing ?? undefined,
     proteinPerServing: nutrition.proteinPerServing ?? undefined,
     sodiumPerServing: nutrition.sodiumPerServing ?? undefined,

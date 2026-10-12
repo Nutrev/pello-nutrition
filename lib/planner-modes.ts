@@ -50,7 +50,7 @@ export type StackGoal = (typeof STACK_GOALS)[number]["id"];
 // The catalog categories relevant to each goal.
 export const GOAL_CATEGORIES: Record<StackGoal, string[]> = {
   muscle: ["Protein", "Creatine", "Recovery"],
-  endurance: ["Performance", "Supplement", "Vitamin", "Mineral", "Omega-3"],
+  endurance: ["Performance", "Bicarb", "Supplement", "Vitamin", "Mineral", "Omega-3"],
   recovery: ["Recovery", "Protein", "Omega-3", "Sleep"],
   sleep: ["Sleep", "Mineral"],
   cognitive: ["Performance", "Omega-3", "Supplement"],

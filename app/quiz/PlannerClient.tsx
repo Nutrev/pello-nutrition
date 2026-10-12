@@ -79,11 +79,11 @@ const FORMAT_OPTIONS: { id: FormatPreference; label: string; desc: string }[] = 
 const OUTCOME_CATEGORY_PRIORITY: Record<OutcomeType, string[]> = {
   "finish-first-marathon": ["Energy Gel", "Energy Chew", "Hydration", "Carbohydrate Mix", "Energy Bar"],
   "finish-first-triathlon": ["Energy Gel", "Carbohydrate Mix", "Hydration", "Energy Chew", "Protein"],
-  "improve-cycling-endurance": ["Energy Gel", "Carbohydrate Mix", "Hydration", "Energy Chew", "Performance", "Creatine"],
+  "improve-cycling-endurance": ["Energy Gel", "Carbohydrate Mix", "Hydration", "Energy Chew", "Performance", "Bicarb", "Creatine"],
   "improve-recovery": ["Protein", "Recovery", "Sleep", "Omega-3", "Mineral"],
   "build-muscle-endurance": ["Protein", "Creatine", "Performance", "Energy Gel", "Recovery"],
   "lose-weight-perform": ["Protein", "Hydration", "Energy Gel", "Sleep", "Omega-3"],
-  "race-faster": ["Energy Gel", "Carbohydrate Mix", "Hydration", "Performance", "Creatine"],
+  "race-faster": ["Energy Gel", "Carbohydrate Mix", "Hydration", "Performance", "Bicarb", "Creatine"],
   "gut-health": ["Probiotic", "Gut Health", "Hydration", "Energy Gel", "Omega-3"],
 };
 
@@ -257,7 +257,7 @@ function buildPhaseRecommendations(PRODUCTS: ProductSummary[], inputs: PlannerIn
       }));
 
     const post = allProducts
-      .filter(p => ["Protein", "Creatine", "Performance", "Recovery", "Sleep", "Omega-3", "Supplement", "Mineral", "Probiotic", "Gut Health", "Immune", "Greens"].includes(p.category))
+      .filter(p => ["Protein", "Creatine", "Performance", "Bicarb", "Recovery", "Sleep", "Omega-3", "Supplement", "Mineral", "Probiotic", "Gut Health", "Immune", "Greens"].includes(p.category))
       // One product per category first, so three picks cover three kinds of support.
       .filter((p, i, list) => list.findIndex(q => q.category === p.category) === i)
       .slice(0, 3)

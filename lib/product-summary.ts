@@ -7,7 +7,7 @@ import type { Product } from "./products";
 import { productPelloScore } from "./product-score";
 import { productNutrition } from "./nutrition";
 import { pricePerServing } from "./servings";
-import { categoryAvgPricePerServing } from "./fulens-score";
+import { categoryAvgPricePerServing, valueComparison } from "./fulens-score";
 import { reviewSourceOf } from "./catalog-types";
 import {
   PILLAR_MAX, PILLAR_ORDER, STRENGTH_THRESHOLD, WEAKNESS_THRESHOLD, MAX_STRENGTHS, MAX_WEAKNESSES, NO_WEAKNESSES,
@@ -23,7 +23,9 @@ export interface SummaryInput {
   proteinPerServing: number | null;
   sodiumPerServing: number | null;
   creatinePerServingG: number | null;
-  pricePerServing: number | null;
+  bicarbPerServingG?: number | null;
+  pricePerServing: number | null;        // Bicarb: price per gram of sodium bicarbonate (see priceUnit)
+  priceUnit?: string;                    // what pricePerServing is per; "serving" when not set
   rating: number | null;
   reviewCount: number;
   reviewSource: string | null;
@@ -68,6 +70,7 @@ const money = (n: number) => `$${n.toFixed(2)}`;
 export function buildProductSummary(input: SummaryInput): ProductSummaryText {
   const facts: PhraseFacts = {
     pricePerServing: input.pricePerServing != null && input.pricePerServing > 0 ? money(input.pricePerServing) : null,
+    priceUnit: input.priceUnit ?? "serving",
     rating: input.reviewCount > 0 && input.rating != null ? String(input.rating) : null,
     reviewCount: input.reviewCount > 0 ? input.reviewCount.toLocaleString("en-US") : null,
     reviewSource: input.reviewCount > 0 ? input.reviewSource : null,
@@ -78,7 +81,7 @@ export function buildProductSummary(input: SummaryInput): ProductSummaryText {
   const what = CATEGORY_PHRASE[input.category] ?? `a ${input.category.toLowerCase()} product`;
   const key = KEY_FACT_BY_CATEGORY[input.category];
   const amount = key === "carbs" ? input.carbsPerServing : key === "protein" ? input.proteinPerServing
-    : key === "sodium" ? input.sodiumPerServing : key === "creatine" ? input.creatinePerServingG : null;
+    : key === "sodium" ? input.sodiumPerServing : key === "creatine" ? input.creatinePerServingG : key === "bicarb" ? input.bicarbPerServingG ?? null : null;
   const opening = key && amount != null && amount > 0
     ? `${input.displayName} is ${what} with ${KEY_FACT_PHRASE[key](amount)}.`
     : `${input.displayName} is ${what}.`;
@@ -140,6 +143,9 @@ export function summaryInputFor(product: Product): SummaryInput {
   const score = productPelloScore(product);
   const n = productNutrition(product);
   const pps = pricePerServing(product);
+  // Value is judged on the same figures the Pello Score compares (per gram for Bicarb).
+  const compared = valueComparison(product.category, pps, product.bicarbPerServingG);
+  const perGram = product.category === "Bicarb";
   return {
     displayName: product.name.toLowerCase().startsWith(product.brand.toLowerCase()) ? product.name : `${product.brand} ${product.name}`,
     category: product.category,
@@ -148,14 +154,16 @@ export function summaryInputFor(product: Product): SummaryInput {
     proteinPerServing: n.proteinPerServing,
     sodiumPerServing: n.sodiumPerServing,
     creatinePerServingG: product.category === "Creatine" ? creatineGrams(product) : null,
-    pricePerServing: pps > 0 ? pps : null,
+    bicarbPerServingG: product.bicarbPerServingG ?? null,
+    pricePerServing: perGram ? compared?.price ?? null : pps > 0 ? pps : null,
+    priceUnit: compared?.unit ?? "serving",
     rating: product.reviewCount > 0 ? product.rating : null,
     reviewCount: product.reviewCount,
     reviewSource: reviewSourceOf(product),
     testingCertification: (product.certifications ?? []).find((c) => TESTING_CERTIFICATIONS.includes(c)) ?? null,
     hasIngredientData: product.ingredients.length > 0,
     transparencyScored: product.transparencyScore != null,
-    categoryAvgPrice: categoryAvgPricePerServing(product.category),
+    categoryAvgPrice: perGram ? compared?.average ?? null : categoryAvgPricePerServing(product.category),
   };
 }
 

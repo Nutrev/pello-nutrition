@@ -26,6 +26,7 @@ export const FEW_REVIEWS = 100;
 // Values the phrases can use. Each is null when the product's data doesn't have it.
 export interface PhraseFacts {
   pricePerServing: string | null;  // "$3.75"
+  priceUnit: string;               // "serving"; Bicarb: "gram of sodium bicarbonate"
   rating: string | null;           // "4.8"
   reviewCount: string | null;      // "1,426"
   reviewSource: string | null;     // "The Feed"
@@ -38,7 +39,7 @@ const reviews = (f: PhraseFacts) =>
 export const STRENGTH_PHRASES: Record<Pillar, (f: PhraseFacts) => string> = {
   science: () => "Key ingredients are well supported by research.",
   transparency: () => "Clear, complete labeling.",
-  value: (f) => (f.pricePerServing ? `Good value at ${f.pricePerServing} per serving.` : "Good value."),
+  value: (f) => (f.pricePerServing ? `Good value at ${f.pricePerServing} per ${f.priceUnit}.` : "Good value."),
   athleteExperience: (f) => `Highly rated by athletes${reviews(f)}.`,
   quality: (f) => (f.testingCertification ? `Batch-tested for banned substances (${f.testingCertification}).` : "High manufacturing quality standards."),
 };
@@ -46,7 +47,7 @@ export const STRENGTH_PHRASES: Record<Pillar, (f: PhraseFacts) => string> = {
 export const WEAKNESS_PHRASES: Record<Pillar, (f: PhraseFacts) => string> = {
   science: () => "Limited research support for key ingredients.",
   transparency: () => "Limited label transparency.",
-  value: (f) => (f.pricePerServing ? `Expensive at ${f.pricePerServing} per serving.` : "Expensive for its category."),
+  value: (f) => (f.pricePerServing ? `Expensive at ${f.pricePerServing} per ${f.priceUnit}.` : "Expensive for its category."),
   athleteExperience: (f) => `Mixed athlete reviews${reviews(f)}.`,
   // Pello only records Informed Sport, NSF Certified for Sport and Cologne List, so this says what's
   // listed rather than claiming the product is never tested.
@@ -64,6 +65,7 @@ export const CATEGORY_PHRASE: Record<string, string> = {
   "Hydration": "a hydration product",
   "Protein": "a protein supplement",
   "Creatine": "a creatine supplement",
+  "Bicarb": "a sodium bicarbonate supplement",
   "Recovery": "a recovery product",
   "Performance": "a performance supplement",
   "Supplement": "a supplement",
@@ -78,7 +80,7 @@ export const CATEGORY_PHRASE: Record<string, string> = {
 };
 
 // The key fact in the opening line, by category. Categories not listed get no key fact.
-export type KeyFact = "carbs" | "protein" | "sodium" | "creatine";
+export type KeyFact = "carbs" | "protein" | "sodium" | "creatine" | "bicarb";
 export const KEY_FACT_BY_CATEGORY: Record<string, KeyFact> = {
   "Energy Gel": "carbs",
   "Energy Chew": "carbs",
@@ -87,10 +89,12 @@ export const KEY_FACT_BY_CATEGORY: Record<string, KeyFact> = {
   "Protein": "protein",
   "Hydration": "sodium",
   "Creatine": "creatine",
+  "Bicarb": "bicarb",
 };
 export const KEY_FACT_PHRASE: Record<KeyFact, (amount: number) => string> = {
   carbs: (g) => `${g}g of carbs per serving`,
   protein: (g) => `${g}g of protein per serving`,
   sodium: (mg) => `${mg}mg of sodium per serving`,
   creatine: (g) => `${g}g of creatine per serving`,
+  bicarb: (g) => `${g}g of sodium bicarbonate per serving`,
 };

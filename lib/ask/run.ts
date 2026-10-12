@@ -95,7 +95,7 @@ export function runAskQuery(q: AskQuery, catalog: ProductSummary[]): AskResult {
 
 const PLURAL: Record<string, string> = {
   "Energy Gel": "Energy gels", "Energy Chew": "Energy chews", "Energy Bar": "Energy bars", "Carbohydrate Mix": "Carbohydrate drink mixes",
-  "Hydration": "Hydration products", "Protein": "Protein supplements", "Creatine": "Creatine", "Recovery": "Recovery products",
+  "Hydration": "Hydration products", "Protein": "Protein supplements", "Creatine": "Creatine", "Bicarb": "Bicarb supplements", "Recovery": "Recovery products",
   "Performance": "Performance supplements", "Supplement": "Supplements", "Vitamin": "Vitamins", "Mineral": "Minerals", "Omega-3": "Omega-3s",
   "Probiotic": "Probiotics", "Sleep": "Sleep supplements", "Gut Health": "Gut health supplements", "Immune": "Immune support", "Greens": "Greens",
 };

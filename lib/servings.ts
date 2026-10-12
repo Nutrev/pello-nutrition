@@ -14,6 +14,7 @@ export const DEFAULT_SERVINGS: Record<Category, number> = {
   "Hydration": 30,
   "Protein": 28,
   "Creatine": 90,
+  "Bicarb": 12,
   "Supplement": 30,
   "Probiotic": 30,
   "Omega-3": 30,

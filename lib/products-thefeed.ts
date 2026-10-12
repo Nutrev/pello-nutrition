@@ -4585,11 +4585,12 @@ export const THE_FEED_PRODUCTS: Product[] = [
     name: "Bicarb 3.0",
     brand: "Bicarb",
     logoDomain: "bicarb.shop",
-    category: "Supplement",
+    category: "Bicarb",
     rating: 4.6,
     reviewCount: 16,
     price: 90,      // 10 Pack (15g sachets) on The Feed
     servingsPerContainer: 10,
+    bicarbPerServingG: 15,
     // Carb "matrix" packet label (bicarb30_original_nfs on The Feed): 135 kcal, 34g carbs (19g added sugar),
     // 0g protein; sucrose, maltodextrin, sodium alginate, natural flavors. Its 150mg sodium is the matrix
     // only, not the sodium bicarbonate beadlets, so sodiumPerServing is left out. Still unscored: the

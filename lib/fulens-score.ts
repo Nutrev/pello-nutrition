@@ -35,6 +35,9 @@ const CATEGORY_BENCHMARKS: Record<string, {
   "Hydration": { avgPricePerServing: 1.20, keyNutrient: "sodium", avgKeyNutrientPerServing: 400 },
   "Protein": { avgPricePerServing: 2.50, keyNutrient: "protein", avgKeyNutrientPerServing: 24 },
   "Creatine": { avgPricePerServing: 0.50, keyNutrient: "creatine", avgKeyNutrientPerServing: 5 },
+  // Bicarb doses range from a 1g capsule to a 25g pouch, so value compares price per gram of sodium
+  // bicarbonate: the average of the five bicarb products on Pello (October 2026), about $0.55/g.
+  "Bicarb": { avgPricePerServing: 0.55, keyNutrient: "bicarbGram", avgKeyNutrientPerServing: 1 },
   "Supplement": { avgPricePerServing: 1.50, keyNutrient: "active", avgKeyNutrientPerServing: 1 },
   "Probiotic": { avgPricePerServing: 1.20, keyNutrient: "CFU", avgKeyNutrientPerServing: 10 },
   "Omega-3": { avgPricePerServing: 1.00, keyNutrient: "EPA+DHA", avgKeyNutrientPerServing: 1000 },
@@ -66,6 +69,7 @@ export interface ScoringInput {
 
   // Pricing
   pricePerServing: number;
+  bicarbPerServingG?: number | null;   // Bicarb products: grams of sodium bicarbonate per serving
   carbsPerServing?: number;
   proteinPerServing?: number;
   sodiumPerServing?: number;
@@ -209,6 +213,18 @@ export function categoryAvgPricePerServing(category: string): number | null {
   return CATEGORY_BENCHMARKS[category]?.avgPricePerServing ?? null;
 }
 
+// The price the Value pillar compares, and the category average it's compared with: price per
+// serving, except Bicarb, which compares price per gram of sodium bicarbonate. null when the
+// category has no benchmark or the product lacks the figure.
+export function valueComparison(category: string, pricePerServing: number, bicarbPerServingG?: number | null): { price: number; average: number; unit: string } | null {
+  const b = CATEGORY_BENCHMARKS[category];
+  if (!b || !(pricePerServing > 0)) return null;
+  if (b.keyNutrient === "bicarbGram") {
+    return bicarbPerServingG && bicarbPerServingG > 0 ? { price: pricePerServing / bicarbPerServingG, average: b.avgPricePerServing, unit: "gram of sodium bicarbonate" } : null;
+  }
+  return { price: pricePerServing, average: b.avgPricePerServing, unit: "serving" };
+}
+
 // ── PILLAR 3: VALUE (0-20) ────────────────────────────────────
 
 function scoreValue(input: ScoringInput): { score: number; notes: string[] } {
@@ -222,8 +238,13 @@ function scoreValue(input: ScoringInput): { score: number; notes: string[] } {
     return { score: 10, notes };
   }
 
-  // Price vs category average (0-10)
-  const priceDiff = (input.pricePerServing - benchmark.avgPricePerServing) / benchmark.avgPricePerServing;
+  // Price vs category average (0-10). Bicarb compares price per gram of sodium bicarbonate.
+  const compared = valueComparison(input.category, input.pricePerServing, input.bicarbPerServingG);
+  if (!compared) {
+    notes.push("No comparable price figure — using default value score");
+    return { score: 10, notes };
+  }
+  const priceDiff = (compared.price - compared.average) / compared.average;
 
   if (priceDiff <= -0.3) {
     score += 5;

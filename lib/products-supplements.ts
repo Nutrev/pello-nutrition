@@ -5561,11 +5561,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     id: "powerbank-nutrition-bicarb-arc",
     name: "Nutrition BiCarb ARC",
     brand: "Powerbank",
-    category: "Performance",
+    category: "Bicarb",
     rating: 0,
     reviewCount: 0,
     price: 59,      // 300 Capsules on The Feed
     servingsPerContainer: 300,
+    bicarbPerServingG: 1,
     sodiumPerServing: 280,
     caffeinePerServing: 0,
     servingSize: "1118.2 mg",

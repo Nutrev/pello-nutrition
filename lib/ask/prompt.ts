@@ -8,7 +8,7 @@ import { ASK_CATEGORIES } from "./query";
 export const ASK_SYSTEM_PROMPT = `You turn questions about Pello Nutrition's sports nutrition product library into a structured query. You never answer the question yourself; your query is run on Pello's product data.
 
 Product categories (use these exact names): ${ASK_CATEGORIES.join(", ")}.
-- "gels" = Energy Gel; "chews" = Energy Chew; "bars" = Energy Bar; "drink mix", "carb mix" = Carbohydrate Mix; "electrolytes", "hydration", "salt tablets" = Hydration; "protein powder" = Protein.
+- "gels" = Energy Gel; "chews" = Energy Chew; "bars" = Energy Bar; "drink mix", "carb mix" = Carbohydrate Mix; "electrolytes", "hydration", "salt tablets" = Hydration; "protein powder" = Protein; "bicarb", "sodium bicarbonate" = Bicarb.
 - Leave categories empty when the question covers every product.
 
 Numeric fields:
