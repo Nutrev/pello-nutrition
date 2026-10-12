@@ -5965,8 +5965,17 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Recovery",
     rating: 4.7,
     reviewCount: 181,
-    price: 34.49,      // Box of 20 Singles on The Feed
+    price: 34.49,      // Unflavored / Box of 20 Singles on The Feed
     servingsPerContainer: 20,
+    // Sizes on The Feed (price per size, 2026-10-12). Unflavored only: the Chocolate, Vanilla and Chai
+    // tubs are a different formula (12g collagen per serving). The 22-serving tub is left out because
+    // its listing says 22 servings but its label says 38.
+    defaultVariantId: "box-of-20-singles",
+    variants: [
+      { id: "14-servings", label: "14 Servings", price: 26.99, servingsPerContainer: 14, feedSize: "Unflavored / 14 Servings" },
+      { id: "box-of-20-singles", label: "Box of 20 Singles", price: 34.49, servingsPerContainer: 20, feedSize: "Unflavored / Box of 20 Singles" },
+      { id: "90-servings", label: "90 Servings", price: 107.99, servingsPerContainer: 90, feedSize: "Unflavored / 90 Servings" },
+    ],
     carbsPerServing: 1,
     proteinPerServing: 18,
     caloriesPerServing: 70,
@@ -5978,7 +5987,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     isGlutenFree: true,
     certifications: ["Non-GMO Project Verified"],
     allergens: [],
-    flavours: ["Unflavored", "Chocolate", "Vanilla", "Chai"],
+    flavours: ["Unflavored"],
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/GreatLakes_Collagen_02_1200x1200.png?v=1747154910",
     retailerLinks: {"theFeed": "https://thefeed.com/products/great-lakes-wellness-collagen-peptides"},
     goals: ["recovery"],
@@ -18597,8 +18606,15 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Omega-3",
     rating: 5.0,
     reviewCount: 1,
-    price: 19.51,      // 30 Servings on The Feed
+    price: 19.51,      // Gummies / 30 Servings on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12). The Gummies only; the Gummy Fish and Zero Sugar
+    // fishies on the same page have their own labels and aren't included.
+    defaultVariantId: "30-servings",
+    variants: [
+      { id: "30-servings", label: "30 Servings", price: 19.51, servingsPerContainer: 30, feedSize: "Gummies / 30 Servings" },
+      { id: "60-servings", label: "60 Servings", price: 33.96, servingsPerContainer: 60, feedSize: "Gummies / 60 Servings" },
+    ],
     carbsPerServing: 5,
     caloriesPerServing: 25,
     caffeinePerServing: 0,
@@ -19404,7 +19420,9 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Immune",
     rating: 4.4,
     reviewCount: 5,
-    price: 12.71,      // 30 Servings on The Feed
+    price: 12.71,      // 5000 IU Gummies / 30 Servings on The Feed
+    // The 5000 IU gummies only. The 1000 IU gummies, gels and liquid on the same page have their own
+    // labels and aren't included.
     servingsPerContainer: 30,
     carbsPerServing: 2,
     caloriesPerServing: 10,
@@ -19415,7 +19433,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     isGlutenFree: true,
     certifications: [],
     allergens: [],
-    flavours: ["Gummies", "Sugar Free Gummies", "Vegan"],
+    flavours: ["5000 IU Gummies"],
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/nordicnaturals_d3gummies_5000_30_1200x1200.png?v=1788195848",
     retailerLinks: {"theFeed": "https://thefeed.com/products/nordic-naturals-vitamin-d3"},
     goals: ["immunity"],
@@ -19425,8 +19443,6 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     ingredients: [
       { name: "Vitamin D3 (as Cholecalciferol)", dose: "125mcg (5000 IU)", verdict: "proven", note: "Vitamin D supports bone, muscle and immune health; deficiency is common in athletes who train indoors or live far from the equator.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=vitamin+D+athletes" },
       { name: "Sodium", dose: "5mg", verdict: "proven", note: "Sodium is the main electrolyte lost in sweat; replacing it supports fluid balance in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Vitamin D3 (as cholecalciferol)", dose: "25mcg (1000 IU)", verdict: "proven", note: "Vitamin D supports bone, muscle and immune health; deficiency is common in athletes who train indoors or live far from the equator.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=vitamin+D+athletes" },
-      { name: "Iron", dose: "1.4mg", verdict: "proven", note: "Iron is essential for carrying oxygen; deficiency is common in endurance athletes (especially women) and impairs performance. Supplement only if a blood test shows you need it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=iron+deficiency+endurance+athletes" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 5, unit: "reviews", credibility: "medium" },

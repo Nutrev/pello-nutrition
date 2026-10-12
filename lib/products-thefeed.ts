@@ -441,6 +441,13 @@ export const THE_FEED_PRODUCTS: Product[] = [
     reviewCount: 597,
     price: 13.99,      // Box of 6 on The Feed
     servingsPerContainer: 6,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "box-of-6",
+    variants: [
+      { id: "box-of-6", label: "Box of 6", price: 13.99, servingsPerContainer: 6 },
+      { id: "box-of-18", label: "Box of 18", price: 48.49, servingsPerContainer: 18 },
+      { id: "box-of-30", label: "Box of 30", price: 79.99, servingsPerContainer: 30 },
+    ],
     carbsPerServing: 22,
     sodiumPerServing: 100,
     caffeinePerServing: 0,

@@ -81,7 +81,10 @@ async function readOffers(url: string): Promise<Offer[] | "gone"> {
   for (const m of Array.from(html.matchAll(/<script[^>]+application\/ld\+json[^>]*>([\s\S]*?)<\/script>/g))) {
     let data: unknown;
     try { data = JSON.parse(m[1]); } catch { continue; }
-    for (const item of (Array.isArray(data) ? data : [data]) as Record<string, unknown>[]) {
+    // Some pages list each option as its own Product; others nest them in a ProductGroup's hasVariant.
+    const items = (Array.isArray(data) ? data : [data]) as Record<string, unknown>[];
+    const products = items.flatMap((it) => (Array.isArray(it?.hasVariant) ? [it, ...(it.hasVariant as Record<string, unknown>[])] : [it]));
+    for (const item of products) {
       if (item?.["@type"] !== "Product") continue;
       const name = String(item.name ?? "");
       const agg = item.aggregateRating as Record<string, unknown> | undefined;
