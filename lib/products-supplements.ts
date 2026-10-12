@@ -2757,7 +2757,8 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     isGlutenFree: true,
     certifications: ["Non-GMO Project Verified"],
     allergens: [],
-    flavours: ["Original Pomegranate Berry", "Chew", "Watermelon", "Chocolate", "Zero Sugar Pomegranate Berry", "Black Cherry", "Powder"],
+    flavours: ["Original Pomegranate Berry", "Watermelon", "Chocolate", "Zero Sugar Pomegranate Berry"],
+    // The chews only. The Black Cherry powder on the same page has its own label and isn't included.
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/humann_heartchews_1200x1200.png?v=1771972182",
     retailerLinks: {"theFeed": "https://thefeed.com/products/human-n-superbeets-heart-chews"},
     goals: ["endurance"],
@@ -2767,13 +2768,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     ingredients: [
       { name: "Beet Root Powder", dose: "500mg", verdict: "likely", note: "Dietary nitrate (from beetroot or similar) can improve exercise efficiency and endurance, especially in recreational athletes; the evidence is weaker in highly trained athletes. Studies use roughly 400–800mg of nitrate.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=dietary+nitrate+beetroot+endurance" },
       { name: "Enovita Grape Seed Extract", dose: "150mg", verdict: "disputed", note: "A grape antioxidant extract studied for blood pressure and circulation; evidence for performance is limited.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=grape+seed+extract+exercise" },
-      { name: "Potassium", dose: "40mg", verdict: "likely", note: "An electrolyte involved in muscle and nerve function; sweat losses are much smaller than sodium's.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=potassium+electrolyte+exercise" },
-      { name: "Enovita Grape Seed Extract (Vitis vinifera)", dose: "150mg", verdict: "disputed", note: "A grape antioxidant extract studied for blood pressure and circulation; evidence for performance is limited.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=grape+seed+extract+exercise" },
-      { name: "Enovita Grape Seed Extract (Vitis vinifera)", dose: "150mg", verdict: "disputed", note: "A grape antioxidant extract studied for blood pressure and circulation; evidence for performance is limited.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=grape+seed+extract+exercise" },
-      { name: "Beet Root (Beta vulgaris)", dose: "500mg", verdict: "likely", note: "Dietary nitrate (from beetroot or similar) can improve exercise efficiency and endurance, especially in recreational athletes; the evidence is weaker in highly trained athletes. Studies use roughly 400–800mg of nitrate.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=dietary+nitrate+beetroot+endurance" },
-      { name: "Vitamin C", dose: "50mg", verdict: "likely", note: "Supports immune function and acts as an antioxidant; moderate doses may reduce colds during heavy training, while very high doses may blunt training adaptations.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=vitamin+C+athletes+immune" },
-      { name: "Magnesium", dose: "18mg", verdict: "likely", note: "Magnesium supports muscle and nerve function and sleep; many athletes fall short of the recommended intake. Supplementing helps mainly when intake is low. Glycinate and malate forms are well absorbed and gentle on the stomach.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=magnesium+supplementation+sleep+exercise" },
-      { name: "Manganese", dose: "0.14mg", verdict: "likely", note: "A trace mineral involved in bone formation and antioxidant enzymes; deficiency is rare.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=manganese+nutrition" },
+      { name: "Potassium", dose: "40mg (Watermelon)", verdict: "likely", note: "On the Watermelon (40mg) and Zero Sugar (130mg) labels; the Original label lists none. An electrolyte involved in muscle and nerve function; sweat losses are much smaller than sodium's.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=potassium+electrolyte+exercise" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 14, unit: "reviews", credibility: "medium" },
@@ -6595,7 +6590,9 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     isGlutenFree: true,
     certifications: ["NSF Certified for Sport"],
     allergens: [],
-    flavours: ["Berry Lemonade (w/caffeine)", "Berry Lemonade (w/ Caffeine)", "Berry Lemonade (Caffeine Free)"],
+    flavours: ["Berry Lemonade (w/ Caffeine)"],
+    // The caffeinated BCAA formula. The Caffeine Free version on the same page is a different formula
+    // (an essential amino acid blend, 5.5g) and isn't included.
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/gnarly_aminos_lemonade_caff_1200x1200.png?v=1768325326",
     retailerLinks: {"theFeed": "https://thefeed.com/products/gnarly-bcaas"},
     goals: ["recovery", "muscle"],
@@ -6610,14 +6607,6 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "L-Valine", dose: "1.25g", verdict: "disputed", note: "A branched-chain amino acid; it adds little on top of an adequate protein intake.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=BCAA+supplementation" },
       { name: "Aquamin Red Algae (Lithothamnium Calcareum)", dose: "100mg", verdict: "disputed", note: "A source of minerals such as calcium and magnesium; the small amounts add little beyond a normal diet.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=trace+minerals+supplement" },
       { name: "Caffeine (from Green Tea Leaf)", dose: "35mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=caffeine+endurance+performance" },
-      { name: "Aminos Blend", dose: "5.5g", verdict: "disputed", note: "A blend of amino acids; check it provides the essential ones at useful doses, or a protein serving does the same job.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=amino+acids+supplementation" },
-      { name: "L-Lysine", dose: "650mg", verdict: "disputed", note: "Amino acids used to build collagen; evidence for supplementing them for recovery is limited.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=lysine+proline+collagen" },
-      { name: "L-Threonine", dose: "500mg", verdict: "likely", note: "One of the amino acids in a complete amino acid formula; it contributes to muscle repair alongside the others, as a full protein serving would.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=essential+amino+acids+muscle+protein+synthesis" },
-      { name: "L-Phenylalanine", dose: "200mg", verdict: "likely", note: "One of the amino acids in a complete amino acid formula; it contributes to muscle repair alongside the others, as a full protein serving would.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=essential+amino+acids+muscle+protein+synthesis" },
-      { name: "L-Histidine", dose: "200mg", verdict: "likely", note: "One of the amino acids in a complete amino acid formula; it contributes to muscle repair alongside the others, as a full protein serving would.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=essential+amino+acids+muscle+protein+synthesis" },
-      { name: "L-Methionine", dose: "100mg", verdict: "likely", note: "One of the amino acids in a complete amino acid formula; it contributes to muscle repair alongside the others, as a full protein serving would.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=essential+amino+acids+muscle+protein+synthesis" },
-      { name: "L-Tryptophan", dose: "50mg", verdict: "likely", note: "One of the amino acids in a complete amino acid formula; it contributes to muscle repair alongside the others, as a full protein serving would.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=essential+amino+acids+muscle+protein+synthesis" },
-      { name: "Aquamin Red Algae (Lithothamnium calcareum)", dose: "100mg", verdict: "disputed", note: "A source of minerals such as calcium and magnesium; the small amounts add little beyond a normal diet.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=trace+minerals+supplement" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 34, unit: "reviews", credibility: "medium" },

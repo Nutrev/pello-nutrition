@@ -5935,9 +5935,9 @@ const CURATED_PRODUCTS: Product[] = [
     },
     {
       name: "Sodium (as Himalayan Rock Salt)",
-      dose: "60mg",
+      dose: "60mg (Cinnamon Cocoa)",
       verdict: "proven",
-      note: "Sodium is the main electrolyte lost in sweat; replacing it supports fluid balance in long or hot sessions.",
+      note: "Sodium is the main electrolyte lost in sweat; replacing it supports fluid balance in long or hot sessions. Varies by flavour on the labels: 60mg (Cinnamon Cocoa) to 230mg (Salty Dark Chocolate).",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise",
     },
     {
@@ -5967,20 +5967,6 @@ const CURATED_PRODUCTS: Product[] = [
       verdict: "proven",
       note: "Melatonin reliably helps people fall asleep faster, particularly with jet lag or shifted schedules. Low doses (0.5–3mg) are usually as effective as higher ones.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=melatonin+sleep+onset",
-    },
-    {
-      name: "Magnesium (from 250mg Magnesium Citrate and 150mg Magnesium Malate)",
-      dose: "60mg",
-      verdict: "likely",
-      note: "Magnesium supports muscle and nerve function and sleep; many athletes fall short of the recommended intake. Supplementing helps mainly when intake is low. Glycinate and malate forms are well absorbed and gentle on the stomach.",
-      pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=magnesium+supplementation+sleep+exercise",
-    },
-    {
-      name: "Magnesium (as Magnesium Citrate, Di-Magnesium Malate)",
-      dose: "60mg",
-      verdict: "likely",
-      note: "Magnesium supports muscle and nerve function and sleep; many athletes fall short of the recommended intake. Supplementing helps mainly when intake is low. Glycinate and malate forms are well absorbed and gentle on the stomach.",
-      pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=magnesium+supplementation+sleep+exercise",
     },
   ],
   sources: [
