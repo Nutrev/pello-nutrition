@@ -4,6 +4,23 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import BrandLogo from "@/components/BrandLogo";
 import ProductCard from "@/components/ProductCard";
+import type { Metadata } from "next";
+
+export function generateMetadata({ params }: { params: { category: string } }): Metadata {
+  const PRODUCTS = getProductSummaries();
+  const matched = Array.from(new Set(PRODUCTS.map((p) => p.category))).find((cat) => categorySlug(cat) === params.category);
+  if (!matched) return { title: "Category not found" };
+  const count = PRODUCTS.filter((p) => p.category === matched).length;
+  const title = `${matched} Products — Independent Ratings | Pello`;
+  const description = `Compare ${count} ${matched.toLowerCase()} product${count !== 1 ? "s" : ""} by Pello Score™, ingredients, price and athlete reviews.`;
+  const url = `https://www.pellonutrition.com/products/${params.category}`;
+  return {
+    title: { absolute: title },
+    description,
+    alternates: { canonical: url },
+    openGraph: { title, description, url },
+  };
+}
 
 export default function CategoryPage({ params }: { params: { category: string } }) {
   const PRODUCTS = getProductSummaries();
