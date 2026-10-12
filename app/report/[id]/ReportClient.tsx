@@ -46,6 +46,17 @@ function servingUnit(product: Product): string {
   return m ? m[1].toLowerCase() : SERVING_UNIT[product.category] ?? "serving";
 }
 
+// The unit for the price line once a size is picked. A size sold as separate items ("Box of 24",
+// "15 Gels") keeps the item ("per gel"); one sold as a tub, bag, jug or bottle of servings
+// ("26 Serving", "90 Servings") reads "per serving", since it isn't a box of gels or packets.
+const ITEM_UNIT = /^(gel|bar|pack|packet|sachet|stick|stick pack|tablet|capsule|softgel|chew|pouch|waffle|can|shot|tube|bottle)s?$/;
+const BOXED = /^(box|pack|bag|case) of \d+|^\d+[ -]?(pack|packets?)$/i;
+const SIZE_LABEL = /^(box|pack|bag|case) of \d+|^\d+[ -]?[a-z]+( [a-z]+)?$/i; // "Box of 6", "26 Serving", "20 Serving Bag"
+function sizeUnit(unit: string, label: string | undefined): string {
+  if (!label || !SIZE_LABEL.test(label.trim())) return unit; // strengths ("System 19", "PH 1000") keep the product's unit
+  return ITEM_UNIT.test(unit) && (BOXED.test(label.trim()) || label.toLowerCase().includes(unit)) ? unit : "serving";
+}
+
 // The numbers people compare first, per serving, from the product's own data only: up to four
 // of creatine, protein, carbs, sodium, caffeine and calories. Caffeine shows as "None" for fuel
 // products (10g+ carbs) that have none, since that's a deliberate choice for those. When caffeine
@@ -142,6 +153,7 @@ export default function ReportClient({ product, similar: similarProducts, brand,
   const shownNutrition = productNutrition(shown);
   const facts = servingFacts(shown, shownNutrition);
   const unit = servingUnit(product);
+  const priceUnit = sizeUnit(unit, variant && product.variants!.length > 1 ? variant.label : undefined);
   const usedFor = usedForStatement(product);
   const disputedIngredients = getDisputedIngredients(product.ingredients);
 
@@ -234,7 +246,7 @@ export default function ReportClient({ product, similar: similarProducts, brand,
 
               <div className="flex flex-wrap items-baseline gap-x-2 mt-4">
                 <span className="font-display font-bold text-2xl">${calcPricePerServing(shown).toFixed(2)}</span>
-                <span className="text-sm text-muted">per {unit} · {formatPrice(shown.price)} for {servingsPerContainer(shown)}</span>
+                <span className="text-sm text-muted">per {priceUnit} · {formatPrice(shown.price)} for {servingsPerContainer(shown)}</span>
               </div>
               <div className="mt-3">
                 <BuyButtons retailerLinks={product.retailerLinks} productName={product.name} brand={product.brand}
