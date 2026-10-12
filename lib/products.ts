@@ -117,6 +117,12 @@ const CURATED_PRODUCTS: Product[] = [
   reviewCount: 392,
   price: 35.49,                    // Box of 12 on The Feed
   servingsPerContainer: 12,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "box-of-12",
+  variants: [
+    { id: "5-pack", label: "5 Pack", price: 14.75, servingsPerContainer: 5 },
+    { id: "box-of-12", label: "Box of 12", price: 35.49, servingsPerContainer: 12 },
+  ],
   carbsPerServing: 30,
   sodiumPerServing: 200,
   proteinPerServing: 0.6,
@@ -174,9 +180,16 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/maurten.png",
   category: "Energy Gel",
   rating: 4.8,
-  reviewCount: 1426,
+  reviewCount: 1445,
   price: 45,                       // Box of 12 on The Feed
   servingsPerContainer: 12,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "box-of-12",
+  variants: [
+    { id: "box-of-6", label: "Box of 6", price: 23, servingsPerContainer: 6 },
+    { id: "box-of-12", label: "Box of 12", price: 45, servingsPerContainer: 12 },
+    { id: "box-of-48", label: "Box of 48", price: 179, servingsPerContainer: 48 },
+  ],
   carbsPerServing: 25,
   sodiumPerServing: 20,
   caffeinePerServing: 0,
@@ -211,7 +224,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 1426, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 1445, unit: "reviews", credibility: "medium" },
     { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -330,6 +343,13 @@ const CURATED_PRODUCTS: Product[] = [
   reviewCount: 654,
   price: 45.99,                    // 15 Gels on The Feed
   servingsPerContainer: 15,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "15-gels",
+  variants: [
+    { id: "4-gels", label: "4 Gels", price: 12.49, servingsPerContainer: 4 },
+    { id: "15-gels", label: "15 Gels", price: 45.99, servingsPerContainer: 15 },
+    { id: "30-gels", label: "30 Gels", price: 78.99, servingsPerContainer: 30 },
+  ],
   carbsPerServing: 30,
   sodiumPerServing: 0,
   caffeinePerServing: 0,
@@ -730,6 +750,12 @@ const CURATED_PRODUCTS: Product[] = [
   reviewCount: 0,
   price: 26,                       // 90 Servings on The Feed
   servingsPerContainer: 90,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "90-servings",
+  variants: [
+    { id: "90-servings", label: "90 Servings", price: 26, servingsPerContainer: 90 },
+    { id: "180-servings", label: "180 Servings", price: 46, servingsPerContainer: 180 },
+  ],
   servingSize: "One Capsule",
   isHydrogel: false,
   isBatchTested: false,
@@ -818,6 +844,13 @@ const CURATED_PRODUCTS: Product[] = [
   reviewCount: 8,
   price: 27,                       // 90 Servings on The Feed
   servingsPerContainer: 90,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "90-servings",
+  variants: [
+    { id: "90-servings", label: "90 Servings", price: 27, servingsPerContainer: 90 },
+    { id: "180-servings", label: "180 Servings", price: 46.5, servingsPerContainer: 180 },
+    { id: "360-servings", label: "360 Servings", price: 87, servingsPerContainer: 360 },
+  ],
   servingSize: "1 capsule",
   isHydrogel: false,
   isBatchTested: false,
@@ -1082,6 +1115,12 @@ const CURATED_PRODUCTS: Product[] = [
   reviewCount: 426,
   price: 32.95,                    // Box of 12 on The Feed
   servingsPerContainer: 12,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "box-of-12",
+  variants: [
+    { id: "4-pack", label: "4 Pack", price: 11.8, servingsPerContainer: 4 },
+    { id: "box-of-12", label: "Box of 12", price: 32.95, servingsPerContainer: 12 },
+  ],
   carbsPerServing: 31,
   sodiumPerServing: 140,
   caffeinePerServing: 0,
@@ -1471,6 +1510,12 @@ const CURATED_PRODUCTS: Product[] = [
   reviewCount: 452,
   price: 36,                       // Box of 12 on The Feed
   servingsPerContainer: 12,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "box-of-12",
+  variants: [
+    { id: "box-of-6", label: "Box of 6", price: 19, servingsPerContainer: 6 },
+    { id: "box-of-12", label: "Box of 12", price: 36, servingsPerContainer: 12 },
+  ],
   carbsPerServing: 42.2,
   sodiumPerServing: 250,
   caffeinePerServing: 0,
@@ -1523,6 +1568,13 @@ const CURATED_PRODUCTS: Product[] = [
   reviewCount: 493,
   price: 55,                       // Box of 12 on The Feed
   servingsPerContainer: 12,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "box-of-12",
+  variants: [
+    { id: "box-of-3", label: "Box of 3", price: 15, servingsPerContainer: 3 },
+    { id: "box-of-6", label: "Box of 6", price: 30, servingsPerContainer: 6 },
+    { id: "box-of-12", label: "Box of 12", price: 55, servingsPerContainer: 12 },
+  ],
   carbsPerServing: 40,
   sodiumPerServing: 30,
   caffeinePerServing: 0,
@@ -1629,6 +1681,12 @@ const CURATED_PRODUCTS: Product[] = [
   reviewCount: 121,
   price: 44.99,                    // Box of 12 on The Feed
   servingsPerContainer: 12,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "box-of-12",
+  variants: [
+    { id: "4-pack", label: "4 Pack", price: 16.99, servingsPerContainer: 4 },
+    { id: "box-of-12", label: "Box of 12", price: 44.99, servingsPerContainer: 12 },
+  ],
   carbsPerServing: 30,
   sodiumPerServing: 8,
   proteinPerServing: 0,
@@ -1734,6 +1792,12 @@ const CURATED_PRODUCTS: Product[] = [
   reviewCount: 202,
   price: 44.99,                    // Box of 12 on The Feed
   servingsPerContainer: 12,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "box-of-12",
+  variants: [
+    { id: "box-of-12", label: "Box of 12", price: 44.99, servingsPerContainer: 12 },
+    { id: "box-of-24", label: "Box of 24", price: 79.99, servingsPerContainer: 24 },
+  ],
   glucoseFructoseRatio: "2:1",
   carbsPerServing: 40,
   sodiumPerServing: 200,
@@ -1793,6 +1857,12 @@ const CURATED_PRODUCTS: Product[] = [
   reviewCount: 35,
   price: 44.99,                    // Box of 12 on The Feed
   servingsPerContainer: 12,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "box-of-12",
+  variants: [
+    { id: "box-of-12", label: "Box of 12", price: 44.99, servingsPerContainer: 12 },
+    { id: "box-of-24", label: "Box of 24", price: 79.99, servingsPerContainer: 24 },
+  ],
   carbsPerServing: 40,
   sodiumPerServing: 200,
   caffeinePerServing: 0,
@@ -2232,6 +2302,12 @@ const CURATED_PRODUCTS: Product[] = [
   reviewCount: 138,
   price: 49.99,                    // 24 Pack on The Feed
   servingsPerContainer: 24,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "24-pack",
+  variants: [
+    { id: "3-pack", label: "3 Pack", price: 7.99, servingsPerContainer: 3 },
+    { id: "24-pack", label: "24 Pack", price: 49.99, servingsPerContainer: 24 },
+  ],
   caloriesPerServing: 95,
   servingSize: "1 Bottle",
   isHydrogel: false,
@@ -4606,6 +4682,13 @@ const CURATED_PRODUCTS: Product[] = [
   reviewCount: 55,
   price: 108,                      // 12-Pack on The Feed
   servingsPerContainer: 12,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "12-pack",
+  variants: [
+    { id: "3-pack", label: "3-Pack", price: 36, servingsPerContainer: 3 },
+    { id: "6-pack", label: "6-Pack", price: 60, servingsPerContainer: 6 },
+    { id: "12-pack", label: "12-Pack", price: 108, servingsPerContainer: 12 },
+  ],
   carbsPerServing: 0,
   sodiumPerServing: 3,
   caffeinePerServing: 0,
@@ -4697,6 +4780,12 @@ const CURATED_PRODUCTS: Product[] = [
   reviewCount: 112,
   price: 37.99,                    // Box of 12 on The Feed
   servingsPerContainer: 12,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "box-of-12",
+  variants: [
+    { id: "6-pack", label: "6 Pack", price: 20.94, servingsPerContainer: 6 },
+    { id: "box-of-12", label: "Box of 12", price: 37.99, servingsPerContainer: 12 },
+  ],
   carbsPerServing: 30,
   sodiumPerServing: 100,
   caffeinePerServing: 0,
@@ -4958,6 +5047,13 @@ const CURATED_PRODUCTS: Product[] = [
   reviewCount: 68,
   price: 86.6,                     // 20 Packets on The Feed
   servingsPerContainer: 20,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "20-packets",
+  variants: [
+    { id: "3-packets", label: "3 Packets", price: 12.99, servingsPerContainer: 3 },
+    { id: "10-packets", label: "10 Packets", price: 43.3, servingsPerContainer: 10 },
+    { id: "20-packets", label: "20 Packets", price: 86.6, servingsPerContainer: 20 },
+  ],
   carbsPerServing: 60,
   sodiumPerServing: 40,
   caffeinePerServing: 0,
@@ -5157,6 +5253,12 @@ const CURATED_PRODUCTS: Product[] = [
   reviewCount: 20,
   price: 109.99,                   // Box of 30 on The Feed
   servingsPerContainer: 30,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "box-of-30",
+  variants: [
+    { id: "pack-of-12", label: "Pack of 12", price: 42.49, servingsPerContainer: 12 },
+    { id: "box-of-30", label: "Box of 30", price: 109.99, servingsPerContainer: 30 },
+  ],
   glucoseFructoseRatio: "2:1",
   carbsPerServing: 30,
   sodiumPerServing: 0,
@@ -5572,6 +5674,13 @@ const CURATED_PRODUCTS: Product[] = [
   reviewCount: 55,
   price: 60,                       // 30 Serving on The Feed
   servingsPerContainer: 30,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "30-serving",
+  variants: [
+    { id: "1-serving-pouch", label: "1 Serving Pouch", price: 2, servingsPerContainer: 1 },
+    { id: "pack-of-8", label: "Pack of 8", price: 15, servingsPerContainer: 8 },
+    { id: "30-serving", label: "30 Serving", price: 60, servingsPerContainer: 30 },
+  ],
   carbsPerServing: 5,
   sodiumPerServing: 15,
   caffeinePerServing: 0,
@@ -5758,6 +5867,14 @@ const CURATED_PRODUCTS: Product[] = [
   reviewCount: 153,
   price: 39.99,                    // 20 Serving on The Feed
   servingsPerContainer: 20,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "20-serving",
+  variants: [
+    { id: "bag-of-5-sticks", label: "Bag of 5 Sticks", price: 12.99, servingsPerContainer: 5 },
+    { id: "bag-of-10-sticks", label: "Bag of 10 Sticks", price: 24.99, servingsPerContainer: 10 },
+    { id: "20-serving", label: "20 Serving", price: 39.99, servingsPerContainer: 20 },
+    { id: "30-servings", label: "30 Servings", price: 54.99, servingsPerContainer: 30 },
+  ],
   caloriesPerServing: 15,
   servingSize: "1 Scoop",
   isHydrogel: false,
@@ -6052,6 +6169,12 @@ imageEmoji: "💧",
   reviewCount: 31,
   price: 31.95,                    // Box of 15 on The Feed
   servingsPerContainer: 15,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "box-of-15",
+  variants: [
+    { id: "box-of-15", label: "Box of 15", price: 31.95, servingsPerContainer: 15 },
+    { id: "30-servings", label: "30 Servings", price: 39.95, servingsPerContainer: 30 },
+  ],
   carbsPerServing: 3.6,
   sodiumPerServing: 210,
   proteinPerServing: 1.4,
@@ -6131,6 +6254,13 @@ imageEmoji: "💧",
   reviewCount: 679,
   price: 52,                       // Box of 12 on The Feed
   servingsPerContainer: 12,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "box-of-12",
+  variants: [
+    { id: "box-of-6", label: "Box of 6", price: 27, servingsPerContainer: 6 },
+    { id: "box-of-12", label: "Box of 12", price: 52, servingsPerContainer: 12 },
+    { id: "box-of-48", label: "Box of 48", price: 208, servingsPerContainer: 48 },
+  ],
   carbsPerServing: 25,
   sodiumPerServing: 22,
   caffeinePerServing: 100,
@@ -6239,6 +6369,13 @@ imageEmoji: "💧",
   reviewCount: 286,
   price: 61.99,                    // 15 Gels on The Feed
   servingsPerContainer: 15,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "15-gels",
+  variants: [
+    { id: "3-gels", label: "3 Gels", price: 12.49, servingsPerContainer: 3 },
+    { id: "15-gels", label: "15 Gels", price: 61.99, servingsPerContainer: 15 },
+    { id: "30-gels", label: "30 Gels", price: 104.99, servingsPerContainer: 30 },
+  ],
   carbsPerServing: 30,
   sodiumPerServing: 0,
   caffeinePerServing: 100,
@@ -6356,6 +6493,12 @@ imageEmoji: "💧",
   reviewCount: 207,
   price: 27.99,                    // Box of 12 on The Feed
   servingsPerContainer: 12,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "box-of-12",
+  variants: [
+    { id: "6-pack", label: "6 Pack", price: 13.5, servingsPerContainer: 6 },
+    { id: "box-of-12", label: "Box of 12", price: 27.99, servingsPerContainer: 12 },
+  ],
   carbsPerServing: 23,
   sodiumPerServing: 310,
   caffeinePerServing: 0,
@@ -6463,6 +6606,13 @@ imageEmoji: "💧",
   reviewCount: 10,
   price: 22.97,                    // 30 Servings on The Feed
   servingsPerContainer: 30,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "30-servings",
+  variants: [
+    { id: "30-servings", label: "30 Servings", price: 22.97, servingsPerContainer: 30 },
+    { id: "60-servings", label: "60 Servings", price: 43.18, servingsPerContainer: 60 },
+    { id: "90-servings", label: "90 Servings", price: 64.56, servingsPerContainer: 90 },
+  ],
   caloriesPerServing: 20,
   servingSize: "2 Soft Gels",
   isHydrogel: false,

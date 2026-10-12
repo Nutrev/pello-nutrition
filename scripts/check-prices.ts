@@ -16,6 +16,10 @@
 //
 // Ratings and review counts are read from the same page's structured data (aggregateRating). With
 // --apply, changed ones are updated too (rating, reviewCount and The Feed's review count in sources).
+//
+// Products sold in several sizes list them as variants labelled with The Feed's size name ("Box of 6",
+// "60 Servings"). Each size's price is checked the same way, and with --apply clear-cut changes are
+// updated in the variant rows.
 import { readFileSync, writeFileSync } from "fs";
 import { PRODUCTS } from "../lib/products";
 
@@ -35,12 +39,23 @@ type Result =
   | { kind: "no-label"; s: Stored }
   | { kind: "error"; s: Stored; message: string };
 
+// A product's own id line. Size rows (`{ id: "box-of-12", … }`) share a line with their brace, so
+// they don't match, and a product's block runs to the next product's id.
+const PRODUCT_ID = /^[ \t]*id: "([^"]+)"/gm;
+function productBlock(src: string, id: string): { start: number; end: number } {
+  const m = new RegExp(`^[ \\t]*id: "${id}",`, "m").exec(src);
+  if (!m) throw new Error(`Couldn't find ${id}`);
+  const after = m.index + m[0].length;
+  const rest = src.slice(after).search(/^[ \t]*id: "/m);
+  return { start: m.index, end: rest === -1 ? src.length : after + rest };
+}
+
 // The stored price and size note of each product, read from the data files' source.
 function storedPrices(): Map<string, Stored> {
   const out = new Map<string, Stored>();
   for (const file of FILES) {
     const src = readFileSync(file, "utf8");
-    const ids = Array.from(src.matchAll(/\bid: "([^"]+)"/g));
+    const ids = Array.from(src.matchAll(PRODUCT_ID));
     ids.forEach((m, i) => {
       const block = src.slice(m.index!, ids[i + 1]?.index ?? src.length);
       const pm = block.match(/\n\s*price: ([\d.]+),\s*(?:\/\/\s*(.+?) on The Feed)?\s*\n/);
@@ -53,7 +68,11 @@ function storedPrices(): Map<string, Stored> {
 // Rating and review count from each page's structured data, by URL, filled in as pages are read.
 const liveRatings = new Map<string, { rating: number; count: number }>();
 
-async function offersFor(url: string): Promise<Offer[] | "gone"> {
+// Each page is read once; size options are checked from the same offers.
+const offerCache = new Map<string, Promise<Offer[] | "gone">>();
+const offersFor = (url: string) => offerCache.get(url) ?? offerCache.set(url, readOffers(url)).get(url)!;
+
+async function readOffers(url: string): Promise<Offer[] | "gone"> {
   const res = await fetch(url, { headers: { "User-Agent": UA }, signal: AbortSignal.timeout(20000) });
   if (res.status === 404) return "gone";
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -116,6 +135,35 @@ async function check(s: Stored, url: string): Promise<Result> {
   }
 }
 
+interface VariantChange { id: string; file: string; variantId: string; label: string; from: number; to: number }
+
+// Size options (variants labelled with a size The Feed lists) whose price changed: only when every
+// in-stock flavour of that size has the same new price.
+async function variantChanges(id: string, file: string, url: string): Promise<VariantChange[]> {
+  const p = PRODUCTS.find((x) => x.id === id);
+  if (!p?.variants?.length) return [];
+  const offers = await offersFor(url).catch(() => "gone" as const);
+  if (offers === "gone") return [];
+  return p.variants.flatMap((v) => {
+    const live = offers.filter((o) => o.inStock && o.variant.split(" / ").map(norm).includes(norm(v.label)));
+    const prices = Array.from(new Set(live.map((o) => o.price)));
+    return prices.length === 1 && prices[0] !== v.price ? [{ id, file, variantId: v.id, label: v.label, from: v.price, to: prices[0] }] : [];
+  });
+}
+
+function applyVariants(changes: VariantChange[]) {
+  const byFile = new Map<string, string>();
+  for (const c of changes) {
+    const src = byFile.get(c.file) ?? readFileSync(c.file, "utf8");
+    const { start, end } = productBlock(src, c.id);
+    const block = src.slice(start, end);
+    const updated = block.replace(new RegExp(`(\\{ id: "${c.variantId}", label: "[^"]*", price: )${c.from.toString().replace(".", "\\.")}(,)`), `$1${c.to}$2`);
+    if (updated === block) throw new Error(`Couldn't find the ${c.label} row for ${c.id}`);
+    byFile.set(c.file, src.slice(0, start) + updated + src.slice(end));
+  }
+  byFile.forEach((src, file) => writeFileSync(file, src));
+}
+
 interface RatingChange { id: string; file: string; from: { rating: number; count: number }; to: { rating: number; count: number } }
 
 // Updates rating, reviewCount and The Feed's review count in each product's block.
@@ -123,9 +171,7 @@ function applyRatings(changes: RatingChange[]) {
   const byFile = new Map<string, string>();
   for (const c of changes) {
     const src = byFile.get(c.file) ?? readFileSync(c.file, "utf8");
-    const start = src.indexOf(`id: "${c.id}"`);
-    const next = src.indexOf('id: "', start + 5);
-    const end = next === -1 ? src.length : next;
+    const { start, end } = productBlock(src, c.id);
     const block = src.slice(start, end);
     const updated = block
       .replace(/(\n\s*rating: )[\d.]+(,)/, `$1${c.to.rating}$2`)
@@ -141,9 +187,7 @@ function apply(changes: { s: Stored; price: number }[]) {
   const byFile = new Map<string, string>();
   for (const { s, price } of changes) {
     const src = byFile.get(s.file) ?? readFileSync(s.file, "utf8");
-    const start = src.indexOf(`id: "${s.id}"`);
-    const next = src.indexOf('id: "', start + 5);
-    const end = next === -1 ? src.length : next;
+    const { start, end } = productBlock(src, s.id);
     const block = src.slice(start, end);
     const updated = block.replace(new RegExp(`(\\n\\s*price: )${s.price.toString().replace(".", "\\.")}(,)`), `$1${price}$2`);
     if (updated === block) throw new Error(`Couldn't find the price line for ${s.id}`);
@@ -211,7 +255,8 @@ async function main() {
   const ratingChanges: RatingChange[] = jobs.flatMap(({ s, url }) => {
     const live = liveRatings.get(url);
     const p = PRODUCTS.find((x) => x.id === s.id);
-    if (!live || !p || p.variants?.length) return [];
+    // Variants with their own ratings (e.g. different strengths) are checked by hand.
+    if (!live || !p || p.variants?.some((v) => v.reviewCount != null)) return [];
     const from = { rating: p.reviewCount > 0 ? p.rating : 0, count: p.reviewCount };
     return from.rating === live.rating && from.count === live.count ? [] : [{ id: s.id, file: s.file, from, to: live }];
   }).sort((a, b) => a.id.localeCompare(b.id));
@@ -219,6 +264,12 @@ async function main() {
   if (!ratingChanges.length) say("None.");
   ratingChanges.forEach((c) => say(`- **${name(c.id)}** (\`${c.id}\`): ${c.from.rating}/5 from ${c.from.count} → ${c.to.rating}/5 from ${c.to.count}`));
   if (doApply && ratingChanges.length) applyRatings(ratingChanges);
+
+  const sizeChanges = (await Promise.all(jobs.map(({ s, url }) => variantChanges(s.id, s.file, url)))).flat().sort((a, b) => a.id.localeCompare(b.id));
+  say(`\n## Size option price changed (${sizeChanges.length})${doApply ? ": updated" : ""}`);
+  if (!sizeChanges.length) say("None.");
+  sizeChanges.forEach((c) => say(`- **${name(c.id)}** (\`${c.id}\`, ${c.label}): ${$(c.from)} → ${$(c.to)}`));
+  if (doApply && sizeChanges.length) applyVariants(sizeChanges);
 
   const toApply = [...changed, ...(includeSingle ? single : [])];
   if (doApply && toApply.length) {

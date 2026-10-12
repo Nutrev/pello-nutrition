@@ -182,6 +182,12 @@ export const THE_FEED_PRODUCTS: Product[] = [
     reviewCount: 250,
     price: 44.99,      // Box of 12 on The Feed
     servingsPerContainer: 12,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "box-of-12",
+    variants: [
+      { id: "box-of-12", label: "Box of 12", price: 44.99, servingsPerContainer: 12 },
+      { id: "box-of-24", label: "Box of 24", price: 79.99, servingsPerContainer: 24 },
+    ],
     carbsPerServing: 40,
     sodiumPerServing: 0,
     proteinPerServing: 0,
@@ -221,6 +227,12 @@ export const THE_FEED_PRODUCTS: Product[] = [
     reviewCount: 322,
     price: 59.49,      // 10 Gels on The Feed
     servingsPerContainer: 10,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "10-gels",
+    variants: [
+      { id: "3-gels", label: "3 Gels", price: 19.99, servingsPerContainer: 3 },
+      { id: "10-gels", label: "10 Gels", price: 59.49, servingsPerContainer: 10 },
+    ],
     carbsPerServing: 90,
     sodiumPerServing: 0,
     caffeinePerServing: 0,
@@ -332,6 +344,12 @@ export const THE_FEED_PRODUCTS: Product[] = [
     reviewCount: 238,
     price: 47.49,      // Box of 12 on The Feed
     servingsPerContainer: 12,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "box-of-12",
+    variants: [
+      { id: "box-of-6", label: "Box of 6", price: 23.99, servingsPerContainer: 6 },
+      { id: "box-of-12", label: "Box of 12", price: 47.49, servingsPerContainer: 12 },
+    ],
     carbsPerServing: 40,
     sodiumPerServing: 200,
     proteinPerServing: 0,
@@ -668,6 +686,12 @@ export const THE_FEED_PRODUCTS: Product[] = [
     reviewCount: 68,
     price: 44.99,      // Box of 12 on The Feed
     servingsPerContainer: 12,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "box-of-12",
+    variants: [
+      { id: "4-pack", label: "4 Pack", price: 15.99, servingsPerContainer: 4 },
+      { id: "box-of-12", label: "Box of 12", price: 44.99, servingsPerContainer: 12 },
+    ],
     carbsPerServing: 50,
     sodiumPerServing: 0,
     caffeinePerServing: 0,
@@ -927,6 +951,12 @@ export const THE_FEED_PRODUCTS: Product[] = [
     reviewCount: 6,
     price: 59.99,      // 12 Pack on The Feed
     servingsPerContainer: 12,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "12-pack",
+    variants: [
+      { id: "6-pack", label: "6 Pack", price: 31.99, servingsPerContainer: 6 },
+      { id: "12-pack", label: "12 Pack", price: 59.99, servingsPerContainer: 12 },
+    ],
     carbsPerServing: 25,
     sodiumPerServing: 50,
     proteinPerServing: 0,
@@ -1108,6 +1138,12 @@ export const THE_FEED_PRODUCTS: Product[] = [
     reviewCount: 29,
     price: 49.99,      // Box of 12 on The Feed
     servingsPerContainer: 12,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "box-of-12",
+    variants: [
+      { id: "6-pack", label: "6 Pack", price: 27.99, servingsPerContainer: 6 },
+      { id: "box-of-12", label: "Box of 12", price: 49.99, servingsPerContainer: 12 },
+    ],
     carbsPerServing: 45,
     sodiumPerServing: 200,
     proteinPerServing: 0,
@@ -1292,6 +1328,12 @@ export const THE_FEED_PRODUCTS: Product[] = [
     reviewCount: 13,
     price: 21.49,      // Box of 12 on The Feed
     servingsPerContainer: 12,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "box-of-12",
+    variants: [
+      { id: "box-of-12", label: "Box of 12", price: 21.49, servingsPerContainer: 12 },
+      { id: "box-of-24", label: "Box of 24", price: 39.99, servingsPerContainer: 24 },
+    ],
     carbsPerServing: 20,
     sodiumPerServing: 10,
     caffeinePerServing: 20,
@@ -1957,6 +1999,12 @@ export const THE_FEED_PRODUCTS: Product[] = [
     reviewCount: 42,
     price: 49.99,      // Box of 18 on The Feed
     servingsPerContainer: 18,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "box-of-18",
+    variants: [
+      { id: "box-of-18", label: "Box of 18", price: 49.99, servingsPerContainer: 18 },
+      { id: "box-of-24", label: "Box of 24", price: 71.76, servingsPerContainer: 24 },
+    ],
     carbsPerServing: 22,
     sodiumPerServing: 120,
     proteinPerServing: 0.2,
@@ -2286,6 +2334,12 @@ export const THE_FEED_PRODUCTS: Product[] = [
     reviewCount: 100,
     price: 69.95,      // 28 Servings on The Feed
     servingsPerContainer: 28,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "28-servings",
+    variants: [
+      { id: "box-of-12", label: "Box of 12", price: 39.95, servingsPerContainer: 12 },
+      { id: "28-servings", label: "28 Servings", price: 69.95, servingsPerContainer: 28 },
+    ],
     carbsPerServing: 21,
     sodiumPerServing: 170,
     caffeinePerServing: 0,
@@ -2435,6 +2489,12 @@ export const THE_FEED_PRODUCTS: Product[] = [
     reviewCount: 150,
     price: 58.99,      // 16 Servings on The Feed
     servingsPerContainer: 16,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "16-servings",
+    variants: [
+      { id: "box-of-6", label: "Box of 6", price: 25.5, servingsPerContainer: 6 },
+      { id: "16-servings", label: "16 Servings", price: 58.99, servingsPerContainer: 16 },
+    ],
     carbsPerServing: 90,
     sodiumPerServing: 680,
     caffeinePerServing: 0,
@@ -2922,6 +2982,12 @@ export const THE_FEED_PRODUCTS: Product[] = [
     reviewCount: 21,
     price: 55.99,      // Box of 10 on The Feed
     servingsPerContainer: 10,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "box-of-10",
+    variants: [
+      { id: "box-of-5", label: "Box of 5", price: 28.99, servingsPerContainer: 5 },
+      { id: "box-of-10", label: "Box of 10", price: 55.99, servingsPerContainer: 10 },
+    ],
     carbsPerServing: 90,
     sodiumPerServing: 201,
     caffeinePerServing: 0,
@@ -3035,6 +3101,12 @@ export const THE_FEED_PRODUCTS: Product[] = [
     reviewCount: 34,
     price: 37.95,      // 25 Servings on The Feed
     servingsPerContainer: 25,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "25-servings",
+    variants: [
+      { id: "box-of-10", label: "Box of 10", price: 34.95, servingsPerContainer: 10 },
+      { id: "25-servings", label: "25 Servings", price: 37.95, servingsPerContainer: 25 },
+    ],
     carbsPerServing: 25,
     sodiumPerServing: 250,
     proteinPerServing: 0,
@@ -3147,6 +3219,12 @@ export const THE_FEED_PRODUCTS: Product[] = [
     reviewCount: 5,
     price: 48,      // 15 Serving Bag on The Feed
     servingsPerContainer: 15,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "15-serving-bag",
+    variants: [
+      { id: "box-of-12", label: "Box of 12", price: 48, servingsPerContainer: 12 },
+      { id: "15-serving-bag", label: "15 Serving Bag", price: 48, servingsPerContainer: 15 },
+    ],
     carbsPerServing: 60,
     sodiumPerServing: 263,
     caffeinePerServing: 0,
@@ -3184,6 +3262,13 @@ export const THE_FEED_PRODUCTS: Product[] = [
     reviewCount: 20,
     price: 48,      // Box of 12 on The Feed
     servingsPerContainer: 12,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "box-of-12",
+    variants: [
+      { id: "box-of-6", label: "Box of 6", price: 24, servingsPerContainer: 6 },
+      { id: "10-servings", label: "10 Servings", price: 41, servingsPerContainer: 10 },
+      { id: "box-of-12", label: "Box of 12", price: 48, servingsPerContainer: 12 },
+    ],
     carbsPerServing: 55,
     sodiumPerServing: 400,
     caffeinePerServing: 0,
@@ -3222,6 +3307,12 @@ export const THE_FEED_PRODUCTS: Product[] = [
     reviewCount: 6,
     price: 41,      // 10 Servings on The Feed
     servingsPerContainer: 10,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "10-servings",
+    variants: [
+      { id: "box-of-6", label: "Box of 6", price: 24, servingsPerContainer: 6 },
+      { id: "10-servings", label: "10 Servings", price: 41, servingsPerContainer: 10 },
+    ],
     carbsPerServing: 55,
     sodiumPerServing: 850,
     caffeinePerServing: 0,

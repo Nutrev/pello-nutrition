@@ -13,7 +13,7 @@ const FILES = ["lib/products.ts", "lib/products-thefeed.ts", "lib/products-suppl
 const source = new Map<string, { file: string; block: string }>();
 for (const file of FILES) {
   const src = readFileSync(file, "utf8");
-  const ids = Array.from(src.matchAll(/\bid: "([^"]+)"/g));
+  const ids = Array.from(src.matchAll(/^[ \t]*id: "([^"]+)"/gm));
   ids.forEach((m, i) => { if (!source.has(m[1])) source.set(m[1], { file, block: src.slice(m.index!, ids[i + 1]?.index ?? src.length) }); });
 }
 

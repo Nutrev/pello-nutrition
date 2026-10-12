@@ -211,6 +211,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 36,
     price: 19.99,      // 30 Servings on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "30-servings",
+    variants: [
+      { id: "30-servings", label: "30 Servings", price: 19.99, servingsPerContainer: 30 },
+      { id: "60-servings", label: "60 Servings", price: 34.99, servingsPerContainer: 60 },
+    ],
     caffeinePerServing: 0,
     servingSize: "1 Scoop",
     isBatchTested: true,
@@ -402,6 +408,14 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 17,
     price: 24.99,      // 30 Servings on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "30-servings",
+    variants: [
+      { id: "bag-of-5-sticks", label: "Bag of 5 Sticks", price: 11.99, servingsPerContainer: 5 },
+      { id: "30-servings", label: "30 Servings", price: 24.99, servingsPerContainer: 30 },
+      { id: "60-servings", label: "60 Servings", price: 33.99, servingsPerContainer: 60 },
+      { id: "100-servings", label: "100 Servings", price: 54.99, servingsPerContainer: 100 },
+    ],
     carbsPerServing: 1,
     caffeinePerServing: 0,
     servingSize: "1 Scoop",
@@ -434,6 +448,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 17,
     price: 49.99,      // 30 Servings on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "30-servings",
+    variants: [
+      { id: "30-servings", label: "30 Servings", price: 49.99, servingsPerContainer: 30 },
+      { id: "60-servings", label: "60 servings", price: 89.99, servingsPerContainer: 60 },
+    ],
     caloriesPerServing: 5,
     caffeinePerServing: 0,
     servingSize: "1 Scoop",
@@ -632,6 +652,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 9,
     price: 22.99,      // Box of 15 on The Feed
     servingsPerContainer: 15,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "box-of-15",
+    variants: [
+      { id: "box-of-15", label: "Box of 15", price: 22.99, servingsPerContainer: 15 },
+      { id: "45-servings", label: "45 Servings", price: 24.99, servingsPerContainer: 45 },
+    ],
     caffeinePerServing: 0,
     servingSize: "1 packet",
     isBatchTested: true,
@@ -1223,6 +1249,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 3,
     price: 48.99,      // 90 Servings on The Feed
     servingsPerContainer: 90,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "90-servings",
+    variants: [
+      { id: "90-servings", label: "90 Servings", price: 48.99, servingsPerContainer: 90 },
+      { id: "180-servings", label: "180 Servings", price: 69.99, servingsPerContainer: 180 },
+    ],
     caffeinePerServing: 0,
     servingSize: "1 scoop",
     isBatchTested: true,
@@ -1518,6 +1550,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 0,
     price: 37,      // Bag of 30 on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "bag-of-30",
+    variants: [
+      { id: "bag-of-30", label: "Bag of 30", price: 37, servingsPerContainer: 30 },
+      { id: "90-servings", label: "90 Servings", price: 43, servingsPerContainer: 90 },
+    ],
     caffeinePerServing: 0,
     servingSize: "1 Scoop",
     isBatchTested: true,
@@ -1578,6 +1616,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 0,
     price: 32.99,      // Bag of 30 on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "bag-of-30",
+    variants: [
+      { id: "bag-of-30", label: "Bag of 30", price: 32.99, servingsPerContainer: 30 },
+      { id: "180-servings", label: "180 Servings", price: 65.99, servingsPerContainer: 180 },
+    ],
     caffeinePerServing: 0,
     servingSize: "1 packet",
     isBatchTested: false,
@@ -1951,6 +1995,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 63,
     price: 49.99,      // 20 Serving on The Feed
     servingsPerContainer: 20,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "20-serving",
+    variants: [
+      { id: "pack-of-12", label: "Pack of 12", price: 34.99, servingsPerContainer: 12 },
+      { id: "20-serving", label: "20 Serving", price: 49.99, servingsPerContainer: 20 },
+    ],
     carbsPerServing: 0,
     proteinPerServing: 0,
     caloriesPerServing: 35,
@@ -2644,6 +2694,13 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 16,
     price: 26.99,      // 15 Servings on The Feed
     servingsPerContainer: 15,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "15-servings",
+    variants: [
+      { id: "3-servings", label: "3 Servings", price: 5.49, servingsPerContainer: 3 },
+      { id: "12-servings", label: "12 Servings", price: 21.99, servingsPerContainer: 12 },
+      { id: "15-servings", label: "15 Servings", price: 26.99, servingsPerContainer: 15 },
+    ],
     carbsPerServing: 4,
     proteinPerServing: 0,
     caloriesPerServing: 12,
@@ -2834,6 +2891,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 11,
     price: 24.99,      // Pack of 5 on The Feed
     servingsPerContainer: 5,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "pack-of-5",
+    variants: [
+      { id: "3-pack", label: "3-Pack", price: 16.47, servingsPerContainer: 3 },
+      { id: "pack-of-5", label: "Pack of 5", price: 24.99, servingsPerContainer: 5 },
+    ],
     caffeinePerServing: 50,
     servingSize: "1 Pouch",
     isBatchTested: false,
@@ -3338,6 +3401,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 9,
     price: 56.99,      // 30 Servings on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "30-servings",
+    variants: [
+      { id: "bag-of-4", label: "Bag of 4", price: 12.89, servingsPerContainer: 4 },
+      { id: "30-servings", label: "30 Servings", price: 56.99, servingsPerContainer: 30 },
+    ],
     caloriesPerServing: 10,
     caffeinePerServing: 150,
     servingSize: "1 scoop (15g)",
@@ -3646,6 +3715,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 7,
     price: 52,      // 120 Servings on The Feed
     servingsPerContainer: 120,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "120-servings",
+    variants: [
+      { id: "60-servings", label: "60 Servings", price: 29, servingsPerContainer: 60 },
+      { id: "120-servings", label: "120 Servings", price: 52, servingsPerContainer: 120 },
+    ],
     caffeinePerServing: 0,
     servingSize: "1 capsule",
     isBatchTested: false,
@@ -4782,6 +4857,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 2,
     price: 55.89,      // 21 Servings on The Feed
     servingsPerContainer: 21,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "21-servings",
+    variants: [
+      { id: "7-servings", label: "7 Servings", price: 23.29, servingsPerContainer: 7 },
+      { id: "21-servings", label: "21 Servings", price: 55.89, servingsPerContainer: 21 },
+    ],
     caffeinePerServing: 0,
     servingSize: "4 Capsules",
     isBatchTested: false,
@@ -5631,6 +5712,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 0,
     price: 77.5,      // 20 Servings on The Feed
     servingsPerContainer: 20,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "20-servings",
+    variants: [
+      { id: "20-servings", label: "20 Servings", price: 77.5, servingsPerContainer: 20 },
+      { id: "60-servings", label: "60 Servings", price: 210, servingsPerContainer: 60 },
+    ],
     caffeinePerServing: 0,
     servingSize: "5 mL (1 tsp.)",
     isBatchTested: false,
@@ -5860,6 +5947,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 166,
     price: 49.99,      // 30 Servings on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "30-servings",
+    variants: [
+      { id: "30-servings", label: "30 Servings", price: 49.99, servingsPerContainer: 30 },
+      { id: "90-servings", label: "90 Servings", price: 150, servingsPerContainer: 90 },
+    ],
     caffeinePerServing: 0,
     isBatchTested: true,
     isVegan: true,
@@ -6048,6 +6141,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 103,
     price: 29.95,      // Box of 10 on The Feed
     servingsPerContainer: 10,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "box-of-10",
+    variants: [
+      { id: "box-of-10", label: "Box of 10", price: 29.95, servingsPerContainer: 10 },
+      { id: "30-servings", label: "30 Servings", price: 51.99, servingsPerContainer: 30 },
+    ],
     proteinPerServing: 15,
     caloriesPerServing: 60,
     sodiumPerServing: 60,
@@ -6162,6 +6261,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 64,
     price: 159,      // 30 Servings on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "30-servings",
+    variants: [
+      { id: "9-servings", label: "9 Servings", price: 47.2, servingsPerContainer: 9 },
+      { id: "30-servings", label: "30 Servings", price: 159, servingsPerContainer: 30 },
+    ],
     caffeinePerServing: 0,
     servingSize: "1 Packet",
     isBatchTested: false,
@@ -6682,6 +6787,13 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 26,
     price: 34.99,      // 30 Servings on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "30-servings",
+    variants: [
+      { id: "bag-of-5-sticks", label: "Bag of 5 Sticks", price: 9.99, servingsPerContainer: 5 },
+      { id: "30-servings", label: "30 Servings", price: 34.99, servingsPerContainer: 30 },
+      { id: "60-servings", label: "60 Servings", price: 53.99, servingsPerContainer: 60 },
+    ],
     proteinPerServing: 9,
     caloriesPerServing: 35,
     sodiumPerServing: 30,
@@ -6719,6 +6831,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 26,
     price: 20,      // Box of 10 on The Feed
     servingsPerContainer: 10,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "box-of-10",
+    variants: [
+      { id: "box-of-10", label: "Box of 10", price: 20, servingsPerContainer: 10 },
+      { id: "30-servings", label: "30 Servings", price: 49.95, servingsPerContainer: 30 },
+    ],
     proteinPerServing: 14,
     caloriesPerServing: 50,
     sodiumPerServing: 75,
@@ -7495,6 +7613,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 10,
     price: 33.99,      // 20 Servings on The Feed
     servingsPerContainer: 20,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "20-servings",
+    variants: [
+      { id: "15-pack", label: "15 Pack", price: 29.99, servingsPerContainer: 15 },
+      { id: "20-servings", label: "20 Servings", price: 33.99, servingsPerContainer: 20 },
+    ],
     carbsPerServing: 9,
     proteinPerServing: 0,
     caloriesPerServing: 40,
@@ -8823,6 +8947,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 3,
     price: 29.95,      // 20 Servings on The Feed
     servingsPerContainer: 20,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "20-servings",
+    variants: [
+      { id: "10-pack", label: "10 Pack", price: 17.95, servingsPerContainer: 10 },
+      { id: "20-servings", label: "20 Servings", price: 29.95, servingsPerContainer: 20 },
+    ],
     carbsPerServing: 1,
     proteinPerServing: 1,
     caloriesPerServing: 10,
@@ -9249,6 +9379,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 0,
     price: 100,      // 30 Pack on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "30-pack",
+    variants: [
+      { id: "10-pack", label: "10 Pack", price: 34, servingsPerContainer: 10 },
+      { id: "30-pack", label: "30 Pack", price: 100, servingsPerContainer: 30 },
+    ],
     carbsPerServing: 23,
     proteinPerServing: 1,
     caloriesPerServing: 100,
@@ -9383,6 +9519,13 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 0,
     price: 38.5,      // 60 Servings on The Feed
     servingsPerContainer: 60,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "60-servings",
+    variants: [
+      { id: "60-servings", label: "60 Servings", price: 38.5, servingsPerContainer: 60 },
+      { id: "180-servings", label: "180 Servings", price: 103, servingsPerContainer: 180 },
+      { id: "360-servings", label: "360 Servings", price: 184, servingsPerContainer: 360 },
+    ],
     caffeinePerServing: 0,
     servingSize: "1 Capsule",
     isBatchTested: false,
@@ -10597,6 +10740,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 0,
     price: 19.95,      // 60 Servings on The Feed
     servingsPerContainer: 60,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "60-servings",
+    variants: [
+      { id: "60-servings", label: "60 Servings", price: 19.95, servingsPerContainer: 60 },
+      { id: "120-servings", label: "120 Servings", price: 35.95, servingsPerContainer: 120 },
+    ],
     carbsPerServing: 2,
     caloriesPerServing: 5,
     sodiumPerServing: 10,
@@ -11231,6 +11380,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 5,
     price: 39.95,      // 30 Servings on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "30-servings",
+    variants: [
+      { id: "30-servings", label: "30 Servings", price: 39.95, servingsPerContainer: 30 },
+      { id: "90-servings", label: "90 Servings", price: 79.99, servingsPerContainer: 90 },
+    ],
     caffeinePerServing: 0,
     servingSize: "1 capsule",
     isBatchTested: false,
@@ -11678,6 +11833,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 0,
     price: 24.99,      // 15 Servings on The Feed
     servingsPerContainer: 15,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "15-servings",
+    variants: [
+      { id: "15-servings", label: "15 Servings", price: 24.99, servingsPerContainer: 15 },
+      { id: "90-servings", label: "90 Servings", price: 69.99, servingsPerContainer: 90 },
+    ],
     caffeinePerServing: 0,
     servingSize: "2 Capsules",
     isBatchTested: false,
@@ -11822,6 +11983,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 25,
     price: 39.99,      // 30 Servings on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "30-servings",
+    variants: [
+      { id: "10-pack", label: "10 Pack", price: 19.99, servingsPerContainer: 10 },
+      { id: "30-servings", label: "30 Servings", price: 39.99, servingsPerContainer: 30 },
+    ],
     carbsPerServing: 9,
     caloriesPerServing: 40,
     caffeinePerServing: 0,
@@ -12370,6 +12537,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 88,
     price: 20,      // 60 Servings on The Feed
     servingsPerContainer: 60,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "60-servings",
+    variants: [
+      { id: "60-servings", label: "60 Servings", price: 20, servingsPerContainer: 60 },
+      { id: "180-servings", label: "180 Servings", price: 41, servingsPerContainer: 180 },
+    ],
     caffeinePerServing: 0,
     servingSize: "1 Capsule",
     isBatchTested: true,
@@ -12598,6 +12771,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 10,
     price: 20.5,      // 90 Servings on The Feed
     servingsPerContainer: 90,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "90-servings",
+    variants: [
+      { id: "90-servings", label: "90 Servings", price: 20.5, servingsPerContainer: 90 },
+      { id: "180-servings", label: "180 Servings", price: 34.5, servingsPerContainer: 180 },
+    ],
     caffeinePerServing: 0,
     servingSize: "1 Capsule",
     isBatchTested: false,
@@ -12816,6 +12995,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 8,
     price: 19.5,      // 90 Servings on The Feed
     servingsPerContainer: 90,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "90-servings",
+    variants: [
+      { id: "90-servings", label: "90 Servings", price: 19.5, servingsPerContainer: 90 },
+      { id: "180-servings", label: "180 Servings", price: 36.5, servingsPerContainer: 180 },
+    ],
     caffeinePerServing: 0,
     servingSize: "3 Capsules",
     isBatchTested: false,
@@ -14308,6 +14493,13 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 29,
     price: 29.99,      // Box of 14 on The Feed
     servingsPerContainer: 14,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "box-of-14",
+    variants: [
+      { id: "3-servings", label: "3 Servings", price: 8.99, servingsPerContainer: 3 },
+      { id: "box-of-14", label: "Box of 14", price: 29.99, servingsPerContainer: 14 },
+      { id: "box-of-30", label: "Box of 30", price: 59.99, servingsPerContainer: 30 },
+    ],
     carbsPerServing: 15,
     caloriesPerServing: 50,
     caffeinePerServing: 0,
@@ -14659,6 +14851,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 12,
     price: 29.99,      // Box of 14 on The Feed
     servingsPerContainer: 14,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "box-of-14",
+    variants: [
+      { id: "3-servings", label: "3 Servings", price: 8.99, servingsPerContainer: 3 },
+      { id: "box-of-14", label: "Box of 14", price: 29.99, servingsPerContainer: 14 },
+    ],
     carbsPerServing: 16,
     caloriesPerServing: 50,
     caffeinePerServing: 0,
@@ -14860,6 +15058,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 10,
     price: 19.5,      // 60 Servings on The Feed
     servingsPerContainer: 60,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "60-servings",
+    variants: [
+      { id: "60-servings", label: "60 Servings", price: 19.5, servingsPerContainer: 60 },
+      { id: "120-servings", label: "120 Servings", price: 35.5, servingsPerContainer: 120 },
+    ],
     caffeinePerServing: 0,
     servingSize: "1 capsule",
     isBatchTested: false,
@@ -15794,6 +15998,13 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 5,
     price: 22.5,      // 90 Servings on The Feed
     servingsPerContainer: 90,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "90-servings",
+    variants: [
+      { id: "90-servings", label: "90 Servings", price: 22.5, servingsPerContainer: 90 },
+      { id: "162-servings", label: "162 Servings", price: 33, servingsPerContainer: 162 },
+      { id: "250-servings", label: "250 Servings", price: 54.5, servingsPerContainer: 250 },
+    ],
     caffeinePerServing: 0,
     servingSize: "1 Capsule",
     isBatchTested: false,
@@ -17055,6 +17266,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 0,
     price: 10.58,      // 60 Servings on The Feed
     servingsPerContainer: 60,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "60-servings",
+    variants: [
+      { id: "60-servings", label: "60 Servings", price: 10.58, servingsPerContainer: 60 },
+      { id: "120-servings", label: "120 Servings", price: 18.66, servingsPerContainer: 120 },
+    ],
     carbsPerServing: 2,
     caloriesPerServing: 10,
     caffeinePerServing: 0,
@@ -17591,6 +17808,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 84,
     price: 41,      // 90 Servings on The Feed
     servingsPerContainer: 90,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "90-servings",
+    variants: [
+      { id: "90-servings", label: "90 Servings", price: 41, servingsPerContainer: 90 },
+      { id: "180-servings", label: "180 Servings", price: 80, servingsPerContainer: 180 },
+    ],
     caffeinePerServing: 0,
     servingSize: "1 Gel Cap",
     isBatchTested: true,
@@ -17623,6 +17846,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 49,
     price: 55,      // 60 Servings on The Feed
     servingsPerContainer: 60,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "60-servings",
+    variants: [
+      { id: "60-servings", label: "60 Servings", price: 55, servingsPerContainer: 60 },
+      { id: "180-servings", label: "180 Servings", price: 165, servingsPerContainer: 180 },
+    ],
     caloriesPerServing: 15,
     caffeinePerServing: 0,
     servingSize: "1 Soft Gel Capsule",
@@ -18112,6 +18341,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 5,
     price: 26.31,      // 30 Servings on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "30-servings",
+    variants: [
+      { id: "30-servings", label: "30 Servings", price: 26.31, servingsPerContainer: 30 },
+      { id: "60-servings", label: "60 Servings", price: 47.56, servingsPerContainer: 60 },
+    ],
     caloriesPerServing: 20,
     caffeinePerServing: 0,
     servingSize: "2 Soft Gels",
@@ -18289,6 +18524,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 1,
     price: 33.11,      // 30 Servings on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "30-servings",
+    variants: [
+      { id: "30-servings", label: "30 Servings", price: 33.11, servingsPerContainer: 30 },
+      { id: "60-servings", label: "60 Servings", price: 62.86, servingsPerContainer: 60 },
+    ],
     caloriesPerServing: 20,
     caffeinePerServing: 0,
     servingSize: "2 Soft Gels",
@@ -18452,6 +18693,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 0,
     price: 17.81,      // 45 Servings on The Feed
     servingsPerContainer: 45,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "45-servings",
+    variants: [
+      { id: "45-servings", label: "45 Servings", price: 17.81, servingsPerContainer: 45 },
+      { id: "90-servings", label: "90 Servings", price: 31.41, servingsPerContainer: 90 },
+    ],
     caloriesPerServing: 10,
     caffeinePerServing: 0,
     servingSize: "2 Soft Gels",
@@ -18956,6 +19203,13 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 6,
     price: 27.99,      // Box of 15 on The Feed
     servingsPerContainer: 15,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "box-of-15",
+    variants: [
+      { id: "bag-of-6", label: "Bag of 6", price: 12.89, servingsPerContainer: 6 },
+      { id: "box-of-15", label: "Box of 15", price: 27.99, servingsPerContainer: 15 },
+      { id: "45-servings", label: "45 Servings", price: 50.99, servingsPerContainer: 45 },
+    ],
     carbsPerServing: 0,
     caloriesPerServing: 10,
     caffeinePerServing: 0,
@@ -19283,6 +19537,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 0,
     price: 43,      // 45 Servings on The Feed
     servingsPerContainer: 45,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "45-servings",
+    variants: [
+      { id: "45-servings", label: "45 Servings", price: 43, servingsPerContainer: 45 },
+      { id: "90-servings", label: "90 Servings", price: 78.5, servingsPerContainer: 90 },
+    ],
     caffeinePerServing: 0,
     servingSize: "2 capsules",
     isBatchTested: false,
