@@ -18,8 +18,8 @@
 // --apply, changed ones are updated too (rating, reviewCount and The Feed's review count in sources).
 //
 // Products sold in several sizes list them as variants labelled with The Feed's size name ("Box of 6",
-// "60 Servings"). Each size's price is checked the same way, and with --apply clear-cut changes are
-// updated in the variant rows.
+// "60 Servings"), or with feedSize when the label differs ("3 mg / 60 Servings"). Each size's price
+// is checked the same way, and with --apply clear-cut changes are updated in the variant rows.
 import { readFileSync, writeFileSync } from "fs";
 import { PRODUCTS } from "../lib/products";
 
@@ -114,12 +114,15 @@ async function check(s: Stored, url: string): Promise<Result> {
     if (offers === "gone") return { kind: "error", s, message: "product page not found (404)" };
     // Match the stored size against the variant's options ("Citrus / Box of 12" has "Box of 12").
     const want = s.size.split(" / ").map(norm);
-    let sized = offers.filter((o) => { const opts = o.variant.split(" / ").map(norm); return want.every((w) => opts.includes(w)); });
+    // Clearance stock ("Best By 12/2026") is a short-term price, not the product's price.
+    const regular = offers.filter((o) => !/best by/i.test(o.variant));
+    if (!regular.length) return { kind: "no-size", s, sizes: ["only clearance (Best By) stock listed"] };
+    let sized = regular.filter((o) => { const opts = o.variant.split(" / ").map(norm); return want.every((w) => opts.includes(w)); });
     // Sold in one size: the variants then name only the flavour (or nothing), so no option has a
     // number in it. That one size is taken to be the stored size, and flagged for a person to check.
-    const onlySize = !sized.length && /\d/.test(s.size) && (offers.every((o) => !/\d/.test(o.variant)) || new Set(offers.map((o) => o.variant)).size === 1);
-    if (onlySize) sized = offers;
-    if (!sized.length) return { kind: "no-size", s, sizes: Array.from(new Set(offers.map((o) => o.variant))).filter(Boolean) };
+    const onlySize = !sized.length && /\d/.test(s.size) && (regular.every((o) => !/\d/.test(o.variant)) || new Set(regular.map((o) => o.variant)).size === 1);
+    if (onlySize) sized = regular;
+    if (!sized.length) return { kind: "no-size", s, sizes: Array.from(new Set(regular.map((o) => o.variant))).filter(Boolean) };
     const live = sized.filter((o) => o.inStock);
     if (!live.length) {
       const prices = Array.from(new Set(sized.map((o) => o.price)));
@@ -145,7 +148,8 @@ async function variantChanges(id: string, file: string, url: string): Promise<Va
   const offers = await offersFor(url).catch(() => "gone" as const);
   if (offers === "gone") return [];
   return p.variants.flatMap((v) => {
-    const live = offers.filter((o) => o.inStock && o.variant.split(" / ").map(norm).includes(norm(v.label)));
+    const want = (v.feedSize ?? v.label).split(" / ").map(norm);
+    const live = offers.filter((o) => { const opts = o.variant.split(" / ").map(norm); return o.inStock && !/best by/i.test(o.variant) && want.every((w) => opts.includes(w)); });
     const prices = Array.from(new Set(live.map((o) => o.price)));
     return prices.length === 1 && prices[0] !== v.price ? [{ id, file, variantId: v.id, label: v.label, from: v.price, to: prices[0] }] : [];
   });

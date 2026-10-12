@@ -68,7 +68,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logoDomain: "ucan.co",
     category: "Energy Gel",
     rating: 4.5,
-    reviewCount: 271,
+    reviewCount: 276,
     price: 35,      // Box of 12 on The Feed
     servingsPerContainer: 12,
     carbsPerServing: 19,
@@ -93,7 +93,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Caffeine (select flavors)", dose: "75mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 271, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 276, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -102,8 +102,8 @@ export const THE_FEED_PRODUCTS: Product[] = [
     brand: "Fixx Nutrition",
     logoDomain: "fixxnutrition.com",
     category: "Energy Gel",
-    rating: 4.4,
-    reviewCount: 79,
+    rating: 4.3,
+    reviewCount: 80,
     price: 25.99,      // Box of 8 on The Feed
     servingsPerContainer: 8,
     carbsPerServing: 29.3,
@@ -130,7 +130,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Caffeine (select flavors)", dose: "50mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 79, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 80, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -140,7 +140,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logoDomain: "bareperformancenutrition.com",
     category: "Energy Gel",
     rating: 4.7,
-    reviewCount: 226,
+    reviewCount: 229,
     price: 29.99,      // Box of 10 on The Feed
     servingsPerContainer: 10,
     carbsPerServing: 24,
@@ -167,7 +167,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Caffeine (select flavors)", dose: "75mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 226, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 229, unit: "reviews", credibility: "medium" },
       { name: "NSF Certified for Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
     ],
   },
@@ -179,7 +179,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logo: "/logo/enervit.png",
     category: "Energy Gel",
     rating: 4.9,
-    reviewCount: 250,
+    reviewCount: 260,
     price: 44.99,      // Box of 12 on The Feed
     servingsPerContainer: 12,
     // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
@@ -212,7 +212,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Caffeine (select flavors)", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 250, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 260, unit: "reviews", credibility: "medium" },
       { name: "Cologne List", icon: "✅", count: 1, unit: "certification", credibility: "high" },
     ],
   },
@@ -266,7 +266,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logoDomain: "untapped.cc",
     category: "Energy Gel",
     rating: 4.8,
-    reviewCount: 420,
+    reviewCount: 425,
     price: 29.95,      // 16 Serving on The Feed
     servingsPerContainer: 16,
     // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
@@ -299,7 +299,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Caffeine (select flavors)", dose: "27mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 420, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 425, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -310,7 +310,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logo: "/logo/sis.png",
     category: "Energy Gel",
     rating: 4.5,
-    reviewCount: 542,
+    reviewCount: 556,
     price: 16.99,      // Box of 6 on The Feed
     servingsPerContainer: 6,
     carbsPerServing: 22,
@@ -336,7 +336,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Caffeine", dose: "150mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 542, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 556, unit: "reviews", credibility: "medium" },
       { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
     ],
   },
@@ -348,7 +348,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logo: "/logo/amacx.png",
     category: "Energy Gel",
     rating: 4.7,
-    reviewCount: 238,
+    reviewCount: 228,
     price: 47.49,      // Box of 12 on The Feed
     servingsPerContainer: 12,
     // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
@@ -381,7 +381,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Caffeine (select flavors)", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 238, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 228, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -392,9 +392,16 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logo: "/logo/sis.png",
     category: "Energy Gel",
     rating: 4.7,
-    reviewCount: 324,
-    price: 17.49,      // Box of 6 on The Feed
+    reviewCount: 335,
+    price: 19.99,      // Box of 6 on The Feed
     servingsPerContainer: 6,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "box-of-6",
+    variants: [
+      { id: "box-of-6", label: "Box of 6", price: 19.99, servingsPerContainer: 6 },
+      { id: "box-of-18", label: "Box of 18", price: 68.97, servingsPerContainer: 18 },
+      { id: "box-of-30", label: "Box of 30", price: 98.99, servingsPerContainer: 30 },
+    ],
     carbsPerServing: 40,
     sodiumPerServing: 12,
     caffeinePerServing: 200,
@@ -419,7 +426,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Caffeine", dose: "200mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 324, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 335, unit: "reviews", credibility: "medium" },
       { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
     ],
   },
@@ -431,8 +438,8 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logo: "/logo/sis.png",
     category: "Energy Gel",
     rating: 4.6,
-    reviewCount: 589,
-    price: 6.99,      // Box of 6 on The Feed
+    reviewCount: 597,
+    price: 13.99,      // Box of 6 on The Feed
     servingsPerContainer: 6,
     carbsPerServing: 22,
     sodiumPerServing: 100,
@@ -458,7 +465,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Sodium", dose: "100mg", verdict: "proven", note: "Moderate sodium; salty or heavy sweaters will still need electrolytes alongside it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 589, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 597, unit: "reviews", credibility: "medium" },
       { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
     ],
   },
@@ -469,7 +476,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logoDomain: "humagel.com",
     category: "Energy Gel",
     rating: 4.8,
-    reviewCount: 419,
+    reviewCount: 427,
     price: 57.95,      // Box of 24 on The Feed
     servingsPerContainer: 24,
     carbsPerServing: 24,
@@ -496,7 +503,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Caffeine (select flavors)", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 419, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 427, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -543,9 +550,15 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logo: "/logo/precision.png",
     category: "Energy Gel",
     rating: 4.8,
-    reviewCount: 32,
+    reviewCount: 33,
     price: 97.99,      // 5 Pouches on The Feed
     servingsPerContainer: 50,
+    // Sizes on The Feed (price per size, 2026-10-12); 10 servings per pouch.
+    defaultVariantId: "5-pouches",
+    variants: [
+      { id: "1-pouch", label: "1 Pouch", price: 21.99, servingsPerContainer: 10 },
+      { id: "5-pouches", label: "5 Pouches", price: 97.99, servingsPerContainer: 50 },
+    ],
     carbsPerServing: 30,
     sodiumPerServing: 0,
     caffeinePerServing: 0,
@@ -568,7 +581,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Maltodextrin + Fructose", dose: "30g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 32, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 33, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -578,8 +591,8 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logoDomain: "santamadre.com",
     logo: "/logo/Santamadre.png",
     category: "Energy Gel",
-    rating: 4.2,
-    reviewCount: 34,
+    rating: 4.1,
+    reviewCount: 36,
     price: 59.99,      // Box of 12 on The Feed
     servingsPerContainer: 12,
     carbsPerServing: 30,
@@ -605,7 +618,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Sodium", dose: "100mg", verdict: "proven", note: "Moderate sodium; salty or heavy sweaters will still need electrolytes alongside it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 34, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 36, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -615,7 +628,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logoDomain: "humagel.com",
     category: "Energy Gel",
     rating: 4.8,
-    reviewCount: 312,
+    reviewCount: 317,
     price: 62.95,      // Box of 24 on The Feed
     servingsPerContainer: 24,
     carbsPerServing: 24,
@@ -642,7 +655,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Caffeine (select flavors)", dose: "25mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 312, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 317, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -651,8 +664,8 @@ export const THE_FEED_PRODUCTS: Product[] = [
     brand: "Huma",
     logoDomain: "humagel.com",
     category: "Energy Gel",
-    rating: 4.2,
-    reviewCount: 30,
+    rating: 4.3,
+    reviewCount: 31,
     price: 69.99,      // Box of 20 on The Feed
     servingsPerContainer: 20,
     carbsPerServing: 40,
@@ -679,7 +692,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Sodium", dose: "245mg", verdict: "proven", note: "A meaningful dose of sodium to help replace sweat losses in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 30, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 31, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -690,7 +703,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logo: "/logo/Styrkr.png",
     category: "Energy Gel",
     rating: 4.5,
-    reviewCount: 68,
+    reviewCount: 70,
     price: 44.99,      // Box of 12 on The Feed
     servingsPerContainer: 12,
     // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
@@ -722,7 +735,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Maltodextrin + Fructose", dose: "50g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 68, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 70, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -732,7 +745,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logoDomain: "myspringenergy.com",
     category: "Energy Gel",
     rating: 4.5,
-    reviewCount: 235,
+    reviewCount: 236,
     price: 82,      // Bag of 20 on The Feed
     servingsPerContainer: 20,
     carbsPerServing: 28,
@@ -758,7 +771,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Maltodextrin + Sucrose", dose: "28g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 235, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 236, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -769,7 +782,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logo: "/logo/gu.png",
     category: "Energy Gel",
     rating: 4.6,
-    reviewCount: 128,
+    reviewCount: 131,
     price: 30,      // Box of 12 on The Feed
     servingsPerContainer: 12,
     carbsPerServing: 24,
@@ -796,7 +809,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Caffeine (select flavors)", dose: "40mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 128, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 131, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -806,7 +819,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logoDomain: "powerbar.com",
     category: "Energy Gel",
     rating: 4.6,
-    reviewCount: 78,
+    reviewCount: 79,
     price: 89.99,      // Box of 24 on The Feed
     servingsPerContainer: 24,
     carbsPerServing: 25,
@@ -833,7 +846,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Caffeine (select flavors)", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 78, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 79, unit: "reviews", credibility: "medium" },
       { name: "Cologne List", icon: "✅", count: 1, unit: "certification", credibility: "high" },
     ],
   },
@@ -882,7 +895,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logoDomain: "hammernutrition.com",
     category: "Energy Gel",
     rating: 4.8,
-    reviewCount: 252,
+    reviewCount: 255,
     price: 34.95,      // Box of 24 on The Feed
     servingsPerContainer: 24,
     // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
@@ -915,7 +928,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Caffeine (select flavors)", dose: "50mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 252, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 255, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -925,8 +938,8 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logoDomain: "pillarperformance.com",
     logo: "/logo/pillar.png",
     category: "Energy Gel",
-    rating: 5,
-    reviewCount: 17,
+    rating: 4.9,
+    reviewCount: 18,
     price: 32.3,      // Box of 12 on The Feed
     servingsPerContainer: 12,
     carbsPerServing: 30,
@@ -951,7 +964,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Sodium", dose: "83mg", verdict: "proven", note: "A small amount of sodium; plan separate electrolytes for long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 17, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 18, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -961,8 +974,8 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logoDomain: "thefeed.com",
     logo: "/logo/thefeedlab.png",
     category: "Energy Gel",
-    rating: 5,
-    reviewCount: 6,
+    rating: 4.9,
+    reviewCount: 8,
     price: 59.99,      // 12 Pack on The Feed
     servingsPerContainer: 12,
     // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
@@ -993,7 +1006,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Sodium", dose: "50mg", verdict: "proven", note: "A small amount of sodium; plan separate electrolytes for long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 6, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 8, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -1004,7 +1017,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     category: "Energy Gel",
     rating: 5,
     reviewCount: 9,
-    price: 62,      // Bag of 10 on The Feed
+    price: 65,      // Bag of 10 on The Feed
     servingsPerContainer: 10,
     carbsPerServing: 50,
     sodiumPerServing: 240,
@@ -1039,9 +1052,9 @@ export const THE_FEED_PRODUCTS: Product[] = [
     brand: "Beet It",
     logoDomain: "beet-it.com",
     category: "Energy Gel",
-    rating: 4.9,
-    reviewCount: 10,
-    price: 49.99,      // Box of 12 on The Feed
+    rating: 4.8,
+    reviewCount: 12,
+    price: 59.99,      // Box of 12 on The Feed
     servingsPerContainer: 12,
     carbsPerServing: 30,
     servingSize: "1 Gel",
@@ -1062,7 +1075,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Dietary Nitrate (beetroot)", dose: "", verdict: "likely", note: "Nitrate can improve efficiency in recreational athletes; benefits are smaller and less consistent in well-trained athletes.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=dietary+nitrate+beetroot+endurance+performance" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 10, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 12, unit: "reviews", credibility: "medium" },
       { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
     ],
   },
@@ -1228,7 +1241,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logoDomain: "naak.com",
     category: "Energy Gel",
     rating: 3.8,
-    reviewCount: 23,
+    reviewCount: 24,
     price: 22.5,      // Box of 6 on The Feed
     servingsPerContainer: 6,
     carbsPerServing: 26,
@@ -1255,7 +1268,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Protein", dose: "5g protein", verdict: "proven", note: "Supports muscle repair; roughly 20–40g after training is the evidence-based target.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=protein+intake+muscle+protein+synthesis+after+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 23, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 24, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -1338,8 +1351,8 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logoDomain: "enervit.com",
     logo: "/logo/enervit.png",
     category: "Energy Gel",
-    rating: 4.5,
-    reviewCount: 13,
+    rating: 4.4,
+    reviewCount: 16,
     price: 21.49,      // Box of 12 on The Feed
     servingsPerContainer: 12,
     // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
@@ -1371,7 +1384,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Caffeine", dose: "20mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 13, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 16, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -1417,7 +1430,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logoDomain: "getlecka.com",
     category: "Energy Gel",
     rating: 4.7,
-    reviewCount: 36,
+    reviewCount: 38,
     price: 29.95,      // Box of 12 on The Feed
     servingsPerContainer: 12,
     carbsPerServing: 25,
@@ -1443,7 +1456,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Caffeine (select flavors)", dose: "90mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 36, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 38, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -1524,8 +1537,8 @@ export const THE_FEED_PRODUCTS: Product[] = [
     brand: "Spring Energy",
     logoDomain: "myspringenergy.com",
     category: "Energy Gel",
-    rating: 4.3,
-    reviewCount: 18,
+    rating: 4.2,
+    reviewCount: 19,
     price: 81,      // Bag of 20 on The Feed
     servingsPerContainer: 20,
     carbsPerServing: 21,
@@ -1551,7 +1564,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Caffeine (select flavors)", dose: "113mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 18, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 19, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -1674,7 +1687,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logoDomain: "muirenergy.com",
     category: "Energy Gel",
     rating: 4.5,
-    reviewCount: 166,
+    reviewCount: 169,
     price: 32,      // Box of 10 on The Feed
     servingsPerContainer: 10,
     carbsPerServing: 12,
@@ -1701,7 +1714,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Caffeine (select flavors)", dose: "90mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 166, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 169, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -1788,7 +1801,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logoDomain: "myspringenergy.com",
     category: "Energy Gel",
     rating: 4.8,
-    reviewCount: 46,
+    reviewCount: 47,
     price: 82,      // Bag of 20 on The Feed
     servingsPerContainer: 20,
     carbsPerServing: 20,
@@ -1816,7 +1829,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Caffeine", dose: "30mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 46, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 47, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -2163,8 +2176,8 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logoDomain: "styrkr.com",
     logo: "/logo/Styrkr.png",
     category: "Energy Gel",
-    rating: 4.3,
-    reviewCount: 20,
+    rating: 4.4,
+    reviewCount: 21,
     price: 39.99,      // Box of 12 on The Feed
     servingsPerContainer: 12,
     carbsPerServing: 30,
@@ -2190,7 +2203,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Maltodextrin + Fructose", dose: "30g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 20, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 21, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -2391,6 +2404,12 @@ export const THE_FEED_PRODUCTS: Product[] = [
     reviewCount: 31,
     price: 29.99,      // 30 Servings on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "30-servings",
+    variants: [
+      { id: "box-of-12", label: "Box of 12", price: 33.99, servingsPerContainer: 12 },
+      { id: "30-servings", label: "30 Servings", price: 29.99, servingsPerContainer: 30 },
+    ],
     carbsPerServing: 47.6,
     sodiumPerServing: 460,
     caffeinePerServing: 0,
@@ -2425,7 +2444,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logo: "/logo/thefeedlab.png",
     category: "Carbohydrate Mix",
     rating: 4.7,
-    reviewCount: 404,
+    reviewCount: 412,
     price: 22,      // 30 Servings on The Feed
     servingsPerContainer: 30,
     carbsPerServing: 30,
@@ -2451,7 +2470,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Sodium", dose: "150mg", verdict: "proven", note: "Moderate sodium; salty or heavy sweaters will still need electrolytes alongside it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 404, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 412, unit: "reviews", credibility: "medium" },
       { name: "NSF Certified for Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
     ],
   },
@@ -2463,7 +2482,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logo: "/logo/precision.png",
     category: "Carbohydrate Mix",
     rating: 4.9,
-    reviewCount: 19,
+    reviewCount: 20,
     price: 59.99,      // 1 Bag on The Feed
     servingsPerContainer: 30,
     carbsPerServing: 30,
@@ -2488,7 +2507,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Fructose + Glucose + Maltodextrin", dose: "30g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 19, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 20, unit: "reviews", credibility: "medium" },
       { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
     ],
   },
@@ -2500,7 +2519,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logo: "/logo/tailwind.png",
     category: "Carbohydrate Mix",
     rating: 4.8,
-    reviewCount: 150,
+    reviewCount: 152,
     price: 58.99,      // 16 Servings on The Feed
     servingsPerContainer: 16,
     // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
@@ -2533,7 +2552,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Sodium", dose: "680mg", verdict: "proven", note: "A meaningful dose of sodium to help replace sweat losses in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 150, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 152, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -2546,6 +2565,12 @@ export const THE_FEED_PRODUCTS: Product[] = [
     reviewCount: 87,
     price: 39.5,      // 10 Servings on The Feed
     servingsPerContainer: 10,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "10-servings",
+    variants: [
+      { id: "box-of-6", label: "Box of 6", price: 29.99, servingsPerContainer: 6 },
+      { id: "10-servings", label: "10 Servings", price: 39.5, servingsPerContainer: 10 },
+    ],
     carbsPerServing: 100,
     sodiumPerServing: 1000,
     proteinPerServing: 0,
@@ -2623,7 +2648,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logo: "/logo/victus.png",
     category: "Carbohydrate Mix",
     rating: 4.7,
-    reviewCount: 82,
+    reviewCount: 83,
     price: 49.99,      // 20 Serving on The Feed
     servingsPerContainer: 20,
     carbsPerServing: 45,
@@ -2650,7 +2675,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Sodium", dose: "343mg", verdict: "proven", note: "A meaningful dose of sodium to help replace sweat losses in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 82, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 83, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -2661,7 +2686,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logo: "/logo/maurten.png",
     category: "Carbohydrate Mix",
     rating: 4.9,
-    reviewCount: 82,
+    reviewCount: 83,
     price: 56,      // None on The Feed
     servingsPerContainer: 14,
     carbsPerServing: 80,
@@ -2689,7 +2714,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Caffeine", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 82, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 83, unit: "reviews", credibility: "medium" },
       { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
     ],
   },
@@ -2704,6 +2729,13 @@ export const THE_FEED_PRODUCTS: Product[] = [
     reviewCount: 190,
     price: 30.99,      // 30 Servings on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "30-servings",
+    variants: [
+      { id: "12-single-serving-box", label: "12 Single Serving Box", price: 32.99, servingsPerContainer: 12 },
+      { id: "30-servings", label: "30 Servings", price: 30.99, servingsPerContainer: 30 },
+      { id: "50-servings", label: "50 Servings", price: 42.99, servingsPerContainer: 50 },
+    ],
     carbsPerServing: 50,
     sodiumPerServing: 620,
     proteinPerServing: 0,
@@ -2776,8 +2808,8 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logo: "/logo/Santamadre.png",
     category: "Carbohydrate Mix",
     rating: 4.9,
-    reviewCount: 10,
-    price: 29.99,      // Box of 10 on The Feed
+    reviewCount: 11,
+    price: 49.99,      // Box of 10 on The Feed
     servingsPerContainer: 10,
     carbsPerServing: 100,
     sodiumPerServing: 500,
@@ -2803,7 +2835,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Caffeine (select flavors)", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 10, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 11, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -3412,7 +3444,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logo: "/logo/carbs.png",
     category: "Carbohydrate Mix",
     rating: 4.9,
-    reviewCount: 103,
+    reviewCount: 104,
     price: 36,      // 13 Servings on The Feed
     servingsPerContainer: 13,
     carbsPerServing: 75,
@@ -3438,7 +3470,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Sodium", dose: "500mg", verdict: "proven", note: "A meaningful dose of sodium to help replace sweat losses in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 103, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 104, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -3563,7 +3595,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logo: "/logo/saltstick.png",
     category: "Energy Chew",
     rating: 4.8,
-    reviewCount: 276,
+    reviewCount: 279,
     price: 27.5,      // Box of 10 on The Feed
     servingsPerContainer: 10,
     carbsPerServing: 14,
@@ -3590,7 +3622,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Sodium", dose: "65mg", verdict: "proven", note: "A small amount of sodium; plan separate electrolytes for long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 276, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 279, unit: "reviews", credibility: "medium" },
     ],
   },
 
@@ -3677,7 +3709,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     brand: "Quantum Energy Squares",
     category: "Energy Bar",
     rating: 4.5,
-    reviewCount: 255,
+    reviewCount: 257,
     price: 19.95,      // Box of 8 on The Feed
     servingsPerContainer: 8,
     carbsPerServing: 22,
@@ -3706,7 +3738,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Protein (Pea)", dose: "10g protein", verdict: "proven", note: "Supports muscle repair; roughly 20–40g after training is the evidence-based target.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=protein+intake+muscle+protein+synthesis+after+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 255, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 257, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -3715,8 +3747,8 @@ export const THE_FEED_PRODUCTS: Product[] = [
     brand: "Bare Performance Nutrition",
     logoDomain: "bareperformancenutrition.com",
     category: "Energy Bar",
-    rating: 4.8,
-    reviewCount: 45,
+    rating: 4.9,
+    reviewCount: 48,
     price: 29,      // Box of 12 on The Feed
     servingsPerContainer: 12,
     carbsPerServing: 36,
@@ -3743,7 +3775,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Sodium", dose: "140mg", verdict: "proven", note: "Moderate sodium; salty or heavy sweaters will still need electrolytes alongside it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 45, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 48, unit: "reviews", credibility: "medium" },
       { name: "NSF Certified for Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
     ],
   },
@@ -3755,7 +3787,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logo: "/logo/Styrkr.png",
     category: "Energy Bar",
     rating: 4.7,
-    reviewCount: 107,
+    reviewCount: 108,
     price: 44.99,      // Box of 12 on The Feed
     servingsPerContainer: 12,
     carbsPerServing: 45.8,
@@ -3783,7 +3815,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Protein (Soy Protein, Whole Food)", dose: "15g protein", verdict: "proven", note: "Supports muscle repair; roughly 20–40g after training is the evidence-based target.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=protein+intake+muscle+protein+synthesis+after+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 107, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 108, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -3793,7 +3825,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logoDomain: "powerbar.com",
     category: "Energy Bar",
     rating: 4.6,
-    reviewCount: 121,
+    reviewCount: 126,
     price: 54.99,      // Box of 15 on The Feed
     servingsPerContainer: 15,
     carbsPerServing: 36,
@@ -3821,7 +3853,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Protein (Milk)", dose: "7g protein", verdict: "proven", note: "Supports muscle repair; roughly 20–40g after training is the evidence-based target.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=protein+intake+muscle+protein+synthesis+after+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 121, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 126, unit: "reviews", credibility: "medium" },
       { name: "Cologne List", icon: "✅", count: 1, unit: "certification", credibility: "high" },
     ],
   },
@@ -3833,7 +3865,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logo: "/logo/amacx.png",
     category: "Energy Bar",
     rating: 4.3,
-    reviewCount: 30,
+    reviewCount: 33,
     price: 38.99,      // Box of 12 on The Feed
     servingsPerContainer: 12,
     carbsPerServing: 30,
@@ -3860,7 +3892,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Sodium", dose: "52mg", verdict: "proven", note: "A small amount of sodium; plan separate electrolytes for long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 30, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 33, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -4216,7 +4248,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logoDomain: "eatbobos.com",
     category: "Energy Bar",
     rating: 4.6,
-    reviewCount: 183,
+    reviewCount: 184,
     price: 27.95,      // Box of 12 on The Feed
     servingsPerContainer: 12,
     carbsPerServing: 28,
@@ -4243,7 +4275,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Sodium", dose: "70mg", verdict: "proven", note: "A small amount of sodium; plan separate electrolytes for long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 183, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 184, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -4293,7 +4325,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logo: "/logo/honeystinger.png",
     category: "Energy Bar",
     rating: 4.8,
-    reviewCount: 284,
+    reviewCount: 288,
     price: 19.95,      // Box of 12 on The Feed
     servingsPerContainer: 12,
     carbsPerServing: 21,
@@ -4320,7 +4352,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Sodium", dose: "90mg", verdict: "proven", note: "A small amount of sodium; plan separate electrolytes for long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 284, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 288, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -4331,7 +4363,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logo: "/logo/gu.png",
     category: "Energy Bar",
     rating: 4.6,
-    reviewCount: 294,
+    reviewCount: 296,
     price: 29.5,      // Box of 16 on The Feed
     servingsPerContainer: 16,
     carbsPerServing: 20,
@@ -4357,7 +4389,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Caffeine (select flavors)", dose: "20mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 294, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 296, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -4368,7 +4400,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logo: "/logo/honeystinger.png",
     category: "Energy Bar",
     rating: 4.7,
-    reviewCount: 628,
+    reviewCount: 629,
     price: 15.04,      // Box of 12 on The Feed
     servingsPerContainer: 12,
     carbsPerServing: 19,
@@ -4395,7 +4427,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Sodium", dose: "55mg", verdict: "proven", note: "A small amount of sodium; plan separate electrolytes for long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 628, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 629, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -4405,7 +4437,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logoDomain: "vafels.com",
     category: "Energy Bar",
     rating: 4.8,
-    reviewCount: 70,
+    reviewCount: 71,
     price: 21.99,      // 12 Pack on The Feed
     servingsPerContainer: 12,
     carbsPerServing: 19,
@@ -4432,7 +4464,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Sodium", dose: "55mg", verdict: "proven", note: "A small amount of sodium; plan separate electrolytes for long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 70, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 71, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -4442,7 +4474,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logoDomain: "vafels.com",
     category: "Energy Bar",
     rating: 4.6,
-    reviewCount: 408,
+    reviewCount: 409,
     price: 17.99,      // 6 Pack on The Feed
     servingsPerContainer: 6,
     carbsPerServing: 39,
@@ -4470,7 +4502,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Protein (Whole Food)", dose: "5g protein", verdict: "proven", note: "Supports muscle repair; roughly 20–40g after training is the evidence-based target.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=protein+intake+muscle+protein+synthesis+after+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 408, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 409, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -4483,6 +4515,12 @@ export const THE_FEED_PRODUCTS: Product[] = [
     reviewCount: 191,
     price: 43.95,      // Box of 16 on The Feed
     servingsPerContainer: 16,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "box-of-16",
+    variants: [
+      { id: "box-of-16", label: "Box of 16", price: 43.95, servingsPerContainer: 16 },
+      { id: "3-boxes-48-waffles", label: "3 Boxes (48 Waffles)", price: 110.85, servingsPerContainer: 48 },
+    ],
     carbsPerServing: 20,
     sodiumPerServing: 60,
     caffeinePerServing: 0,
@@ -4667,8 +4705,14 @@ export const THE_FEED_PRODUCTS: Product[] = [
     category: "Energy Bar",
     rating: 4.9,
     reviewCount: 16,
-    price: 9.99,      // Box of 10 on The Feed
+    price: 12.49,      // Box of 10 on The Feed
     servingsPerContainer: 10,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "box-of-10",
+    variants: [
+      { id: "box-of-10", label: "Box of 10", price: 12.49, servingsPerContainer: 10 },
+      { id: "box-of-20", label: "Box of 20", price: 19.95, servingsPerContainer: 20 },
+    ],
     carbsPerServing: 22,
     sodiumPerServing: 54,
     caffeinePerServing: 0,
@@ -4705,10 +4749,16 @@ export const THE_FEED_PRODUCTS: Product[] = [
     brand: "Bicarb",
     logoDomain: "bicarb.shop",
     category: "Bicarb",
-    rating: 4.6,
-    reviewCount: 16,
-    price: 90,      // 10 Pack (15g sachets) on The Feed
+    rating: 4.5,
+    reviewCount: 19,
+    price: 90,      // 15g / 10 Pack on The Feed
     servingsPerContainer: 10,
+    // Sizes on The Feed (price per size, 2026-10-12); 15g sachets; the 19g and 22g sizes aren't included.
+    defaultVariantId: "10-pack",
+    variants: [
+      { id: "5-pack", label: "5 Pack", price: 50, servingsPerContainer: 5, feedSize: "15g / 5 Pack", bicarbPerServingG: 15 },
+      { id: "10-pack", label: "10 Pack", price: 90, servingsPerContainer: 10, feedSize: "15g / 10 Pack", bicarbPerServingG: 15 },
+    ],
     bicarbPerServingG: 15,
     // Carb "matrix" packet label (bicarb30_original_nfs on The Feed): 135 kcal, 34g carbs (19g added sugar),
     // 0g protein; sucrose, maltodextrin, sodium alginate, natural flavors. Its 150mg sodium is the matrix
@@ -4733,7 +4783,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
       { name: "Carbohydrate matrix (sucrose, maltodextrin)", dose: "34g carbs", verdict: "proven", note: "A fast-digesting carbohydrate; useful fuel for long or hard exercise.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=carbohydrate+supplementation+endurance" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 16, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 19, unit: "reviews", credibility: "medium" },
     ],
   },
 ];

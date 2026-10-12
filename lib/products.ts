@@ -37,6 +37,7 @@ export interface ProductVariant {
   servingsPerContainer: number;
   sodiumPerServing?: number;
   bicarbPerServingG?: number;   // grams of sodium bicarbonate in this size (Bicarb products)
+  feedSize?: string;   // The Feed's name for this size when the label differs ("10 Servings" for a 50-chew tub); used by check:prices
   rating?: number;
   reviewCount?: number;
   imageUrl?: string;
@@ -114,7 +115,7 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/amacx.png",
   category: "Energy Gel",
   rating: 4.8,
-  reviewCount: 392,
+  reviewCount: 409,
   price: 35.49,                    // Box of 12 on The Feed
   servingsPerContainer: 12,
   // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
@@ -168,7 +169,7 @@ const CURATED_PRODUCTS: Product[] = [
   ],
 
   sources: [
-    { name: "The Feed", icon: "🛒", count: 392, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 409, unit: "reviews", credibility: "medium" },
   ],
 },// ── ENERGY GEL ──────────────────────────────────────────────
 
@@ -237,9 +238,15 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/sis.png",
   category: "Energy Gel",
   rating: 4.8,
-  reviewCount: 1299,
+  reviewCount: 1323,
   price: 60.99,                    // Box of 18 on The Feed
   servingsPerContainer: 18,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "box-of-18",
+  variants: [
+    { id: "box-of-18", label: "Box of 18", price: 60.99, servingsPerContainer: 18 },
+    { id: "box-of-30", label: "Box of 30", price: 83.99, servingsPerContainer: 30 },
+  ],
   carbsPerServing: 40,
   sodiumPerServing: 200,
   caffeinePerServing: 0,
@@ -276,7 +283,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 1299, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 1323, unit: "reviews", credibility: "medium" },
     { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -289,7 +296,7 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/gu.png",
   category: "Energy Gel",
   rating: 4.8,
-  reviewCount: 997,
+  reviewCount: 1012,
   price: 14.4,                     // Pack of 8 on The Feed
   servingsPerContainer: 8,
   isHydrogel: false,
@@ -328,7 +335,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 997, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 1012, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -340,7 +347,7 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/precision.png",
   category: "Energy Gel",
   rating: 4.8,
-  reviewCount: 654,
+  reviewCount: 674,
   price: 45.99,                    // 15 Gels on The Feed
   servingsPerContainer: 15,
   // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
@@ -378,7 +385,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 654, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 674, unit: "reviews", credibility: "medium" },
     { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -391,9 +398,15 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/honeystinger.png",
   category: "Energy Gel",
   rating: 4.6,
-  reviewCount: 505,
+  reviewCount: 509,
   price: 39.98,                    // Box of 24 on The Feed
   servingsPerContainer: 24,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "box-of-24",
+  variants: [
+    { id: "box-of-12", label: "Box of 12", price: 19.99, servingsPerContainer: 12 },
+    { id: "box-of-24", label: "Box of 24", price: 39.98, servingsPerContainer: 24 },
+  ],
   carbsPerServing: 24,
   sodiumPerServing: 50,
   proteinPerServing: 0,
@@ -436,7 +449,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 505, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 509, unit: "reviews", credibility: "medium" },
     { name: "USDA Organic", icon: "✅", count: 1, unit: "certification", credibility: "high" },
     { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
@@ -452,7 +465,7 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/maurten.png",
   category: "Carbohydrate Mix",
   rating: 4.7,
-  reviewCount: 637,
+  reviewCount: 644,
   price: 51,                       // Drink 320 Box (14 Servings) on The Feed
   servingsPerContainer: 14,
   carbsPerServing: 80,
@@ -496,7 +509,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 637, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 644, unit: "reviews", credibility: "medium" },
     { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -509,9 +522,16 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/tailwind.png",
   category: "Carbohydrate Mix",
   rating: 4.8,
-  reviewCount: 990,
+  reviewCount: 1002,
   price: 42.99,                    // 50 Servings on The Feed
   servingsPerContainer: 50,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "50-servings",
+  variants: [
+    { id: "12-single-serving-box", label: "12 Single Serving Box", price: 32.99, servingsPerContainer: 12 },
+    { id: "30-servings", label: "30 Servings", price: 30.99, servingsPerContainer: 30 },
+    { id: "50-servings", label: "50 Servings", price: 42.99, servingsPerContainer: 50 },
+  ],
   carbsPerServing: 50,
   sodiumPerServing: 620,
   caffeinePerServing: 0,
@@ -555,7 +575,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 990, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 1002, unit: "reviews", credibility: "medium" },
     { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -568,8 +588,8 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/sis.png",
   category: "Carbohydrate Mix",
   rating: 4.6,
-  reviewCount: 162,
-  price: 45.81,                    // Box of 15 on The Feed
+  reviewCount: 168,
+  price: 51.99,                    // Box of 15 on The Feed
   servingsPerContainer: 15,
   carbsPerServing: 80,
   sodiumPerServing: 10,
@@ -600,7 +620,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 162, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 168, unit: "reviews", credibility: "medium" },
     { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },{
@@ -611,9 +631,15 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/sis.png",
   category: "Energy Gel",
   rating: 4.7,
-  reviewCount: 1388,
-  price: 27.64,                    // Box of 18 on The Feed
+  reviewCount: 1405,
+  price: 29.99,                    // Box of 18 on The Feed
   servingsPerContainer: 18,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "box-of-18",
+  variants: [
+    { id: "box-of-18", label: "Box of 18", price: 29.99, servingsPerContainer: 18 },
+    { id: "box-of-30", label: "Box of 30", price: 53.99, servingsPerContainer: 30 },
+  ],
   carbsPerServing: 22,
   sodiumPerServing: 4,
   caffeinePerServing: 0,
@@ -644,7 +670,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 1388, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 1405, unit: "reviews", credibility: "medium" },
     { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -656,7 +682,7 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/victus.png",
   category: "Energy Gel",
   rating: 4.5,
-  reviewCount: 195,
+  reviewCount: 197,
   price: 3.99,                     // Single Serving on The Feed
   servingsPerContainer: 1,
   carbsPerServing: 45,
@@ -701,7 +727,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 195, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 197, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -746,8 +772,8 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "thorne.com",
   logo: "/logo/thorne.png",
   category: "Supplement",
-  rating: 0,
-  reviewCount: 0,
+  rating: 5,
+  reviewCount: 1,
   price: 26,                       // 90 Servings on The Feed
   servingsPerContainer: 90,
   // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
@@ -785,7 +811,7 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/carbs.png",
   category: "Energy Gel",
   rating: 4.7,
-  reviewCount: 932,
+  reviewCount: 934,
   price: 36,                       // Box of 18 on The Feed
   servingsPerContainer: 18,
   carbsPerServing: 50,
@@ -832,7 +858,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 932, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 934, unit: "reviews", credibility: "medium" },
   ],
 },{
   id: "pure-encapsulations-magnesium-glycinate",
@@ -884,7 +910,7 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/skratch.png",
   category: "Carbohydrate Mix",
   rating: 4.9,
-  reviewCount: 1540,
+  reviewCount: 1558,
   price: 23.95,                    // 1lb Bag on The Feed
   servingsPerContainer: 20,
   carbsPerServing: 19,
@@ -936,7 +962,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 1540, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 1558, unit: "reviews", credibility: "medium" },
     { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -949,9 +975,15 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/skratch.png",
   category: "Hydration",
   rating: 4.8,
-  reviewCount: 85,
-  price: 22.36,                    // 30 Serving Bag on The Feed
+  reviewCount: 88,
+  price: 27.95,                    // 30 Serving Bag on The Feed
   servingsPerContainer: 30,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "30-serving-bag",
+  variants: [
+    { id: "box-of-20", label: "Box of 20", price: 29.95, servingsPerContainer: 20 },
+    { id: "30-serving-bag", label: "30 Serving Bag", price: 27.95, servingsPerContainer: 30 },
+  ],
   carbsPerServing: 1,
   sodiumPerServing: 400,
   caffeinePerServing: 0,
@@ -988,7 +1020,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 85, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 88, unit: "reviews", credibility: "medium" },
     { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -1001,7 +1033,7 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/skratch.png",
   category: "Carbohydrate Mix",
   rating: 4.7,
-  reviewCount: 293,
+  reviewCount: 299,
   price: 41.95,                    // 840g - 16 Serving Bag on The Feed
   servingsPerContainer: 16,
   carbsPerServing: 50,
@@ -1040,7 +1072,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 293, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 299, unit: "reviews", credibility: "medium" },
     { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -1055,7 +1087,7 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/skratch.png",
   category: "Energy Chew",
   rating: 4.8,
-  reviewCount: 842,
+  reviewCount: 849,
   price: 26.95,                    // Box of 10 on The Feed
   servingsPerContainer: 10,
   carbsPerServing: 18,
@@ -1100,7 +1132,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 842, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 849, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -1112,7 +1144,7 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/skratch.png",
   category: "Energy Bar",
   rating: 4.8,
-  reviewCount: 426,
+  reviewCount: 428,
   price: 32.95,                    // Box of 12 on The Feed
   servingsPerContainer: 12,
   // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
@@ -1164,7 +1196,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 426, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 428, unit: "reviews", credibility: "medium" },
     { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -1507,7 +1539,7 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "maurten.com",
   logo: "/logo/maurten.png",
   rating: 4.8,
-  reviewCount: 452,
+  reviewCount: 458,
   price: 36,                       // Box of 12 on The Feed
   servingsPerContainer: 12,
   // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
@@ -1552,7 +1584,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 452, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 458, unit: "reviews", credibility: "medium" },
     { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -1565,7 +1597,7 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "maurten.com",
   logo: "/logo/maurten.png",
   rating: 4.9,
-  reviewCount: 493,
+  reviewCount: 502,
   price: 55,                       // Box of 12 on The Feed
   servingsPerContainer: 12,
   // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
@@ -1609,7 +1641,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 493, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 502, unit: "reviews", credibility: "medium" },
     { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -1624,7 +1656,7 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "styrkr.com",
   logo: "/logo/Styrkr.png",
   rating: 4.9,
-  reviewCount: 269,
+  reviewCount: 272,
   price: 39.99,                    // Box of 12 on The Feed
   servingsPerContainer: 12,
   carbsPerServing: 50,
@@ -1663,7 +1695,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 269, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 272, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -1678,7 +1710,7 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/enervit.png",
   logoSize: "lg",
   rating: 4.8,
-  reviewCount: 121,
+  reviewCount: 122,
   price: 44.99,                    // Box of 12 on The Feed
   servingsPerContainer: 12,
   // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
@@ -1722,7 +1754,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 121, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 122, unit: "reviews", credibility: "medium" },
     { name: "Cologne List", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -1789,7 +1821,7 @@ const CURATED_PRODUCTS: Product[] = [
   logoSize: "lg",
   logoDomain: "enervit.com",
   rating: 4.8,
-  reviewCount: 202,
+  reviewCount: 208,
   price: 44.99,                    // Box of 12 on The Feed
   servingsPerContainer: 12,
   // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
@@ -1840,7 +1872,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 202, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 208, unit: "reviews", credibility: "medium" },
     { name: "Cologne List", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -2062,7 +2094,7 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "amacx.com",
   logo: "/logo/amacx.png",
   rating: 4.7,
-  reviewCount: 62,
+  reviewCount: 68,
   price: 47.99,                    // Box of 12 on The Feed
   servingsPerContainer: 12,
   carbsPerServing: 20.2,
@@ -2111,7 +2143,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 62, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 68, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -2123,7 +2155,7 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/amacx.png",
   logoDomain: "amacx.com",
   rating: 4.3,
-  reviewCount: 92,
+  reviewCount: 94,
   price: 74.99,                    // 12 Pack on The Feed
   servingsPerContainer: 12,
   carbsPerServing: 30,
@@ -2160,7 +2192,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 92, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 94, unit: "reviews", credibility: "medium" },
     { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -2495,7 +2527,7 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "thorne.com",
   logo: "/logo/thorne.png",
   rating: 4.8,
-  reviewCount: 202,
+  reviewCount: 206,
   price: 44,                       // 90 Servings on The Feed
   servingsPerContainer: 90,
   // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
@@ -2530,7 +2562,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 202, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 206, unit: "reviews", credibility: "medium" },
     { name: "NSF Certified for Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -2543,7 +2575,7 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "livemomentous.com",
   logo: "/logo/Momentous.png",
   rating: 4.8,
-  reviewCount: 212,
+  reviewCount: 216,
   price: 42.99,                    // 90 Servings on The Feed
   servingsPerContainer: 90,
   // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
@@ -2579,7 +2611,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 212, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 216, unit: "reviews", credibility: "medium" },
     { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
     { name: "NSF Certified for Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
@@ -2594,7 +2626,7 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/thefeedlab.png",
   logoSize: "sm",
   rating: 4.8,
-  reviewCount: 418,
+  reviewCount: 425,
   price: 29,                       // 60 Servings on The Feed
   servingsPerContainer: 60,
   servingSize: "1 Scoop",
@@ -2619,7 +2651,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 418, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 425, unit: "reviews", credibility: "medium" },
     { name: "NSF Certified for Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -2679,7 +2711,7 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/SwissRX.png",
   logoSize: "sm",
   rating: 4.7,
-  reviewCount: 380,
+  reviewCount: 382,
   price: 89,                       // 30 Servings on The Feed
   servingsPerContainer: 30,
   caloriesPerServing: 25,
@@ -2733,7 +2765,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 380, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 382, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -2746,7 +2778,7 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/SwissRX.png",
   logoSize: "sm",
   rating: 4.8,
-  reviewCount: 243,
+  reviewCount: 244,
   price: 85,                       // 14 servings on The Feed
   servingsPerContainer: 14,
   carbsPerServing: 15,
@@ -2901,7 +2933,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 243, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 244, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -3094,8 +3126,8 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Bicarb",
   logoDomain: "flycarb.com",
   logo: "/logo/flycarb.png",
-  rating: 4.2,
-  reviewCount: 91,
+  rating: 4.1,
+  reviewCount: 92,
   price: 39.99,                    // 4 Pack on The Feed
   servingsPerContainer: 4,
   bicarbPerServingG: 12,
@@ -3120,7 +3152,7 @@ const CURATED_PRODUCTS: Product[] = [
   ],
   sources: [
     { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
-    { name: "The Feed", icon: "🛒", count: 91, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 92, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -3132,8 +3164,8 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "santamadre.com",
   logo: "/logo/Santamadre.png",
   logoSize: "sm",
-  rating: 4.1,
-  reviewCount: 23,
+  rating: 4.2,
+  reviewCount: 25,
   price: 34.99,                    // Box of 6 on The Feed
   servingsPerContainer: 6,
   carbsPerServing: 36,
@@ -3199,7 +3231,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 23, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 25, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -3210,8 +3242,8 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "drinknomio.com",
   category: "Supplement",
   logo: "/logo/nomio.png",
-  rating: 4.6,
-  reviewCount: 274,
+  rating: 4.7,
+  reviewCount: 296,
   price: 28,                       // 4 Serving Box (60ml per serving) on The Feed
   servingsPerContainer: 4,
   carbsPerServing: 6.7,
@@ -3237,7 +3269,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 274, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 296, unit: "reviews", credibility: "medium" },
     { name: "Cologne List", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -3251,7 +3283,7 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "drinklmnt.com",
   logo: "/logo/lmnt.png",
   rating: 4.8,
-  reviewCount: 2845,
+  reviewCount: 2871,
   price: 45,                       // Box of 30 on The Feed
   servingsPerContainer: 30,
   carbsPerServing: 1,
@@ -3296,7 +3328,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 2845, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 2871, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -3369,8 +3401,8 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Hydration",
   logoDomain: "thefeed.com",
   logo: "/logo/thefeedlab.png",
-  rating: 4.6,
-  reviewCount: 290,
+  rating: 4.5,
+  reviewCount: 292,
   price: 29,                       // 30 Servings on The Feed
   servingsPerContainer: 30,
   carbsPerServing: 8,
@@ -3415,7 +3447,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 290, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 292, unit: "reviews", credibility: "medium" },
     { name: "NSF Certified for Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -3428,7 +3460,7 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "precisionfuelandhydration.com",
   logo: "/logo/precision.png",
   rating: 4.6,
-  reviewCount: 171,
+  reviewCount: 173,
   price: 31.99,                    // 1 Bag on The Feed
   servingsPerContainer: 15,
   carbsPerServing: 30,
@@ -3473,7 +3505,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 171, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 173, unit: "reviews", credibility: "medium" },
     { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -3549,7 +3581,7 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "precisionfuelandhydration.com",
   logo: "/logo/precision.png",
   rating: 5,
-  reviewCount: 48,
+  reviewCount: 51,
   price: 9.99,                     // 15 Tablets on The Feed
   servingsPerContainer: 15,
   sodiumPerServing: 250,
@@ -3583,7 +3615,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 48, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 51, unit: "reviews", credibility: "medium" },
     { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -3595,7 +3627,7 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Hydration",
   logo: "/logo/mortal.png",
   rating: 4.6,
-  reviewCount: 1475,
+  reviewCount: 1485,
   price: 34.99,                    // 25 Pack on The Feed
   servingsPerContainer: 25,
   carbsPerServing: 1,
@@ -3633,7 +3665,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 1475, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 1485, unit: "reviews", credibility: "medium" },
     { name: "NSF Certified for Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -3647,7 +3679,7 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/skratch.png",
   rating: 4.8,
   reviewCount: 20,
-  price: 35.96,                    // 60 Servings on The Feed
+  price: 44.95,                    // 60 Servings on The Feed
   servingsPerContainer: 60,
   carbsPerServing: 1,
   sodiumPerServing: 400,
@@ -3699,6 +3731,12 @@ const CURATED_PRODUCTS: Product[] = [
   reviewCount: 246,
   price: 40,                       // Box of 10 on The Feed
   servingsPerContainer: 10,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "box-of-10",
+  variants: [
+    { id: "box-of-10", label: "Box of 10", price: 40, servingsPerContainer: 10 },
+    { id: "24-servings", label: "24 Servings", price: 54, servingsPerContainer: 24 },
+  ],
   carbsPerServing: 60,
   sodiumPerServing: 320,
   proteinPerServing: 0,
@@ -3760,9 +3798,16 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "saltstick.com",
   logo: "/logo/saltstick.png",
   rating: 4.8,
-  reviewCount: 594,
+  reviewCount: 600,
   price: 19.95,                    // 60ct Bottle on The Feed
   servingsPerContainer: 30,
+  // Sizes on The Feed (price per size, 2026-10-12); 2 chews per serving.
+  defaultVariantId: "60-chews",
+  variants: [
+    { id: "10-chews", label: "10 chews", price: 3.85, servingsPerContainer: 5, feedSize: "10ct Packet" },
+    { id: "60-chews", label: "60 chews", price: 19.95, servingsPerContainer: 30, feedSize: "60ct Bottle" },
+    { id: "box-of-12-packets-120-chews", label: "Box of 12 packets (120 chews)", price: 42, servingsPerContainer: 60, feedSize: "Box of 12 Packet of 10 Chewable" },
+  ],
   carbsPerServing: 2,
   sodiumPerServing: 100,
   caloriesPerServing: 10,
@@ -3797,7 +3842,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 594, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 600, unit: "reviews", credibility: "medium" },
     { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -3964,7 +4009,7 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "thefeed.com",
   logo: "/logo/thefeedlab.png",
   rating: 4.8,
-  reviewCount: 293,
+  reviewCount: 301,
   price: 44,                       // 20 Servings on The Feed
   servingsPerContainer: 20,
   caffeinePerServing: 0,
@@ -3990,7 +4035,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 293, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 301, unit: "reviews", credibility: "medium" },
     { name: "NSF Certified for Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -4157,8 +4202,8 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Protein",
   logoDomain: "amacx.com",
   logo: "/logo/amacx.png",
-  rating: 4.7,
-  reviewCount: 7,
+  rating: 4.6,
+  reviewCount: 10,
   price: 64.99,                    // 15 Servings on The Feed
   servingsPerContainer: 15,
   carbsPerServing: 30,
@@ -4203,7 +4248,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 7, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 10, unit: "reviews", credibility: "medium" },
     { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -4274,7 +4319,7 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/promix.png",
   logoSize: "sm",
   rating: 4.7,
-  reviewCount: 42,
+  reviewCount: 44,
   price: 68.99,                    // 2.5 lb Bag on The Feed
   servingsPerContainer: 30,
   carbsPerServing: 9,
@@ -4320,7 +4365,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 42, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 44, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -4331,8 +4376,8 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Protein",
   logoDomain: "transparentlabs.com",
   logo: "/logo/transparentlabs.png",
-  rating: 4.8,
-  reviewCount: 26,
+  rating: 4.7,
+  reviewCount: 29,
   price: 64.99,                    // 30 Servings on The Feed
   servingsPerContainer: 30,
   carbsPerServing: 1,
@@ -4371,7 +4416,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 26, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 29, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -4385,8 +4430,8 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "swissrx.com",
   logo: "/logo/SwissRX.png",
   logoSize: "sm",
-  rating: 4.6,
-  reviewCount: 51,
+  rating: 4.7,
+  reviewCount: 52,
   price: 55,                       // 30 Servings on The Feed
   servingsPerContainer: 30,
   servingSize: "1 Capsule",
@@ -4411,7 +4456,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 51, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 52, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -4757,7 +4802,7 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/promix.png",
   rating: 4.7,
   reviewCount: 39,
-  price: 58,                       // Bag of 30 on The Feed
+  price: 59.99,                       // Bag of 30 on The Feed
   servingsPerContainer: 30,
   carbsPerServing: 2,
   caloriesPerServing: 5,
@@ -4805,7 +4850,7 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "amacx.com",
   logo: "/logo/amacx.png",
   rating: 4.5,
-  reviewCount: 112,
+  reviewCount: 113,
   price: 37.99,                    // Box of 12 on The Feed
   servingsPerContainer: 12,
   // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
@@ -4850,7 +4895,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 112, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 113, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -4862,7 +4907,7 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "amacx.com",
   logo: "/logo/amacx.png",
   rating: 4.4,
-  reviewCount: 123,
+  reviewCount: 125,
   price: 44.99,                    // Box of 12 on The Feed
   servingsPerContainer: 12,
   carbsPerServing: 40,
@@ -4901,7 +4946,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 123, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 125, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -4913,7 +4958,7 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "clifbar.com",
   logo: "/logo/clif.png",
   rating: 4.8,
-  reviewCount: 708,
+  reviewCount: 714,
   price: 46.74,                    // Box of 18 on The Feed
   servingsPerContainer: 18,
   carbsPerServing: 21,
@@ -4957,7 +5002,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 708, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 714, unit: "reviews", credibility: "medium" },
     { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
     { name: "USDA Organic", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
@@ -4971,7 +5016,7 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "noogs.com",
   logo: "/logo/noogs.png",
   rating: 4.9,
-  reviewCount: 101,
+  reviewCount: 102,
   price: 36.99,                    // Box of 12 on The Feed
   servingsPerContainer: 12,
   carbsPerServing: 19,
@@ -5016,7 +5061,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 101, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 102, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -5028,9 +5073,16 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "precisionfuelandhydration.com",
   logo: "/logo/precision.png",
   rating: 4.7,
-  reviewCount: 362,
+  reviewCount: 378,
   price: 42.99,                    // 15 Packets on The Feed
   servingsPerContainer: 15,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "15-packets",
+  variants: [
+    { id: "4-packets", label: "4 Packets", price: 11.49, servingsPerContainer: 4 },
+    { id: "15-packets", label: "15 Packets", price: 42.99, servingsPerContainer: 15 },
+    { id: "30-packet-2-bags-of-15", label: "30 Packet (2 bags of 15)", price: 76.99, servingsPerContainer: 30 },
+  ],
   carbsPerServing: 30,
   sodiumPerServing: 0,
   caffeinePerServing: 0,
@@ -5060,7 +5112,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 362, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 378, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -5071,8 +5123,8 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Energy Chew",
   logoDomain: "precisionfuelandhydration.com",
   logo: "/logo/precision.png",
-  rating: 4.6,
-  reviewCount: 68,
+  rating: 4.7,
+  reviewCount: 69,
   price: 86.6,                     // 20 Packets on The Feed
   servingsPerContainer: 20,
   // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
@@ -5111,7 +5163,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 68, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 69, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -5123,9 +5175,16 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "scienceinsport.com",
   logo: "/logo/sis.png",
   rating: 4.8,
-  reviewCount: 233,
-  price: 48.28,                    // Box of 18 on The Feed
+  reviewCount: 235,
+  price: 68.97,                    // Box of 18 on The Feed
   servingsPerContainer: 18,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "box-of-18",
+  variants: [
+    { id: "box-of-6", label: "Box of 6", price: 19.99, servingsPerContainer: 6 },
+    { id: "box-of-18", label: "Box of 18", price: 68.97, servingsPerContainer: 18 },
+    { id: "box-of-30", label: "Box of 30", price: 114.95, servingsPerContainer: 30 },
+  ],
   carbsPerServing: 45,
   sodiumPerServing: 40,
   caffeinePerServing: 0,
@@ -5155,7 +5214,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 233, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 235, unit: "reviews", credibility: "medium" },
     { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -5220,7 +5279,7 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "guenergy.com",
   logo: "/logo/gu.png",
   rating: 4.7,
-  reviewCount: 159,
+  reviewCount: 161,
   price: 30,                       // Box of 12 on The Feed
   servingsPerContainer: 12,
   carbsPerServing: 24,
@@ -5265,7 +5324,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 159, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 161, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -5330,7 +5389,7 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "santamadre.com",
   logo: "/logo/Santamadre.png",
   rating: 4.8,
-  reviewCount: 46,
+  reviewCount: 49,
   price: 29.99,                    // 10 Pack on The Feed
   servingsPerContainer: 10,
   carbsPerServing: 37,
@@ -5375,7 +5434,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 46, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 49, unit: "reviews", credibility: "medium" },
   ],
 },
 // ── SLEEP & RECOVERY ─────────────────────────────────────────
@@ -5759,9 +5818,17 @@ const CURATED_PRODUCTS: Product[] = [
   logoDomain: "pillarperformance.com",
   logo: "/logo/pillar.png",
   rating: 4.7,
-  reviewCount: 1067,
+  reviewCount: 1075,
   price: 49.99,                    // 40 Servings on The Feed
   servingsPerContainer: 40,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "40-servings",
+  variants: [
+    { id: "box-of-15", label: "Box of 15", price: 35.99, servingsPerContainer: 15 },
+    { id: "40-servings", label: "40 Servings", price: 49.99, servingsPerContainer: 40 },
+    { id: "45-servings", label: "45 Servings", price: 49.99, servingsPerContainer: 45 },
+    { id: "80-serving-volume-pack", label: "80 Serving Volume Pack", price: 79.99, servingsPerContainer: 80 },
+  ],
   caloriesPerServing: 10,
   servingSize: "1 Packet",
   isHydrogel: false,
@@ -5801,7 +5868,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 1067, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 1075, unit: "reviews", credibility: "medium" },
     { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -5982,7 +6049,7 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Supplement",
   logo: "/logo/nokt.png",
   rating: 4.5,
-  reviewCount: 30,
+  reviewCount: 31,
   price: 39,                       // 30 Servings on The Feed
   servingsPerContainer: 30,
   caloriesPerServing: 2,
@@ -6058,7 +6125,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 30, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 31, unit: "reviews", credibility: "medium" },
     { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -6179,8 +6246,8 @@ const CURATED_PRODUCTS: Product[] = [
   category: "Hydration",
   logoDomain: "drhydrate.com",
 imageEmoji: "💧",
-  rating: 4.6,
-  reviewCount: 31,
+  rating: 4.7,
+  reviewCount: 32,
   price: 31.95,                    // Box of 15 on The Feed
   servingsPerContainer: 15,
   // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
@@ -6251,7 +6318,7 @@ imageEmoji: "💧",
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 31, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 32, unit: "reviews", credibility: "medium" },
   ],
 },
 // ── ENERGY GELS ───────────────────────────────────────────────
@@ -6265,7 +6332,7 @@ imageEmoji: "💧",
   logo: "/logo/maurten.png",
   imageEmoji: "⚡",
   rating: 4.8,
-  reviewCount: 679,
+  reviewCount: 688,
   price: 52,                       // Box of 12 on The Feed
   servingsPerContainer: 12,
   // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
@@ -6315,7 +6382,7 @@ imageEmoji: "💧",
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 679, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 688, unit: "reviews", credibility: "medium" },
     { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -6328,8 +6395,8 @@ imageEmoji: "💧",
   logoDomain: "guenergy.com",
   logo: "/logo/gu.png",
   imageEmoji: "🔶",
-  rating: 4.7,
-  reviewCount: 456,
+  rating: 4.8,
+  reviewCount: 404,
   price: 64.75,                    // Box of 24 on The Feed
   servingsPerContainer: 24,
   isHydrogel: false,
@@ -6367,7 +6434,7 @@ imageEmoji: "💧",
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 456, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 404, unit: "reviews", credibility: "medium" },
   ],
 },
 
@@ -6380,7 +6447,7 @@ imageEmoji: "💧",
   logo: "/logo/precision.png",
   imageEmoji: "⚡",
   rating: 4.8,
-  reviewCount: 286,
+  reviewCount: 297,
   price: 61.99,                    // 15 Gels on The Feed
   servingsPerContainer: 15,
   // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
@@ -6424,7 +6491,7 @@ imageEmoji: "💧",
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 286, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 297, unit: "reviews", credibility: "medium" },
     { name: "Informed Sport", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -6440,9 +6507,15 @@ imageEmoji: "💧",
   logo: "/logo/clif.png",
   imageEmoji: "🍫",
   rating: 4.7,
-  reviewCount: 807,
+  reviewCount: 808,
   price: 17.5,                     // Box of 12 on The Feed
   servingsPerContainer: 12,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "box-of-12",
+  variants: [
+    { id: "pack-of-6", label: "Pack of 6", price: 10.74, servingsPerContainer: 6 },
+    { id: "box-of-12", label: "Box of 12", price: 17.5, servingsPerContainer: 12 },
+  ],
   carbsPerServing: 44,
   sodiumPerServing: 220,
   proteinPerServing: 11,
@@ -6491,7 +6564,7 @@ imageEmoji: "💧",
     },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 807, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 808, unit: "reviews", credibility: "medium" },
     { name: "Non-GMO Project Verified", icon: "✅", count: 1, unit: "certification", credibility: "high" },
   ],
 },
@@ -6573,6 +6646,12 @@ imageEmoji: "💧",
   reviewCount: 30,
   price: 39.99,                    // 30 Servings on The Feed
   servingsPerContainer: 30,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  defaultVariantId: "30-servings",
+  variants: [
+    { id: "5-servings-travel-pack", label: "5 Servings (Travel Pack)", price: 14.99, servingsPerContainer: 5 },
+    { id: "30-servings", label: "30 Servings", price: 39.99, servingsPerContainer: 30 },
+  ],
   caloriesPerServing: 20,
   servingSize: "2 Softgels",
   isHydrogel: false,

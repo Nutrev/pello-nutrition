@@ -36,7 +36,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logoDomain: "trycreate.co",
     category: "Creatine",
     rating: 4.4,
-    reviewCount: 79,
+    reviewCount: 82,
     price: 49.98,      // 30 Servings on The Feed
     servingsPerContainer: 30,
     carbsPerServing: 7.5,
@@ -59,7 +59,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Creatine Monohydrate", dose: "4.5g", verdict: "proven", note: "The most researched sports supplement: 3–5g a day raises muscle creatine stores, improving repeated high-intensity efforts, strength training and recovery. Creapure® is a well-known high-purity creatine monohydrate.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=creatine+monohydrate+performance" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 79, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 82, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -114,9 +114,15 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logo: "/logo/Momentous.png",
     category: "Creatine",
     rating: 4.5,
-    reviewCount: 75,
-    price: 19.99,      // 50 Servings on The Feed
+    reviewCount: 76,
+    price: 19.99,      // 10 Servings on The Feed
     servingsPerContainer: 50,
+    // Sizes on The Feed (price per size, 2026-10-12); The Feed names them by 5-chew doses ("10 Servings" is 50 chews); the label's serving is 1 chew.
+    defaultVariantId: "50-chews",
+    variants: [
+      { id: "50-chews", label: "50 chews", price: 19.99, servingsPerContainer: 50, feedSize: "10 Servings" },
+      { id: "150-chews", label: "150 chews", price: 49.99, servingsPerContainer: 150, feedSize: "30 Servings" },
+    ],
     carbsPerServing: 1,
     caloriesPerServing: 10,
     caffeinePerServing: 0,
@@ -137,7 +143,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Creatine monohydrate", dose: "1g", verdict: "proven", note: "The most researched sports supplement: 3–5g a day raises muscle creatine stores, improving repeated high-intensity efforts, strength training and recovery. Creapure® is a well-known high-purity creatine monohydrate.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=creatine+monohydrate+performance" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 75, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 76, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -176,9 +182,15 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     brand: "Fluid",
     category: "Creatine",
     rating: 4.9,
-    reviewCount: 40,
+    reviewCount: 41,
     price: 24.95,      // 100 Servings on The Feed
     servingsPerContainer: 100,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "100-servings",
+    variants: [
+      { id: "30ct-bag", label: "30ct Bag", price: 24.95, servingsPerContainer: 30 },
+      { id: "100-servings", label: "100 Servings", price: 24.95, servingsPerContainer: 100 },
+    ],
     carbsPerServing: 0,
     proteinPerServing: 0,
     caloriesPerServing: 0,
@@ -198,7 +210,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Creatine Monohydrate", dose: "5g", verdict: "proven", note: "The most researched sports supplement: 3–5g a day raises muscle creatine stores, improving repeated high-intensity efforts, strength training and recovery. Creapure® is a well-known high-purity creatine monohydrate.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=creatine+monohydrate+performance" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 40, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 41, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -245,8 +257,8 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logoDomain: "thefeed.com",
     logo: "/logo/thefeedlab.png",
     category: "Creatine",
-    rating: 5.0,
-    reviewCount: 34,
+    rating: 5,
+    reviewCount: 41,
     price: 15,      // 60 Servings on The Feed
     servingsPerContainer: 60,
     caffeinePerServing: 0,
@@ -265,7 +277,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Creatine Monohydrate", dose: "5g", verdict: "proven", note: "The most researched sports supplement: 3–5g a day raises muscle creatine stores, improving repeated high-intensity efforts, strength training and recovery. Creapure® is a well-known high-purity creatine monohydrate.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=creatine+monohydrate+performance" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 34, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 41, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -686,8 +698,8 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logo: "/logo/sis.png",
     category: "Creatine",
     rating: 4.6,
-    reviewCount: 9,
-    price: 39.99,      // 133 Servings - Unflavored on The Feed
+    reviewCount: 10,
+    price: 30.99,      // 133 Servings - Unflavored on The Feed
     servingsPerContainer: 133,
     caffeinePerServing: 0,
     servingSize: "1 Scoop (3g)",
@@ -706,7 +718,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Creatine Monohydrate", dose: "3g", verdict: "proven", note: "The most researched sports supplement: 3–5g a day raises muscle creatine stores, improving repeated high-intensity efforts, strength training and recovery. Creapure® is a well-known high-purity creatine monohydrate.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=creatine+monohydrate+performance" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 9, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 10, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -811,6 +823,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 8,
     price: 39.99,      // 30 Servings on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "30-servings",
+    variants: [
+      { id: "7-5-servings", label: "7.5 Servings", price: 11.99, servingsPerContainer: 7.5 },
+      { id: "30-servings", label: "30 Servings", price: 39.99, servingsPerContainer: 30 },
+    ],
     carbsPerServing: 9,
     caloriesPerServing: 29,
     caffeinePerServing: 0,
@@ -967,8 +985,8 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logoDomain: "rawnutrition.com",
     logo: "/logo/rawnutrition.png",
     category: "Creatine",
-    rating: 3.5,
-    reviewCount: 6,
+    rating: 3.7,
+    reviewCount: 7,
     price: 39.99,      // 30 Servings on The Feed
     servingsPerContainer: 30,
     carbsPerServing: 11,
@@ -992,7 +1010,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Creatine", dose: "5g", verdict: "proven", note: "The most researched sports supplement: 3–5g a day raises muscle creatine stores, improving repeated high-intensity efforts, strength training and recovery. Creapure® is a well-known high-purity creatine monohydrate.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=creatine+monohydrate+performance" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 6, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 7, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -1381,7 +1399,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Creatine",
     rating: 5.0,
     reviewCount: 2,
-    price: 59.9,      // 24 Pouches on The Feed
+    price: 59.71,      // 24 Pouches on The Feed
     servingsPerContainer: 24,
     carbsPerServing: 14,
     caloriesPerServing: 60,
@@ -1442,8 +1460,8 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     brand: "Create",
     logoDomain: "trycreate.co",
     category: "Creatine",
-    rating: 5.0,
-    reviewCount: 1,
+    rating: 5,
+    reviewCount: 2,
     price: 49.98,      // Bag of 30 on The Feed
     servingsPerContainer: 30,
     carbsPerServing: 1,
@@ -1470,7 +1488,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "L-Taurine", dose: "1g", verdict: "likely", note: "May reduce exercise-related oxidative stress and modestly improve endurance performance; results are mixed.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=taurine+endurance+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 1, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 2, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -1680,7 +1698,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logo: "/logo/SwissRX.png",
     category: "Performance",
     rating: 4.7,
-    reviewCount: 400,
+    reviewCount: 403,
     price: 69,      // 30 Servings on The Feed
     servingsPerContainer: 30,
     caffeinePerServing: 0,
@@ -1711,7 +1729,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Quercetin Dihydrate", dose: "200mg", verdict: "disputed", note: "Plant antioxidants; studies on performance and recovery show small or inconsistent effects.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=polyphenols+exercise+recovery" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 400, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 403, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -1721,9 +1739,17 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logoDomain: "ketone.com",
     category: "Performance",
     rating: 4.6,
-    reviewCount: 389,
+    reviewCount: 391,
     price: 119.95,      // 24 Pack on The Feed
     servingsPerContainer: 24,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "24-pack",
+    variants: [
+      { id: "6-pack", label: "6 Pack", price: 29.99, servingsPerContainer: 6 },
+      { id: "12-pack", label: "12 Pack", price: 59.99, servingsPerContainer: 12 },
+      { id: "24-pack", label: "24 Pack", price: 119.95, servingsPerContainer: 24 },
+      { id: "48-pack", label: "48 Pack", price: 239.95, servingsPerContainer: 48 },
+    ],
     caloriesPerServing: 70,
     caffeinePerServing: 100,
     servingSize: "1 Bottle",
@@ -1745,7 +1771,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Natural Caffeine (from Green Tea)", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=caffeine+endurance+performance" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 389, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 391, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -1795,7 +1821,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logo: "/logo/first-endurance.png",
     category: "Performance",
     rating: 4.7,
-    reviewCount: 201,
+    reviewCount: 202,
     price: 79.95,      // 30 Servings on The Feed
     servingsPerContainer: 30,
     caffeinePerServing: 0,
@@ -1822,7 +1848,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "ATProTM Matrix (Calcium Pyruvate, Sodium Phosphate, Potassium Phosphate, Ribose)", dose: "500", verdict: "disputed", note: "A sugar involved in making ATP; studies haven't shown consistent performance benefits in healthy athletes.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=D-ribose+exercise+performance" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 201, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 202, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -1833,7 +1859,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logo: "/logo/SwissRX.png",
     category: "Performance",
     rating: 4.5,
-    reviewCount: 196,
+    reviewCount: 200,
     price: 49,      // 30 Servings on The Feed
     servingsPerContainer: 30,
     carbsPerServing: 1,
@@ -1855,7 +1881,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "PeptiStrong Fava Bean (Vicia faba) protein hydrosylate", dose: "2400mg", verdict: "disputed", note: "A plant protein hydrolysate marketed for muscle; evidence is limited to small, industry-funded trials.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=fava+bean+protein+hydrolysate+muscle" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 196, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 200, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -1865,7 +1891,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logoDomain: "rungum.com",
     category: "Performance",
     rating: 4.5,
-    reviewCount: 161,
+    reviewCount: 162,
     price: 22.49,      // Box of 12 on The Feed
     servingsPerContainer: 12,
     carbsPerServing: 1,
@@ -1891,7 +1917,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Taurine", dose: "20mg", verdict: "likely", note: "May reduce exercise-related oxidative stress and modestly improve endurance performance; results are mixed.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=taurine+endurance+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 161, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 162, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -1992,7 +2018,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logo: "/logo/victus.png",
     category: "Performance",
     rating: 4.6,
-    reviewCount: 63,
+    reviewCount: 64,
     price: 49.99,      // 20 Serving on The Feed
     servingsPerContainer: 20,
     // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
@@ -2031,7 +2057,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Caffeine (from guarana extract)", dose: "90mg", verdict: "likely", note: "A natural source of caffeine; count it towards your total caffeine intake. Caffeine at around 3mg per kg of body weight improves endurance.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=caffeine+endurance+performance" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 63, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 64, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -2072,7 +2098,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Performance",
     rating: 4.8,
     reviewCount: 46,
-    price: 27.99,      // Box of 6 on The Feed
+    price: 24,      // Box of 6 on The Feed
     servingsPerContainer: 48,
     carbsPerServing: 1,
     caffeinePerServing: 50,
@@ -2144,7 +2170,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logoDomain: "gnarlynutrition.com",
     category: "Performance",
     rating: 4.6,
-    reviewCount: 42,
+    reviewCount: 43,
     price: 25,      // Box of 10 on The Feed
     servingsPerContainer: 10,
     carbsPerServing: 1,
@@ -2174,7 +2200,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Asian Ginseng root powder", dose: "150mg", verdict: "disputed", note: "Ginseng-type herbs are studied for energy, stress and recovery; results are mixed and many studies are small.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=ginseng+exercise+performance" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 42, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 43, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -2327,8 +2353,8 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     brand: "2before",
     logoDomain: "2before.com",
     category: "Performance",
-    rating: 3.9,
-    reviewCount: 30,
+    rating: 4,
+    reviewCount: 31,
     price: 60.49,      // Box of 20 on The Feed
     servingsPerContainer: 20,
     carbsPerServing: 10.3,
@@ -2354,7 +2380,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Anthocyanins (from Adaptive New Zealand Blackcurrant Juice Concentrate)", dose: "120mg", verdict: "likely", note: "New Zealand blackcurrant has several small trials showing slight improvements in endurance and fat use over 7 days; the effects are modest.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=New+Zealand+blackcurrant+exercise+performance" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 30, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 31, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -2368,6 +2394,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 27,
     price: 3.75,      // 4ct Packet on The Feed
     servingsPerContainer: 4,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "4ct-packet",
+    variants: [
+      { id: "4ct-packet", label: "4ct Packet", price: 3.75, servingsPerContainer: 4 },
+      { id: "100ct-bottle", label: "100ct Bottle", price: 29.95, servingsPerContainer: 100 },
+    ],
     carbsPerServing: 0,
     proteinPerServing: 0,
     caloriesPerServing: 0,
@@ -2450,7 +2482,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logo: "/logo/Momentous.png",
     category: "Performance",
     rating: 4.9,
-    reviewCount: 22,
+    reviewCount: 23,
     price: 24.99,      // 60 Servings on The Feed
     servingsPerContainer: 60,
     caffeinePerServing: 0,
@@ -2470,7 +2502,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "NooGandha Ashwagandha root and leaf extract (standardized to 3.5% withanolides)", dose: "300mg", verdict: "likely", note: "An adaptogenic herb with good evidence for reducing stress and improving sleep at 300–600mg of standardized extract; lower doses are less studied.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=ashwagandha+sleep+stress" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 22, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 23, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -2635,6 +2667,13 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 17,
     price: 32.95,      // Chocolate / 15 Servings on The Feed
     servingsPerContainer: 15,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "15-servings",
+    variants: [
+      { id: "15-servings", label: "15 Servings", price: 32.95, servingsPerContainer: 15 },
+      { id: "30-servings", label: "30 Servings", price: 45.95, servingsPerContainer: 30 },
+      { id: "60-servings", label: "60 Servings", price: 83.95, servingsPerContainer: 60 },
+    ],
     caffeinePerServing: 0,
     servingSize: "1 Scoop",
     isBatchTested: false,
@@ -2922,7 +2961,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Performance",
     rating: 4.6,
     reviewCount: 11,
-    price: 45.09,      // 12 Pack on The Feed
+    price: 54.99,      // 12 Pack on The Feed
     servingsPerContainer: 12,
     caffeinePerServing: 100,
     servingSize: "1 Gum",
@@ -3488,8 +3527,14 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Performance",
     rating: 5.0,
     reviewCount: 8,
-    price: 49.99,      // 30 Serving on The Feed
+    price: 40,      // 30 Serving on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "30-serving",
+    variants: [
+      { id: "30-serving", label: "30 Serving", price: 40, servingsPerContainer: 30 },
+      { id: "90-servings", label: "90 Servings", price: 134.97, servingsPerContainer: 90 },
+    ],
     caffeinePerServing: 0,
     servingSize: "2 capsules",
     isBatchTested: false,
@@ -3677,7 +3722,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logoDomain: "onnit.com",
     category: "Performance",
     rating: 4.6,
-    reviewCount: 7,
+    reviewCount: 8,
     price: 39.99,      // 20 Serving Tub on The Feed
     servingsPerContainer: 20,
     carbsPerServing: 4,
@@ -3704,7 +3749,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Careflow Mango Fruit Powder", dose: "100mg", verdict: "disputed", note: "A plant extract marketed for energy or focus; evidence is limited to a few small, industry-funded trials.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=mangiferin+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 7, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 8, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -3810,7 +3855,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Performance",
     rating: 4.8,
     reviewCount: 6,
-    price: 34.99,      // 20 Servings on The Feed
+    price: 31.32,      // 20 Servings on The Feed
     servingsPerContainer: 20,
     carbsPerServing: 1,
     caloriesPerServing: 5,
@@ -5182,7 +5227,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Performance",
     rating: 1.0,
     reviewCount: 1,
-    price: 37.99,      // 25 Serving Tub on The Feed
+    price: 39.99,      // 25 Serving Tub on The Feed
     servingsPerContainer: 25,
     carbsPerServing: 1,
     proteinPerServing: 0,
@@ -6042,7 +6087,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logo: "/logo/cheribundi.png",
     category: "Recovery",
     rating: 4.9,
-    reviewCount: 147,
+    reviewCount: 150,
     price: 42,      // Box of 12 (2.5oz Packets) on The Feed
     servingsPerContainer: 12,
     carbsPerServing: 23,
@@ -6065,7 +6110,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Potassium", dose: "320mg", verdict: "likely", note: "An electrolyte involved in muscle and nerve function; sweat losses are much smaller than sodium's.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=potassium+electrolyte+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 147, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 150, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -6075,7 +6120,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logoDomain: "hammernutrition.com",
     category: "Recovery",
     rating: 4.7,
-    reviewCount: 143,
+    reviewCount: 144,
     price: 34.95,      // 30 Servings on The Feed
     servingsPerContainer: 30,
     caffeinePerServing: 0,
@@ -6104,7 +6149,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Undenatured Type II Collagen", dose: "5mg", verdict: "likely", note: "Small doses (around 40mg) are studied for joint comfort; a few trials report modest benefits, including in active people.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=undenatured+type+II+collagen+joint" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 143, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 144, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -6148,7 +6193,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logo: "/logo/Momentous.png",
     category: "Recovery",
     rating: 4.6,
-    reviewCount: 103,
+    reviewCount: 107,
     price: 29.95,      // Box of 10 on The Feed
     servingsPerContainer: 10,
     // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
@@ -6179,7 +6224,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Fortigel Collagen Hydrolysate", dose: "5.2g", verdict: "likely", note: "Collagen peptides studied for joint comfort; several trials report less activity-related joint pain at around 5g a day, though effects are modest.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=collagen+peptides+joint+pain+athletes" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 103, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 107, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -6235,7 +6280,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logo: "/logo/enervit.png",
     category: "Recovery",
     rating: 4.6,
-    reviewCount: 79,
+    reviewCount: 81,
     price: 39.99,      // Box of 10 on The Feed
     servingsPerContainer: 10,
     carbsPerServing: 6,
@@ -6257,7 +6302,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Tart Cherry fruit extract (Prunus cerasus) std. to 12.5% polyphenols (300mg) and 2.1% anthocyanins (50mg)", dose: "2400mg", verdict: "likely", note: "Tart cherry has good evidence for reducing muscle soreness after hard exercise and some for sleep quality, mostly from studies using juice or concentrate.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=tart+cherry+recovery+sleep" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 79, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 81, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -6394,7 +6439,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logo: "/logo/pillar.png",
     category: "Recovery",
     rating: 4.9,
-    reviewCount: 58,
+    reviewCount: 60,
     price: 74.99,      // 50 Servings on The Feed
     servingsPerContainer: 50,
     carbsPerServing: 0,
@@ -6420,7 +6465,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Sodium", dose: "10mg", verdict: "proven", note: "Sodium is the main electrolyte lost in sweat; replacing it supports fluid balance in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 58, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 60, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -6429,7 +6474,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     brand: "RNWY",
     category: "Recovery",
     rating: 4.7,
-    reviewCount: 49,
+    reviewCount: 50,
     price: 49.99,      // 30 Servings on The Feed
     servingsPerContainer: 30,
     carbsPerServing: 1,
@@ -6464,7 +6509,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "L-Carnitine (as L-Carnitine L-Tarttrate)", dose: "2g", verdict: "disputed", note: "Involved in fat metabolism; supplements haven't consistently improved endurance performance.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=carnitine+supplementation+performance" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 49, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 50, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -6619,8 +6664,8 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logoDomain: "santamadre.com",
     logo: "/logo/Santamadre.png",
     category: "Recovery",
-    rating: 4.2,
-    reviewCount: 34,
+    rating: 4.1,
+    reviewCount: 36,
     price: 59.99,      // Box of 12 on The Feed
     servingsPerContainer: 12,
     carbsPerServing: 30,
@@ -6643,7 +6688,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Polifenoli", dose: "300mg", verdict: "disputed", note: "Plant antioxidants; studies on performance and recovery show small or inconsistent effects.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=polyphenols+exercise+recovery" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 34, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 36, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -6988,6 +7033,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 17,
     price: 34.95,      // 120 Capsules on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); 4 capsules per serving.
+    defaultVariantId: "120-capsules",
+    variants: [
+      { id: "120-capsules", label: "120 Capsules", price: 34.95, servingsPerContainer: 30 },
+      { id: "240-capsules", label: "240 Capsules", price: 59.95, servingsPerContainer: 60 },
+    ],
     caffeinePerServing: 0,
     servingSize: "4 Capsules",
     isBatchTested: false,
@@ -7056,8 +7107,8 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logoDomain: "amacx.com",
     logo: "/logo/amacx.png",
     category: "Recovery",
-    rating: 4.9,
-    reviewCount: 15,
+    rating: 4.8,
+    reviewCount: 17,
     price: 47.99,      // 12 Pack on The Feed
     servingsPerContainer: 12,
     caloriesPerServing: 97,
@@ -7080,7 +7131,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Sodium", dose: "8mg", verdict: "proven", note: "Sodium is the main electrolyte lost in sweat; replacing it supports fluid balance in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 15, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 17, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -7172,6 +7223,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 13,
     price: 32,      // Box of 10 on The Feed
     servingsPerContainer: 10,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "box-of-10",
+    variants: [
+      { id: "box-of-10", label: "Box of 10", price: 32, servingsPerContainer: 10 },
+      { id: "40-serving-tub", label: "40 Serving Tub", price: 72, servingsPerContainer: 40 },
+    ],
     carbsPerServing: 1,
     proteinPerServing: 2,
     caloriesPerServing: 15,
@@ -7311,8 +7368,14 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Recovery",
     rating: 4.7,
     reviewCount: 11,
-    price: 49.49,      // Box of 20 on The Feed
+    price: 45.99,      // Box of 20 on The Feed
     servingsPerContainer: 20,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "box-of-20",
+    variants: [
+      { id: "18-servings", label: "18 Servings", price: 30.39, servingsPerContainer: 18 },
+      { id: "box-of-20", label: "Box of 20", price: 45.99, servingsPerContainer: 20 },
+    ],
     proteinPerServing: 11,
     caloriesPerServing: 45,
     sodiumPerServing: 40,
@@ -7381,7 +7444,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logo: "/logo/Santamadre.png",
     category: "Recovery",
     rating: 4.5,
-    reviewCount: 11,
+    reviewCount: 12,
     price: 39.99,      // Box of 6 on The Feed
     servingsPerContainer: 6,
     carbsPerServing: 40,
@@ -7408,7 +7471,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Lactobacillus Salivarius (UCC18)", verdict: "likely", note: "Probiotic strains can support gut health, but benefits depend on the specific strain and dose, and evidence for athletes is still developing.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=probiotic+athletes+gastrointestinal" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 11, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 12, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -7996,9 +8059,9 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logoDomain: "scienceinsport.com",
     logo: "/logo/sis.png",
     category: "Recovery",
-    rating: 5.0,
-    reviewCount: 7,
-    price: 34.99,      // Box of 12 on The Feed
+    rating: 5,
+    reviewCount: 9,
+    price: 49.99,      // Box of 12 on The Feed
     servingsPerContainer: 12,
     caffeinePerServing: 0,
     servingSize: "1 Shot",
@@ -8019,7 +8082,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Vitamin C", dose: "80mg", verdict: "likely", note: "Supports immune function and acts as an antioxidant; moderate doses may reduce colds during heavy training, while very high doses may blunt training adaptations.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=vitamin+C+athletes+immune" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 7, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 9, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -8293,8 +8356,15 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Recovery",
     rating: 5.0,
     reviewCount: 5,
-    price: 16.89,      // 30 Servings on The Feed
+    price: 16.96,      // Standard / 30 Servings on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); Standard only; Xtra is a different strength and isn't included.
+    defaultVariantId: "30-servings",
+    variants: [
+      { id: "30-servings", label: "30 Servings", price: 16.96, servingsPerContainer: 30, feedSize: "Standard / 30 Servings" },
+      { id: "60-servings", label: "60 Servings", price: 30.56, servingsPerContainer: 60, feedSize: "Standard / 60 Servings" },
+      { id: "90-servings", label: "90 Servings", price: 51.95, servingsPerContainer: 90, feedSize: "Standard / 90 Servings" },
+    ],
     caloriesPerServing: 20,
     caffeinePerServing: 0,
     servingSize: "2 Soft Gels",
@@ -8303,7 +8373,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     isGlutenFree: true,
     certifications: [],
     allergens: [],
-    flavours: ["Standard", "Xtra"],
+    flavours: ["Standard"],
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/nordicnaturals_complete_omega_60_1200x1200.png?v=1788196329",
     retailerLinks: {"theFeed": "https://thefeed.com/products/nordic-naturals-complete-omega"},
     goals: ["recovery"],
@@ -8430,7 +8500,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Recovery",
     rating: 4.8,
     reviewCount: 5,
-    price: 39.99,      // 30 Servings on The Feed
+    price: 36.99,      // 30 Servings on The Feed
     servingsPerContainer: 30,
     proteinPerServing: 1,
     caloriesPerServing: 10,
@@ -9488,6 +9558,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 0,
     price: 39.99,      // Bag of 30 on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "bag-of-30",
+    variants: [
+      { id: "bag-of-30", label: "Bag of 30", price: 39.99, servingsPerContainer: 30 },
+      { id: "60-serving", label: "60 Serving", price: 74.99, servingsPerContainer: 60 },
+    ],
     carbsPerServing: 1,
     proteinPerServing: 5,
     caloriesPerServing: 20,
@@ -9663,7 +9739,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logo: "/logo/SwissRX.png",
     category: "Sleep",
     rating: 4.3,
-    reviewCount: 73,
+    reviewCount: 75,
     price: 29,      // 30 Servings on The Feed
     servingsPerContainer: 30,
     caffeinePerServing: 0,
@@ -9682,7 +9758,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "PeptiSleep Brown Rice (Oryza sativa) protein hydrosylate", dose: "250mg", verdict: "disputed", note: "A rice-protein hydrolysate marketed for sleep; human evidence is very limited.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=rice+peptide+sleep" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 73, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 75, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -9969,7 +10045,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Sleep",
     rating: 4.1,
     reviewCount: 12,
-    price: 35.24,      // 30ml on The Feed
+    price: 35.87,      // 30ml on The Feed
     servingsPerContainer: 150,
     caffeinePerServing: 0,
     isBatchTested: false,
@@ -10153,7 +10229,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logoDomain: "magicmind.com",
     category: "Sleep",
     rating: 4.9,
-    reviewCount: 8,
+    reviewCount: 9,
     price: 5.49,      // Single Serving on The Feed
     servingsPerContainer: 1,
     carbsPerServing: 8,
@@ -10181,7 +10257,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Magic Mind Nulixir (Patented Mental Performance Formula)", dose: "3681mg", verdict: "likely", note: "A blend whose individual ingredient amounts aren't disclosed on the label, so the dose of each can't be checked against the research." },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 8, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 9, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -10231,8 +10307,15 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Sleep",
     rating: 5.0,
     reviewCount: 7,
-    price: 11.5,      // 30 Servings on The Feed
+    price: 11.5,      // 3 mg / 30 Servings on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); 3 mg only; the 0.5 mg and 20 mg strengths aren't included.
+    defaultVariantId: "30-servings",
+    variants: [
+      { id: "30-servings", label: "30 Servings", price: 11.5, servingsPerContainer: 30, feedSize: "3 mg / 30 Servings" },
+      { id: "60-servings", label: "60 Servings", price: 15.5, servingsPerContainer: 60, feedSize: "3 mg / 60 Servings" },
+      { id: "180-servings", label: "180 Servings", price: 39, servingsPerContainer: 180, feedSize: "3 mg / 180 Servings" },
+    ],
     caffeinePerServing: 0,
     servingSize: "1 Capsule",
     isBatchTested: false,
@@ -10259,9 +10342,9 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     brand: "Cymbiotika",
     logoDomain: "cymbiotika.com",
     category: "Sleep",
-    rating: 3.7,
-    reviewCount: 6,
-    price: 38,      // 26 Servings on The Feed
+    rating: 3.9,
+    reviewCount: 7,
+    price: 37.99,      // 26 Servings on The Feed
     servingsPerContainer: 26,
     carbsPerServing: 1,
     caloriesPerServing: 5,
@@ -10293,7 +10376,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Passionflower Extract (Passiflora Incarnatae L.) (Flower)", dose: "4mg", verdict: "disputed", note: "A traditional calming herb; evidence for sleep is limited.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=passionflower+sleep" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 6, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 7, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -10351,7 +10434,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logoDomain: "pureencapsulations.com",
     category: "Sleep",
     rating: 4.7,
-    reviewCount: 6,
+    reviewCount: 7,
     price: 35,      // 60 Servings on The Feed
     servingsPerContainer: 60,
     caloriesPerServing: 5,
@@ -10371,7 +10454,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Glycine (free-form)", dose: "1500mg", verdict: "likely", note: "3g of glycine before bed has improved subjective sleep quality in small trials; lower doses are less studied.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glycine+sleep+quality" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 6, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 7, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -11044,7 +11127,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logoDomain: "fitbiomics.com",
     category: "Probiotic",
     rating: 4.7,
-    reviewCount: 64,
+    reviewCount: 65,
     price: 85,      // 30 Servings on The Feed
     servingsPerContainer: 30,
     caffeinePerServing: 0,
@@ -11064,7 +11147,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "FITBIOMICS The Lactic Acid Metabolizer", dose: "200mg", verdict: "disputed", note: "Bacteria that feed on lactate, found in elite runners' guts and marketed for endurance; human evidence is very early.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=Veillonella+athletes" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 64, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 65, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -11680,7 +11763,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Probiotic",
     rating: 5.0,
     reviewCount: 1,
-    price: 64.08,      // 60 Servings on The Feed
+    price: 51.26,      // 60 Servings on The Feed
     servingsPerContainer: 60,
     caffeinePerServing: 0,
     servingSize: "1 Capsule",
@@ -11983,8 +12066,8 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logoDomain: "livemomentous.com",
     logo: "/logo/Momentous.png",
     category: "Gut Health",
-    rating: 4.8,
-    reviewCount: 25,
+    rating: 4.7,
+    reviewCount: 26,
     price: 39.99,      // 30 Servings on The Feed
     servingsPerContainer: 30,
     // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
@@ -12015,7 +12098,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Rice Bran Hull", dose: "2g", verdict: "disputed", note: "A plant ingredient added in small amounts; evidence for sport benefits is limited.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=plant+extract+supplement" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 25, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 26, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -12060,8 +12143,8 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     brand: "Paleovalley",
     logoDomain: "paleovalley.com",
     category: "Gut Health",
-    rating: 4.3,
-    reviewCount: 10,
+    rating: 4.4,
+    reviewCount: 11,
     price: 37.99,      // Box of 12 on The Feed
     servingsPerContainer: 10,
     carbsPerServing: 21,
@@ -12088,7 +12171,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Vitamin C", dose: "17mg", verdict: "likely", note: "Supports immune function and acts as an antioxidant; moderate doses may reduce colds during heavy training, while very high doses may blunt training adaptations.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=vitamin+C+athletes+immune" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 10, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 11, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -12711,8 +12794,8 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logoDomain: "livemomentous.com",
     logo: "/logo/Momentous.png",
     category: "Mineral",
-    rating: 4.7,
-    reviewCount: 11,
+    rating: 4.8,
+    reviewCount: 12,
     price: 49.99,      // 30 Servings on The Feed
     servingsPerContainer: 30,
     caffeinePerServing: 0,
@@ -12732,7 +12815,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Magnesium (From 2g MagteinMagnesium L-Threonate)", dose: "145mg", verdict: "likely", note: "Magnesium supports muscle and nerve function and sleep; many athletes fall short of the recommended intake. Supplementing helps mainly when intake is low. Glycinate and malate forms are well absorbed and gentle on the stomach.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=magnesium+supplementation+sleep+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 11, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 12, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -12807,8 +12890,8 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     brand: "Veloforte",
     logoDomain: "veloforte.com",
     category: "Mineral",
-    rating: 5.0,
-    reviewCount: 10,
+    rating: 5,
+    reviewCount: 11,
     price: 33.99,      // 30 Servings on The Feed
     servingsPerContainer: 30,
     caffeinePerServing: 0,
@@ -12834,7 +12917,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Bioperine (Black Pepper) piperine extract", dose: "5mg", verdict: "likely", note: "Black pepper extract that can increase absorption of some compounds, such as curcumin.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=piperine+bioavailability" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 10, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 11, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -13190,8 +13273,8 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     brand: "Cymbiotika",
     logoDomain: "cymbiotika.com",
     category: "Mineral",
-    rating: 4.3,
-    reviewCount: 6,
+    rating: 4.4,
+    reviewCount: 7,
     price: 68,      // 28 Pouches on The Feed
     servingsPerContainer: 28,
     carbsPerServing: 6,
@@ -13220,7 +13303,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Magnesium Bisglycinate", dose: "150mg", verdict: "likely", note: "Magnesium supports muscle and nerve function and sleep; many athletes fall short of the recommended intake. Supplementing helps mainly when intake is low. Glycinate and malate forms are well absorbed and gentle on the stomach.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=magnesium+supplementation+sleep+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 6, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 7, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -13771,8 +13854,8 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logoDomain: "transparentlabs.com",
     logo: "/logo/transparentlabs.png",
     category: "Mineral",
-    rating: 5.0,
-    reviewCount: 2,
+    rating: 5,
+    reviewCount: 3,
     price: 89.99,      // 30 Servings on The Feed
     servingsPerContainer: 30,
     caffeinePerServing: 0,
@@ -13796,7 +13879,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Magnesium Bisglycinate", dose: "600mg", verdict: "likely", note: "Magnesium supports muscle and nerve function and sleep; many athletes fall short of the recommended intake. Supplementing helps mainly when intake is low. Glycinate and malate forms are well absorbed and gentle on the stomach.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=magnesium+supplementation+sleep+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 2, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 3, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -14087,7 +14170,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logo: "/logo/first-endurance.png",
     category: "Vitamin",
     rating: 4.7,
-    reviewCount: 168,
+    reviewCount: 170,
     price: 59.95,      // 30 Servings on The Feed
     servingsPerContainer: 30,
     servingSize: "3 Tablets",
@@ -14133,7 +14216,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Yeast Beta Glucan (Immudyne Nutritional NQ)", dose: "30mg", verdict: "likely", note: "Yeast beta-glucans have been studied for immune support; small trials in endurance athletes suggest fewer cold symptoms after hard events.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=yeast+beta-glucan+athletes+upper+respiratory" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 168, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 170, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -14175,7 +14258,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logo: "/logo/SwissRX.png",
     category: "Vitamin",
     rating: 4.9,
-    reviewCount: 113,
+    reviewCount: 114,
     price: 89,      // 30 Servings on The Feed
     servingsPerContainer: 30,
     servingSize: "4 Capsules",
@@ -14220,7 +14303,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "trans -Resveratrol (from Polygonum cuspidatum (Roots))", dose: "10mg", verdict: "disputed", note: "Plant compounds marketed for healthy aging; human evidence is limited and may blunt some training adaptations at high doses.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=resveratrol+exercise+training" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 113, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 114, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -14324,7 +14407,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logo: "/logo/SwissRX.png",
     category: "Vitamin",
     rating: 4.6,
-    reviewCount: 41,
+    reviewCount: 42,
     price: 48,      // 1200 Servings on The Feed
     servingsPerContainer: 1200,
     caffeinePerServing: 0,
@@ -14344,7 +14427,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Vitamin K2 (as Menaquinone-7 (MK-7)) (MenaQ7PRO)", dose: "10mcg", verdict: "likely", note: "Needed for blood clotting and bone proteins; often paired with vitamin D. Evidence for bone benefits in healthy adults is mixed. Talk to a doctor if you take blood thinners.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=vitamin+K2+bone" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 41, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 42, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -14414,6 +14497,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 36,
     price: 40,      // 30 Servings on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "30-servings",
+    variants: [
+      { id: "30-servings", label: "30 Servings", price: 40, servingsPerContainer: 30 },
+      { id: "60-servings", label: "60 Servings", price: 68, servingsPerContainer: 60 },
+    ],
     caffeinePerServing: 0,
     servingSize: "2 Capsules",
     isBatchTested: true,
@@ -14892,7 +14981,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Vitamin",
     rating: 4.3,
     reviewCount: 12,
-    price: 53.7,      // 1.7oz on The Feed
+    price: 55,      // 1.7oz on The Feed
     servingsPerContainer: 100,
     carbsPerServing: 0,
     caloriesPerServing: 0,
@@ -15127,7 +15216,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Vitamin",
     rating: 4.7,
     reviewCount: 10,
-    price: 52.5,      // 1 fl oz on The Feed
+    price: 52.49,      // 1 fl oz on The Feed
     servingsPerContainer: 90,
     caffeinePerServing: 0,
     servingSize: "2 Pumps",
@@ -15199,7 +15288,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Vitamin",
     rating: 5.0,
     reviewCount: 10,
-    price: 55.29,      // Box of 8x10 Tablets on The Feed
+    price: 69.99,      // Box of 8x10 Tablets on The Feed
     servingsPerContainer: 80,
     caloriesPerServing: 10,
     sodiumPerServing: 310,
@@ -15608,7 +15697,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Vitamin",
     rating: 4.3,
     reviewCount: 6,
-    price: 76,      // Box of 28 on The Feed
+    price: 75.5,      // Box of 28 on The Feed
     servingsPerContainer: 28,
     carbsPerServing: 4,
     caloriesPerServing: 20,
@@ -15732,7 +15821,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Vitamin",
     rating: 4.7,
     reviewCount: 6,
-    price: 55,      // 100ml on The Feed
+    price: 54.84,      // 100ml on The Feed
     servingsPerContainer: 20,
     carbsPerServing: 0,
     proteinPerServing: 0,
@@ -15808,8 +15897,8 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logoDomain: "thorne.com",
     logo: "/logo/thorne.png",
     category: "Vitamin",
-    rating: 4.3,
-    reviewCount: 6,
+    rating: 4,
+    reviewCount: 7,
     price: 56,      // 30 Servings on The Feed
     servingsPerContainer: 30,
     carbsPerServing: 0,
@@ -15852,7 +15941,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Boron (as Bororganic Boron glycinate Complex)", dose: "3mg", verdict: "disputed", note: "A trace mineral studied for bone and joint health and hormones; human evidence is limited and mixed.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=boron+supplementation" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 6, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 7, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -17521,8 +17610,16 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Vitamin",
     rating: 0,
     reviewCount: 0,
-    price: 11.5,      // 30 Servings on The Feed
+    price: 11.5,      // 25 mcg / 30 Servings on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); 25 mcg (1,000 IU) only; the other strengths aren't included.
+    defaultVariantId: "30-servings",
+    variants: [
+      { id: "30-servings", label: "30 Servings", price: 11.5, servingsPerContainer: 30, feedSize: "25 mcg / 30 Servings" },
+      { id: "60-servings", label: "60 Servings", price: 14.5, servingsPerContainer: 60, feedSize: "25 mcg / 60 Servings" },
+      { id: "120-servings", label: "120 Servings", price: 27, servingsPerContainer: 120, feedSize: "25 mcg / 120 Servings" },
+      { id: "250-servings", label: "250 Servings", price: 46.5, servingsPerContainer: 250, feedSize: "25 mcg / 250 Servings" },
+    ],
     caffeinePerServing: 0,
     servingSize: "1 capsule",
     isBatchTested: false,
@@ -17847,7 +17944,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logo: "/logo/SwissRX.png",
     category: "Omega-3",
     rating: 4.7,
-    reviewCount: 49,
+    reviewCount: 50,
     price: 55,      // 60 Servings on The Feed
     servingsPerContainer: 60,
     // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
@@ -17878,7 +17975,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "DPA (Docosapentaenoic Acid)", dose: "50mg", verdict: "likely", note: "A lesser-known marine omega-3 that the body can convert to EPA and DHA; it's less studied on its own.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=docosapentaenoic+acid" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 49, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 50, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -18143,7 +18240,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Omega-3",
     rating: 4.7,
     reviewCount: 6,
-    price: 36.82,      // 27 Servings on The Feed
+    price: 38.21,      // 27 Servings on The Feed
     servingsPerContainer: 27,
     caloriesPerServing: 15,
     sodiumPerServing: 20,
@@ -18639,8 +18736,14 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Omega-3",
     rating: 0,
     reviewCount: 0,
-    price: 30.95,      // 30 Servings on The Feed
+    price: 26.31,      // 30 Servings on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "30-servings",
+    variants: [
+      { id: "30-servings", label: "30 Servings", price: 26.31, servingsPerContainer: 30 },
+      { id: "60-servings", label: "60 Servings", price: 43.98, servingsPerContainer: 60 },
+    ],
     caloriesPerServing: 10,
     caffeinePerServing: 0,
     servingSize: "2 Soft Gels",
@@ -18773,8 +18876,15 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Omega-3",
     rating: 0,
     reviewCount: 0,
-    price: 41.75,      // 30 Servings on The Feed
+    price: 38.79,      // 30 Servings on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "30-servings",
+    variants: [
+      { id: "30-servings", label: "30 Servings", price: 38.79, servingsPerContainer: 30 },
+      { id: "60-servings", label: "60 Servings", price: 83.26, servingsPerContainer: 60 },
+      { id: "90-servings", label: "90 Servings", price: 115.2, servingsPerContainer: 90 },
+    ],
     caloriesPerServing: 25,
     caffeinePerServing: 0,
     servingSize: "2 Soft Gels",
@@ -19259,7 +19369,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Immune",
     rating: 4.6,
     reviewCount: 5,
-    price: 48,      // 26 pouches on The Feed
+    price: 47.99,      // 26 pouches on The Feed
     servingsPerContainer: 26,
     carbsPerServing: 5,
     proteinPerServing: 0,
@@ -19748,7 +19858,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logoDomain: "bareperformancenutrition.com",
     category: "Greens",
     rating: 4.8,
-    reviewCount: 32,
+    reviewCount: 33,
     price: 44.99,      // 30 Servings on The Feed
     servingsPerContainer: 30,
     carbsPerServing: 5,
@@ -19788,7 +19898,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
       { name: "Matcha Green Tea Powder", dose: "100mg", verdict: "likely", note: "A natural source of caffeine; count it towards your total caffeine intake. Caffeine at around 3mg per kg of body weight improves endurance.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=caffeine+endurance+performance" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 32, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 33, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -19801,6 +19911,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 29,
     price: 47.95,      // Box of 20 Sticks on The Feed
     servingsPerContainer: 20,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "box-of-20-sticks",
+    variants: [
+      { id: "box-of-20-sticks", label: "Box of 20 Sticks", price: 47.95, servingsPerContainer: 20 },
+      { id: "30-servings", label: "30 Servings", price: 47.95, servingsPerContainer: 30 },
+    ],
     carbsPerServing: 6,
     proteinPerServing: 2,
     caloriesPerServing: 50,
@@ -20197,6 +20313,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 3,
     price: 54.99,      // 30 Servings on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    defaultVariantId: "30-servings",
+    variants: [
+      { id: "bag-of-5", label: "Bag of 5", price: 14.99, servingsPerContainer: 5 },
+      { id: "30-servings", label: "30 Servings", price: 54.99, servingsPerContainer: 30 },
+    ],
     carbsPerServing: 1,
     caloriesPerServing: 5,
     caffeinePerServing: 0,
