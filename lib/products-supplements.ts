@@ -5836,6 +5836,14 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 353,
     price: 33.12,      // Box of 20 on The Feed
     servingsPerContainer: 20,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    // Checked by hand: only sizes in the same form (no capsule/liquid or ready-to-drink/mix mixing).
+    defaultVariantId: "box-of-20",
+    variants: [
+      { id: "box-of-20", label: "Box of 20", price: 33.12, servingsPerContainer: 20 },
+      { id: "28-servings", label: "28 Servings", price: 38.96, servingsPerContainer: 28 },
+      { id: "60-servings", label: "60 Servings", price: 41, servingsPerContainer: 60 },
+    ],
     carbsPerServing: 4,
     proteinPerServing: 18,
     caloriesPerServing: 70,
@@ -17887,6 +17895,14 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     reviewCount: 14,
     price: 15.18,      // 30 Servings on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    // Checked by hand: only sizes in the same form (no capsule/liquid or ready-to-drink/mix mixing).
+    defaultVariantId: "30-servings",
+    variants: [
+      { id: "30-servings", label: "30 Servings", price: 15.18, servingsPerContainer: 30 },
+      { id: "60-servings", label: "60 Servings", price: 27.16, servingsPerContainer: 60 },
+      { id: "90-servings", label: "90 Servings", price: 39.06, servingsPerContainer: 90 },
+    ],
     caloriesPerServing: 20,
     caffeinePerServing: 0,
     servingSize: "2 Soft Gels",

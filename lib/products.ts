@@ -2497,6 +2497,15 @@ const CURATED_PRODUCTS: Product[] = [
   reviewCount: 202,
   price: 44,                       // 90 Servings on The Feed
   servingsPerContainer: 90,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  // Checked by hand: only sizes in the same form (no capsule/liquid or ready-to-drink/mix mixing).
+  defaultVariantId: "90-servings",
+  variants: [
+    { id: "bag-of-30", label: "Bag of 30", price: 36, servingsPerContainer: 30 },
+    { id: "60-servings", label: "60 Servings", price: 48, servingsPerContainer: 60 },
+    { id: "90-servings", label: "90 Servings", price: 44, servingsPerContainer: 90 },
+    { id: "180-servings", label: "180 Servings", price: 84, servingsPerContainer: 180 },
+  ],
   servingSize: "One Stick Pack",
   isHydrogel: false,
   isBatchTested: true,
@@ -2536,6 +2545,15 @@ const CURATED_PRODUCTS: Product[] = [
   reviewCount: 212,
   price: 42.99,                    // 90 Servings on The Feed
   servingsPerContainer: 90,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  // Checked by hand: only sizes in the same form (no capsule/liquid or ready-to-drink/mix mixing).
+  defaultVariantId: "90-servings",
+  variants: [
+    { id: "box-of-15", label: "Box of 15", price: 22.95, servingsPerContainer: 15 },
+    { id: "30-servings", label: "30 Servings", price: 19.99, servingsPerContainer: 30 },
+    { id: "60-servings", label: "60 Servings", price: 34.99, servingsPerContainer: 60 },
+    { id: "90-servings", label: "90 Servings", price: 42.99, servingsPerContainer: 90 },
+  ],
   servingSize: "1 Packet",
   isHydrogel: false,
   isBatchTested: true,
@@ -4038,6 +4056,15 @@ const CURATED_PRODUCTS: Product[] = [
   reviewCount: 133,
   price: 59.99,                    // 25 Servings on The Feed
   servingsPerContainer: 25,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  // Checked by hand: only sizes in the same form (no capsule/liquid or ready-to-drink/mix mixing).
+  defaultVariantId: "25-servings",
+  variants: [
+    { id: "box-of-10", label: "Box of 10", price: 32.99, servingsPerContainer: 10 },
+    { id: "12-servings", label: "12 Servings", price: 39.95, servingsPerContainer: 12 },
+    { id: "box-of-24", label: "Box of 24", price: 69.99, servingsPerContainer: 24 },
+    { id: "25-servings", label: "25 Servings", price: 59.99, servingsPerContainer: 25 },
+  ],
   carbsPerServing: 2,
   sodiumPerServing: 40,
   caffeinePerServing: 0,
@@ -6965,6 +6992,14 @@ imageEmoji: "💧",
   reviewCount: 4,
   price: 31.99,                    // 16 Servings on The Feed
   servingsPerContainer: 16,
+  // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+  // Checked by hand: only sizes in the same form (no capsule/liquid or ready-to-drink/mix mixing).
+  defaultVariantId: "16-servings",
+  variants: [
+    { id: "pack-of-10", label: "Pack of 10", price: 29.99, servingsPerContainer: 10 },
+    { id: "16-servings", label: "16 Servings", price: 31.99, servingsPerContainer: 16 },
+    { id: "box-of-30", label: "Box of 30", price: 84.99, servingsPerContainer: 30 },
+  ],
   carbsPerServing: 45,
   sodiumPerServing: 400,
   caffeinePerServing: 0,

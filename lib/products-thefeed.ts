@@ -269,6 +269,13 @@ export const THE_FEED_PRODUCTS: Product[] = [
     reviewCount: 420,
     price: 29.95,      // 16 Serving on The Feed
     servingsPerContainer: 16,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    // Checked by hand: only sizes in the same form (no capsule/liquid or ready-to-drink/mix mixing).
+    defaultVariantId: "16-serving",
+    variants: [
+      { id: "16-serving", label: "16 Serving", price: 29.95, servingsPerContainer: 16 },
+      { id: "box-of-20", label: "Box of 20", price: 44.95, servingsPerContainer: 20 },
+    ],
     carbsPerServing: 26,
     sodiumPerServing: 5,
     proteinPerServing: 0,
@@ -878,6 +885,13 @@ export const THE_FEED_PRODUCTS: Product[] = [
     reviewCount: 252,
     price: 34.95,      // Box of 24 on The Feed
     servingsPerContainer: 24,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    // Checked by hand: only sizes in the same form (no capsule/liquid or ready-to-drink/mix mixing).
+    defaultVariantId: "box-of-24",
+    variants: [
+      { id: "box-of-24", label: "Box of 24", price: 34.95, servingsPerContainer: 24 },
+      { id: "26-serving", label: "26 Serving", price: 24.95, servingsPerContainer: 26 },
+    ],
     carbsPerServing: 22,
     sodiumPerServing: 25,
     proteinPerServing: 0,
@@ -2569,6 +2583,13 @@ export const THE_FEED_PRODUCTS: Product[] = [
     reviewCount: 27,
     price: 44.99,      // 20 Serving Bag on The Feed
     servingsPerContainer: 20,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    // Checked by hand: only sizes in the same form (no capsule/liquid or ready-to-drink/mix mixing).
+    defaultVariantId: "20-serving-bag",
+    variants: [
+      { id: "box-of-12", label: "Box of 12", price: 47.49, servingsPerContainer: 12 },
+      { id: "20-serving-bag", label: "20 Serving Bag", price: 44.99, servingsPerContainer: 20 },
+    ],
     carbsPerServing: 40,
     sodiumPerServing: 158,
     caffeinePerServing: 0,
@@ -3350,6 +3371,13 @@ export const THE_FEED_PRODUCTS: Product[] = [
     reviewCount: 57,
     price: 32.49,      // 30 Servings on The Feed
     servingsPerContainer: 30,
+    // Sizes on The Feed (price per size, 2026-10-12); servings as each size states.
+    // Checked by hand: only sizes in the same form (no capsule/liquid or ready-to-drink/mix mixing).
+    defaultVariantId: "30-servings",
+    variants: [
+      { id: "box-of-12", label: "Box of 12", price: 39.99, servingsPerContainer: 12 },
+      { id: "30-servings", label: "30 Servings", price: 32.49, servingsPerContainer: 30 },
+    ],
     carbsPerServing: 47,
     sodiumPerServing: 460,
     caffeinePerServing: 0,
