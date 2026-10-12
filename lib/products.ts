@@ -756,12 +756,13 @@ const CURATED_PRODUCTS: Product[] = [
   brand: "Carbs Fuel",
   logo: "/logo/carbs.png",
   category: "Energy Gel",
-  rating: 4.6,
-  reviewCount: 913,
-  price: 30,                       // Box of 12 on The Feed
-  servingsPerContainer: 12,
+  rating: 4.7,
+  reviewCount: 932,
+  price: 36,                       // Box of 18 on The Feed
+  servingsPerContainer: 18,
   carbsPerServing: 50,
   sodiumPerServing: 105,
+  caffeinePerServing: 0,           // Original: 0mg on The Feed's label (Caffeinated has 100mg)
   proteinPerServing: 0,
   caloriesPerServing: 200,
   servingSize: "1 Packet",
@@ -772,6 +773,14 @@ const CURATED_PRODUCTS: Product[] = [
   certifications: [],
   allergens: [],
   flavours: ["Original", "Caffeinated", "Salted", "Original Mini"],
+  // Figures are the Original gel's. Salted differs only in sodium (450mg, per The Feed's description),
+  // so it can be a selectable size; Caffeinated (100mg caffeine) and Original Mini (25g carbs)
+  // differ in figures a variant can't carry, so they're listed as flavours only.
+  defaultVariantId: "original-18",
+  variants: [
+    { id: "original-18", label: "Original, box of 18", price: 36, servingsPerContainer: 18, sodiumPerServing: 105 },
+    { id: "salted-12", label: "Salted, box of 12", price: 30, servingsPerContainer: 12, sodiumPerServing: 450 },
+  ],
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/carbs-fuel-box-v2_1200x1200.png?v=1729181677",
   retailerLinks: { theFeed: "https://thefeed.com/products/carbs-fuel-original-energy-gel" },
   goals: ["endurance", "recovery"],
@@ -793,16 +802,9 @@ const CURATED_PRODUCTS: Product[] = [
       note: "Moderate sodium; salty or heavy sweaters will still need electrolytes alongside it.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise",
     },
-    {
-      name: "Caffeine (some flavors)",
-      dose: "up to 100mg",
-      verdict: "proven",
-      note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.",
-      pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=caffeine+endurance+performance",
-    },
   ],
   sources: [
-    { name: "The Feed", icon: "🛒", count: 913, unit: "reviews", credibility: "medium" },
+    { name: "The Feed", icon: "🛒", count: 932, unit: "reviews", credibility: "medium" },
   ],
 },{
   id: "pure-encapsulations-magnesium-glycinate",
@@ -2940,6 +2942,47 @@ const CURATED_PRODUCTS: Product[] = [
       verdict: "likely",
       note: "Carbohydrate included with the bicarbonate; taking bicarbonate with carbohydrate may help reduce stomach upset.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+bicarbonate+carbohydrate+gastrointestinal",
+    },
+  ],
+  sources: [],
+},
+
+{
+  id: "carbs-fuel-bicarb",
+  name: "Bicarb",
+  brand: "Carbs Fuel",
+  logo: "/logo/carbs.png",
+  category: "Supplement",
+  rating: 0,
+  reviewCount: 0,
+  price: 50,                          // 15g / 20 Serving on The Feed
+  servingsPerContainer: 20,
+  sodiumPerServing: 4100,
+  servingSize: "1 pouch (15 enteric-coated capsules for the 15g size)",
+  certifications: [],
+  // Sizes are grams of sodium bicarbonate per pouch. The Feed shows the 15g label (15,000mg sodium
+  // bicarbonate, 4,100mg sodium). The 20g and 25g sodium figures are calculated the same way
+  // (sodium is 27.4% of sodium bicarbonate by weight, which gives the 15g label's 4,100mg), rounded
+  // to the nearest 100mg; replace them with the labels' figures once The Feed shows those panels.
+  defaultVariantId: "15g-20",
+  variants: [
+    { id: "15g-20", label: "15g, 20 servings", price: 50, servingsPerContainer: 20, sodiumPerServing: 4100 },
+    { id: "20g-20", label: "20g, 20 servings", price: 60, servingsPerContainer: 20, sodiumPerServing: 5500 },
+    { id: "25g-20", label: "25g, 20 servings", price: 70, servingsPerContainer: 20, sodiumPerServing: 6800 },
+  ],
+  imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/carbs_fuel_bicarb_300g_pouch_1200x1200.png?v=1789747599",
+  retailerLinks: { theFeed: "https://thefeed.com/products/carbs-fuel-bicarb" },
+  goals: ["endurance"],
+  imageEmoji: "🧪",
+  transparencyScore: null,                 // not yet scored: full ingredient list not available
+  sentiment: {},
+  ingredients: [
+    {
+      name: "Sodium Bicarbonate",
+      dose: "15g / 20g / 25g per pouch",
+      verdict: "proven",
+      note: "Buffers acid build-up during hard efforts of roughly 1–10 minutes. Studies use about 0.2–0.3g per kg of body weight. Carbs Fuel matches its sizes to body weight (15g for about 50–70kg, 20g for 60–90kg, 25g for 70–110kg) and uses enteric-coated capsules, which it says reduce stomach upset. Stomach upset is the main side effect, so trial it in training.",
+      pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+bicarbonate+supplementation+performance",
     },
   ],
   sources: [],
