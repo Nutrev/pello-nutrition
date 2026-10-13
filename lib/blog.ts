@@ -128,7 +128,7 @@ Bicarb works, and the research behind it is strong. But it works for a specific 
     author: "Pello Nutrition",
     category: "Reviews",
     tags: ["energy gels", "cycling", "endurance", "fueling"],
-    relatedProducts: ["maurten-gel-100", "maurten-gel-100-caf-100", "science-in-sport-go-energy-gel", "sis-beta-fuel-gel", "precision-fuel-pf30", "gu-roctane-gel"],
+    relatedProducts: ["maurten-gel-100", "maurten-gel-100-caf-100", "sis-go-isotonic", "sis-beta-fuel-gel", "precision-fuel-pf30", "gu-roctane-gel"],
     readingTime: 6,
     content: `Energy gels are the cornerstone of endurance cycling nutrition. Get them right and you can sustain effort for hours. Get them wrong and you're dealing with GI distress, energy crashes or simply running out of fuel.
 
@@ -152,15 +152,15 @@ Before getting into picks, here's what actually matters in a gel:
 
 Maurten's hydrogel technology encapsulates carbohydrates in a gel matrix designed to pass through the stomach smoothly, and it's a favorite of athletes who struggle with GI issues. It's rated 4.8 out of 5 from over 1,400 reviews on The Feed.
 
-At 25g carbs per gel with a short six-ingredient label, it's not the most carb-dense option, but its reputation for tolerance makes it a reliable choice for long events. The main drawback is price — at $3.75/gel it's among the most expensive on the market.
+At 25g carbs per gel with a short six-ingredient label, it's not the most carb-dense option, but its reputation for tolerance makes it a reliable choice for long events. The main drawback is price — at {{pps:maurten-gel-100}}/gel it's among the most expensive on the market.
 
 Best for: Cyclists who've had GI issues with other gels, long sportives and gran fondos.
 
-### Best value: SiS GO Energy + Electrolyte Gel
+### Best value: SiS GO Isotonic Energy Gel
 
-At about $1.17/gel, this is the cheapest proper energy gel we list. Each gel has 22g of carbs from maltodextrin plus 100mg of sodium, so it tops up electrolytes as well as fuel. It's Informed Sport certified, vegan, and rated 4.6 out of 5 from nearly 600 reviews on The Feed.
+At {{pps:sis-go-isotonic}}/gel in a box of 18, this is one of the cheapest gels we list, with a Pello Score of {{score:sis-go-isotonic}}. Each gel has 22g of carbs from maltodextrin, and it's isotonic, so it's designed to be taken without water. It's Informed Sport certified, vegan, and rated {{rating:sis-go-isotonic}} out of 5 from {{reviews:sis-go-isotonic}}.
 
-With a single carb source it's best at moderate intakes (up to around 60g per hour) rather than race-pace fueling.
+It has almost no sodium, so pair it with an electrolyte drink on long or hot rides. With a single carb source it's best at moderate intakes (up to around 60g per hour) rather than race-pace fueling.
 
 Best for: Training rides, budget-conscious athletes, high-volume use.
 
@@ -197,7 +197,7 @@ Start fueling at 30-45 minutes into the ride. Don't wait until you feel hungry �
 
 ## The bottom line
 
-For most cyclists, a combination of Maurten Gel 100 for GI-sensitive moments and a cheaper gel like SiS GO Energy + Electrolyte for training is the most practical approach. Reserve the expensive gels for race day and key training sessions.
+For most cyclists, a combination of Maurten Gel 100 for GI-sensitive moments and a cheaper gel like SiS GO Isotonic for training is the most practical approach. Reserve the expensive gels for race day and key training sessions.
 
 Use our [Pello Planner](/quiz) to get a personalized gel recommendation based on your specific event duration and intensity.`,
   },
