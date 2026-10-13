@@ -2,6 +2,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { getPostBySlug, getAllPosts } from "@/lib/blog";
 import { PRODUCTS } from "@/lib/products";
+import { getProductSummaries } from "@/lib/catalog";
+import { reviewsAt, type ProductSummary } from "@/lib/catalog-types";
+import { getFulensScoreLabel } from "@/lib/pello-grade";
+import { AFFILIATES_ACTIVE, AMAZON_ACTIVE, AMAZON_ASSOCIATE_STATEMENT } from "@/lib/affiliate";
+import ProductCard from "@/components/ProductCard";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
@@ -27,13 +32,67 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
+// Live product figures in article text, so they never go stale: {{score:id}}, {{grade:id}},
+// {{pps:id}} (price per serving), {{pergram:id}} (bicarb price per gram), {{rating:id}},
+// {{reviews:id}} ("92 reviews at The Feed"). An unknown id or missing figure fails the build.
+function liveProduct(id: string): ProductSummary {
+  const p = getProductSummaries().find((x) => x.id === id);
+  if (!p) throw new Error(`Blog: no product with id "${id}"`);
+  return p;
+}
+function liveFigure(kind: string, id: string): string {
+  const p = liveProduct(id);
+  const need = <T,>(v: T | null | undefined): T => { if (v == null) throw new Error(`Blog: ${id} has no ${kind}`); return v; };
+  switch (kind) {
+    case "score": return String(need(p.pelloScore));
+    case "grade": return getFulensScoreLabel(need(p.pelloScore)).label;
+    case "pps": return `$${need(p.pricePerServing > 0 ? p.pricePerServing : null).toFixed(2)}`;
+    case "pergram": return `$${(p.pricePerServing / need(PRODUCTS.find((x) => x.id === id)?.bicarbPerServingG)).toFixed(2)}`;
+    case "rating": return String(need(p.reviewCount > 0 ? p.rating : null));
+    case "reviews": return reviewsAt(need(p.reviewCount > 0 ? p.reviewCount : null), p.reviewSource);
+  }
+  throw new Error(`Blog: unknown figure "${kind}"`);
+}
+const withLiveFigures = (text: string) => text.replace(/\{\{(\w+):([a-z0-9-]+)\}\}/g, (_, kind, id) => liveFigure(kind, id));
+
+// The affiliate disclosure shown with buy links across the site, for articles that show products.
+function ArticleDisclosure() {
+  return (
+    <p className="my-5 text-xs text-muted leading-relaxed">
+      {AFFILIATES_ACTIVE ? (
+        <>
+          {AMAZON_ACTIVE && `${AMAZON_ASSOCIATE_STATEMENT} `}
+          Pello may earn a commission on purchases made through some of these links at no extra cost to you.
+          This never influences our scores or recommendations.
+        </>
+      ) : (
+        <>Pello doesn&apos;t earn anything from these links. Prices, stock and shipping are set by each retailer.</>
+      )}
+      <a href="/legal/affiliate-disclosure" className="text-moss underline ml-1">Learn more</a>
+    </p>
+  );
+}
+
 function renderMarkdown(content: string) {
   const lines = content.split("\n");
   const elements: React.ReactNode[] = [];
   let i = 0;
 
   while (i < lines.length) {
-    const line = lines[i];
+    const line = withLiveFigures(lines[i]);
+
+    // [[product:id]]: the product's card (Pello Score, rating, price) from live data.
+    const card = line.match(/^\[\[product:([a-z0-9-]+)\]\]$/);
+    if (card) {
+      elements.push(<div key={i} className="my-5 max-w-sm"><ProductCard product={liveProduct(card[1])} /></div>);
+      i++;
+      continue;
+    }
+    if (line === "[[disclosure]]") {
+      elements.push(<ArticleDisclosure key={i} />);
+      i++;
+      continue;
+    }
 
     // [[pro:/path|Text]]: one understated prompt to a Pello Pro tool (at most one per article).
     const pro = line.match(/^\[\[pro:(\/[^|\]]*)\|([^\]]+)\]\]$/);

@@ -24,6 +24,102 @@ export interface BlogPost {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "sodium-bicarbonate-endurance-athletes",
+    title: "Sodium Bicarbonate for Endurance Athletes: Does Bicarb Work?",
+    description: "What bicarb is, what the research says it does, the drawbacks, how to take it, and the bicarb product we'd pick, based on independent Pello Scores.",
+    date: "2026-10-13",
+    author: "Pello Nutrition",
+    category: "Science",
+    tags: ["bicarb", "sodium bicarbonate", "performance", "supplements"],
+    relatedProducts: ["flycarb-bicarb", "carbs-fuel-bicarb", "powerbank-nutrition-bicarb-arc", "bicarb-3-0", "maurten-bicarb-system"],
+    readingTime: 7,
+    content: `Bicarb has gone from a niche track trick to something you'll see in pro cycling team buses and distance runners' race kits. It's also one of the few supplements with strong research behind it. But it comes with a real catch, and it's not useful for every event. Here's what it is, what it does, and which product we'd pick.
+
+## What is bicarb?
+
+Bicarb is sodium bicarbonate, the same compound as baking soda. Taken in large enough doses before exercise, it raises the amount of bicarbonate in your blood.
+
+That matters because hard efforts produce acid. As acid builds up in working muscles, they fatigue faster. Bicarbonate is one of your body's natural buffers. Raising blood bicarbonate gives your body more capacity to clear that acid, so you can hold a hard effort a little longer.
+
+Sports supplements simply package the right dose in a more convenient, and ideally more stomach-friendly, form than a spoonful of baking soda.
+
+## What's the benefit?
+
+The research is strong. The International Society of Sports Nutrition (ISSN) reviewed the evidence in its 2021 position stand and concluded that bicarb improves performance in high-intensity efforts lasting roughly 30 seconds to 12 minutes. That holds for cycling, running, swimming, rowing and combat sports, for both single and repeated efforts, and for both men and women.
+
+Meta-analyses put the improvement at around 2% in time trials and repeated sprints. That's small on paper, but at the sharp end of a race it's a big margin.
+
+Where it helps most:
+
+- Track and middle-distance running, from 800m to 5,000m.
+- Short time trials, pursuits and hill climbs.
+- Racing with repeated surges, like crit racing, cyclocross and the decisive attacks in a road race.
+- Rowing, swimming and other events decided by a few minutes of all-out work.
+
+Where the evidence is weaker: long, steady events like the marathon or a long road race, where acid build-up is rarely what limits you. Research on newer products has started to look at longer efforts. A small 2024 study found well-trained male cyclists completed a 40km time trial 1.5% faster with [Maurten's bicarb system](/report/maurten-bicarb-system) than with a placebo. But that study was small, and the evidence for long endurance events is still thin.
+
+## The drawbacks
+
+**Stomach upset is the big one.** The effective dose is large, and the most common side effects are bloating, nausea, abdominal pain, diarrhea and, sometimes, vomiting. For some athletes, these cancel out the benefit entirely, or worse. A bad reaction on race morning can ruin your day.
+
+Newer products try to fix this with enteric-coated capsules, which pass through the stomach before releasing, or by delivering the bicarb inside a carbohydrate gel. Head-to-head research suggests these can reduce stomach problems compared with plain bicarb, though the studies so far are small and mostly in male cyclists.
+
+**It's a lot of sodium.** Sodium bicarbonate is about 27% sodium by weight. A typical dose for a 70kg athlete, around 21g, contains roughly 5.7g of sodium. If you have high blood pressure, kidney problems or are on a sodium-restricted diet, talk to your doctor before trying bicarb.
+
+**It's not useful for every event.** If your race is a steady marathon or a long road race, bicarb is unlikely to be what makes the difference. Carbs and hydration matter far more.
+
+**It's expensive.** Branded bicarb products can cost {{pps:bicarb-3-0}}–{{pps:maurten-bicarb-system}} per dose. That adds up if you use it for training as well as racing.
+
+## How to take it
+
+- **Dose:** about 0.3g per kg of body weight. That's 21g for a 70kg athlete. The ISSN position stand covers 0.2–0.5g/kg, with 0.3g/kg as the best balance of benefit and side effects.
+- **Timing:** 60–180 minutes before your event. Taking it closer to the 180-minute end, with a carb-rich meal, can help reduce stomach upset.
+- **Split it up:** smaller doses spread over 30–60 minutes are often easier on the stomach than one large dose.
+- **Multi-day option:** for stage races or heat-and-final events, a loading approach of 0.4–0.5g/kg per day, split across meals for 3–7 days, can work without needing a big dose on race morning.
+- **Test it in training first.** Try it before a hard interval session, at the dose and timing you plan to race with. Race day is not the time to try bicarb for the first time.
+
+Bicarb is not on the World Anti-Doping Agency's banned list. But if you're drug tested, choose a product that's batch-tested for banned substances, because the risk with any supplement is contamination.
+
+## Our pick
+
+We track five bicarb products. Here's how they compare.
+
+[[disclosure]]
+
+### Our favorite: Flycarb Bicarb
+
+Pello Score: {{score:flycarb-bicarb}} ({{grade:flycarb-bicarb}}) · {{pps:flycarb-bicarb}} per serving · {{rating:flycarb-bicarb}}/5 from {{reviews:flycarb-bicarb}}
+
+[[product:flycarb-bicarb]]
+
+Flycarb is the only bicarb product we track that's Informed Sport certified, meaning every batch is tested for banned substances. It earns a perfect science score, comes in sizes matched to body weight, and has by far the most athlete reviews of any bicarb product we track. The trade-off is price: at about {{pergram:flycarb-bicarb}} per gram of bicarbonate, it's one of the most expensive options. For anyone who's drug tested, it's the clear choice.
+
+### Best value: Carbs Fuel Bicarb
+
+Pello Score: {{score:carbs-fuel-bicarb}} ({{grade:carbs-fuel-bicarb}}) · {{pps:carbs-fuel-bicarb}} per pouch
+
+[[product:carbs-fuel-bicarb]]
+
+At {{pergram:carbs-fuel-bicarb}} per gram of bicarbonate, Carbs Fuel costs a fraction of the branded systems. It comes in 15g, 20g and 25g sizes matched to body weight and uses enteric-coated capsules to reduce stomach upset. It has no third-party banned-substance testing and no retailer reviews yet, so it's best for athletes who aren't drug tested and want to use bicarb regularly.
+
+### Also worth knowing
+
+- [Powerbank Nutrition BiCarb ARC](/report/powerbank-nutrition-bicarb-arc) has the highest Pello Score of the group ({{score:powerbank-nutrition-bicarb-arc}}) and good value at {{pergram:powerbank-nutrition-bicarb-arc}} per gram. But each capsule holds just 1g of bicarbonate, so a 70kg athlete would need about 21 capsules for a full dose.
+- [Bicarb 3.0](/report/bicarb-3-0) ({{score:bicarb-3-0}}, {{grade:bicarb-3-0}}) includes 34g of carbs per sachet to help with absorption but has a weak quality score and no banned-substance testing.
+- [Maurten Bicarb System](/report/maurten-bicarb-system) ({{score:maurten-bicarb-system}}, {{grade:maurten-bicarb-system}}) is the best known and has some of the most direct research behind it, including the cycling studies above. But it's the most expensive per gram at {{pergram:maurten-bicarb-system}}, and it has no listed third-party testing.
+
+## The bottom line
+
+Bicarb works, and the research behind it is strong. But it works for a specific job: hard efforts of roughly 30 seconds to 12 minutes, or races decided by repeated surges. If that's your event, it's worth testing. Start with about 0.3g per kg, take it 60–180 minutes before with a carb-rich meal, and try it in hard training sessions first. If you're drug tested, choose [Flycarb](/report/flycarb-bicarb). If you're not, [Carbs Fuel](/report/carbs-fuel-bicarb) gives you the same buffer for far less.
+
+## References
+
+1. Grgic J, et al. International Society of Sports Nutrition position stand: sodium bicarbonate and exercise performance. Journal of the International Society of Sports Nutrition. 2021;18:61.
+2. Christensen PM, et al. Caffeine and bicarbonate for speed: a meta-analysis of legal supplements potential for improving intense endurance exercise performance. Frontiers in Physiology. 2017.
+3. Shannon OM, et al. European Journal of Applied Physiology. 2024. (Maurten Bicarb System, 40km cycling time trial; confirm full title before publishing.)
+4. Gough LA, Sparks SA. The effects of a carbohydrate hydrogel system for the delivery of bicarbonate mini-tablets on acid–base buffering and gastrointestinal symptoms in resting well-trained male cyclists. Sports Medicine – Open. 2024.`,
+  },
+  {
     slug: "best-energy-gels-cycling-2026",
     image: { src: "/blog/energy-gels.jpg", alt: "Energy gels from Maurten, Carbs Fuel, GU, Honey Stinger, Precision Fuel, SiS and others" },
     title: "Best Energy Gels for Cycling 2026",
