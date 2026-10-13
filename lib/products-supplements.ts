@@ -5697,7 +5697,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     bicarbPerServingG: 1,
     sodiumPerServing: 280,
     caffeinePerServing: 0,
-    servingSize: "1118.2 mg",
+    servingSize: "1 capsule (1,118.2mg)",
     isBatchTested: false,
     isGlutenFree: true,
     certifications: [],

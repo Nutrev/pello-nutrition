@@ -1716,7 +1716,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     transparencyScore: 85,
     sentiment: {},
     ingredients: [
-      { name: "Fructose + Glucose", dose: "18g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
+      { name: "Fructose + Glucose", dose: "12g carbs (Cashew Lemon, Cacao Almond)", verdict: "proven", note: "Carbs vary by flavour on the labels: 12g in Cashew Lemon and Cacao Almond, 18g in Raspberry, 23g in Strawberry. Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
       { name: "Sodium", dose: "100mg", verdict: "proven", note: "Moderate sodium; salty or heavy sweaters will still need electrolytes alongside it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
       { name: "Caffeine (select flavors)", dose: "90mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],

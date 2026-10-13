@@ -3099,15 +3099,13 @@ const CURATED_PRODUCTS: Product[] = [
   sodiumPerServing: 4100,
   servingSize: "1 pouch (15 enteric-coated capsules for the 15g size)",
   certifications: [],
-  // Sizes are grams of sodium bicarbonate per pouch. The Feed shows the 15g label (15,000mg sodium
-  // bicarbonate, 4,100mg sodium). The 20g and 25g sodium figures are calculated the same way
-  // (sodium is 27.4% of sodium bicarbonate by weight, which gives the 15g label's 4,100mg), rounded
-  // to the nearest 100mg; replace them with the labels' figures once The Feed shows those panels.
+  // Sizes are grams of sodium bicarbonate per pouch. Sodium per pouch from each size's label: 15g
+  // 4,100mg (The Feed), 20g 5,470mg and 25g 6,840mg (labels checked 2026-10-13).
   defaultVariantId: "15g-20",
   variants: [
     { id: "15g-20", label: "15g, 20 servings", price: 50, servingsPerContainer: 20, sodiumPerServing: 4100, bicarbPerServingG: 15 },
-    { id: "20g-20", label: "20g, 20 servings", price: 60, servingsPerContainer: 20, sodiumPerServing: 5500, bicarbPerServingG: 20 },
-    { id: "25g-20", label: "25g, 20 servings", price: 70, servingsPerContainer: 20, sodiumPerServing: 6800, bicarbPerServingG: 25 },
+    { id: "20g-20", label: "20g, 20 servings", price: 60, servingsPerContainer: 20, sodiumPerServing: 5470, bicarbPerServingG: 20 },
+    { id: "25g-20", label: "25g, 20 servings", price: 70, servingsPerContainer: 20, sodiumPerServing: 6840, bicarbPerServingG: 25 },
   ],
   imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/carbs_fuel_bicarb_300g_pouch_1200x1200.png?v=1789747599",
   retailerLinks: { theFeed: "https://thefeed.com/products/carbs-fuel-bicarb" },
