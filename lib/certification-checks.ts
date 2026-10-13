@@ -129,6 +129,7 @@ export const NSF_SPORT_LISTINGS: Record<string, { listingId: string; listingName
   "swiss-rx-synthesis": { listingId: "1712748", listingName: "SwissRX Synthesis" },
   "swissrx-peptisleep-capsules-dream": { listingId: "1721963", listingName: "SwissRX Dream" },
   "the-feed-lab-creatine": { listingId: "1691156", listingName: "The Feed Lab. Creatine" },
+  "the-feed-lab-creatine-chews": { listingId: "1835409", listingName: "The Feed Lab Creatine Chews Watermelon" },
   "the-feed-lab-creatine-monohydrate": { listingId: "1802257", listingName: "The Feed Lab Creatine Monohydrate" },
   "the-feed-lab-high-carb-drink-mix": { listingId: "1704223", listingName: "The Feed Lab. High Carb Drink Mix" },
   "the-feed-lab-hydration": { listingId: "1730272", listingName: "Feed Lab. Watermelon Hydration" },
