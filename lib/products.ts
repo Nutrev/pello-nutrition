@@ -468,6 +468,12 @@ const CURATED_PRODUCTS: Product[] = [
   reviewCount: 644,
   price: 51,                       // Drink 320 Box (14 Servings) on The Feed
   servingsPerContainer: 14,
+  // Sizes on The Feed (price per size, 2026-10-13); servings as each size states.
+  defaultVariantId: "14-servings",
+  variants: [
+    { id: "pack-of-6", label: "Pack of 6", price: 24, servingsPerContainer: 6, feedSize: "Drink 320 (6 Servings)" },
+    { id: "14-servings", label: "Box of 14", price: 51, servingsPerContainer: 14, feedSize: "Drink 320 Box (14 Servings)" },
+  ],
   carbsPerServing: 80,
   sodiumPerServing: 245,
   caffeinePerServing: 0,
