@@ -3053,7 +3053,9 @@ const CURATED_PRODUCTS: Product[] = [
     { id: "system-22", label: "System 22", price: 70, servingsPerContainer: 4, sodiumPerServing: 6000, bicarbPerServingG: 22 },
     { id: "system-25", label: "System 25", price: 70, servingsPerContainer: 4, sodiumPerServing: 6900, bicarbPerServingG: 25 },
   ],
-  retailerLinks: { theFeed: "https://thefeed.com/products/sodium-bicarbonate" },
+  // The Feed sells it through this page (box of 4, $70 for every strength; checked 2026-10-13). It's
+  // rendered in the browser, so check:prices can't read it: re-check by hand.
+  retailerLinks: { theFeed: "https://thefeed.com/maurten-bicarb?page=skip" },
   goals: ["endurance"],
   imageEmoji: "🧪",
   transparencyScore: null,                 // not yet scored: full label not available
