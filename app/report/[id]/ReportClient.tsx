@@ -248,6 +248,12 @@ export default function ReportClient({ product, similar: similarProducts, brand,
                 <span className="font-display font-bold text-2xl">${calcPricePerServing(shown).toFixed(2)}</span>
                 <span className="text-sm text-muted">per {priceUnit} · {formatPrice(shown.price)} for {servingsPerContainer(shown)}</span>
               </div>
+              {/* Bicarb products are compared per gram of sodium bicarbonate, which changes with the size picked. */}
+              {product.category === "Bicarb" && shown.bicarbPerServingG != null && shown.bicarbPerServingG > 0 && (
+                <p className="text-sm text-muted mt-1">
+                  ${(calcPricePerServing(shown) / shown.bicarbPerServingG).toFixed(2)} per gram of sodium bicarbonate · {shown.bicarbPerServingG}g per {priceUnit}
+                </p>
+              )}
               <div className="mt-3">
                 <BuyButtons retailerLinks={product.retailerLinks} productName={product.name} brand={product.brand}
                   logoDomain={product.logoDomain} layout="inline" />
