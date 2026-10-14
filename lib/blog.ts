@@ -1,6 +1,19 @@
 // lib/blog.ts
 // Blog posts stored directly in TypeScript — no filesystem reading needed
 
+// A source the article relies on. Each one is checked against PubMed (or the publisher) before it's
+// added: title, authors, journal and year exactly as listed there. Linked by DOI, else PubMed.
+export interface Reference {
+  text: string;   // "Kreider RB, et al. Title. Journal. 2017;14:18."
+  doi?: string;
+  pmid?: string;
+  url?: string;   // for sources with neither (e.g. a governing body's document)
+}
+
+// Placeholder text ("TODO: author name") counts as not set: the page falls back to the
+// organisation byline and shows no reviewer line until a real name is filled in.
+export const isPlaceholder = (s?: string) => !s || /^TODO\b/i.test(s.trim());
+
 export interface BlogPost {
   slug: string;
   title: string;
@@ -20,6 +33,16 @@ export interface BlogPost {
   packshots?: { src: string; alt: string }[];
   // Shown as the large featured card at the top of the blog page.
   startHere?: boolean;
+  // Last substantive update (YYYY-MM-DD), shown as "Updated …" beside the publish date.
+  updated?: string;
+  // A named author and an optional reviewer, e.g. { name: "…", credential: "RD" }. Placeholders
+  // (see isPlaceholder) are hidden on the page until filled in.
+  authorName?: string;
+  reviewer?: { name: string; credential: string };
+  references?: Reference[];
+  // Share image override (a path in public/ or a full URL). Without one, a branded image with the
+  // title is generated at /og/blog/[slug].
+  ogImage?: string;
 }
 
 export const BLOG_POSTS: BlogPost[] = [
@@ -33,6 +56,17 @@ export const BLOG_POSTS: BlogPost[] = [
     tags: ["bicarb", "sodium bicarbonate", "performance", "supplements"],
     relatedProducts: ["flycarb-bicarb", "carbs-fuel-bicarb", "powerbank-nutrition-bicarb-arc", "bicarb-3-0", "maurten-bicarb-system"],
     readingTime: 7,
+    updated: "2026-10-14",
+    authorName: "TODO: author name",
+    reviewer: { name: "TODO: reviewer", credential: "TODO: credential" },
+    references: [
+      { text: "Grgic J, Pedisic Z, Saunders B, Artioli GG, Schoenfeld BJ, McKenna MJ, et al. International Society of Sports Nutrition position stand: sodium bicarbonate and exercise performance. J Int Soc Sports Nutr. 2021;18(1):61.", doi: "10.1186/s12970-021-00458-w", pmid: "34503527" },
+      { text: "Carr AJ, Hopkins WG, Gore CJ. Effects of acute alkalosis and acidosis on performance: a meta-analysis. Sports Med. 2011;41(10):801-14.", doi: "10.2165/11591440-000000000-00000", pmid: "21923200" },
+      { text: "Christensen PM, Shirai Y, Ritz C, Nordsborg NB. Caffeine and bicarbonate for speed. A meta-analysis of legal supplements potential for improving intense endurance exercise performance. Front Physiol. 2017;8:240.", doi: "10.3389/fphys.2017.00240", pmid: "28536531" },
+      { text: "Shannon ES, Regnier A, Dobson B, Yang X, Sparks SA, Mc Naughton LR. The effect of sodium bicarbonate mini-tablets ingested in a carbohydrate hydrogel system on 40 km cycling time trial performance and metabolism in trained male cyclists. Eur J Appl Physiol. 2024;124(12):3671-82.", doi: "10.1007/s00421-024-05567-3", pmid: "39068627" },
+      { text: "Gough LA, Sparks SA. The effects of a carbohydrate hydrogel system for the delivery of bicarbonate mini-tablets on acid-base buffering and gastrointestinal symptoms in resting well-trained male cyclists. Sports Med Open. 2024;10(1):17.", doi: "10.1186/s40798-024-00684-x", pmid: "38356036" },
+      { text: "U.S. Anti-Doping Agency. Buffers and anti-doping rules: what athletes should know about sodium bicarbonate. USADA.", url: "https://www.usada.org/?p=95015" },
+    ],
     content: `Bicarb has gone from a niche track trick to something you'll see in pro cycling team buses and distance runners' race kits. It's also one of the few supplements with strong research behind it. But it comes with a real catch, and it's not useful for every event. Here's what it is, what it does, and which product we'd pick.
 
 ## What is bicarb?
@@ -47,7 +81,7 @@ Sports supplements simply package the right dose in a more convenient, and ideal
 
 The research is strong. The International Society of Sports Nutrition (ISSN) reviewed the evidence in its 2021 position stand and concluded that bicarb improves performance in high-intensity efforts lasting roughly 30 seconds to 12 minutes. That holds for cycling, running, swimming, rowing and combat sports, for both single and repeated efforts, and for both men and women.
 
-Meta-analyses put the improvement at around 2% in time trials and repeated sprints. That's small on paper, but at the sharp end of a race it's a big margin.
+A meta-analysis of 38 studies estimated an average improvement of about 1.7% in mean power in a 1-minute sprint (Carr 2011), and a second meta-analysis found a small but clear benefit in performance tests lasting 45 seconds to 8 minutes (Christensen 2017). That's small on paper, but at the sharp end of a race it's a big margin.
 
 Where it helps most:
 
@@ -56,13 +90,13 @@ Where it helps most:
 - Racing with repeated surges, like crit racing, cyclocross and the decisive attacks in a road race.
 - Rowing, swimming and other events decided by a few minutes of all-out work.
 
-Where the evidence is weaker: long, steady events like the marathon or a long road race, where acid build-up is rarely what limits you. Research on newer products has started to look at longer efforts. A small 2024 study found well-trained male cyclists completed a 40km time trial 1.5% faster with [Maurten's bicarb system](/report/maurten-bicarb-system) than with a placebo. But that study was small, and the evidence for long endurance events is still thin.
+Where the evidence is weaker: long, steady events like the marathon or a long road race, where acid build-up is rarely what limits you. Research on newer products has started to look at longer efforts. A 2024 study found 14 trained male cyclists completed a 40km time trial about 54 seconds faster with [Maurten's bicarb system](/report/maurten-bicarb-system) than with a placebo (Shannon 2024). One of its authors is affiliated with Maurten. That study was small, and the evidence for long endurance events is still thin.
 
 ## The drawbacks
 
 **Stomach upset is the big one.** The effective dose is large, and the most common side effects are bloating, nausea, abdominal pain, diarrhea and, sometimes, vomiting. For some athletes, these cancel out the benefit entirely, or worse. A bad reaction on race morning can ruin your day.
 
-Newer products try to fix this with enteric-coated capsules, which pass through the stomach before releasing, or by delivering the bicarb inside a carbohydrate gel. Head-to-head research suggests these can reduce stomach problems compared with plain bicarb, though the studies so far are small and mostly in male cyclists.
+Newer products try to fix this with enteric-coated capsules, which pass through the stomach before releasing, or by delivering the bicarb inside a carbohydrate gel. In one head-to-head study of 12 well-trained male cyclists at rest, bicarb delivered in a carbohydrate hydrogel caused much less stomach discomfort than the same dose in plain capsules (Gough 2024). The studies so far are small and mostly in male cyclists.
 
 **It's a lot of sodium.** Sodium bicarbonate is about 27% sodium by weight. A typical dose for a 70kg athlete, around 21g, contains roughly 5.7g of sodium. If you have high blood pressure, kidney problems or are on a sodium-restricted diet, talk to your doctor before trying bicarb.
 
@@ -74,11 +108,11 @@ Newer products try to fix this with enteric-coated capsules, which pass through 
 
 - **Dose:** about 0.3g per kg of body weight. That's 21g for a 70kg athlete. The ISSN position stand covers 0.2–0.5g/kg, with 0.3g/kg as the best balance of benefit and side effects.
 - **Timing:** 60–180 minutes before your event. Taking it closer to the 180-minute end, with a carb-rich meal, can help reduce stomach upset.
-- **Split it up:** smaller doses spread over 30–60 minutes are often easier on the stomach than one large dose.
+- **Ease stomach upset:** the ISSN suggests a smaller dose (0.2–0.3g/kg), taking it around 180 minutes before, with a high-carbohydrate meal, or in enteric-coated capsules (Grgic 2021).
 - **Multi-day option:** for stage races or heat-and-final events, a loading approach of 0.4–0.5g/kg per day, split across meals for 3–7 days, can work without needing a big dose on race morning.
 - **Test it in training first.** Try it before a hard interval session, at the dose and timing you plan to race with. Race day is not the time to try bicarb for the first time.
 
-Bicarb is not on the World Anti-Doping Agency's banned list. But if you're drug tested, choose a product that's batch-tested for banned substances, because the risk with any supplement is contamination.
+Oral bicarb is not on the World Anti-Doping Agency's prohibited list (USADA). But if you're drug tested, choose a product that's batch-tested for banned substances, because the risk with any supplement is contamination.
 
 ## Our pick
 
@@ -110,14 +144,7 @@ At {{pergram:carbs-fuel-bicarb}} per gram of bicarbonate, Carbs Fuel costs a fra
 
 ## The bottom line
 
-Bicarb works, and the research behind it is strong. But it works for a specific job: hard efforts of roughly 30 seconds to 12 minutes, or races decided by repeated surges. If that's your event, it's worth testing. Start with about 0.3g per kg, take it 60–180 minutes before with a carb-rich meal, and try it in hard training sessions first. If you're drug tested, choose [Flycarb](/report/flycarb-bicarb). If you're not, [Carbs Fuel](/report/carbs-fuel-bicarb) gives you the same buffer for far less.
-
-## References
-
-1. Grgic J, et al. International Society of Sports Nutrition position stand: sodium bicarbonate and exercise performance. Journal of the International Society of Sports Nutrition. 2021;18:61.
-2. Christensen PM, et al. Caffeine and bicarbonate for speed: a meta-analysis of legal supplements potential for improving intense endurance exercise performance. Frontiers in Physiology. 2017.
-3. Shannon OM, et al. European Journal of Applied Physiology. 2024. (Maurten Bicarb System, 40km cycling time trial; confirm full title before publishing.)
-4. Gough LA, Sparks SA. The effects of a carbohydrate hydrogel system for the delivery of bicarbonate mini-tablets on acid–base buffering and gastrointestinal symptoms in resting well-trained male cyclists. Sports Medicine – Open. 2024.`,
+Bicarb works, and the research behind it is strong. But it works for a specific job: hard efforts of roughly 30 seconds to 12 minutes, or races decided by repeated surges. If that's your event, it's worth testing. Start with about 0.3g per kg, take it 60–180 minutes before with a carb-rich meal, and try it in hard training sessions first. If you're drug tested, choose [Flycarb](/report/flycarb-bicarb). If you're not, [Carbs Fuel](/report/carbs-fuel-bicarb) gives you the same buffer for far less.`,
   },
   {
     slug: "best-energy-gels-cycling-2026",
@@ -130,6 +157,17 @@ Bicarb works, and the research behind it is strong. But it works for a specific 
     tags: ["energy gels", "cycling", "endurance", "fueling"],
     relatedProducts: ["maurten-gel-100", "maurten-gel-100-caf-100", "sis-go-isotonic", "sis-beta-fuel-gel", "precision-fuel-pf30", "gu-roctane-gel"],
     readingTime: 6,
+    updated: "2026-10-14",
+    authorName: "TODO: author name",
+    reviewer: { name: "TODO: reviewer", credential: "TODO: credential" },
+    references: [
+      { text: "Jeukendrup A. A step towards personalized sports nutrition: carbohydrate intake during exercise. Sports Med. 2014;44(Suppl 1):S25-33.", doi: "10.1007/s40279-014-0148-z", pmid: "24791914" },
+      { text: "Thomas DT, Erdman KA, Burke LM. American College of Sports Medicine joint position statement. Nutrition and athletic performance. Med Sci Sports Exerc. 2016;48(3):543-68.", doi: "10.1249/MSS.0000000000000852", pmid: "26891166" },
+      { text: "O'Brien WJ, Stannard SR, Clarke JA, Rowlands DS. Fructose-maltodextrin ratio governs exogenous and other CHO oxidation and performance. Med Sci Sports Exerc. 2013;45(9):1814-24.", doi: "10.1249/MSS.0b013e31828e12d4", pmid: "23949097" },
+      { text: "de Oliveira EP, Burini RC, Jeukendrup A. Gastrointestinal complaints during exercise: prevalence, etiology, and nutritional recommendations. Sports Med. 2014;44(Suppl 1):S79-85.", doi: "10.1007/s40279-014-0153-2", pmid: "24791919" },
+      { text: "Rowe JT, King RFGJ, King AJ, Morrison DJ, Preston T, Wilson OJ, et al. Glucose and fructose hydrogel enhances running performance, exogenous carbohydrate oxidation, and gastrointestinal tolerance. Med Sci Sports Exerc. 2022;54(1):129-40.", doi: "10.1249/MSS.0000000000002764", pmid: "34334720" },
+      { text: "King AJ, Rowe JT, Burke LM. Carbohydrate hydrogel products do not improve performance or gastrointestinal distress during moderate-intensity endurance exercise. Int J Sport Nutr Exerc Metab. 2020;30(5):305-14.", doi: "10.1123/ijsnem.2020-0102", pmid: "32707564" },
+    ],
     content: `Energy gels are the cornerstone of endurance cycling nutrition. Get them right and you can sustain effort for hours. Get them wrong and you're dealing with GI distress, energy crashes or simply running out of fuel.
 
 We compared 15+ gels on ingredient quality, carbohydrate science, customer ratings and price per gel. Here are the best options for cyclists in 2026.
@@ -138,11 +176,11 @@ We compared 15+ gels on ingredient quality, carbohydrate science, customer ratin
 
 Before getting into picks, here's what actually matters in a gel:
 
-**Carbohydrate type and ratio.** The best gels use a mix of glucose and fructose at a 2:1 or 1:0.8 ratio. This unlocks two separate intestinal transporters, allowing absorption of up to 90g of carbs per hour — significantly more than glucose alone (60g/hr ceiling).
+**Carbohydrate type and ratio.** A single carb source such as glucose can be used at up to about 60g an hour. Mixing glucose and fructose uses separate gut transporters, allowing intakes of up to about 90g an hour (Jeukendrup 2014). In one study, a fructose-to-glucose ratio of 0.8:1 was used more efficiently than 0.5:1 or 1.25:1 (O'Brien 2013).
 
-**Dose per gel.** Most gels provide 20-30g of carbs. On long, hard rides you'll want 60-90g per hour (up to 60g on rides under about 2.5 hours) — so gel frequency matters.
+**Dose per gel.** Most gels provide 20-30g of carbs. Guidance suggests about 60g an hour for 2-3 hours and up to about 90g an hour for longer events (Jeukendrup 2014), so gel frequency matters.
 
-**Osmolality.** Isotonic gels can be taken without water. Non-isotonic gels need water to dilute them in the gut, otherwise they can draw fluid from your body and cause cramping.
+**Osmolality.** Very concentrated carbohydrate can draw water into the gut and is linked with stomach symptoms, so a review recommends taking carbs with enough water (de Oliveira 2014). Isotonic gels are designed to be taken without water.
 
 **Ingredient cleanliness.** Some gels contain artificial preservatives, artificial sweeteners or gums. Many athletes prefer to avoid these.
 
@@ -150,9 +188,9 @@ Before getting into picks, here's what actually matters in a gel:
 
 ### Best overall: Maurten Gel 100
 
-Maurten's hydrogel technology encapsulates carbohydrates in a gel matrix designed to pass through the stomach smoothly, and it's a favorite of athletes who struggle with GI issues. It's rated 4.8 out of 5 from over 1,400 reviews on The Feed.
+Maurten's hydrogel technology encapsulates carbohydrates in a gel matrix designed to pass through the stomach smoothly. Research on whether hydrogels reduce stomach problems is mixed: one study in runners found fewer GI symptoms and a faster time trial (Rowe 2022), while a review found no clear advantage over standard carb drinks (King 2020). It's rated {{rating:maurten-gel-100}} out of 5 from {{reviews:maurten-gel-100}}.
 
-At 25g carbs per gel with a short six-ingredient label, it's not the most carb-dense option, but its reputation for tolerance makes it a reliable choice for long events. The main drawback is price — at {{pps:maurten-gel-100}}/gel it's among the most expensive on the market.
+At {{carbs:maurten-gel-100}} of carbs per gel with a short six-ingredient label, it's not the most carb-dense option, but its reputation for tolerance makes it a reliable choice for long events. The main drawback is price — at {{pps:maurten-gel-100}}/gel it's among the most expensive on the market.
 
 Best for: Cyclists who've had GI issues with other gels, long sportives and gran fondos.
 
@@ -166,32 +204,32 @@ Best for: Training rides, budget-conscious athletes, high-volume use.
 
 ### Best high-carb: SiS Beta Fuel Gel
 
-Science in Sport's Beta Fuel delivers 40g of carbs per gel at a 1:0.8 maltodextrin:fructose ratio — one of the highest per-gel doses available — so fewer gels cover a high hourly target. It's Informed Sport certified.
+Science in Sport's Beta Fuel delivers {{carbs:sis-beta-fuel-gel}} of carbs per gel at a 1:0.8 maltodextrin:fructose ratio — one of the highest per-gel doses available — so fewer gels cover a high hourly target. It's Informed Sport certified.
 
 Best for: High-intensity efforts, athletes pushing 80-90g carbs/hr.
 
 ### Best caffeinated: Precision Fuel PF30 CAF
 
-100mg of caffeine paired with 30g of carbs. Precision Fuel's modular approach — separating carbs from electrolytes — gives athletes more control over their fueling strategy.
+{{caffeine:precision-fuel-pf30-caf}} of caffeine paired with {{carbs:precision-fuel-pf30-caf}} of carbs. Precision Fuel's modular approach — separating carbs from electrolytes — gives athletes more control over their fueling strategy.
 
 Best for: Late-race use, sportives over 3 hours, athletes who respond well to caffeine.
 
-### Best for sensitive stomachs: Maurten Gel 100 CAF 100
+### Caffeinated hydrogel: Maurten Gel 100 CAF 100
 
-Same hydrogel formula as the standard Gel 100 but with 100mg caffeine. The hydrogel delivery system appears to reduce caffeine-related GI issues compared to standard caffeinated gels.
+Same hydrogel formula as the standard Gel 100 but with {{caffeine:maurten-gel-100-caf-100}} of caffeine. We haven't found studies testing whether the hydrogel reduces stomach problems caused by caffeine specifically.
 
-Best for: Athletes who want caffeine but struggle with GI distress from standard caffeinated gels.
+Best for: Athletes who get on well with Maurten Gel 100 and want a caffeinated version.
 
 ## How many gels do you need?
 
-A rough guide based on intensity, for rides over about 2.5 hours. On shorter rides, keep to 30-60g per hour, the range in the 2016 position stand from the American College of Sports Medicine, the Academy of Nutrition and Dietetics and Dietitians of Canada. Under 45 minutes, you don't need carbs at all.
+Carb needs depend mostly on how long you're riding. A rough guide, from the 2016 position stand from the American College of Sports Medicine, the Academy of Nutrition and Dietetics and Dietitians of Canada (Thomas 2016) and from Jeukendrup (2014):
 
-- Easy ride (Z1-Z2): 30g carbs/hr — 1 gel per hour
-- Moderate (Z2-Z3): 50g carbs/hr — 2 gels per hour
-- Hard/threshold (Z3-Z4): 70g carbs/hr — 2-3 gels per hour
-- Race pace (Z4-Z5): 90g carbs/hr — 3 gels per hour plus drink mix
+- Under about 45 minutes: you don't need carbs.
+- Around an hour: small amounts, or even a carbohydrate mouth rinse, can help.
+- 1-2.5 hours: 30-60g an hour, about one to two 25g gels.
+- Over about 2.5 hours: up to 90g an hour from a mix of carb types, about three 25g gels, or gels plus drink mix.
 
-Start fueling at 30-45 minutes into the ride. Don't wait until you feel hungry — by then it's too late.
+Start fueling early in the ride rather than waiting until you feel hungry.
 
 [[pro:/quiz?mode=event|See what your race fueling costs, gel by gel]]
 
@@ -204,73 +242,102 @@ Use our [Pello Planner](/quiz) to get a personalized gel recommendation based on
   {
     slug: "creatine-endurance-athletes",
     title: "Creatine for Endurance Athletes — What the Science Actually Says",
-    description: "Creatine is the most researched supplement in existence. But is it useful for cyclists, runners and triathletes? We break down the evidence.",
+    description: "What creatine does, where it might help endurance athletes, the weight trade-off, how to take it, and the creatine we'd pick on Pello's data.",
     date: "2026-09-22",
     author: "Pello Nutrition",
     category: "Science",
     tags: ["creatine", "endurance", "supplements", "science"],
-    relatedProducts: ["thorne-creatine", "momentous-creatine", "amacx-creatine"],
-    readingTime: 7,
-    content: `Creatine monohydrate is the most extensively researched performance supplement in sports science. Over 500 studies, consistent results, excellent safety profile. For strength and power athletes the evidence is overwhelming.
+    relatedProducts: ["the-feed-lab-creatine-monohydrate", "fluid-creatine", "the-feed-lab-creatine", "momentous-creatine", "thorne-creatine"],
+    readingTime: 6,
+    updated: "2026-10-14",
+    authorName: "TODO: author name",
+    reviewer: { name: "TODO: reviewer", credential: "TODO: credential" },
+    references: [
+      { text: "Kreider RB, Kalman DS, Antonio J, Ziegenfuss TN, Wildman R, Collins R, et al. International Society of Sports Nutrition position stand: safety and efficacy of creatine supplementation in exercise, sport, and medicine. J Int Soc Sports Nutr. 2017;14:18.", doi: "10.1186/s12970-017-0173-z", pmid: "28615996" },
+      { text: "Antonio J, Candow DG, Forbes SC, Gualano B, Jagim AR, Kreider RB, et al. Common questions and misconceptions about creatine supplementation: what does the scientific evidence really show? J Int Soc Sports Nutr. 2021;18(1):13.", doi: "10.1186/s12970-021-00412-w", pmid: "33557850" },
+      { text: "Hultman E, Söderlund K, Timmons JA, Cederblad G, Greenhaff PL. Muscle creatine loading in men. J Appl Physiol (1985). 1996;81(1):232-7.", doi: "10.1152/jappl.1996.81.1.232", pmid: "8828669" },
+      { text: "Forbes SC, Candow DG, Neto JHF, Kennedy MD, Forbes JL, Machado M, et al. Creatine supplementation and endurance performance: surges and sprints to win the race. J Int Soc Sports Nutr. 2023;20(1):2204071.", doi: "10.1080/15502783.2023.2204071", pmid: "37096381" },
+      { text: "Fernández-Landa J, Santibañez-Gutierrez A, Todorovic N, Stajer V, Ostojic SM. Effects of creatine monohydrate on endurance performance in a trained population: a systematic review and meta-analysis. Sports Med. 2023;53(5):1017-27.", doi: "10.1007/s40279-023-01823-2", pmid: "36877404" },
+    ],
+    content: `Creatine monohydrate is one of the most studied supplements in sport. A 2021 review by researchers from the International Society of Sports Nutrition (ISSN) counted more than 500 peer-reviewed publications on it (Antonio 2021). For strength and power athletes, the case is well established.
 
-But what about endurance athletes? Cyclists, runners, triathletes — is creatine worth taking?
+For endurance athletes it's less clear. Here's what the research says creatine does, where it might help, the trade-off with body weight, and which products we'd pick.
 
-The short answer: probably yes, but not for the reasons you might think.
+## What creatine does
 
-## What creatine actually does
+Your muscles store creatine, mostly as phosphocreatine. During short, very hard efforts, phosphocreatine regenerates ATP, the molecule muscles use for energy, faster than your other energy systems can. The store is small, so it runs low within seconds of all-out work and refills during recovery.
 
-Creatine is stored in muscle as phosphocreatine (PCr). During high-intensity efforts, PCr donates a phosphate group to ADP to rapidly regenerate ATP — the currency of muscular energy.
+Supplementing raises the amount of creatine in muscle, by about 20% in a classic study of loading (Hultman 1996). The ISSN's 2017 position stand says this may help explain the improvements seen in high-intensity exercise performance, and the greater training adaptations that follow (Kreider 2017).
 
-This is why creatine is so effective for strength and power: it directly fuels the phosphocreatine energy system used during short, intense efforts.
+Most endurance racing runs on aerobic metabolism, not phosphocreatine. That's why the benefit for steady endurance work is much less certain.
 
-Endurance sport runs primarily on oxidative metabolism — the aerobic system. So the direct PCr-replenishment benefit is less relevant for a 4-hour ride than a 100m sprint.
+## Where it might help endurance athletes
 
-## Where creatine helps endurance athletes
+**Surges and sprints.** A 2023 review argues that creatine is most likely to help in the parts of endurance races that look like sprinting: attacks, surges and finishing kicks (Forbes 2023). It found creatine increases time to exhaustion in high-intensity endurance tests, but time-trial results are mixed. Several of its authors declare ties to companies that make or sell creatine.
 
-**Repeated high-intensity efforts**
+**Steady endurance performance: probably not.** A 2023 meta-analysis of 13 placebo-controlled studies in trained athletes found no effect of creatine monohydrate on endurance performance (Fernández-Landa 2023). For a steady time trial, marathon or long road race, there's no good evidence it will make you faster.
 
-Road cycling, criteriums, trail running and triathlon all involve repeated surges — attacks, hill sprints, race finishes. Creatine directly improves performance in these efforts by maintaining PCr availability between surges.
+**Strength training.** Many endurance athletes lift in the off-season. Supporting resistance training is creatine's best-established use (Kreider 2017), so if strength work is part of your plan, that's where creatine is most likely to pay off.
 
-**Strength training adaptation**
+**Glycogen.** The 2023 review also notes that taking creatine with carbohydrate can increase muscle glycogen (Forbes 2023). That's a plausible benefit for endurance athletes, but it hasn't been shown to improve race performance directly.
 
-Most endurance athletes do strength work in the off-season or as cross-training. Creatine meaningfully improves strength training adaptation — more force production, better recovery between sets, greater long-term gains.
+## The weight trade-off
 
-**Cognitive function**
+Creatine increases body mass (Forbes 2023). Some of that is water. The ISSN review of common questions notes that water retention is the most common side effect in the first several days of supplementing, especially with a loading phase, while longer training studies haven't shown a lasting increase in body water (Antonio 2021).
 
-Emerging research shows creatine supplementation improves cognitive performance, particularly under sleep deprivation or fatigue. Relevant for ultramarathon runners and multi-day events.
+Extra weight matters most when you carry it uphill. For a climber or a hilly runner, a small gain in body mass could cancel out a small gain in power. For a track cyclist or a rower, it matters less. If watts per kilogram decide your races, weigh yourself through the first few weeks and judge for yourself.
 
-**Recovery**
+## How to take it
 
-Creatine has demonstrated anti-inflammatory effects and may reduce muscle damage markers after intense exercise. Faster recovery between hard training sessions is valuable for any athlete.
+- **Dose:** 3–5g a day, or about 0.1g per kg of body weight (Antonio 2021).
+- **Loading is optional.** 20g a day for 6 days raised muscle creatine by about 20%. 3g a day reached a similar level more slowly, over 28 days (Hultman 1996). Skipping the loading phase also avoids most of the early water gain.
+- **Timing:** taking it every day matters more than when you take it.
+- **Form:** creatine monohydrate, the form used in most of the research.
+- **Testing:** if you're drug tested, choose a product that's NSF Certified for Sport or Informed Sport certified.
 
-**Muscle mass (if desired)**
+The ISSN position stand also concludes that creatine is safe and well tolerated in healthy people, in studies using up to 30g a day for 5 years (Kreider 2017).
 
-Creatine increases intramuscular water retention and, over time, lean muscle mass. For power-to-weight sport this is a trade-off — some cyclists avoid it for this reason.
+## Our picks
 
-## The weight concern
+These come from Pello's creatine data. Prices are The Feed's, and every pick below has a sport certification.
 
-The most common reason endurance athletes avoid creatine is the 1-2kg water weight gain from intramuscular hydration. For road cyclists where watts per kilogram matters, this is a real consideration.
+[[disclosure]]
 
-The counter-argument: that water is inside muscle cells and may actually improve performance by maintaining cell hydration during long efforts. The net effect on endurance performance appears neutral to slightly positive in most studies.
+### Best value: The Feed Lab Creatine Monohydrate
 
-## What dose and form to take
+[[product:the-feed-lab-creatine-monohydrate]]
 
-- Dose: 3-5g daily. No loading phase needed.
-- Form: Creatine monohydrate. Specifically Creapure — a German-manufactured pharmaceutical-grade monohydrate.
-- Timing: Timing matters less than consistency. Daily use is what matters.
-- Certified: Look for NSF Certified for Sport or Informed Sport certification.
+5g of creatine monohydrate per scoop for {{pps:the-feed-lab-creatine-monohydrate}} a serving ({{price:the-feed-lab-creatine-monohydrate}} for {{servings:the-feed-lab-creatine-monohydrate}} servings), with a Pello Score of {{score:the-feed-lab-creatine-monohydrate}}. It's NSF Certified for Sport. The Feed Lab is The Feed's own brand.
 
-## Our recommended products
+### Also great value: Fluid Creatine
 
-Thorne Creatine and Momentous Creatine are both NSF Certified for Sport, and Momentous uses Creapure monohydrate. Both represent excellent value at under $0.50 per serving.
+[[product:fluid-creatine]]
 
-View full analysis and community reviews on each product page linked below.
+Also 5g a scoop at {{pps:fluid-creatine}} a serving ({{price:fluid-creatine}} for {{servings:fluid-creatine}} servings), with a Pello Score of {{score:fluid-creatine}}. It's Informed Sport certified and rated {{rating:fluid-creatine}}/5 from {{reviews:fluid-creatine}}.
+
+### Creapure: The Feed Lab Creatine
+
+[[product:the-feed-lab-creatine]]
+
+Creapure is a branded creatine monohydrate. The Feed Lab Creatine lists Creapure on its label, costs {{pps:the-feed-lab-creatine}} a serving and has a Pello Score of {{score:the-feed-lab-creatine}}. It's NSF Certified for Sport and the most reviewed creatine we track: {{rating:the-feed-lab-creatine}}/5 from {{reviews:the-feed-lab-creatine}}.
+
+### Also NSF certified
+
+[Momentous Creatine](/report/momentous-creatine) and [Thorne Creatine](/report/thorne-creatine) are both NSF Certified for Sport, at {{pps:momentous-creatine}} and {{pps:thorne-creatine}} a serving, with Pello Scores of {{score:momentous-creatine}} and {{score:thorne-creatine}}.
+
+### What to look for on the label
+
+- **One ingredient.** Creatine monohydrate on its own is all you need. Blends with other ingredients cost more and make the dose harder to check.
+- **The dose per serving.** Check it's 3–5g, or know how many servings make a dose.
+- **A sport certification** if you're drug tested: NSF Certified for Sport or Informed Sport.
+
+### A note on chews
+
+Creatine chews are convenient but cost more per dose. [Momentous Creatine Chews](/report/momentous-creatine-chews) have 1g of creatine per chew, so a 5g dose costs {{creatine5g:momentous-creatine-chews}}, compared with {{creatine5g:the-feed-lab-creatine-monohydrate}} for The Feed Lab's powder.
 
 ## The bottom line
 
-Creatine is worth taking for most endurance athletes — particularly those who do repeated high-intensity efforts, strength training, or compete in multi-day events. The evidence is strong, the cost is low and the safety profile is excellent.
-
-Start with 3-5g daily and give it 4 weeks to fully saturate. Don't load. Don't overthink the timing. Just be consistent.`,
+Creatine is safe, inexpensive and well studied, but its benefits are clearest for strength training and short, repeated sprints, not steady endurance. If your races are decided by surges and finishing sprints, or you lift through the off-season, 3–5g a day is a low-cost thing to try. If your events are long and steady, the evidence that it will make you faster is weak, and the extra body mass may count against you on climbs.`,
   },
 
   {
@@ -287,6 +354,16 @@ Start with 3-5g daily and give it 4 weeks to fully saturate. Don't load. Don't o
     tags: ["maurten", "sis", "energy gels", "comparison", "carbohydrates"],
     relatedProducts: ["maurten-gel-100", "sis-beta-fuel-gel", "maurten-drink-mix-320", "sis-beta-fuel-drink"],
     readingTime: 7,
+    updated: "2026-10-14",
+    authorName: "TODO: author name",
+    reviewer: { name: "TODO: reviewer", credential: "TODO: credential" },
+    references: [
+      { text: "O'Brien WJ, Stannard SR, Clarke JA, Rowlands DS. Fructose-maltodextrin ratio governs exogenous and other CHO oxidation and performance. Med Sci Sports Exerc. 2013;45(9):1814-24.", doi: "10.1249/MSS.0b013e31828e12d4", pmid: "23949097" },
+      { text: "Rowlands DS, Houltham S, Musa-Veloso K, Brown F, Paulionis L, Bailey D. Fructose-glucose composite carbohydrates and endurance performance: critical review and future perspectives. Sports Med. 2015;45(11):1561-76.", doi: "10.1007/s40279-015-0381-0", pmid: "26373645" },
+      { text: "Jeukendrup A. A step towards personalized sports nutrition: carbohydrate intake during exercise. Sports Med. 2014;44(Suppl 1):S25-33.", doi: "10.1007/s40279-014-0148-z", pmid: "24791914" },
+      { text: "Rowe JT, King RFGJ, King AJ, Morrison DJ, Preston T, Wilson OJ, et al. Glucose and fructose hydrogel enhances running performance, exogenous carbohydrate oxidation, and gastrointestinal tolerance. Med Sci Sports Exerc. 2022;54(1):129-40.", doi: "10.1249/MSS.0000000000002764", pmid: "34334720" },
+      { text: "King AJ, Rowe JT, Burke LM. Carbohydrate hydrogel products do not improve performance or gastrointestinal distress during moderate-intensity endurance exercise. Int J Sport Nutr Exerc Metab. 2020;30(5):305-14.", doi: "10.1123/ijsnem.2020-0102", pmid: "32707564" },
+    ],
     content: `Maurten and Science in Sport (SiS) Beta Fuel are the two most talked-about high-performance fueling systems in endurance sport. Both are used by professional athletes. Both are backed by science. And both cost significantly more than budget alternatives.
 
 So which one is actually better — and for whom?
@@ -295,26 +372,26 @@ So which one is actually better — and for whom?
 
 The fundamental difference between Maurten and SiS Beta Fuel comes down to delivery mechanism and carbohydrate ratio.
 
-Maurten uses a hydrogel system — sodium alginate reacts with stomach acid to form a gel around the carbohydrates, which Maurten says helps them pass through the stomach with less gut stress. Independent studies have found mixed results so far, but many athletes with sensitive stomachs rely on it.
+Maurten uses a hydrogel system — sodium alginate reacts with stomach acid to form a gel around the carbohydrates, which Maurten says helps them pass through the stomach with less gut stress. Independent studies have found mixed results so far (Rowe 2022; King 2020).
 
-SiS Beta Fuel uses a 1:0.8 maltodextrin to fructose ratio — refined from the older 2:1 standard. Research suggests a ratio closer to 1:1 can improve carbohydrate absorption and comfort at high intakes, supporting up to 90g of carbs per hour.
+SiS Beta Fuel uses a 1:0.8 maltodextrin to fructose ratio — refined from the older 2:1 standard. In a study of 12 cyclists, a drink with 0.8 parts fructose to 1 part glucose was used more efficiently than 0.5:1 or 1.25:1, and sprint power afterwards was higher (O'Brien 2013). A review of 14 studies found that fructose-glucose blends improved endurance performance by small to moderate amounts compared with glucose alone (Rowlands 2015). Blends like this are what allow intakes of up to about 90g an hour (Jeukendrup 2014).
 
-Both approaches are scientifically valid. They're solving the same problem — getting more carbs in faster with less gut trouble — from different angles.
+They're aimed at the same problem — getting more carbs in with less gut trouble — from different angles.
 
 ## Carbohydrate density
 
 This is where SiS Beta Fuel has a clear advantage.
 
-- Maurten Gel 100: 25g carbs per gel
-- SiS Beta Fuel Gel: 40g carbs per gel
+- Maurten Gel 100: {{carbs:maurten-gel-100}} carbs per gel
+- SiS Beta Fuel Gel: {{carbs:sis-beta-fuel-gel}} carbs per gel
 
 For athletes pushing 80-90g carbs per hour, SiS delivers more per unit. You need 3-4 Maurten gels per hour versus 2-3 SiS Beta Fuel gels. Fewer items to carry, fewer moments to fumble with packaging mid-race.
 
-The drink mixes are level: SiS Beta Fuel drink and Maurten Drink Mix 320 both provide 80g of carbs per serving.
+For the drink mixes, SiS Beta Fuel drink provides {{carbs:sis-beta-fuel-drink}} of carbs per serving and Maurten Drink Mix 320 provides {{carbs:maurten-drink-mix-320}}.
 
 ## GI comfort
 
-Both are built for gut comfort, from different angles: Maurten through its hydrogel, SiS through its 1:0.8 carb ratio. Customers rate them equally — both gels score 4.8 out of 5 on The Feed, from over 1,400 reviews for Maurten Gel 100 and nearly 1,300 for Beta Fuel.
+Both are built for gut comfort, from different angles: Maurten through its hydrogel, SiS through its 1:0.8 carb ratio. Customers rate both highly: Maurten Gel 100 is rated {{rating:maurten-gel-100}}/5 from {{reviews:maurten-gel-100}}, and SiS Beta Fuel {{rating:sis-beta-fuel-gel}}/5 from {{reviews:sis-beta-fuel-gel}}.
 
 Gut tolerance is highly individual, so the only reliable test is trying each in training at race intensity before you commit to one on race day.
 
@@ -328,12 +405,12 @@ SiS Beta Fuel adds flavorings, gums (gellan and xanthan) and preservatives (sodi
 
 ## Price
 
-Both are expensive. SiS Beta Fuel is slightly more affordable per gram of carbohydrate delivered.
+Both are expensive. SiS Beta Fuel costs less per gram of carbohydrate.
 
-- Maurten Gel 100: ~$3.75/gel (box of 12), 25g carbs = $0.150/g carb
-- SiS Beta Fuel Gel: ~$3.39/gel (box of 18), 40g carbs = $0.085/g carb
+- Maurten Gel 100: {{pps:maurten-gel-100}} a gel, {{carbs:maurten-gel-100}} of carbs = {{cpgcarb:maurten-gel-100}} per gram of carbs
+- SiS Beta Fuel Gel: {{pps:sis-beta-fuel-gel}} a gel, {{carbs:sis-beta-fuel-gel}} of carbs = {{cpgcarb:sis-beta-fuel-gel}} per gram of carbs
 
-SiS delivers about 1.8 times the carbs per dollar. For athletes doing high-volume training and racing, this adds up significantly over a season.
+For athletes doing high-volume training and racing, that difference adds up over a season.
 
 ## Who should use each
 
@@ -369,7 +446,18 @@ Use the Pello Planner to get a personalized recommendation based on your specifi
     tags: ["marathon", "running", "race nutrition", "carb loading", "gels"],
     relatedProducts: ["maurten-gel-100", "precision-fuel-pf30", "lmnt-electrolyte-mix", "momentous-whey-isolate"],
     readingTime: 9,
-    content: `The marathon is 26.2 miles. At race pace, you'll burn through your glycogen stores in roughly 90-120 minutes. The race is twice as long. That gap is where nutrition becomes the difference between a strong finish and hitting the wall.
+    updated: "2026-10-14",
+    authorName: "TODO: author name",
+    reviewer: { name: "TODO: reviewer", credential: "TODO: credential" },
+    references: [
+      { text: "Thomas DT, Erdman KA, Burke LM. American College of Sports Medicine joint position statement. Nutrition and athletic performance. Med Sci Sports Exerc. 2016;48(3):543-68.", doi: "10.1249/MSS.0000000000000852", pmid: "26891166" },
+      { text: "Jeukendrup A. A step towards personalized sports nutrition: carbohydrate intake during exercise. Sports Med. 2014;44(Suppl 1):S25-33.", doi: "10.1007/s40279-014-0148-z", pmid: "24791914" },
+      { text: "Guest NS, VanDusseldorp TA, Nelson MT, Grgic J, Schoenfeld BJ, Jenkins NDM, et al. International Society of Sports Nutrition position stand: caffeine and exercise performance. J Int Soc Sports Nutr. 2021;18(1):1.", doi: "10.1186/s12970-020-00383-4", pmid: "33388079" },
+      { text: "Jäger R, Kerksick CM, Campbell BI, Cribb PJ, Wells SD, Skwiat TM, et al. International Society of Sports Nutrition position stand: protein and exercise. J Int Soc Sports Nutr. 2017;14:20.", doi: "10.1186/s12970-017-0177-8", pmid: "28642676" },
+      { text: "Barnes KA, Anderson ML, Stofan JR, Dalrymple KJ, Reimel AJ, Roberts TJ, et al. Normative data for sweating rate, sweat sodium concentration, and sweat sodium loss in athletes: an update and analysis by sport. J Sports Sci. 2019;37(20):2356-66.", doi: "10.1080/02640414.2019.1633159", pmid: "31230518" },
+      { text: "de Oliveira EP, Burini RC, Jeukendrup A. Gastrointestinal complaints during exercise: prevalence, etiology, and nutritional recommendations. Sports Med. 2014;44(Suppl 1):S79-85.", doi: "10.1007/s40279-014-0153-2", pmid: "24791919" },
+    ],
+    content: `The marathon is 26.2 miles. For most runners, it lasts long enough that the carbohydrate stored in your muscles and liver can run low before the finish. That's where nutrition becomes the difference between a strong finish and hitting the wall.
 
 This guide covers everything you need to fuel a marathon well — from the week before to the finish line.
 
@@ -396,13 +484,13 @@ A good pre-race meal for a 70kg runner:
 
 Total: approximately 150g carbs, low fiber, low fat.
 
-60 minutes before the start, sip 500ml of water or dilute sports drink. Avoid high-fibre foods from this point.
+In the hour before the start, sip water or a dilute sports drink. Avoid high-fibre foods from this point.
 
-15-20 minutes before the gun, take a caffeine gel if using caffeine strategy — this times the peak caffeine effect with the early race miles.
+If you're using caffeine before the race, take it about 60 minutes before the start, the timing most commonly used in research. Caffeine gum may need less time than capsules (Guest 2021). See the caffeine section below.
 
 ## During the race — gel strategy
 
-For marathon running, target 60g of carbs per hour. Elite runners may push to 90g/hr but this requires gut training and a carefully planned dual-transporter approach.
+Guidance based on event length suggests about 60g of carbs an hour for efforts of 2–3 hours, and up to about 90g an hour for longer events. Intakes that high need a mix of carb types, such as glucose and fructose (Jeukendrup 2014), and practice in training to tolerate them (de Oliveira 2014).
 
 [[pro:/quiz?mode=event|Build this plan for your race]]
 
@@ -410,12 +498,12 @@ A simple gel strategy for a 4-hour marathon:
 
 - Start fueling at 30 minutes — don't wait until you feel it
 - Take 1 gel every 25-30 minutes
-- Sip water at every aid station — 150-200ml per gel
+- Take each gel with some water, which helps avoid very concentrated carbohydrate in the stomach (de Oliveira 2014)
 - Save a caffeinated gel for miles 18-20 when fatigue sets in
 
 For a 4-hour race you'll need approximately 8-10 gels depending on carb content. Pack more than you think you need.
 
-**Sodium matters.** At marathon pace you can lose 1-2g of sodium per hour through sweat, depending on your sweat rate and how salty your sweat is. You don't need to replace all of it: [our sodium guide](/blog/sodium-endurance-athletes) suggests 800-1500mg per hour for races of 3 hours or more or in the heat, and less for shorter races. If you're only taking gels, add electrolyte capsules or choose gels with more sodium. Sodium loss may play a part in late-race cramping, though cramping has several causes and the evidence is mixed.
+**Sodium matters.** In one large dataset, endurance athletes lost about 1,190mg of sodium an hour on average, with a wide range between individuals (Barnes 2019). You don't need to replace all of it, and drinking far beyond thirst raises the risk of low blood sodium. If you're only taking gels, you may be getting very little sodium. See [our sodium guide](/blog/sodium-endurance-athletes) for how to estimate your own needs. Sodium loss may play a part in late-race cramping for some runners, but cramps have several causes.
 
 ## The wall — and how to avoid it
 
@@ -423,30 +511,30 @@ Hitting the wall is glycogen depletion. It happens when you've burned through yo
 
 The wall is avoidable with two things:
 
-First, start fueling early and consistently. Most runners start too late and try to catch up. You can't. Once glycogen is depleted, no amount of gels will bring it back in the time available.
+First, start fueling early and consistently, rather than trying to catch up late in the race.
 
-Second, pace correctly. Going out too fast in miles 1-10 burns glycogen at an accelerated rate. Even 10-15 seconds per mile too fast in the early miles can determine whether you have energy for the final 6.
+Second, pace correctly. Running faster burns carbohydrate faster, so going out too fast in the early miles uses glycogen you'll want later.
 
 ## Post-race recovery
 
 Eat soon after you finish. The post-race window is wider than often claimed, but your glycogen is low after a marathon and starting early helps recovery.
 
-- Within about an hour: 20-40g protein plus fast carbs. Chocolate milk is a classic and genuinely effective option. If you're training hard again within about 8 hours, aim for 1.0-1.2g of carbohydrate per kg of body weight per hour for the first 4 hours.
+- Within about an hour: 20-40g of protein (Jäger 2017) plus fast carbs. Chocolate milk is a convenient way to get both. If you're training hard again within about 8 hours, the 2016 position stand recommends 1.0-1.2g of carbohydrate per kg of body weight per hour for the first 4 hours.
 - Within 2 hours: a proper meal with protein, carbs and vegetables.
-- That evening: prioritize sleep and continue eating — a marathon depletes glycogen stores that take 24-48 hours to fully replenish.
+- That evening: prioritize sleep and keep eating carbohydrate to restore your glycogen.
 
 Don't skip the post-race meal because you feel nauseous. Start small with liquid nutrition if needed — a protein shake, a banana, sports drink — and build from there.
 
 ## Caffeine strategy
 
-Caffeine is one of the most evidence-backed ergogenic aids in sport. For marathon running, a well-timed caffeine strategy can meaningfully improve late-race performance.
+Caffeine is one of the best-supported performance aids in sport. The ISSN's position stand finds its most consistent benefits in aerobic endurance exercise (Guest 2021).
 
 Options:
-- Single dose: 200-400mg taken 45-60 minutes before the race
-- Split dose: 100-200mg pre-race plus a caffeinated gel at mile 18-20
+- Single dose: 3-6mg per kg of body weight (about 200-400mg for a 70kg runner), most commonly taken about 60 minutes before the start (Guest 2021)
+- Split dose: a smaller dose before the race plus a caffeinated gel at mile 18-20. Lower doses, around 1-3mg per kg, also appear to improve performance (Guest 2021)
 - Progressive: caffeine-free gels early, caffeinated gels from halfway
 
-If you're not a regular caffeine user, start with a lower dose and test in training first. GI sensitivity to caffeine varies significantly between individuals.
+If you're not a regular caffeine user, start with a lower dose and test in training first. Responses to caffeine vary between individuals (Guest 2021).
 
 ## Practice everything in training
 
@@ -460,88 +548,104 @@ Race day is not the time to try a new gel.`,
   {
     slug: "sodium-endurance-athletes",
     title: "How Much Sodium Do You Need for Endurance Sport?",
-    description: "Sodium is the most important electrolyte for endurance athletes. Here's what the science says about how much you need, when to take it and which products deliver it best.",
+    description: "How much sodium you lose in sweat, how much to take, hyponatremia, cramps, and the electrolyte products we track, grouped by sodium per serving.",
     date: "2026-09-22",
     author: "Pello Nutrition",
     category: "Science",
     tags: ["sodium", "electrolytes", "hydration", "endurance", "cramping"],
     relatedProducts: ["lmnt-electrolyte-mix", "precision-fuel-hydration-tablets", "skratch-sport-hydration", "saltstick-fastchews"],
     readingTime: 6,
-    content: `Sodium is the most important electrolyte for endurance athletes. It regulates fluid balance, drives carbohydrate absorption in the gut and maintains nerve and muscle function. Get it wrong and the consequences range from cramping and fatigue to, in extreme cases, hyponatremia — dangerously low blood sodium from drinking too much water without adequate sodium replacement.
+    updated: "2026-10-14",
+    authorName: "TODO: author name",
+    reviewer: { name: "TODO: reviewer", credential: "TODO: credential" },
+    references: [
+      { text: "Baker LB, Barnes KA, Anderson ML, Passe DH, Stofan JR. Normative data for regional sweat sodium concentration and whole-body sweating rate in athletes. J Sports Sci. 2016;34(4):358-68.", doi: "10.1080/02640414.2015.1055291", pmid: "26070030" },
+      { text: "Barnes KA, Anderson ML, Stofan JR, Dalrymple KJ, Reimel AJ, Roberts TJ, et al. Normative data for sweating rate, sweat sodium concentration, and sweat sodium loss in athletes: an update and analysis by sport. J Sports Sci. 2019;37(20):2356-66.", doi: "10.1080/02640414.2019.1633159", pmid: "31230518" },
+      { text: "Baker LB. Sweating rate and sweat sodium concentration in athletes: a review of methodology and intra/interindividual variability. Sports Med. 2017;47(Suppl 1):111-28.", doi: "10.1007/s40279-017-0691-5", pmid: "28332116" },
+      { text: "Tiller NB, Roberts JD, Beasley L, Chapman S, Pinto JM, Smith L, et al. International Society of Sports Nutrition position stand: nutritional considerations for single-stage ultra-marathon training and racing. J Int Soc Sports Nutr. 2019;16(1):50.", doi: "10.1186/s12970-019-0312-9", pmid: "31699159" },
+      { text: "American College of Sports Medicine; Sawka MN, Burke LM, Eichner ER, Maughan RJ, Montain SJ, Stachenfeld NS. American College of Sports Medicine position stand. Exercise and fluid replacement. Med Sci Sports Exerc. 2007;39(2):377-90.", doi: "10.1249/mss.0b013e31802ca597", pmid: "17277604" },
+      { text: "McCubbin AJ, Allanson BA, Caldwell Odgers JN, Cort MM, Costa RJS, Cox GR, et al. Sports Dietitians Australia position statement: nutrition for exercise in hot environments. Int J Sport Nutr Exerc Metab. 2020;30(1):83-98.", doi: "10.1123/ijsnem.2019-0300", pmid: "31891914" },
+      { text: "Hew-Butler T, Rosner MH, Fowkes-Godek S, Dugas JP, Hoffman MD, Lewis DP, et al. Statement of the 3rd International Exercise-Associated Hyponatremia Consensus Development Conference, Carlsbad, California, 2015. Br J Sports Med. 2015;49(22):1432-46.", doi: "10.1136/bjsports-2015-095004", pmid: "26227507" },
+      { text: "Miller KC, McDermott BP, Yeargin SW, Fiol A, Schwellnus MP. An evidence-based review of the pathophysiology, treatment, and prevention of exercise-associated muscle cramps. J Athl Train. 2022;57(1):5-15.", doi: "10.4085/1062-6050-0696.20", pmid: "34185846" },
+      { text: "Wright EM, Loo DD, Hirayama BA. Biology of human sodium glucose transporters. Physiol Rev. 2011;91(2):733-94.", doi: "10.1152/physrev.00055.2009", pmid: "21527736" },
+      { text: "Gisolfi CV, Summers RD, Schedl HP, Bleiler TL. Effect of sodium concentration in a carbohydrate-electrolyte solution on intestinal absorption. Med Sci Sports Exerc. 1995;27(10):1414-20.", pmid: "8531613" },
+    ],
+    content: `Sodium is the main electrolyte you lose in sweat. How much you lose, and how much you need to replace, varies widely between athletes. Some popular claims about sodium also go further than the research does.
 
-Yet most athletes dramatically underestimate how much sodium they lose during exercise and how much they need to replace.
+Here's what the evidence says about how much sodium you lose, how much to take, hyponatremia, cramps, and which products fit.
 
 ## How much sodium do you lose?
 
-Sweat sodium concentration varies enormously between individuals — from around 200mg per liter to over 2000mg per liter. This is largely genetically determined and consistent for a given individual.
+It depends on two things: how much you sweat, and how salty your sweat is. Both vary a lot from person to person.
 
-A rough average is 900mg of sodium per liter of sweat. At a sweat rate of 1 liter per hour — typical for moderate intensity in mild conditions — that's 900mg of sodium lost per hour.
+In a study of 506 athletes, sweat sodium averaged about 830mg per liter (35.9 mmol/L), ranging from roughly 420mg to 1,630mg per liter (Baker 2016). Sweat rate averaged 1.21 liters an hour, ranging from 0.26 to 5.73 liters.
 
-In hot conditions or at high intensity, sweat rates can reach 2-3 liters per hour. At these rates, sodium losses of 1800-2700mg per hour are not unusual.
+A larger dataset of 1,303 athletes found that endurance athletes sweated about 1.3 liters an hour on average and lost about 1,190mg of sodium an hour (51.7 mmol), with a wide spread between individuals (Barnes 2019).
 
-Most energy gels provide 40-100mg of sodium per serving. A standard electrolyte tablet provides 100-300mg. The gap between what most athletes consume and what they actually lose is significant.
-
-## Signs of sodium depletion
-
-- Muscle cramps (particularly late in long events)
-- Headache
-- Nausea
-- Fatigue disproportionate to effort
-- Swelling in hands and feet
-- Mental fog
-
-If you experience these symptoms during or after long events, sodium depletion is a likely contributor.
+Sweat rate and sweat sodium are affected by exercise intensity, heat, heat acclimation, diet and how the sweat is collected, so a sweat test gives an estimate rather than a fixed number (Baker 2017).
 
 ## How much should you take?
 
-A practical starting point based on exercise duration and intensity:
+There's no single figure that fits everyone. Two useful reference points:
 
-- Under 60 minutes: sodium replacement generally not needed
-- 1-2 hours moderate: 300-500mg per hour
-- 2-3 hours moderate to hard: 500-800mg per hour
-- 3+ hours or hot conditions: 800-1500mg per hour
-- Very salty sweaters (white residue on skin/kit): up to 2000mg per hour
+- **Losses:** endurance athletes in the Barnes dataset lost about 1,190mg of sodium an hour on average (Barnes 2019). You don't need to replace every milligram during exercise, but heavy, salty sweaters lose much more than the average.
+- **Intake guidance:** the ISSN's position stand on ultra-marathon racing recommends 450–750 ml of fluid an hour, and says sodium may need to be above 575mg per liter, more than most commercial drinks provide, to reduce the risk of hyponatremia. Fluid and electrolyte needs rise in hot or humid conditions (Tiller 2019). At those volumes, 575mg per liter works out to roughly 260–430mg of sodium an hour.
 
-These are starting points. Athletes who are salty sweaters or those racing in heat may need significantly more.
+Because sweat rate and sweat sodium vary so much, the American College of Sports Medicine recommends individual fluid plans, and suggests estimating your sweat rate by weighing yourself before and after exercise (Sawka 2007).
 
-## The hyponatremia risk
+## How to estimate your own sweat rate
 
-Hyponatremia — low blood sodium — is a real risk for endurance athletes, particularly those racing at slower paces over long distances who drink large volumes of plain water.
+The simplest and most accurate way to measure whole-body sweat rate is the change in your body mass during exercise (Baker 2017). Here's how:
 
-The mechanism is straightforward: drinking water dilutes blood sodium concentration. Combined with sodium losses through sweat, blood sodium can drop to dangerous levels. Symptoms include nausea, headache, confusion and in severe cases seizures.
+- Weigh yourself before a training session, with as little clothing as possible.
+- Train for about an hour in conditions like your race, and note how much you drink.
+- Weigh yourself again afterwards, after towelling off.
+- Your sweat loss is the weight you lost plus the weight of what you drank. One kilogram of weight is roughly one liter of sweat.
 
-The fix is not to drink less water — it's to ensure what you drink contains adequate sodium. Sports drinks, electrolyte tablets in water, or electrolyte capsules alongside plain water all address this.
+Repeat it in different conditions, because your sweat rate in the heat can be very different from your sweat rate on a cool morning. Unless you've had a sweat test, you won't know how salty your sweat is, so use the averages above as a starting point and adjust from experience.
+
+## Before the race
+
+For events in the heat, the Sports Dietitians Australia position statement on exercise in hot environments says athletes should start exercise well hydrated, and that drinking extra fluid beforehand (pre-exercise hyperhydration) may help in some situations. It can be achieved with acute sodium or glycerol loading protocols (McCubbin 2020). If you want to try sodium loading, test it in training and get advice from a sports dietitian, particularly if you have high blood pressure or kidney problems.
+
+## Hyponatremia
+
+Exercise-associated hyponatremia is low blood sodium during or after exercise. It's uncommon, but it can be fatal (Tiller 2019).
+
+The 2015 international consensus statement identifies drinking more fluid than you lose as its main cause, and recommends using thirst to guide how much you drink (Hew-Butler 2015). In other words, the fix isn't more sodium on top of too much water. It's not drinking far beyond your thirst.
+
+## Sodium and cramps
+
+Cramps are often blamed on sodium loss, but their cause is debated. A 2022 evidence-based review concluded that exercise-associated muscle cramps likely come from a mix of factors rather than a single cause, and that prevention works better when it targets an athlete's own risk factors than with generic advice such as drinking more (Miller 2022).
+
+Sodium may be one factor for some athletes. But cramping on its own isn't proof that you're low on sodium.
 
 ## Sodium and carbohydrate absorption
 
-Sodium plays a critical role beyond hydration. The SGLT1 transporter — responsible for glucose absorption in the small intestine — requires sodium to function. Every molecule of glucose absorbed pulls a sodium ion with it.
+The transporter that absorbs glucose in the small intestine, SGLT1, carries sodium and glucose into gut cells together, powered by the sodium gradient (Wright 2011). That's why sodium is often said to help you absorb carbs.
 
-This is why products like Maurten and Precision Fuel include sodium even in small amounts — it's not just electrolyte replacement, it's enabling carbohydrate absorption. Low sodium intake during high-carb fueling can actually reduce carb absorption efficiency.
+But when researchers perfused carbohydrate drinks into the small intestine, adding 0, 25 or 50 mEq/L of sodium made no difference to glucose or water absorption (Gisolfi 1995). There's little evidence that adding sodium to a carb drink helps you absorb the carbs. Take sodium to cover your sweat losses.
 
-## Choosing the right product
+## Products by sodium content
 
-Products vary enormously in sodium content:
+These are the hydration products we track, grouped by sodium per serving, with their Pello Score and price per serving at The Feed.
 
-**High sodium (1000mg+ per serving):**
-- LMNT: 1000mg sodium — excellent for heavy sweaters and hot conditions
-- SaltStick FastChews: 100mg per chew, easy to stack
+[[disclosure]]
 
-**Medium sodium (300-600mg per serving):**
-- Precision Fuel Hydration tablets: 500mg — solid middle-ground option
-- Skratch Sport Hydration: 380mg — natural ingredients, good taste
+[[hydration-by-sodium]]
 
-**Low sodium (under 200mg per serving):**
-- Most energy gels: 40-100mg — insufficient as sole sodium source for long efforts
+Energy gels usually aren't a big source of sodium. For example, [Maurten Gel 100](/report/maurten-gel-100) has {{sodium:maurten-gel-100}} of sodium per gel and [SiS GO Isotonic](/report/sis-go-isotonic) has {{sodium:sis-go-isotonic}}.
 
 ## Practical recommendations
 
-For events over 2 hours, don't rely on gels alone for sodium. Use a dedicated electrolyte product alongside your carb fueling.
+- **Plan sodium for long or hot events.** If you rely on gels alone, you may be getting very little.
+- **Estimate your sweat rate.** Weigh yourself before and after a long session, accounting for what you drank (Sawka 2007).
+- **Drink to thirst on long events** rather than forcing fluid (Hew-Butler 2015).
+- **Test it in training.** Try your race-day drink, product and amount in long sessions first.
 
-If you cramp regularly in long events, you're almost certainly sodium depleted. Increase sodium intake progressively in training and find your personal threshold.
+## The bottom line
 
-Test your sodium strategy in training before race day. Sodium needs are individual — what works for one athlete may be insufficient for another with higher sweat rates or saltier sweat.
-
-Start with a moderate sodium strategy and increase if you experience cramping, headaches or excessive fatigue in the late stages of long events.`,
+Endurance athletes lose about 1,190mg of sodium an hour on average, but sweat sodium alone varies about fourfold between athletes. Use the averages as a starting point, estimate your own sweat rate, drink to thirst, and test a sodium plan in training. If you cramp, treat sodium as one possible factor, not the whole answer.`,
   },
   {
     slug: "best-protein-powder-cyclists-2026",
@@ -553,6 +657,14 @@ Start with a moderate sodium strategy and increase if you experience cramping, h
     tags: ["protein", "cycling", "recovery", "supplements"],
     relatedProducts: ["transparent-labs-grass-fed-whey", "momentous-whey-isolate", "promix-whey-isolate", "amacx-recovery-shake", "momentous-collagen", "swissrx-collagen"],
     readingTime: 8,
+    updated: "2026-10-14",
+    authorName: "TODO: author name",
+    reviewer: { name: "TODO: reviewer", credential: "TODO: credential" },
+    references: [
+      { text: "Thomas DT, Erdman KA, Burke LM. American College of Sports Medicine joint position statement. Nutrition and athletic performance. Med Sci Sports Exerc. 2016;48(3):543-68.", doi: "10.1249/MSS.0000000000000852", pmid: "26891166" },
+      { text: "Jäger R, Kerksick CM, Campbell BI, Cribb PJ, Wells SD, Skwiat TM, et al. International Society of Sports Nutrition position stand: protein and exercise. J Int Soc Sports Nutr. 2017;14:20.", doi: "10.1186/s12970-017-0177-8", pmid: "28642676" },
+      { text: "Shaw G, Lee-Barthel A, Ross ML, Wang B, Baar K. Vitamin C-enriched gelatin supplementation before intermittent activity augments collagen synthesis. Am J Clin Nutr. 2017;105(1):136-43.", doi: "10.3945/ajcn.116.138594", pmid: "27852613" },
+    ],
     content: `Cyclists are not bodybuilders. The protein requirements, timing and product characteristics that matter for a rider are different from someone training for muscle size.
 
 Yet most protein powder guides are written for gym athletes. The result is recommendations that miss what cyclists actually need — products that support recovery between sessions, help maintain muscle through heavy training and sit well on a stomach that has just spent three hours on the bike processing gels and drink mix.
@@ -571,11 +683,11 @@ Many riders find the upper end hard to reach from food alone, especially when ap
 
 ## What matters in a protein powder for cyclists
 
-**Leucine content.** Leucine is the amino acid most closely tied to switching on muscle protein synthesis. The International Society of Sports Nutrition (ISSN) suggests each serving provide roughly 0.7-3g of leucine. Whey is naturally rich in it — a 20-25g serving typically provides around 2-3g. Plant proteins usually contain less per gram, so check the amino acid profile, not just the total protein.
+**Leucine content.** Leucine is the amino acid most closely tied to switching on muscle protein synthesis. The International Society of Sports Nutrition (ISSN) suggests each serving provide roughly 0.7-3g of leucine. Leucine content varies between proteins, so check the amino acid profile, not just the total protein.
 
-**Digestion speed.** Whey is digested quickly and is higher in leucine than casein, which is why it's the usual choice after training. Casein digests slowly, which is why it's used before sleep.
+**Digestion speed.** The ISSN notes that rapidly digested proteins with a high proportion of essential amino acids and enough leucine are the most effective at stimulating muscle protein synthesis. Casein is digested more slowly, and 30-40g before sleep increases muscle protein synthesis overnight (Jäger 2017).
 
-**GI tolerance.** Whey isolate is filtered to remove most of the lactose, so people with lactose sensitivity usually tolerate it better than whey concentrate. If dairy doesn't agree with you at all, a plant protein is the alternative.
+**GI tolerance.** If dairy doesn't agree with you, a plant protein is the alternative.
 
 **What's in the tub.** Read the label for added sugar and for proprietary blends that hide ingredient amounts. Some flavored powders add sugar — fine after a ride, but worth knowing if you're counting it.
 
@@ -587,49 +699,49 @@ These picks come from Pello's product data. Prices are The Feed's at the time of
 
 ### Best overall: Transparent Labs 100% Grass-Fed Whey Protein Isolate
 
-The highest Pello Score of the whey powders here at 84. Each scoop provides 28g of protein with 1g of carbohydrate and 130 calories, and it's NSF Certified for Sport.
+The highest Pello Score of the whey powders here at {{score:transparent-labs-grass-fed-whey}}. Each scoop provides {{protein:transparent-labs-grass-fed-whey}} of protein with {{carbs:transparent-labs-grass-fed-whey}} of carbohydrate, and it's NSF Certified for Sport.
 
-At $64.99 for 30 servings it works out at about $2.17 a serving — around $1.55 for every 20g of protein. An unflavored version is available if you'd rather mix it into food or a smoothie.
+At {{price:transparent-labs-grass-fed-whey}} for {{servings:transparent-labs-grass-fed-whey}} servings it works out at about {{pps:transparent-labs-grass-fed-whey}} a serving, around {{protein20g:transparent-labs-grass-fed-whey}} for every 20g of protein. An unflavored version is available if you'd rather mix it into food or a smoothie.
 
 Best for: most cyclists, including those in tested events.
 
 ### Also NSF certified: Momentous Whey Protein Isolate
 
-Momentous is NSF Certified for Sport and provides 20g of protein per scoop with 2g of carbohydrate and 90 calories — a lighter serving than the others here. It's available unflavored.
+Momentous is NSF Certified for Sport and provides {{protein:momentous-whey-isolate}} of protein per scoop with {{carbs:momentous-whey-isolate}} of carbohydrate, a lighter serving than the others here. It's available unflavored.
 
-It also contains ProHydrolase, a protease enzyme blend; the evidence for added digestive enzymes like this is mixed. At $59.99 for 25 servings ($2.40 a serving) it's the most expensive per gram of protein of the three isolates, at $2.40 for every 20g. Pello Score: 66.
+It also contains ProHydrolase, a protease enzyme blend; the evidence for added digestive enzymes like this is mixed. At {{price:momentous-whey-isolate}} for {{servings:momentous-whey-isolate}} servings ({{pps:momentous-whey-isolate}} a serving) it's the most expensive per gram of protein of the three isolates, at {{protein20g:momentous-whey-isolate}} for every 20g. Pello Score: {{score:momentous-whey-isolate}}.
 
 Best for: riders in tested events who want a smaller serving.
 
 ### Most protein per dollar: Promix Whey Isolate
 
-Promix provides 31g of protein per two-scoop serving, and at $68.99 for 30 servings it's the lowest cost per gram of protein here — about $1.48 for every 20g.
+Promix provides {{protein:promix-whey-isolate}} of protein per two-scoop serving, and at {{price:promix-whey-isolate}} for {{servings:promix-whey-isolate}} servings it's the lowest cost per gram of protein here, about {{protein20g:promix-whey-isolate}} for every 20g.
 
-Two things to know: it has no third-party sport certification listed, and the version on Pello includes 9g of carbohydrate from sucrose per serving. Pello Score: 65.
+Two things to know: it has no third-party sport certification listed, and the version on Pello includes {{carbs:promix-whey-isolate}} of carbohydrate from sucrose per serving. Pello Score: {{score:promix-whey-isolate}}.
 
 Best for: riders who aren't drug tested and want the most protein for the money.
 
 ### Best recovery shake: Amacx Recovery Shake
 
-If you'd otherwise drink a protein shake and eat a banana, this combines both: 20g of protein and 30g of carbohydrate (maltodextrin, fructose and sucrose) per serving. It's Informed Sport certified.
+If you'd otherwise drink a protein shake and eat a banana, this combines both: {{protein:amacx-recovery-shake}} of protein and {{carbs:amacx-recovery-shake}} of carbohydrate (maltodextrin, fructose and sucrose) per serving. It's Informed Sport certified.
 
-It costs more — $64.99 for 15 servings, about $4.33 a serving — because you're also paying for the carbohydrate. Pello Score: 69.
+It costs more, {{price:amacx-recovery-shake}} for {{servings:amacx-recovery-shake}} servings or about {{pps:amacx-recovery-shake}} a serving, because you're also paying for the carbohydrate. Pello Score: {{score:amacx-recovery-shake}}.
 
 Best for: back-to-back training days, when glycogen needs restoring as well as muscle.
 
 ### For tendons and joints: Momentous Collagen Peptides
 
-Collagen is not a complete protein and shouldn't replace whey. Its interest for cyclists is connective tissue. In a small 2017 study (Shaw et al.), 15g of gelatin taken with vitamin C an hour before exercise increased markers of collagen synthesis — promising, but early evidence.
+Collagen is not a complete protein and shouldn't replace whey. Its interest for cyclists is connective tissue. In a small 2017 study of 8 men (Shaw 2017), 15g of vitamin C-enriched gelatin taken an hour before exercise increased markers of collagen synthesis. That's promising, but early evidence.
 
-Each Momentous Collagen packet provides 15g of protein (11.6g of collagen peptides plus 5.2g of Fortigel collagen hydrolysate) with 50mg of vitamin C, and it's NSF Certified for Sport. At $29.95 for 10 packets it's about $3.00 a serving. Pello Score: 75.
+Each Momentous Collagen packet provides {{protein:momentous-collagen}} of protein (11.6g of collagen peptides plus 5.2g of Fortigel collagen hydrolysate) with 50mg of vitamin C, and it's NSF Certified for Sport. At {{price:momentous-collagen}} for {{servings:momentous-collagen}} packets it's about {{pps:momentous-collagen}} a serving. Pello Score: {{score:momentous-collagen}}.
 
-SwissRX Collagen is a popular alternative, but each scoop contains 5.2g of Fortigel — well short of the 15g used in that study — and it lists no sport certification. Pello Score: 44.
+SwissRX Collagen is a popular alternative, but each scoop contains 5.2g of Fortigel — well short of the 15g used in that study — and it lists no sport certification. Pello Score: {{score:swissrx-collagen}}.
 
 Best for: cyclists managing tendon or joint issues, alongside a proper training and rehab plan.
 
 ## Timing — what actually matters
 
-The post-workout "anabolic window" is wider than gym lore suggests. Total daily protein matters most, and the ISSN notes that protein within about two hours after exercise is an effective strategy.
+The post-workout "anabolic window" is wider than gym lore suggests. The ISSN says the best timing is largely a matter of individual tolerance, because protein helps whether you have it before or after training, though the effect of exercise fades with time (Jäger 2017).
 
 For cyclists the time-sensitive part is carbohydrate. If your next session is within about eight hours, the 2016 position stand recommends 1.0-1.2g of carbohydrate per kg of body weight per hour for the first four hours to restore glycogen quickly.
 
@@ -637,7 +749,7 @@ A practical protocol:
 
 After hard rides: 20-40g of protein (about 0.25g per kg of body weight) with carbohydrate. A shake with a banana, a recovery shake or a proper meal all work.
 
-Through the day: spread protein across 4-5 meals and snacks of 20-40g each rather than one or two large servings.
+Through the day: spread protein evenly, with 20-40g every 3-4 hours, rather than one or two large servings (Jäger 2017).
 
 Before sleep on back-to-back training days: the ISSN reports that 30-40g of casein before sleep can increase overnight muscle protein synthesis.
 
@@ -654,6 +766,17 @@ Use the Pello planner to build fueling and recovery around your next event.`,
 export function getAllPosts(): BlogPost[] {
   return BLOG_POSTS.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
+
+// Author and reviewer placeholders still to fill in, printed at build time.
+export function blogPlaceholders(): string[] {
+  return BLOG_POSTS.flatMap((p) => [
+    ...(p.authorName && isPlaceholder(p.authorName) ? [`${p.slug}: author`] : []),
+    ...(p.reviewer && (isPlaceholder(p.reviewer.name) || isPlaceholder(p.reviewer.credential)) ? [`${p.slug}: reviewer`] : []),
+  ]);
+}
+
+export const referenceHref = (r: Reference) =>
+  r.doi ? `https://doi.org/${r.doi}` : r.pmid ? `https://pubmed.ncbi.nlm.nih.gov/${r.pmid}/` : r.url;
 
 export function getPostBySlug(slug: string): BlogPost | null {
   return BLOG_POSTS.find(p => p.slug === slug) ?? null;

@@ -1,17 +1,28 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getPostBySlug, getAllPosts } from "@/lib/blog";
+import { getPostBySlug, getAllPosts, isPlaceholder, blogPlaceholders, referenceHref, type BlogPost } from "@/lib/blog";
 import { PRODUCTS } from "@/lib/products";
 import { getProductSummaries } from "@/lib/catalog";
 import { reviewsAt, type ProductSummary } from "@/lib/catalog-types";
 import { getFulensScoreLabel } from "@/lib/pello-grade";
 import { AFFILIATES_ACTIVE, AMAZON_ACTIVE, AMAZON_ASSOCIATE_STATEMENT } from "@/lib/affiliate";
 import ProductCard from "@/components/ProductCard";
+import { costPerGramCarb } from "@/lib/cost";
+import { formatPrice, servingsPerContainer } from "@/lib/servings";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
+const SITE = "https://www.pellonutrition.com";
+const shareImage = (post: BlogPost) => post.ogImage ? new URL(post.ogImage, SITE).toString() : `${SITE}/og/blog/${post.slug}`;
+const authorOf = (post: BlogPost) => (isPlaceholder(post.authorName) ? null : post.authorName!);
+const reviewerOf = (post: BlogPost) =>
+  post.reviewer && !isPlaceholder(post.reviewer.name) && !isPlaceholder(post.reviewer.credential) ? post.reviewer : null;
+const formatDate = (d: string) => new Date(d).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+
 export async function generateStaticParams() {
   const posts = getAllPosts();
+  const todo = blogPlaceholders();
+  if (todo.length) console.warn(`Blog placeholders to fill in (hidden on the site until then): ${todo.join(", ")}`);
   return posts.map(post => ({ slug: post.slug }));
 }
 
@@ -24,17 +35,23 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     openGraph: {
       title: post.title,
       description: post.description,
-      url: `https://www.pellonutrition.com/blog/${post.slug}`,
+      url: `${SITE}/blog/${post.slug}`,
       type: "article",
       publishedTime: post.date,
+      ...(post.updated ? { modifiedTime: post.updated } : {}),
+      images: [{ url: shareImage(post), width: 1200, height: 630, alt: post.title }],
     },
-    twitter: { card: "summary_large_image", title: post.title, description: post.description },
+    twitter: { card: "summary_large_image", title: post.title, description: post.description, images: [shareImage(post)] },
   };
 }
 
 // Live product figures in article text, so they never go stale: {{score:id}}, {{grade:id}},
-// {{pps:id}} (price per serving), {{pergram:id}} (bicarb price per gram), {{rating:id}},
-// {{reviews:id}} ("92 reviews at The Feed"). An unknown id or missing figure fails the build.
+// {{pps:id}} (price per serving), {{price:id}} (pack price), {{servings:id}} (per pack),
+// {{pergram:id}} (bicarb price per gram), {{rating:id}}, {{reviews:id}} ("92 reviews at The Feed"),
+// {{carbs:id}} / {{protein:id}} (grams per serving), {{sodium:id}} / {{caffeine:id}} (mg per
+// serving), {{cpgcarb:id}} (price per gram of carbs), {{creatine5g:id}} (price per 5g of
+// creatine) and {{protein20g:id}} (price per 20g of protein). An unknown id or missing figure
+// fails the build.
 function liveProduct(id: string): ProductSummary {
   const p = getProductSummaries().find((x) => x.id === id);
   if (!p) throw new Error(`Blog: no product with id "${id}"`);
@@ -50,9 +67,64 @@ function liveFigure(kind: string, id: string): string {
     case "pergram": return `$${(p.pricePerServing / need(PRODUCTS.find((x) => x.id === id)?.bicarbPerServingG)).toFixed(2)}`;
     case "rating": return String(need(p.reviewCount > 0 ? p.rating : null));
     case "reviews": return reviewsAt(need(p.reviewCount > 0 ? p.reviewCount : null), p.reviewSource);
+    case "price": return formatPrice(need(p.price > 0 ? p.price : null));
+    case "servings": return String(servingsPerContainer(p));
+    case "carbs": return `${need(p.nutrition.carbsPerServing)}g`;
+    case "protein": return `${need(p.nutrition.proteinPerServing)}g`;
+    case "sodium": return `${need(p.nutrition.sodiumPerServing).toLocaleString("en-US")}mg`;
+    case "caffeine": return `${need(p.nutrition.caffeinePerServing)}mg`;
+    case "cpgcarb": return `$${need(costPerGramCarb(p)).toFixed(3)}`;
+    case "creatine5g": return `$${((p.pricePerServing / need(creatineGrams(id))) * 5).toFixed(2)}`;
+    case "protein20g": return `$${((p.pricePerServing / need(p.nutrition.proteinPerServing || null)) * 20).toFixed(2)}`;
   }
   throw new Error(`Blog: unknown figure "${kind}"`);
 }
+// Grams of creatine per serving, from a product's single creatine ingredient ("5g", "5000mg").
+function creatineGrams(id: string): number | null {
+  const rows = PRODUCTS.find((x) => x.id === id)?.ingredients.filter((i) => /creatine/i.test(i.name)) ?? [];
+  const m = rows.length === 1 ? rows[0].dose?.match(/^\s*([\d.]+)\s*(mg|g)\b/i) : null;
+  return m ? (m[2].toLowerCase() === "mg" ? Number(m[1]) / 1000 : Number(m[1])) : null;
+}
+
+// [[hydration-by-sodium]]: Pello's hydration products grouped by sodium per serving, from live data.
+const SODIUM_GROUPS: { label: string; min: number; max: number }[] = [
+  { label: "1,000mg or more per serving", min: 1000, max: Infinity },
+  { label: "400–999mg per serving", min: 400, max: 999.99 },
+  { label: "200–399mg per serving", min: 200, max: 399.99 },
+  { label: "Under 200mg per serving", min: 0, max: 199.99 },
+];
+function HydrationBySodium() {
+  const all = getProductSummaries().filter((p) => p.category === "Hydration" && p.nutrition.sodiumPerServing != null && p.nutrition.sodiumPerServing > 0);
+  return (
+    <div className="my-5 space-y-5">
+      {SODIUM_GROUPS.map((g) => {
+        const rows = all.filter((p) => p.nutrition.sodiumPerServing! >= g.min && p.nutrition.sodiumPerServing! <= g.max)
+          .sort((a, b) => (b.pelloScore ?? 0) - (a.pelloScore ?? 0));
+        if (!rows.length) return null;
+        return (
+          <div key={g.label}>
+            <p className="font-semibold text-ink text-sm mb-1.5">{g.label}</p>
+            {rows.map((p) => {
+              const serving = PRODUCTS.find((x) => x.id === p.id)?.servingSize;
+              return (
+                <div key={p.id} className="flex items-start gap-2 text-muted mb-1.5">
+                  <span className="text-moss flex-shrink-0 mt-1">→</span>
+                  <span className="text-sm leading-relaxed">
+                    <Link href={`/report/${p.id}`} className="text-moss underline underline-offset-2">{p.brand} {p.name}</Link>
+                    {": "}{p.nutrition.sodiumPerServing!.toLocaleString("en-US")}mg sodium{serving ? ` per ${serving.toLowerCase().replace(/^1\s+/, "")}` : ""}
+                    {p.pelloScore != null && ` · Pello Score ${p.pelloScore}`}
+                    {p.pricePerServing > 0 && ` · $${p.pricePerServing.toFixed(2)} per serving`}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 const withLiveFigures = (text: string) => text.replace(/\{\{(\w+):([a-z0-9-]+)\}\}/g, (_, kind, id) => liveFigure(kind, id));
 
 // The affiliate disclosure shown with buy links across the site, for articles that show products.
@@ -85,6 +157,11 @@ function renderMarkdown(content: string) {
     const card = line.match(/^\[\[product:([a-z0-9-]+)\]\]$/);
     if (card) {
       elements.push(<div key={i} className="my-5 max-w-sm"><ProductCard product={liveProduct(card[1])} /></div>);
+      i++;
+      continue;
+    }
+    if (line === "[[hydration-by-sodium]]") {
+      elements.push(<HydrationBySodium key={i} />);
       i++;
       continue;
     }
@@ -170,8 +247,24 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
     ?.map(id => PRODUCTS.find(p => p.id === id))
     .filter(Boolean) as typeof PRODUCTS;
 
+  const author = authorOf(post);
+  const reviewer = reviewerOf(post);
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.description,
+    image: [shareImage(post)],
+    datePublished: post.date,
+    dateModified: post.updated ?? post.date,
+    author: author ? { "@type": "Person", name: author } : { "@type": "Organization", name: post.author, url: SITE },
+    publisher: { "@type": "Organization", name: "Pello Nutrition", url: SITE },
+    mainEntityOfPage: `${SITE}/blog/${post.slug}`,
+  };
+
   return (
     <div className="min-h-screen">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema).replace(/</g, "\\u003c") }} />
 
       <article className="max-w-2xl mx-auto px-6 py-16">
         {/* Header */}
@@ -184,16 +277,21 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           </div>
           <h1 className="font-display font-bold text-4xl leading-tight tracking-tight mb-4">{post.title}</h1>
           <p className="text-muted text-lg leading-relaxed mb-4">{post.description}</p>
-          <div className="flex items-center gap-3 text-xs text-muted">
-            <span>{post.author}</span>
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted">
+            <span>{author ?? post.author}</span>
             <span>·</span>
-            {/* The date is a calendar date (YYYY-MM-DD), so format it in UTC to keep the same day. */}
-            <time dateTime={post.date}>
-              {new Date(post.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" })}
-            </time>
+            {/* Dates are calendar dates (YYYY-MM-DD), so they're formatted in UTC to keep the same day. */}
+            <time dateTime={post.date}>{formatDate(post.date)}</time>
+            {post.updated && post.updated !== post.date && (
+              <>
+                <span>·</span>
+                <span>Updated <time dateTime={post.updated}>{formatDate(post.updated)}</time></span>
+              </>
+            )}
             <span>·</span>
             <span>{post.readingTime} min read</span>
           </div>
+          {reviewer && <p className="text-xs text-muted mt-1">Reviewed by {reviewer.name}, {reviewer.credential}</p>}
           <div className="flex flex-wrap gap-2 mt-3">
             {post.tags.map(tag => (
               <span key={tag} className="text-xs bg-sand px-2 py-0.5 rounded-md">{tag}</span>
@@ -210,6 +308,22 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         {/* Content */}
         <div className="mb-16">
           {renderMarkdown(post.content)}
+          {post.references && post.references.length > 0 && (
+            <section aria-labelledby="references">
+              <h2 id="references" className="font-display font-bold text-2xl mt-10 mb-4 text-ink">References</h2>
+              <ol className="list-decimal pl-5 space-y-2 text-xs text-muted leading-relaxed">
+                {post.references.map((ref, i) => {
+                  const href = referenceHref(ref);
+                  return (
+                    <li key={i}>
+                      {ref.text}
+                      {href && <> <a href={href} className="text-moss underline underline-offset-2 break-all">{ref.doi ? `doi:${ref.doi}` : ref.pmid ? `PubMed ${ref.pmid}` : "Source"}</a></>}
+                    </li>
+                  );
+                })}
+              </ol>
+            </section>
+          )}
         </div>
 
         {/* Related products */}
