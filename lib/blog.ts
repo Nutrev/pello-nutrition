@@ -134,12 +134,12 @@ Pello Score: {{score:carbs-fuel-bicarb}} ({{grade:carbs-fuel-bicarb}}) · {{pps:
 
 [[product:carbs-fuel-bicarb]]
 
-At {{pergram:carbs-fuel-bicarb}} per gram of bicarbonate, Carbs Fuel costs a fraction of the branded systems. It comes in 15g, 20g and 25g sizes matched to body weight and uses enteric-coated capsules to reduce stomach upset. It has no third-party banned-substance testing and no retailer reviews yet, so it's best for athletes who aren't drug tested and want to use bicarb regularly.
+At {{pergram:carbs-fuel-bicarb}} per gram of bicarbonate, Carbs Fuel costs a fraction of the branded systems. It comes in {{bicarbsizes:carbs-fuel-bicarb}} sizes matched to body weight and uses enteric-coated capsules to reduce stomach upset. It has no third-party banned-substance testing and no retailer reviews yet, so it's best for athletes who aren't drug tested and want to use bicarb regularly.
 
 ### Also worth knowing
 
-- [Powerbank Nutrition BiCarb ARC](/report/powerbank-nutrition-bicarb-arc) has the highest Pello Score of the group ({{score:powerbank-nutrition-bicarb-arc}}) and good value at {{pergram:powerbank-nutrition-bicarb-arc}} per gram. But each capsule holds just 1g of bicarbonate, so a 70kg athlete would need about 21 capsules for a full dose.
-- [Bicarb 3.0](/report/bicarb-3-0) ({{score:bicarb-3-0}}, {{grade:bicarb-3-0}}) includes 34g of carbs per sachet to help with absorption but has a weak quality score and no banned-substance testing.
+- [Powerbank Nutrition BiCarb ARC](/report/powerbank-nutrition-bicarb-arc) has the highest Pello Score of the group ({{score:powerbank-nutrition-bicarb-arc}}) and good value at {{pergram:powerbank-nutrition-bicarb-arc}} per gram. But each capsule holds just {{bicarbg:powerbank-nutrition-bicarb-arc}} of bicarbonate, so a 70kg athlete would need about 21 capsules for a full dose.
+- [Bicarb 3.0](/report/bicarb-3-0) ({{score:bicarb-3-0}}, {{grade:bicarb-3-0}}) includes {{carbs:bicarb-3-0}} of carbs per sachet to help with absorption but has a weak quality score and no banned-substance testing.
 - [Maurten Bicarb System](/report/maurten-bicarb-system) ({{score:maurten-bicarb-system}}, {{grade:maurten-bicarb-system}}) is the best known and has some of the most direct research behind it, including the cycling studies above. But it's the most expensive per gram at {{pergram:maurten-bicarb-system}}, and it has no listed third-party testing.
 
 ## The bottom line
@@ -196,7 +196,7 @@ Best for: Cyclists who've had GI issues with other gels, long sportives and gran
 
 ### Best value: SiS GO Isotonic Energy Gel
 
-At {{pps:sis-go-isotonic}}/gel in a box of 18, this is one of the cheapest gels we list, with a Pello Score of {{score:sis-go-isotonic}}. Each gel has 22g of carbs from maltodextrin, and it's isotonic, so it's designed to be taken without water. It's Informed Sport certified, vegan, and rated {{rating:sis-go-isotonic}} out of 5 from {{reviews:sis-go-isotonic}}.
+At {{pps:sis-go-isotonic}}/gel in a box of 18, this is one of the cheapest gels we list, with a Pello Score of {{score:sis-go-isotonic}}. Each gel has {{carbs:sis-go-isotonic}} of carbs from maltodextrin, and it's isotonic, so it's designed to be taken without water. It's Informed Sport certified, vegan, and rated {{rating:sis-go-isotonic}} out of 5 from {{reviews:sis-go-isotonic}}.
 
 It has almost no sodium, so pair it with an electrolyte drink on long or hot rides. With a single carb source it's best at moderate intakes (up to around 60g per hour) rather than race-pace fueling.
 
@@ -307,13 +307,13 @@ These come from Pello's creatine data. Prices are The Feed's, and every pick bel
 
 [[product:the-feed-lab-creatine-monohydrate]]
 
-5g of creatine monohydrate per scoop for {{pps:the-feed-lab-creatine-monohydrate}} a serving ({{price:the-feed-lab-creatine-monohydrate}} for {{servings:the-feed-lab-creatine-monohydrate}} servings), with a Pello Score of {{score:the-feed-lab-creatine-monohydrate}}. It's NSF Certified for Sport. The Feed Lab is The Feed's own brand.
+{{creatineg:the-feed-lab-creatine-monohydrate}} of creatine monohydrate per scoop for {{pps:the-feed-lab-creatine-monohydrate}} a serving ({{price:the-feed-lab-creatine-monohydrate}} for {{servings:the-feed-lab-creatine-monohydrate}} servings), with a Pello Score of {{score:the-feed-lab-creatine-monohydrate}}. It's NSF Certified for Sport. The Feed Lab is The Feed's own brand.
 
 ### Also great value: Fluid Creatine
 
 [[product:fluid-creatine]]
 
-Also 5g a scoop at {{pps:fluid-creatine}} a serving ({{price:fluid-creatine}} for {{servings:fluid-creatine}} servings), with a Pello Score of {{score:fluid-creatine}}. It's Informed Sport certified and rated {{rating:fluid-creatine}}/5 from {{reviews:fluid-creatine}}.
+Also {{creatineg:fluid-creatine}} a scoop at {{pps:fluid-creatine}} a serving ({{price:fluid-creatine}} for {{servings:fluid-creatine}} servings), with a Pello Score of {{score:fluid-creatine}}. It's Informed Sport certified and rated {{rating:fluid-creatine}}/5 from {{reviews:fluid-creatine}}.
 
 ### Creapure: The Feed Lab Creatine
 
@@ -333,7 +333,7 @@ Creapure is a branded creatine monohydrate. The Feed Lab Creatine lists Creapure
 
 ### A note on chews
 
-Creatine chews are convenient but cost more per dose. [Momentous Creatine Chews](/report/momentous-creatine-chews) have 1g of creatine per chew, so a 5g dose costs {{creatine5g:momentous-creatine-chews}}, compared with {{creatine5g:the-feed-lab-creatine-monohydrate}} for The Feed Lab's powder.
+Creatine chews are convenient but cost more per dose. [Momentous Creatine Chews](/report/momentous-creatine-chews) have {{creatineg:momentous-creatine-chews}} of creatine per chew, so a 5g dose costs {{creatine5g:momentous-creatine-chews}}, compared with {{creatine5g:the-feed-lab-creatine-monohydrate}} for The Feed Lab's powder.
 
 ## The bottom line
 
@@ -733,9 +733,9 @@ Best for: back-to-back training days, when glycogen needs restoring as well as m
 
 Collagen is not a complete protein and shouldn't replace whey. Its interest for cyclists is connective tissue. In a small 2017 study of 8 men (Shaw 2017), 15g of vitamin C-enriched gelatin taken an hour before exercise increased markers of collagen synthesis. That's promising, but early evidence.
 
-Each Momentous Collagen packet provides {{protein:momentous-collagen}} of protein (11.6g of collagen peptides plus 5.2g of Fortigel collagen hydrolysate) with 50mg of vitamin C, and it's NSF Certified for Sport. At {{price:momentous-collagen}} for {{servings:momentous-collagen}} packets it's about {{pps:momentous-collagen}} a serving. Pello Score: {{score:momentous-collagen}}.
+Each Momentous Collagen packet provides {{protein:momentous-collagen}} of protein ({{dose:momentous-collagen:Collagen Peptides}} of collagen peptides plus {{dose:momentous-collagen:Fortigel}} of Fortigel collagen hydrolysate) with {{dose:momentous-collagen:Vitamin C}} of vitamin C, and it's NSF Certified for Sport. At {{price:momentous-collagen}} for {{servings:momentous-collagen}} packets it's about {{pps:momentous-collagen}} a serving. Pello Score: {{score:momentous-collagen}}.
 
-SwissRX Collagen is a popular alternative, but each scoop contains 5.2g of Fortigel — well short of the 15g used in that study — and it lists no sport certification. Pello Score: {{score:swissrx-collagen}}.
+SwissRX Collagen is a popular alternative, but each scoop contains {{dose:swissrx-collagen:FORTIGEL}} of Fortigel — well short of the 15g used in that study — and it lists no sport certification. Pello Score: {{score:swissrx-collagen}}.
 
 Best for: cyclists managing tendon or joint issues, alongside a proper training and rehab plan.
 

@@ -50,14 +50,16 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 // {{pergram:id}} (bicarb price per gram), {{rating:id}}, {{reviews:id}} ("92 reviews at The Feed"),
 // {{carbs:id}} / {{protein:id}} (grams per serving), {{sodium:id}} / {{caffeine:id}} (mg per
 // serving), {{cpgcarb:id}} (price per gram of carbs), {{creatine5g:id}} (price per 5g of
-// creatine) and {{protein20g:id}} (price per 20g of protein). An unknown id or missing figure
-// fails the build.
+// creatine) and {{protein20g:id}} (price per 20g of protein), {{creatineg:id}} / {{bicarbg:id}}
+// (grams per serving), {{bicarbsizes:id}} ("15g, 20g and 25g") and {{dose:id:Ingredient}} (the
+// dose of the ingredient whose name contains "Ingredient", as on the label). An unknown id or
+// missing figure fails the build.
 function liveProduct(id: string): ProductSummary {
   const p = getProductSummaries().find((x) => x.id === id);
   if (!p) throw new Error(`Blog: no product with id "${id}"`);
   return p;
 }
-function liveFigure(kind: string, id: string): string {
+function liveFigure(kind: string, id: string, arg?: string): string {
   const p = liveProduct(id);
   const need = <T,>(v: T | null | undefined): T => { if (v == null) throw new Error(`Blog: ${id} has no ${kind}`); return v; };
   switch (kind) {
@@ -75,6 +77,17 @@ function liveFigure(kind: string, id: string): string {
     case "caffeine": return `${need(p.nutrition.caffeinePerServing)}mg`;
     case "cpgcarb": return `$${need(costPerGramCarb(p)).toFixed(3)}`;
     case "creatine5g": return `$${((p.pricePerServing / need(creatineGrams(id))) * 5).toFixed(2)}`;
+    case "creatineg": return `${need(creatineGrams(id))}g`;
+    case "bicarbg": return `${need(PRODUCTS.find((x) => x.id === id)?.bicarbPerServingG)}g`;
+    case "bicarbsizes": {
+      const g = (PRODUCTS.find((x) => x.id === id)?.variants ?? []).map((v) => v.bicarbPerServingG).filter((x): x is number => x != null);
+      const list = need(g.length > 1 ? Array.from(new Set(g)).sort((a, b) => a - b).map((x) => `${x}g`) : null);
+      return `${list.slice(0, -1).join(", ")} and ${list.at(-1)}`;
+    }
+    case "dose": {
+      const ing = PRODUCTS.find((x) => x.id === id)?.ingredients.find((i) => arg && i.name.toLowerCase().includes(arg.toLowerCase()));
+      return need(ing?.dose);
+    }
     case "protein20g": return `$${((p.pricePerServing / need(p.nutrition.proteinPerServing || null)) * 20).toFixed(2)}`;
   }
   throw new Error(`Blog: unknown figure "${kind}"`);
@@ -125,7 +138,7 @@ function HydrationBySodium() {
   );
 }
 
-const withLiveFigures = (text: string) => text.replace(/\{\{(\w+):([a-z0-9-]+)\}\}/g, (_, kind, id) => liveFigure(kind, id));
+const withLiveFigures = (text: string) => text.replace(/\{\{(\w+):([a-z0-9-]+)(?::([^}]+))?\}\}/g, (_, kind, id, arg) => liveFigure(kind, id, arg));
 
 // The affiliate disclosure shown with buy links across the site, for articles that show products.
 function ArticleDisclosure() {
