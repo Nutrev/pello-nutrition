@@ -9,6 +9,7 @@ import {
   IngredientFlag,
   TaxonomyIngredient,
 } from "@/lib/ingredient-taxonomy";
+import WarningIcon from "@/components/WarningIcon";
 
 const CATEGORY_LABELS: Record<IngredientCategory, string> = {
   "carbohydrate": "Carbohydrates",
@@ -91,7 +92,7 @@ function IngredientCard({ ingredient, products }: { ingredient: TaxonomyIngredie
             )}
             {ingredient.flags.map((flag) => (
               <span key={flag} className="text-xs px-2 py-0.5 rounded-md bg-rust/10 text-rust">
-                ⚠ {FLAG_LABELS[flag]}
+                <WarningIcon className="h-3 w-3 inline-block align-[-2px] mr-1" />{FLAG_LABELS[flag]}
               </span>
             ))}
           </div>

@@ -2,9 +2,17 @@ import Link from "next/link";
 import { FULENS_SCORE_METHODOLOGY } from "@/lib/fulens-score";
 import { SCORE_BANDS } from "@/lib/pello-grade";
 import { PillarSwitcher, ScoreScale } from "./MethodologyCards";
+import type { Metadata } from "next";
 
 // Pillars, weights, principles and score bands all come from the scoring code, so this page
 // always matches how products are actually scored.
+export const metadata: Metadata = {
+  title: "How the Pello Score Works",
+  description: "How Pello scores sports nutrition products: research support, label transparency, value, athlete reviews and quality, and where the data comes from.",
+  alternates: { canonical: "https://www.pellonutrition.com/methodology" },
+  openGraph: { title: "How the Pello Score Works | Pello", description: "How Pello scores sports nutrition products: research support, label transparency, value, athlete reviews and quality, and where the data comes from.", url: "https://www.pellonutrition.com/methodology" },
+};
+
 export default function MethodologyPage() {
   const m = FULENS_SCORE_METHODOLOGY;
   // lastUpdated is a calendar date (YYYY-MM-DD), so format it in UTC to keep the same day.

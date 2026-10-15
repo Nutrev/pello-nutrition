@@ -7,6 +7,7 @@ import { reviewsAt, type ProductSummary } from "@/lib/catalog-types";
 import ProductTeaser from "./ProductTeaser";
 import AskPanel from "@/components/search/AskPanel";
 import { looksLikeQuestion } from "@/lib/ask/detect";
+import WarningIcon from "@/components/WarningIcon";
 
 // The barcode scanner opens the camera but can't detect barcodes yet (only the test codes
 // work), so it stays hidden until detection is built.
@@ -47,6 +48,30 @@ const SCIENCE_COLORS: Record<string, string> = {
   "insufficient-data": "bg-sand text-muted",
 };
 
+// Short names people search by, for brands stored under their full name.
+const BRAND_ALIASES: Record<string, string> = { "Science in Sport": "SiS", "Precision Fuel & Hydration": "PF PH", "Bare Performance Nutrition": "BPN" };
+
+function rankProducts(products: ProductSummary[], query: string): ProductSummary[] {
+  const words = query.toLowerCase().split(/\s+/).filter(Boolean)
+    .map((w) => new RegExp(`(^|[^a-z0-9])${w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
+  const rank = (p: ProductSummary): number | null => {
+    const title = `${p.brand} ${BRAND_ALIASES[p.brand] ?? ""} ${p.name}`.toLowerCase();
+    const category = p.category.toLowerCase();
+    const ingredients = (p.ingredients ?? []).map((i) => i.name.toLowerCase()).join(" | ");
+    const all = (...texts: string[]) => words.every((w) => texts.some((t) => w.test(t)));
+    if (all(title)) return 0;
+    if (all(title, category)) return 1;
+    if (all(title, category, ingredients)) return 2;
+    return null;
+  };
+  return products
+    .map((p) => ({ p, r: rank(p) }))
+    .filter((x): x is { p: ProductSummary; r: number } => x.r !== null)
+    .sort((a, b) => a.r - b.r || b.p.weightedRating - a.p.weightedRating)
+    .slice(0, 6)
+    .map((x) => x.p);
+}
+
 export default function SearchClient({ catalog, teaser }: { catalog: ProductSummary[]; teaser: ProductSummary[] }) {
   const PRODUCTS = catalog;
   const [Explore, setExplore] = useState("");
@@ -68,18 +93,9 @@ export default function SearchClient({ catalog, teaser }: { catalog: ProductSumm
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
-  // Search Pello Explore — name, brand, category, ingredients
-  const pelloResults = Explore.length > 1
-    ? PRODUCTS.filter(p => {
-        const q = Explore.toLowerCase();
-        return (
-          p.name.toLowerCase().includes(q) ||
-          p.brand.toLowerCase().includes(q) ||
-          p.category.toLowerCase().includes(q) ||
-          p.ingredients?.some((i: any) => i.name.toLowerCase().includes(q))
-        );
-      }).slice(0, 6)
-    : [];
+  // Search Pello's products. Matches rank by where the words appear: brand and name first, then
+  // category, then ingredients; ties go to the review-weighted rating. Every word must match.
+  const pelloResults = Explore.trim().length > 1 ? rankProducts(PRODUCTS, Explore) : [];
 
   const searchExternal = async (q: string) => {
     if (!q.trim() || q.length < 3) return;
@@ -478,7 +494,7 @@ export default function SearchClient({ catalog, teaser }: { catalog: ProductSumm
                     <div className="text-xs text-amber uppercase tracking-widest mb-2">Flagged ingredients</div>
                     <div className="flex flex-wrap gap-2">
                       {analysis.flags.map((flag, i) => (
-                        <span key={i} className="text-xs bg-amber/10 text-amber px-2 py-0.5 rounded-md">⚠ {flag}</span>
+                        <span key={i} className="text-xs bg-amber/10 text-amber px-2 py-0.5 rounded-md"><WarningIcon className="h-3 w-3 inline-block align-[-2px] mr-1" />{flag}</span>
                       ))}
                     </div>
                   </div>

@@ -12,6 +12,7 @@ import ProGate from "@/components/ProGate";
 import PrintButton from "@/components/pro/PrintButton";
 import { useProAccess } from "@/lib/subscription";
 import { FREE_COMPARE_LIMIT, PRO_COMPARE_LIMIT, UNGATED_COMPARE_LIMIT } from "@/lib/pro";
+import WarningIcon from "@/components/WarningIcon";
 
 function ScoreBar({ value }: { value: number }) {
   return (
@@ -164,7 +165,7 @@ const filteredProducts = PRODUCTS.filter((p) => {
                   onClick={copyLink}
                   className="btn-secondary text-xs py-1.5 px-3 flex items-center gap-1.5"
                 >
-                  {copied ? "✓ Copied!" : "🔗 Share comparison"}
+                  {copied ? "Link copied" : "Share comparison"}
                 </button>
                 <button
                   onClick={() => setSelectedIds([])}
@@ -429,7 +430,7 @@ const filteredProducts = PRODUCTS.filter((p) => {
                                   : "bg-rust/10 text-rust"
                               }`}
                             >
-                              {ing.verdict === "proven" ? "✓" : ing.verdict === "likely" ? "~" : "⚠"}
+                              {ing.verdict === "proven" ? "✓" : ing.verdict === "likely" ? "~" : <WarningIcon className="h-3 w-3" />}
                             </span>
                             <span className="text-xs leading-relaxed">
                               {ing.name}

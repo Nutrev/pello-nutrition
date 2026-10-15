@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 
 const GUIDES = [
   {
@@ -23,6 +24,13 @@ const GUIDES = [
     time: "5 min read",
   },
 ];
+
+export const metadata: Metadata = {
+  title: "Sports Nutrition Guides",
+  description: "Practical guides and calculators for fueling, recovery and certifications, built on Pello's product data and published research.",
+  alternates: { canonical: "https://www.pellonutrition.com/guides" },
+  openGraph: { title: "Sports Nutrition Guides | Pello", description: "Practical guides and calculators for fueling, recovery and certifications, built on Pello's product data and published research.", url: "https://www.pellonutrition.com/guides" },
+};
 
 export default function GuidesPage() {
   return (
