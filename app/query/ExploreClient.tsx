@@ -20,7 +20,7 @@ function enrichProduct(p: ProductSummary) {
 
   const {
     carbsPerServing, sodiumPerServing, caffeinePerServing, proteinPerServing,
-    hasCaffeine, isHydrogel, glucoseFructoseRatio, isBatchTested, isVegan, isGlutenFree,
+    hasCaffeine, isHydrogel, isClearWhey, glucoseFructoseRatio, isBatchTested, isVegan, isGlutenFree,
   } = p.nutrition;
 
   const isCleanLabel = (p.transparencyScore ?? 0) >= 85;
@@ -35,6 +35,7 @@ function enrichProduct(p: ProductSummary) {
     proteinPerServing,
     hasCaffeine,
     isHydrogel,
+    isClearWhey,
     glucoseFructoseRatio,
     isBatchTested,
     isVegan,
@@ -59,6 +60,7 @@ const EXAMPLE_QUERIES = [
   { label: "High carb drink mixes 60g+", filters: { category: ["Carbohydrate Mix"], minCarbsPerServing: 60 } },
   { label: "Caffeinated gels", filters: { category: ["Energy Gel"], hasCaffeine: "yes" } },
   { label: "Top rated protein", filters: { category: ["Protein"] } },
+  { label: "Clear whey protein", filters: { isClearWhey: true } },
 ];
 
 export default function ExploreClient({ catalog }: { catalog: ProductSummary[] }) {
@@ -90,7 +92,7 @@ export default function ExploreClient({ catalog }: { catalog: ProductSummary[] }
       const n = Number(p.get(k));
       if (p.has(k) && Number.isFinite(n) && n > 0) f[k] = n;
     }
-    for (const k of ["isVegan", "isGlutenFree", "isDairyFree", "isHydrogel"]) if (p.get(k) === "1") f[k] = true;
+    for (const k of ["isVegan", "isGlutenFree", "isDairyFree", "isHydrogel", "isClearWhey"]) if (p.get(k) === "1") f[k] = true;
     if (p.get("hasCaffeine") === "yes" || p.get("hasCaffeine") === "no") f.hasCaffeine = p.get("hasCaffeine");
     setFilters(f);
     const SORTS: SortKey[] = ["rating", "pricePerServing", "carbsPerServing", "sodiumPerServing", "transparencyScore", "caffeinePerServing", "reviewCount"];
@@ -120,6 +122,7 @@ export default function ExploreClient({ catalog }: { catalog: ProductSummary[] }
       if (filters.isGlutenFree && !meetsDiet(p, "gluten-free")) return false;
       if (filters.isDairyFree && !meetsDiet(p, "dairy-free")) return false;
       if (filters.isHydrogel && !p.isHydrogel) return false;
+      if (filters.isClearWhey && !p.isClearWhey) return false;
       if (filters.minTransparencyScore && (p.transparencyScore == null || p.transparencyScore < filters.minTransparencyScore)) return false;
       if (filters.minRating && p.rating < filters.minRating) return false;
       if (filters.glucoseFructoseRatio && p.glucoseFructoseRatio !== filters.glucoseFructoseRatio) return false;
@@ -357,6 +360,7 @@ export default function ExploreClient({ catalog }: { catalog: ProductSummary[] }
                 {[
                   { key: "isCleanLabel", label: "High transparency (85%+)" },
                   { key: "isHydrogel", label: "Hydrogel delivery" },
+                  { key: "isClearWhey", label: "Clear whey" },
                 ].map(({ key, label }) => (
                   <label key={key} className="flex items-center gap-2 text-xs cursor-pointer">
                     <input type="checkbox" className="accent-moss"

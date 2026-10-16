@@ -12,6 +12,7 @@ export interface ProductNutrition {
   proteinPerServing: number | null;
   hasCaffeine: boolean;
   isHydrogel: boolean;
+  isClearWhey: boolean;
   glucoseFructoseRatio: string | null;
   isBatchTested: boolean;
   isVegan: boolean | null;     // as labeled by the brand or retailer; null = not stated
@@ -78,6 +79,7 @@ export function productNutrition(p: Product): ProductNutrition {
     // A caffeinated flavor counts even when caffeine varies by flavor (no single value).
     hasCaffeine: (p.caffeinePerServing ?? 0) > 0 || f.hasCaffeine,
     isHydrogel: p.isHydrogel ?? f.isHydrogel,
+    isClearWhey: p.isClearWhey ?? false,
     glucoseFructoseRatio: p.glucoseFructoseRatio ?? f.ratio,
     isBatchTested: p.isBatchTested ?? f.isBatchTested,
     // Only a stated claim counts; Pello never infers vegan from the ingredient list.

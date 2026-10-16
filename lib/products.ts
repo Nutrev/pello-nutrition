@@ -77,6 +77,9 @@ export interface Product {
   osmolality?: "isotonic" | "hypotonic" | "hypertonic" | null;
   glucoseFructoseRatio?: string | null;  // e.g. "1:0.8", "2:1"
   isHydrogel?: boolean;
+  // Clear whey: whey isolate (or beta-lactoglobulin) made as a clear, juice-like drink rather than a
+  // milky shake. Set by hand from the label.
+  isClearWhey?: boolean;
   isBatchTested?: boolean;         // every batch third-party tested (e.g. Informed Sport, NSF)
   isVegan?: boolean;
   isGlutenFree?: boolean;
@@ -4068,6 +4071,7 @@ const CURATED_PRODUCTS: Product[] = [
   isBatchTested: false,
   isVegan: false,
   isGlutenFree: true,
+  isClearWhey: true,
   certifications: [],
   allergens: ["milk"],
   flavours: ["Tropical"],
@@ -4178,6 +4182,7 @@ const CURATED_PRODUCTS: Product[] = [
   isBatchTested: false,
   isVegan: false,
   isGlutenFree: true,
+  isClearWhey: true,
   certifications: [],
   allergens: ["milk"],
   flavours: ["Peach Mango", "Lemonade", "Tropical Dragonfruit", "Strawberry", "Blue Raspberry"],

@@ -20496,6 +20496,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     isBatchTested: false,
     isVegan: false,
     isGlutenFree: true,
+    isClearWhey: true,
     certifications: [],
     // The protein is milk beta-lactoglobulin; the label says "Contains: Milk".
     allergens: ["milk"],
