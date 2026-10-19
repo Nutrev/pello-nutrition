@@ -51,6 +51,7 @@ export interface BlogPost {
 export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "beet-broccoli-shots-endurance-athletes",
+    image: { src: "/blog/beet-broccoli-shots.jpg", alt: "Rows of beet and broccoli shot bottles with blank labels and metal caps" },
     title: "Broccoli and Beet Shots for Endurance Athletes",
     description: "What beet and broccoli shots do, what the research says, how to take them, and the products we'd pick, based on independent Pello Scores.",
     date: "2026-10-19",
