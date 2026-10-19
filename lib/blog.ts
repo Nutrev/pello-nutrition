@@ -61,8 +61,6 @@ export const BLOG_POSTS: BlogPost[] = [
     tags: ["beet", "nitrate", "broccoli", "sulforaphane", "supplements"],
     relatedProducts: ["beet-it-sport-nitrate-shot", "sis-go-nitrates-shot", "beet-it-sport-nitrate-gel", "amacx-beet-shot", "nomio-broccoli-shot"],
     readingTime: 5,
-    // References verified against PubMed. Remove draft to publish.
-    draft: true,
     references: [
       { text: "Jones AM. Dietary nitrate supplementation and exercise performance. Sports Med. 2014;44 Suppl 1:S35-45.", doi: "10.1007/s40279-014-0149-y", pmid: "24791915" },
       { text: "Maughan RJ, Burke LM, Dvorak J, Larson-Meyer DE, Peeling P, Phillips SM, et al. IOC consensus statement: dietary supplements and the high-performance athlete. Br J Sports Med. 2018;52(7):439-55.", doi: "10.1136/bjsports-2018-099027", pmid: "29540367" },
