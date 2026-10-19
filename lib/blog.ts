@@ -61,12 +61,12 @@ export const BLOG_POSTS: BlogPost[] = [
     tags: ["beet", "nitrate", "broccoli", "sulforaphane", "supplements"],
     relatedProducts: ["beet-it-sport-nitrate-shot", "sis-go-nitrates-shot", "beet-it-sport-nitrate-gel", "amacx-beet-shot", "nomio-broccoli-shot"],
     readingTime: 5,
-    // References 1 and 2 are verified against PubMed. The sulforaphane study (3) still needs choosing.
+    // References verified against PubMed. Remove draft to publish.
     draft: true,
     references: [
       { text: "Jones AM. Dietary nitrate supplementation and exercise performance. Sports Med. 2014;44 Suppl 1:S35-45.", doi: "10.1007/s40279-014-0149-y", pmid: "24791915" },
       { text: "Maughan RJ, Burke LM, Dvorak J, Larson-Meyer DE, Peeling P, Phillips SM, et al. IOC consensus statement: dietary supplements and the high-performance athlete. Br J Sports Med. 2018;52(7):439-55.", doi: "10.1136/bjsports-2018-099027", pmid: "29540367" },
-      { text: "[Sulforaphane and exercise study to be added]" },
+      { text: "Flockhart M, Nilsson LC, Tillqvist EN, Vinge F, Millbert F, Lännerström J, et al. Glucosinolate-rich broccoli sprouts protect against oxidative stress and improve adaptations to intense exercise training. Redox Biol. 2023;67:102873.", doi: "10.1016/j.redox.2023.102873", pmid: "37688976" },
     ],
     content: `Beet shots have solid evidence behind them for endurance performance. Broccoli shots are more promising than proven, and the sheer amount of broccoli pressed into a 2oz bottle is worth a double take. Both have moved from health-food shelves into race kits, and they're often sold in tandem, but they work in completely different ways.
 
@@ -80,11 +80,11 @@ Beet shots work because beetroot is rich in dietary nitrate. Your body converts 
 
 - **Efficiency:** nitrate can lower the oxygen cost of steady exercise and improve endurance, especially in recreational athletes.
 - **Who benefits most:** the effect is smaller and less consistent in highly trained athletes.
-- **Effective dose:** studies typically use about 400–800mg of nitrate, roughly one or two concentrated shots.
+- **Effective dose:** studies typically use about 300–550mg of nitrate, roughly one concentrated shot.
 
 **How to take it:**
 
-- **Timing:** about 2–3 hours before your session or race, when nitrate levels in the blood peak.
+- **Timing:** about 2–3 hours before your session or race, when nitrite, which your body makes from nitrate, peaks in the blood.
 - **Loading:** some athletes take a shot daily for several days before a key race.
 - **Test it in training first,** like any race-day product.
 
@@ -133,7 +133,7 @@ If you're drug tested, stick to the Informed Sport options: Beet It and SiS.
 
 ## The bottom line
 
-Beet shots are worth trying if you're a recreational or age-group athlete. Take one about 2–3 hours before a key session, check the label for 400–800mg of nitrate, and test it in training first. Our pick is [Beet It Sport Nitrate 400](/report/beet-it-sport-nitrate-shot).
+Beet shots are worth trying if you're a recreational or age-group athlete. Take one about 2–3 hours before a key session, check the label for 300–550mg of nitrate, and test it in training first. Our pick is [Beet It Sport Nitrate 400](/report/beet-it-sport-nitrate-shot).
 
 Broccoli shots are interesting but still unproven. If you enjoy them, they're unlikely to hurt. Anecdotally, people seem to feel a benefit, but don't expect a measurable performance boost quite yet.`,
   },
