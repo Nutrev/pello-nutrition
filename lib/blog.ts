@@ -43,9 +43,99 @@ export interface BlogPost {
   // Share image override (a path in public/ or a full URL). Without one, a branded image with the
   // title is generated at /og/blog/[slug].
   ogImage?: string;
+  // Not published yet: hidden from the blog, home page and sitemap, and its page 404s in
+  // production. It still shows in local development (npm run dev) for previewing, with a banner.
+  draft?: boolean;
 }
 
 export const BLOG_POSTS: BlogPost[] = [
+  {
+    slug: "beet-broccoli-shots-endurance-athletes",
+    title: "Broccoli and Beet Shots for Endurance Athletes",
+    description: "What beet and broccoli shots do, what the research says, how to take them, and the products we'd pick, based on independent Pello Scores.",
+    date: "2026-10-19",
+    author: "Pello Nutrition",
+    authorName: "Ethan",
+    category: "Science",
+    tags: ["beet", "nitrate", "broccoli", "sulforaphane", "supplements"],
+    relatedProducts: ["beet-it-sport-nitrate-shot", "sis-go-nitrates-shot", "beet-it-sport-nitrate-gel", "amacx-beet-shot", "nomio-broccoli-shot"],
+    readingTime: 5,
+    // References are a draft: verify each one (and add the sulforaphane study) before publishing.
+    draft: true,
+    references: [
+      { text: "Jones AM. Dietary nitrate supplementation and exercise performance. Sports Medicine. 2014." },
+      { text: "Maughan RJ, et al. IOC consensus statement: dietary supplements and the high-performance athlete. British Journal of Sports Medicine. 2018." },
+      { text: "[Sulforaphane and exercise study to be added]" },
+    ],
+    content: `Beet shots have solid evidence behind them for endurance performance. Broccoli shots are more promising than proven, and the sheer amount of broccoli pressed into a 2oz bottle is worth a double take. Both have moved from health-food shelves into race kits, and they're often sold in tandem, but they work in completely different ways.
+
+Here's what each one does, what the research says, how to use them, and the products we'd pick based on the independent Pello Scores.
+
+## Beet shots: the one with real evidence
+
+Beet shots work because beetroot is rich in dietary nitrate. Your body converts nitrate to nitric oxide, which helps blood vessels widen and makes muscles more efficient. In practice, you use slightly less oxygen at the same pace.
+
+**What the research shows:**
+
+- **Efficiency:** nitrate can lower the oxygen cost of steady exercise and improve endurance, especially in recreational athletes.
+- **Who benefits most:** the effect is smaller and less consistent in highly trained athletes.
+- **Effective dose:** studies typically use about 400–800mg of nitrate, roughly one or two concentrated shots.
+
+**How to take it:**
+
+- **Timing:** about 2–3 hours before your session or race, when nitrate levels in the blood peak.
+- **Loading:** some athletes take a shot daily for several days before a key race.
+- **Test it in training first,** like any race-day product.
+
+**The drawbacks:**
+
+- **Pink urine:** beets can turn urine and stools red or pink. It's harmless but alarming if you don't expect it.
+- **Stomach upset:** concentrated shots can upset some stomachs.
+- **Mouthwash cancels it out:** bacteria in your mouth help convert nitrate, so antibacterial mouthwash can blunt the effect.
+- **Check the dose:** many beet powders contain far less nitrate than a concentrated shot. Look for the nitrate amount on the label, not just "beetroot."
+
+Personally, while I've not yet leaned into shot format, I do incorporate beets into my dinner ~three days out from a major event. Given the ease of the shot, I'll likely be transferring to said format in 2027.
+
+## Broccoli shots: promising, not proven
+
+Broccoli shots are made from broccoli sprout extract, which is rich in sulforaphane. Sulforaphane switches on the body's own antioxidant defenses. The idea is that this helps you handle the oxidative stress of hard training.
+
+**What the research shows:** small studies suggest sulforaphane may lower lactate or oxidative stress during exercise. But the evidence in athletes is still early, with few studies and small groups. There's no agreed dose for performance yet.
+
+**How to take it:** follow the label. Because there's no performance protocol yet, there's no evidence-based timing to recommend.
+
+**The drawbacks:**
+
+- **Weak evidence:** this is a "maybe," not a "proven." Pello's science score reflects that.
+- **Price:** shots run around $7 each, which adds up quickly for an unproven benefit.
+- **Taste:** many people find broccoli extract bitter or sulfurous.
+
+Broccoli shots are super interesting to me due to the sheer amount of vegetable packed into the 2oz bottle. Nomio's data estimates ~6lbs of broccoli in their product.
+
+## Our picks
+
+Our favorite beet shot is [Beet It Sport Nitrate 400](/report/beet-it-sport-nitrate-shot), the highest-scoring nitrate product we track. Scores and prices are from Pello's product reports.
+
+[[disclosure]]
+
+| Pick | Product | Pello Score | Price per serving | Why |
+| --- | --- | --- | --- | --- |
+| Best beet shot | [Beet It Sport Nitrate 400 Shot](/report/beet-it-sport-nitrate-shot) | {{score:beet-it-sport-nitrate-shot}} ({{grade:beet-it-sport-nitrate-shot}}) | {{pps:beet-it-sport-nitrate-shot}} | Informed Sport tested, organic, strong science score. No major weaknesses. |
+| Also tested for sport | [SiS GO Nitrates Shot](/report/sis-go-nitrates-shot) | {{score:sis-go-nitrates-shot}} ({{grade:sis-go-nitrates-shot}}) | {{pps:sis-go-nitrates-shot}} | Informed Sport tested and slightly cheaper. Nitrate amount isn't listed on our report. |
+| Nitrate in a gel | [Beet It Sport Nitrate Energy Gel](/report/beet-it-sport-nitrate-gel) | {{score:beet-it-sport-nitrate-gel}} ({{grade:beet-it-sport-nitrate-gel}}) | {{pps:beet-it-sport-nitrate-gel}} | {{carbs:beet-it-sport-nitrate-gel}} of carbs plus nitrate, Informed Sport tested. Pricey. |
+| Higher dose | [Amacx Beet Shot](/report/amacx-beet-shot) | {{score:amacx-beet-shot}} ({{grade:amacx-beet-shot}}) | {{pps:amacx-beet-shot}} | {{dose:amacx-beet-shot:Nitrates}} of nitrate per shot, plus {{carbs:amacx-beet-shot}} of carbs. No banned-substance testing. |
+| Broccoli shot | [Nomio Broccoli Sprout Shot](/report/nomio-broccoli-shot) | {{score:nomio-broccoli-shot}} ({{grade:nomio-broccoli-shot}}) | {{pps:nomio-broccoli-shot}} | The only broccoli shot we track. Well rated by users ({{rating:nomio-broccoli-shot}}/5), Cologne List tested, but weak science score. |
+
+[[products:beet-it-sport-nitrate-shot|Best beet shot;sis-go-nitrates-shot|Also tested for sport;beet-it-sport-nitrate-gel|Nitrate in a gel;amacx-beet-shot|Higher dose;nomio-broccoli-shot|Broccoli shot]]
+
+If you're drug tested, stick to the Informed Sport options: Beet It and SiS.
+
+## The bottom line
+
+Beet shots are worth trying if you're a recreational or age-group athlete. Take one about 2–3 hours before a key session, check the label for 400–800mg of nitrate, and test it in training first. Our pick is [Beet It Sport Nitrate 400](/report/beet-it-sport-nitrate-shot).
+
+Broccoli shots are interesting but still unproven. If you enjoy them, they're unlikely to hurt. Anecdotally, people seem to feel a benefit, but don't expect a measurable performance boost quite yet.`,
+  },
   {
     slug: "sodium-bicarbonate-endurance-athletes",
     title: "Sodium Bicarbonate for Endurance Athletes: Does Bicarb Work?",
@@ -763,8 +853,12 @@ Use the Pello planner to build fueling and recovery around your next event.`,
   },
 ];
 
+// Drafts show only in local development, never on the live site.
+export const SHOW_DRAFTS = process.env.NODE_ENV === "development";
+const visible = (p: BlogPost) => !p.draft || SHOW_DRAFTS;
+
 export function getAllPosts(): BlogPost[] {
-  return BLOG_POSTS.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  return BLOG_POSTS.filter(visible).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
 // Author and reviewer placeholders still to fill in, printed at build time.
@@ -772,6 +866,7 @@ export function blogPlaceholders(): string[] {
   return BLOG_POSTS.flatMap((p) => [
     ...(p.authorName && isPlaceholder(p.authorName) ? [`${p.slug}: author`] : []),
     ...(p.reviewer && (isPlaceholder(p.reviewer.name) || isPlaceholder(p.reviewer.credential)) ? [`${p.slug}: reviewer`] : []),
+    ...(p.draft ? [`${p.slug}: draft, not published`] : []),
   ]);
 }
 
@@ -779,5 +874,5 @@ export const referenceHref = (r: Reference) =>
   r.doi ? `https://doi.org/${r.doi}` : r.pmid ? `https://pubmed.ncbi.nlm.nih.gov/${r.pmid}/` : r.url;
 
 export function getPostBySlug(slug: string): BlogPost | null {
-  return BLOG_POSTS.find(p => p.slug === slug) ?? null;
+  return BLOG_POSTS.find(p => p.slug === slug && visible(p)) ?? null;
 }

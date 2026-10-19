@@ -173,6 +173,48 @@ function renderMarkdown(content: string) {
       i++;
       continue;
     }
+    // [[products:id|Label;id|Label]]: several product cards in a grid, each with its label as a badge.
+    const grid = line.match(/^\[\[products:([^\]]+)\]\]$/);
+    if (grid) {
+      const items = grid[1].split(";").map((item) => { const [id, badge] = item.split("|"); return { id: id.trim(), badge: badge?.trim() }; });
+      elements.push(
+        <div key={i} className="my-6 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-6 pt-2">
+          {items.map(({ id, badge }) => <ProductCard key={id} product={liveProduct(id)} badge={badge} />)}
+        </div>
+      );
+      i++;
+      continue;
+    }
+
+    // A Markdown table: a header row, a "| --- |" row, then body rows. Scrolls sideways on phones.
+    if (line.startsWith("|") && lines[i + 1]?.match(/^\|\s*:?-{3,}/)) {
+      const cells = (row: string) => row.trim().replace(/^\||\|$/g, "").split("|").map((c) => c.trim());
+      const head = cells(line);
+      const rows: string[][] = [];
+      let j = i + 2;
+      while (j < lines.length && lines[j].startsWith("|")) rows.push(cells(withLiveFigures(lines[j++])));
+      elements.push(
+        <div key={i} className="my-5 -mx-6 px-6 sm:mx-0 sm:px-0 overflow-x-auto">
+          <table className="w-full min-w-[640px] text-sm text-left border-collapse">
+            <thead>
+              <tr className="border-b border-sand">
+                {head.map((h, k) => <th key={k} scope="col" className="py-2 pr-4 text-xs font-medium text-muted uppercase tracking-wider align-bottom">{h}</th>)}
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((r, k) => (
+                <tr key={k} className="border-b border-sand last:border-0 align-top">
+                  {r.map((c, m) => <td key={m} className={`py-2.5 pr-4 leading-relaxed ${m === 0 ? "font-medium text-ink whitespace-nowrap" : "text-muted"}`}>{renderInline(c)}</td>)}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+      i = j;
+      continue;
+    }
+
     if (line === "[[hydration-by-sodium]]") {
       elements.push(<HydrationBySodium key={i} />);
       i++;
@@ -312,6 +354,13 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           </div>
         </div>
 
+        {post.draft && (
+          <div className="mb-8 rounded-xl border border-amber/30 bg-amber/10 px-4 py-3 text-sm">
+            <span className="font-medium">Draft, not published.</span>{" "}
+            <span className="text-muted">Only visible in local development. The references still need verifying.</span>
+          </div>
+        )}
+
         {post.image && (
           <div className="relative aspect-[16/9] rounded-2xl overflow-hidden mb-10 bg-sand/50">
             <Image src={post.image.src} alt={post.image.alt} fill priority sizes="(min-width: 672px) 624px, 100vw" className="object-cover" />
@@ -324,6 +373,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           {post.references && post.references.length > 0 && (
             <section aria-labelledby="references">
               <h2 id="references" className="font-display font-bold text-2xl mt-10 mb-4 text-ink">References</h2>
+              {post.draft && <p className="text-xs font-medium text-amber mb-3">DRAFT: verify before publishing.</p>}
               <ol className="list-decimal pl-5 space-y-2 text-xs text-muted leading-relaxed">
                 {post.references.map((ref, i) => {
                   const href = referenceHref(ref);
