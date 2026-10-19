@@ -61,11 +61,11 @@ export const BLOG_POSTS: BlogPost[] = [
     tags: ["beet", "nitrate", "broccoli", "sulforaphane", "supplements"],
     relatedProducts: ["beet-it-sport-nitrate-shot", "sis-go-nitrates-shot", "beet-it-sport-nitrate-gel", "amacx-beet-shot", "nomio-broccoli-shot"],
     readingTime: 5,
-    // References are a draft: verify each one (and add the sulforaphane study) before publishing.
+    // References 1 and 2 are verified against PubMed. The sulforaphane study (3) still needs choosing.
     draft: true,
     references: [
-      { text: "Jones AM. Dietary nitrate supplementation and exercise performance. Sports Medicine. 2014." },
-      { text: "Maughan RJ, et al. IOC consensus statement: dietary supplements and the high-performance athlete. British Journal of Sports Medicine. 2018." },
+      { text: "Jones AM. Dietary nitrate supplementation and exercise performance. Sports Med. 2014;44 Suppl 1:S35-45.", doi: "10.1007/s40279-014-0149-y", pmid: "24791915" },
+      { text: "Maughan RJ, Burke LM, Dvorak J, Larson-Meyer DE, Peeling P, Phillips SM, et al. IOC consensus statement: dietary supplements and the high-performance athlete. Br J Sports Med. 2018;52(7):439-55.", doi: "10.1136/bjsports-2018-099027", pmid: "29540367" },
       { text: "[Sulforaphane and exercise study to be added]" },
     ],
     content: `Beet shots have solid evidence behind them for endurance performance. Broccoli shots are more promising than proven, and the sheer amount of broccoli pressed into a 2oz bottle is worth a double take. Both have moved from health-food shelves into race kits, and they're often sold in tandem, but they work in completely different ways.
