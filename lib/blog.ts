@@ -65,7 +65,7 @@ export const BLOG_POSTS: BlogPost[] = [
     references: [
       { text: "Ewell TR, Bomar MC, Brown DM, Brown RL, Kwarteng BS, Thomson DP, et al. The influence of acute oral lactate supplementation on responses to cycle ergometer exercise: a randomized, crossover pilot clinical trial. Nutrients. 2024;16(16):2624.", doi: "10.3390/nu16162624", pmid: "39203761" },
       { text: "Bordoli C, Varley I, Sharpe GR, Johnson MA, Hennis PJ. Effects of oral lactate supplementation on acid-base balance and prolonged high-intensity interval cycling performance. J Funct Morphol Kinesiol. 2024;9(3):139.", doi: "10.3390/jfmk9030139", pmid: "39189224" },
-      { text: "Seike K, Takahashi H, Hatta H. Effects of acute oral lactate supplementation on energy metabolism in humans. Journal of Physical Fitness and Sports Medicine. 2025. (VERIFY: details taken from a secondary source)" },
+      { text: "Seike K, Takahashi Y, Hatta H. Effects of acute oral lactate supplementation on energy metabolism in humans. J Phys Fit Sports Med. 2026;15(3):73-81.", doi: "10.7600/jpfsm.2025.002" },
       { text: "Brooks GA. The science and translation of lactate shuttle theory. Cell Metab. 2018;27(4):757-85.", doi: "10.1016/j.cmet.2018.03.008", pmid: "29617642" },
       { text: "Enervit C2:1PRO Lactate Gel Mix product details and directions, The Feed. Price from Velo." },
     ],
@@ -113,7 +113,7 @@ Personally, I am super intrigued by the introduction of lactate gels. I first he
 
 ## Our picks
 
-Pello doesn't score any lactate gels yet. Until there's evidence, the best way to spend the money is on proven high-carb gels. These are the top scorers we track, from Pello's product reports. If you want to try lactate anyway, the options available are SantaMadre and Enervit's C2:1PRO Lactate Gel Mix. We'll score them once there's enough data.
+Pello doesn't score any lactate gels yet. Until there's evidence, the best way to spend the money is on proven high-carb gels. These are three high-scoring gels we track, from Pello's product reports. If you want to try lactate anyway, the options available are SantaMadre and Enervit's C2:1PRO Lactate Gel Mix. We'll score them once there's enough data.
 
 [[disclosure]]
 
