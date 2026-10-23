@@ -137,6 +137,7 @@ Broccoli shots are interesting but still unproven. If you enjoy them, they're un
   },
   {
     slug: "sodium-bicarbonate-endurance-athletes",
+    image: { src: "/blog/bicarb-products.jpg", alt: "Flycarb Energy Mix and Bicarb Mix sachets beside a Bicarb jar, Carb Matrix packet and Performance Beadlets sachet" },
     title: "Sodium Bicarbonate for Endurance Athletes: Does Bicarb Work?",
     description: "What bicarb is, what the research says it does, the drawbacks, how to take it, and the bicarb product we'd pick, based on independent Pello Scores.",
     date: "2026-10-13",
