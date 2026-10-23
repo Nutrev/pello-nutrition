@@ -50,6 +50,88 @@ export interface BlogPost {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "lactate-gels-endurance-athletes",
+    title: "Lactate Gels for Endurance Athletes",
+    description: "What lactate gels are supposed to do, what the research shows, how to take them, and the proven gels we'd pick instead, based on independent Pello Scores.",
+    date: "2026-10-23",
+    author: "Pello Nutrition",
+    authorName: "Ethan",
+    category: "Science",
+    tags: ["lactate", "energy gels", "fueling", "supplements"],
+    relatedProducts: ["sis-beta-fuel-gel", "maurten-gel-160", "enervit-tadej-secret-gel"],
+    readingTime: 6,
+    // Draft until the open points are settled: reference 3 and 5 details, and the claims flagged in review.
+    draft: true,
+    references: [
+      { text: "Ewell TR, Bomar MC, Brown DM, Brown RL, Kwarteng BS, Thomson DP, et al. The influence of acute oral lactate supplementation on responses to cycle ergometer exercise: a randomized, crossover pilot clinical trial. Nutrients. 2024;16(16):2624.", doi: "10.3390/nu16162624", pmid: "39203761" },
+      { text: "Bordoli C, Varley I, Sharpe GR, Johnson MA, Hennis PJ. Effects of oral lactate supplementation on acid-base balance and prolonged high-intensity interval cycling performance. J Funct Morphol Kinesiol. 2024;9(3):139.", doi: "10.3390/jfmk9030139", pmid: "39189224" },
+      { text: "Seike K, Takahashi H, Hatta H. Effects of acute oral lactate supplementation on energy metabolism in humans. Journal of Physical Fitness and Sports Medicine. 2025. (VERIFY: details taken from a secondary source)" },
+      { text: "Brooks GA. The science and translation of lactate shuttle theory. Cell Metab. 2018;27(4):757-85.", doi: "10.1016/j.cmet.2018.03.008", pmid: "29617642" },
+      { text: "Enervit C2:1PRO Lactate Gel Mix product details and directions, The Feed. Price from Velo." },
+    ],
+    content: `Lactate gels are the newest fuel in the pro peloton, and the hype is well ahead of the evidence. UAE Team Emirates-XRG used Enervit's lactate gel mix at the 2026 Tour de France, and other teams have been trialling ExoLactate gels. The theory is sound, but no controlled study has shown a lactate gel makes you faster, quite yet.
+
+Here's how lactate is supposed to work, what the research shows, and whether it's worth paying for.
+
+## How lactate is supposed to work
+
+Lactate isn't a waste product. Your muscles, heart and brain burn it as fuel, and your body makes and clears large amounts of it during hard exercise. This idea, called the lactate shuttle, comes from decades of work by physiologist George Brooks.
+
+**The pitch for lactate gels:**
+
+- **A third fuel route:** glucose and fructose use their own gut transporters. Lactate is absorbed and burned through a different path, so in theory, while you reach a carb cap, lactate as an energy source allows you to take in more total energy per hour.
+- **Sparing glycogen:** if muscles burn ingested lactate, they may use less stored carbohydrate, which could help late in long races.
+- **A mild buffer:** lactate is usually taken as a sodium or calcium salt, which can nudge blood chemistry the way [bicarb](/blog/sodium-bicarbonate-endurance-athletes) does, but more gently.
+
+## What the research shows
+
+The research is small and mixed. There are no published trials of the gels the pros are using.
+
+- **Lactate is used as fuel:** a 2025 University of Tokyo study confirmed that ingested lactate is burned during exercise. It didn't show a performance gain.
+- **A small time-trial bump:** in a 2024 trial of 15 recreational exercisers, low-dose lactate capsules raised average power in a 20-minute cycling time trial by about 4% (204 vs 197 watts). There was no change in VO2max or lactate threshold, and 4 of the 15 got slower. The authors called it a pilot result.
+- **Buffering without speed:** another 2024 trial of calcium lactate (about 8g for a 70kg rider) raised blood bicarbonate and lowered perceived effort, but didn't improve time-trial times.
+- **Lactate in carb drinks:** older studies adding lactate to carbohydrate drinks found no consistent improvement in time to exhaustion.
+
+Compare that with carbohydrate fueling at 60–120g per hour, which is backed by dozens of trials. Lactate is promising theory with very little proof so far.
+
+## How to take them
+
+There's no evidence-based protocol yet, so follow the label.
+
+- **Enervit C2:1PRO Lactate Gel Mix:** one 130ml pouch (90g carbs, 10g lactate) mixed into 500–750ml of water. Enervit says to sip it during the final 1–2 hours of a hard race or session, one pouch per event.
+- **Keep your carbs up:** a lactate gel adds to your normal fueling plan. It doesn't replace it.
+- **Test it in training first,** and never try it for the first time on race day.
+
+## Some drawbacks
+
+- **Price:** Enervit's mix is about $10 a serving ($40 for four), more than twice the cost of a high-carb gel. We expect this to come down in the coming years, but no doubt a barrier for adoption.
+- **Stomach sensitivity:** like bicarb, lactate salts can cause gut distress, and it gets worse with higher doses.
+- **A lot of sodium:** one Enervit pouch has 2,050mg of sodium. That's useful in the heat, but count it in your total consumption.
+- **Hard to find:** the lactate gels available right now are from SantaMadre and Enervit. Enervit's mix is sold through The Feed in the US. ExoLactate didn't ship to the US at the time of writing.
+
+Personally, I am super intrigued by the introduction of lactate gels. I first heard of them this season, 2026, while watching Pogačar manhandle the peloton. While I can't imagine this has been the reason for his dominance, the science certainly supports a ton of upside for the incorporation of lactate gels into the greater nutrition protocol.
+
+## Our picks
+
+Pello doesn't score any lactate gels yet. Until there's evidence, the best way to spend the money is on proven high-carb gels. These are the top scorers we track, from Pello's product reports. If you want to try lactate anyway, the options available are SantaMadre and Enervit's C2:1PRO Lactate Gel Mix. We'll score them once there's enough data.
+
+[[disclosure]]
+
+| Pick | Product | Pello Score | Price per gel | Why |
+| --- | --- | --- | --- | --- |
+| Best overall | [SiS Beta Fuel Gel](/report/sis-beta-fuel-gel) | {{score:sis-beta-fuel-gel}} ({{grade:sis-beta-fuel-gel}}) | {{pps:sis-beta-fuel-gel}} | {{carbs:sis-beta-fuel-gel}} of carbs, {{rating:sis-beta-fuel-gel}}/5 from over 1,300 reviews, and a third of the price of a lactate serving. |
+| Gut comfort | [Maurten Gel 160](/report/maurten-gel-160) | {{score:maurten-gel-160}} ({{grade:maurten-gel-160}}) | {{pps:maurten-gel-160}} | Rated {{rating:maurten-gel-160}}/5 by athletes. Simple ingredients that are easy on the stomach. |
+| The Pogačar gel without the lactate | [Enervit Tadej Secret Gel](/report/enervit-tadej-secret-gel) | {{score:enervit-tadej-secret-gel}} ({{grade:enervit-tadej-secret-gel}}) | {{pps:enervit-tadej-secret-gel}} | Same brand as the lactate mix. {{carbs:enervit-tadej-secret-gel}} of carbs, {{dose:enervit-tadej-secret-gel:Caffeine}} caffeine, Cologne List tested. |
+
+[[products:sis-beta-fuel-gel|Best overall;maurten-gel-160|Gut comfort;enervit-tadej-secret-gel|Pogačar gel, no lactate]]
+
+## The bottom line
+
+Lactate gels are an interesting idea with pro-level buzz and almost no proof. The best study so far found a small gain in a 20-minute time trial and no change in fitness markers. At $10 a serving, that's a lot to pay for a maybe.
+
+For now, hit 60–120g of carbs per hour with a proven gel. If you're curious, test a lactate mix in training before a key race. Expect to see it on Pello once real trials catch up with the marketing.`,
+  },
+  {
     slug: "beet-broccoli-shots-endurance-athletes",
     image: { src: "/blog/beet-broccoli-shots.jpg", alt: "Rows of beet and broccoli shot bottles with blank labels and metal caps" },
     title: "Broccoli and Beet Shots for Endurance Athletes",
