@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 const FREE: { text: string; included: boolean }[] = [
   { text: "All product pages and Pello Scores", included: true },
   { text: "Ingredient encyclopedia", included: true },
-  { text: "Blog and guides", included: true },
+  { text: "Journal and guides", included: true },
   { text: "Compare 2 products", included: true },
   { text: "Search filters, including diet and quality standards", included: true },
   { text: "Read community reviews", included: true },

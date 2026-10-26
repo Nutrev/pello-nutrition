@@ -87,7 +87,7 @@ export function FromTheBlog({ posts }: { posts: PostTeaser[] }) {
   if (!featured) return null;
   return (
     <section>
-      <SectionHeading eyebrow="From the blog" title="Read before you buy"
+      <SectionHeading eyebrow="From the Journal" title="Read before you buy"
         subtitle="New to sports nutrition or want to go deeper — start here."
         link={{ href: "/blog", label: "All articles →" }} />
       <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-4">

@@ -325,7 +325,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         {/* Header */}
         <div className="mb-10">
           <div className="flex items-center gap-3 mb-4">
-            <Link href="/blog" className="text-xs text-muted hover:text-ink transition-colors">← Blog</Link>
+            <Link href="/blog" className="text-xs text-muted hover:text-ink transition-colors">← Journal</Link>
             <span className="text-xs text-muted border border-sand rounded-full px-2.5 py-0.5">
               {post.category}
             </span>

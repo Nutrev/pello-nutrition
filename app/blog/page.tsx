@@ -4,10 +4,10 @@ import { PRODUCTS } from "@/lib/products";
 import BlogIndex, { type BlogCard } from "./BlogIndex";
 import type { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "Sports Nutrition Blog",
+  title: "Sports Nutrition Journal",
   description: "Science-backed guides, product comparisons and nutrition advice for endurance athletes. Evidence-based articles on energy gels, supplements, race nutrition and more.",
   openGraph: {
-    title: "Sports Nutrition Blog | Pello",
+    title: "Sports Nutrition Journal | Pello",
     description: "Science-backed nutrition guides and product comparisons for endurance athletes.",
     url: "https://www.pellonutrition.com/blog",
   },
@@ -31,7 +31,7 @@ export default function BlogPage() {
   return (
     <div className="min-h-screen">
       <div className="max-w-5xl mx-auto px-6 py-14">
-        <div className="text-xs text-muted uppercase tracking-widest mb-2">Pello Blog</div>
+        <div className="text-xs text-muted uppercase tracking-widest mb-2">Pello Journal</div>
         <h1 className="font-display font-bold text-4xl sm:text-5xl tracking-tight mb-3">Sports nutrition, explained</h1>
         <p className="text-muted text-lg leading-relaxed max-w-xl">
           Guides, product comparisons and the science behind fueling — written for runners, cyclists and triathletes.
