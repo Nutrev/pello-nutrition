@@ -51,6 +51,7 @@ export interface BlogPost {
 export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "lactate-gels-endurance-athletes",
+    image: { src: "/blog/lactate-gel.jpg", alt: "A silver Lactate 60 gel packet labeled 40g of carbs at a 1:1 ratio" },
     title: "Lactate Gels for Endurance Athletes",
     description: "What lactate gels are supposed to do, what the research shows, how to take them, and the proven gels we'd pick instead, based on independent Pello Scores.",
     date: "2026-10-23",
