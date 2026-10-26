@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { getPostBySlug, getAllPosts, isPlaceholder, blogPlaceholders, referenceHref, type BlogPost } from "@/lib/blog";
 import { PRODUCTS } from "@/lib/products";
 import { getProductSummaries } from "@/lib/catalog";
@@ -358,12 +357,6 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           <div className="mb-8 rounded-xl border border-amber/30 bg-amber/10 px-4 py-3 text-sm">
             <span className="font-medium">Draft, not published.</span>{" "}
             <span className="text-muted">Only visible in local development. The references still need verifying.</span>
-          </div>
-        )}
-
-        {post.image && (
-          <div className="relative aspect-[16/9] rounded-2xl overflow-hidden mb-10 bg-sand/50">
-            <Image src={post.image.src} alt={post.image.alt} fill priority sizes="(min-width: 672px) 624px, 100vw" className="object-cover" />
           </div>
         )}
 
