@@ -13,6 +13,18 @@ export const metadata: Metadata = {
   },
 };
 
+// An article's body as plain lowercase text for the Journal search: Markdown, links, live-figure
+// placeholders and product blocks stripped out.
+function plainText(content: string) {
+  return content
+    .replace(/\{\{[^}]*\}\}|\[\[[^\]]*\]\]/g, " ")
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
+    .replace(/[#*|>_`-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+}
+
 export default function BlogPage() {
   // Only what the cards need, so post bodies aren't sent to the browser. Product counts
   // include only linked products that are still on the site.
@@ -21,6 +33,8 @@ export default function BlogPage() {
     title: post.title,
     description: post.description,
     category: post.category,
+    tags: post.tags,
+    searchText: plainText(post.content),
     readingTime: post.readingTime,
     productCount: post.relatedProducts.filter((id) => PRODUCTS.some((p) => p.id === id)).length,
     image: post.image,

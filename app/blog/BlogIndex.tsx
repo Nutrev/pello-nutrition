@@ -1,6 +1,7 @@
 "use client";
 
-// The blog list: category filters, one large featured post, then the rest in a grid.
+// The blog list: category filters and a quick search, one large featured post, then the rest
+// in a grid.
 import { useState } from "react";
 import Link from "next/link";
 import BlogCover from "./BlogCover";
@@ -10,6 +11,8 @@ export type BlogCard = {
   title: string;
   description: string;
   category: string;
+  tags: string[];
+  searchText: string;  // the article body, lowercased, for search
   readingTime: number;
   productCount: number;
   image?: { src: string; alt: string };
@@ -28,12 +31,22 @@ function mentioned(count: number) {
   return count > 0 ? `${count} product${count === 1 ? "" : "s"} mentioned` : null;
 }
 
+// A post matches when every word of the search appears in its title, description, category, tags
+// or text.
+function matches(post: BlogCard, query: string) {
+  const text = [post.title, post.description, post.category, ...post.tags, post.searchText].join(" ").toLowerCase();
+  return query.toLowerCase().split(/\s+/).filter(Boolean).every((word) => text.includes(word));
+}
+
 export default function BlogIndex({ posts }: { posts: BlogCard[] }) {
   const [filter, setFilter] = useState<string | null>(null);
+  const [query, setQuery] = useState("");
+  const searching = query.trim() !== "";
   const categories = Array.from(new Set(posts.map((p) => p.category)));
-  const shown = filter ? posts.filter((p) => p.category === filter) : posts;
-  // The "Start here" post leads the full list; a filtered list leads with its newest post.
-  const featured = (!filter && shown.find((p) => p.startHere)) || shown[0];
+  const shown = posts.filter((p) => (!filter || p.category === filter) && (!searching || matches(p, query)));
+  // The "Start here" post leads the full list; a filtered or searched list leads with its newest post.
+  const narrowed = !!filter || searching;
+  const featured = (!narrowed && shown.find((p) => p.startHere)) || shown[0];
   const rest = shown.filter((p) => p !== featured);
   // Pack shots sit on sand rather than moss, so the products keep their own colors.
   const featuredOnSand = !featured?.image && !!featured?.packshots?.length;
@@ -50,10 +63,30 @@ export default function BlogIndex({ posts }: { posts: BlogCard[] }) {
 
   return (
     <>
-      <div className="flex gap-2 mt-7 mb-8 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden -mx-6 px-6 sm:mx-0 sm:px-0">
-        {pill("All", posts.length, null)}
-        {categories.map((c) => pill(c, posts.filter((p) => p.category === c).length, c))}
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3 mt-7 mb-8">
+        <div className="flex-1 min-w-0 flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden -mx-6 px-6 sm:mx-0 sm:px-0">
+          {pill("All", posts.length, null)}
+          {categories.map((c) => pill(c, posts.filter((p) => p.category === c).length, c))}
+        </div>
+        <div role="search" className="relative sm:w-56 flex-shrink-0">
+          <svg aria-hidden="true" viewBox="0 0 20 20" className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted" fill="none" stroke="currentColor" strokeWidth="1.8">
+            <circle cx="9" cy="9" r="5.5" /><path d="M13.5 13.5L17 17" strokeLinecap="round" />
+          </svg>
+          <input type="search" value={query} onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => { if (e.key === "Escape") setQuery(""); }}
+            placeholder="Search articles" aria-label="Search articles"
+            className="w-full text-sm bg-white/60 border border-sand rounded-full pl-9 pr-3 py-1.5 placeholder:text-muted focus:outline-none focus:border-moss/50" />
+        </div>
       </div>
+
+      {shown.length === 0 && (
+        <div className="card text-center py-10">
+          <p className="text-sm text-muted">No articles match &ldquo;{query.trim()}&rdquo;{filter ? ` in ${filter}` : ""}.</p>
+          <button type="button" onClick={() => { setQuery(""); setFilter(null); }} className="text-sm text-moss hover:underline mt-2">
+            Show all articles
+          </button>
+        </div>
+      )}
 
       {featured && (
         <Link href={`/blog/${featured.slug}`}
@@ -61,7 +94,7 @@ export default function BlogIndex({ posts }: { posts: BlogCard[] }) {
           <div className={`relative ${featuredOnSand ? "bg-sand/50" : "bg-moss"} min-h-[200px] md:min-h-[300px] overflow-hidden`}>
             <BlogCover slug={featured.slug} category={featured.category} image={featured.image} packshots={featured.packshots} featured />
             <div className="relative p-6 flex flex-col h-full justify-between min-h-[200px] md:min-h-[300px]">
-              {featured.startHere && !filter ? (
+              {featured.startHere && !narrowed ? (
                 <span className={`self-start text-xs ${featuredOnSand ? "text-ink/80 border-ink/20" : "text-cream/90 border-cream/40"} border rounded-full px-2.5 py-0.5 backdrop-blur-sm`}>Start here</span>
               ) : <span />}
               {!featured.image && !featuredOnSand && <div className="text-cream/90 font-display font-semibold text-sm">{featured.category}</div>}
