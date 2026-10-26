@@ -60,8 +60,6 @@ export const BLOG_POSTS: BlogPost[] = [
     tags: ["lactate", "energy gels", "fueling", "supplements"],
     relatedProducts: ["sis-beta-fuel-gel", "maurten-gel-160", "enervit-tadej-secret-gel"],
     readingTime: 6,
-    // Draft until the open points are settled: reference 3 and 5 details, and the claims flagged in review.
-    draft: true,
     references: [
       { text: "Ewell TR, Bomar MC, Brown DM, Brown RL, Kwarteng BS, Thomson DP, et al. The influence of acute oral lactate supplementation on responses to cycle ergometer exercise: a randomized, crossover pilot clinical trial. Nutrients. 2024;16(16):2624.", doi: "10.3390/nu16162624", pmid: "39203761" },
       { text: "Bordoli C, Varley I, Sharpe GR, Johnson MA, Hennis PJ. Effects of oral lactate supplementation on acid-base balance and prolonged high-intensity interval cycling performance. J Funct Morphol Kinesiol. 2024;9(3):139.", doi: "10.3390/jfmk9030139", pmid: "39189224" },
@@ -87,7 +85,7 @@ Lactate isn't a waste product. Your muscles, heart and brain burn it as fuel, an
 
 The research is small and mixed. There are no published trials of the gels the pros are using.
 
-- **Lactate is used as fuel:** a 2025 University of Tokyo study confirmed that ingested lactate is burned during exercise. It didn't show a performance gain.
+- **Lactate as fuel is still unproven when swallowed:** a University of Tokyo study found a small dose of oral lactate raised oxygen use at rest but made no difference during easy cycling. It didn't test performance.
 - **A small time-trial bump:** in a 2024 trial of 15 recreational exercisers, low-dose lactate capsules raised average power in a 20-minute cycling time trial by about 4% (204 vs 197 watts). There was no change in VO2max or lactate threshold, and 4 of the 15 got slower. The authors called it a pilot result.
 - **Buffering without speed:** another 2024 trial of calcium lactate (about 8g for a 70kg rider) raised blood bicarbonate and lowered perceived effort, but didn't improve time-trial times.
 - **Lactate in carb drinks:** older studies adding lactate to carbohydrate drinks found no consistent improvement in time to exhaustion.
