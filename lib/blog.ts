@@ -50,6 +50,121 @@ export interface BlogPost {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "drink-mixes-endurance-athletes",
+    title: "Make Every Bottle Count: How to Choose and Use a Drink Mix",
+    description: "What a drink mix does, how much carbs, fluid and sodium you need, how to read the label, maltodextrin vs maltodextrin-free, and the mixes we'd pick based on independent Pello Scores.",
+    date: "2026-11-03",
+    author: "Pello Nutrition",
+    authorName: "Ethan",
+    category: "Guides",
+    tags: ["drink mix", "hydration", "carbohydrates", "sodium", "fueling"],
+    relatedProducts: ["the-feed-lab-high-carb-drink-mix", "tailwind-endurance-fuel", "sis-beta-fuel-drink", "maurten-drink-mix-320", "skratch-sport-hydration"],
+    readingTime: 7,
+    references: [
+      { text: "Thomas DT, Erdman KA, Burke LM. American College of Sports Medicine Joint Position Statement. Nutrition and Athletic Performance. Med Sci Sports Exerc. 2016;48(3):543-68.", doi: "10.1249/MSS.0000000000000852", pmid: "26891166" },
+      { text: "Jeukendrup A. A step towards personalized sports nutrition: carbohydrate intake during exercise. Sports Med. 2014;44(Suppl 1):S25-33.", doi: "10.1007/s40279-014-0148-z", pmid: "24791914" },
+      { text: "American College of Sports Medicine, Sawka MN, Burke LM, Eichner ER, Maughan RJ, Montain SJ, Stachenfeld NS. American College of Sports Medicine position stand. Exercise and fluid replacement. Med Sci Sports Exerc. 2007;39(2):377-90.", doi: "10.1249/mss.0b013e31802ca597", pmid: "17277604" },
+      { text: "Product data from Pello product reports (live: scores, nutrition and prices update as products change).", url: "/products/carbohydrate-mix" },
+      { text: "Podlogar T, Bokal Š, Cirnski S, Wallis GA. Increased exogenous but unaltered endogenous carbohydrate oxidation with combined fructose-maltodextrin ingested at 120 g h-1 versus 90 g h-1 at different ratios. Eur J Appl Physiol. 2022;122(11):2393-2401.", doi: "10.1007/s00421-022-05019-w", pmid: "35951130" },
+      { text: "Jeukendrup AE. Training the gut for athletes. Sports Med. 2017;47(Suppl 1):101-10.", doi: "10.1007/s40279-017-0690-6", pmid: "28332114" },
+      { text: "Murray R, Eddy DE, Bartoli WP, Paul GL. Gastric emptying of water and isocaloric carbohydrate solutions consumed at rest. Med Sci Sports Exerc. 1994;26(6):725-32.", doi: "10.1249/00005768-199406000-00012", pmid: "8052114" },
+    ],
+    content: `Your bottles are the easiest fuel you'll take in, and most athletes waste them. Plain water matters, but it doesn't replace the carbs and sodium you burn and sweat out. A good drink mix does all three at once, without anything to unwrap.
+
+Here's what a drink mix does, how much you need, what to look for on the label, and the mixes we'd pick based on Pello Scores.
+
+## What a drink mix does
+
+A drink mix gives you three things at once:
+
+- **Carbs for energy:** your muscles run on carbohydrate during hard or long efforts. Running low is what causes the late-race fade, or bonk.
+- **Sodium to replace sweat:** you lose sodium every time you sweat. Replacing some of it helps you hold onto fluid. It may also help some athletes with cramping, though the cause of cramps is debated ([more on sodium](/blog/sodium-endurance-athletes)).
+- **Fluid to stay hydrated:** carbs and sodium also help your body absorb water faster than plain water alone.
+
+Gels and chews give you carbs too, but only a drink covers all three. That's why a drink mix is the backbone of many fueling plans.
+
+## How much you need
+
+The right amount depends mostly on how long you're out. These are the general guidelines from sports nutrition research, and a starting point to adjust for you.
+
+| Session length | Carbs per hour | What to drink |
+| --- | --- | --- |
+| Under 1 hour | Little or none (1) | Water is fine. In hard efforts, a small amount of carbs can help (1, 2) |
+| 1–2.5 hours | 30–60g (1, 2) | A standard drink mix, or a mix plus a gel |
+| Over 2.5 hours | Up to 90g (1, 2) | A high-carb mix using glucose plus fructose |
+
+**Fluid:** a common starting point is about 400–800ml per hour (3). Drink more in the heat and less in the cold.
+
+**Sodium:** sweat sodium varies a lot from person to person (3). For long sessions, ACSM guidance suggests drinks with about 460–690mg of sodium per liter (3). If you finish with white salt streaks on your kit, you're probably a salty sweater and need more.
+
+## How to choose one
+
+Flip the packet over and check four things:
+
+1. **Carbs per serving:** "hydration" mixes often have under 20g (Skratch Sport Hydration has {{carbs:skratch-sport-hydration}}), which is great for hydration but not enough to fuel a long session. "High-carb" or "fuel" mixes have 50–80g per serving, or let you add scoops to get there (4).
+2. **Type of carbs:** above about 60g an hour, look for glucose (or maltodextrin) plus fructose. They use separate routes into the body, so you absorb more with less stomach upset (2).
+3. **Sodium per serving:** some high-carb mixes have almost none. If yours is low, add an electrolyte tab or a salty snack.
+4. **Third-party testing:** if you're drug tested, look for Informed Sport or NSF Certified for Sport on the label.
+
+Then pick a flavor you'll actually want to drink after three hours. Taste matters more than people think.
+
+## Maltodextrin vs maltodextrin-free mixes
+
+Maltodextrin isn't good or bad. It's just one way to get glucose into your bottle, and it has real advantages for high-carb fueling.
+
+**What it is:** maltodextrin is a carbohydrate made by breaking down starch, usually from corn, rice or potato. Your body burns it about as quickly as plain glucose (2).
+
+Why brands use it:
+
+- **Less sweet:** you can pack 80g of carbs into one serving, as SiS Beta Fuel and Maurten 320 do, without it tasting like syrup (4).
+- **Easier to drink strong:** it adds fewer dissolved particles to the drink than the same amount of sugar, so strong mixes feel less syrupy. At normal sports drink strength, though, one study at rest found it didn't leave the stomach any faster than glucose (7).
+- **Cheap and consistent:** it's one reason high-carb mixes can stay affordable.
+
+Why some athletes avoid it:
+
+- **It's highly processed:** some people prefer simple sugars they recognize, like cane sugar and dextrose.
+- **Personal tolerance:** a few athletes report stomach issues with it. There's no strong evidence this is common, but your gut is the final judge.
+
+Maltodextrin-free mixes usually use dextrose (glucose), sucrose (table sugar) and fructose. They work just as well at moderate amounts, but get very sweet in high-carb amounts.
+
+**Either way, pair it with fructose.** Maltodextrin and glucose share one route into the body, which tops out around 60g of carbs an hour. Adding fructose opens a second route, so you can absorb up to about 90g (2). Some athletes now push to 120g an hour. Research shows the extra carbs do get burned, but a performance benefit isn't proven yet (5). Sucrose already contains fructose.
+
+| Type | Examples from our picks | Carbs from |
+| --- | --- | --- |
+| With maltodextrin | The Feed Lab High-Carb, SiS Beta Fuel, Maurten 320 | Maltodextrin + fructose |
+| Without maltodextrin | Tailwind Endurance Fuel, Skratch Sport Hydration | Dextrose and sucrose (Tailwind adds fructose) |
+
+**Our take:** for long, high-carb efforts, maltodextrin plus fructose is hard to beat. For shorter sessions, or if you prefer simple sugars, a maltodextrin-free mix works fine. Choose by total carbs, the carb mix and how your stomach feels, not by the word on the label.
+
+## Common mistakes
+
+- **Mixing it too strong:** doubling up the powder in one bottle can slow absorption and upset your stomach. Follow the label, or split it across two bottles.
+- **Using a hydration mix as fuel:** a low-carb electrolyte drink won't stop a bonk on a long ride or run.
+- **Drinking only water in long events:** you replace fluid, but not the carbs or sodium you're losing.
+- **Saving it for race day:** your gut adapts to carbs with practice (6). Use your race mix in long training sessions first.
+- **Forgetting to drink:** set a reminder to sip regularly instead of waiting until you're thirsty.
+
+## Our picks
+
+We score more than 60 drink mixes. These are the ones we'd reach for, with scores, nutrition and prices from Pello's product reports (4).
+
+[[disclosure]]
+
+| Pick | Product | Pello Score | Carbs / sodium per serving | Price per serving | Why |
+| --- | --- | --- | --- | --- | --- |
+| Best overall | [The Feed Lab High-Carb Drink Mix](/report/the-feed-lab-high-carb-drink-mix) | {{score:the-feed-lab-high-carb-drink-mix}} ({{grade:the-feed-lab-high-carb-drink-mix}}) | {{carbs:the-feed-lab-high-carb-drink-mix}} / {{sodium:the-feed-lab-high-carb-drink-mix}} | {{pps:the-feed-lab-high-carb-drink-mix}} | Our top-scoring mix. NSF Certified for Sport, and you can add scoops to scale up the carbs: up to 3 scoops for 90g. |
+| All-in-one | [Tailwind Endurance Fuel](/report/tailwind-endurance-fuel) | {{score:tailwind-endurance-fuel}} ({{grade:tailwind-endurance-fuel}}) | {{carbs:tailwind-endurance-fuel}} / {{sodium:tailwind-endurance-fuel}} | {{pps:tailwind-endurance-fuel}} | Carbs and plenty of sodium in one bottle. Rated {{rating:tailwind-endurance-fuel}}/5 from {{reviews:tailwind-endurance-fuel}}. |
+| High carb | [SiS Beta Fuel Drink Mix](/report/sis-beta-fuel-drink) | {{score:sis-beta-fuel-drink}} ({{grade:sis-beta-fuel-drink}}) | {{carbs:sis-beta-fuel-drink}} / {{sodium:sis-beta-fuel-drink}} | {{pps:sis-beta-fuel-drink}} | 80g of carbs for long races, Informed Sport tested. Almost no sodium, so add electrolytes. |
+| High carb, hydrogel | [Maurten Drink Mix 320](/report/maurten-drink-mix-320) | {{score:maurten-drink-mix-320}} ({{grade:maurten-drink-mix-320}}) | {{carbs:maurten-drink-mix-320}} / {{sodium:maurten-drink-mix-320}} | {{pps:maurten-drink-mix-320}} | 80g of carbs in a hydrogel formula designed to be gentle on the stomach. Informed Sport tested. |
+| Hydration | [Skratch Labs Sport Hydration](/report/skratch-sport-hydration) | {{score:skratch-sport-hydration}} ({{grade:skratch-sport-hydration}}) | {{carbs:skratch-sport-hydration}} / {{sodium:skratch-sport-hydration}} | {{pps:skratch-sport-hydration}} | Best for shorter or hot sessions. Rated {{rating:skratch-sport-hydration}}/5 from {{reviews:skratch-sport-hydration}}. Not enough carbs for long efforts on its own. |
+
+## The bottom line
+
+A drink mix is the simplest upgrade most athletes can make. For anything over an hour, swap plain water for a mix that gives you carbs, sodium and fluid together. Match the carbs to your session length, check the sodium, and practice with it in training.
+
+Not sure how much you need? [Build your fueling plan on Pello](/quiz) and get carbs, fluid and sodium targets for your next session.`,
+  },
+  {
     slug: "lactate-gels-endurance-athletes",
     image: { src: "/blog/lactate-gel.jpg", alt: "A silver Lactate 60 gel packet labeled 40g of carbs at a 1:1 ratio" },
     title: "Lactate Gels for Endurance Athletes",
