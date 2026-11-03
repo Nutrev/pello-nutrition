@@ -51,6 +51,7 @@ export interface BlogPost {
 export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "drink-mixes-endurance-athletes",
+    image: { src: "/blog/drink-mixes.jpg", alt: "A white drink mix tub beside sports bottles, with gel packets tied to one bottle" },
     title: "Make Every Bottle Count: How to Choose and Use a Drink Mix",
     description: "What a drink mix does, how much carbs, fluid and sodium you need, how to read the label, maltodextrin vs maltodextrin-free, and the mixes we'd pick based on independent Pello Scores.",
     date: "2026-11-03",
