@@ -188,6 +188,7 @@ export const NSF_SPORT_LISTINGS: Record<string, { listingId: string; listingName
   "thorne-multi-vitamin-elite": { listingId: "1309658", listingName: "Thorne\u00ae Multi-Vitamin Elite" },
   "thorne-plant-protein": { listingId: "1751547", listingName: "Thorne® Plant Protein (Chocolate Flavored)" },
   "thorne-protein-optimizer": { listingId: "1809927", listingName: "Thorne\u00ae Protein Optimizer" },
+  "thorne-recovery-pro": { listingId: "1308805", listingName: "Thorne® RecoveryPro® Chocolate Flavored" },
   "thorne-super-epa": { listingId: "1237707", listingName: "Thorne\u00ae Super EPA (EPA & DHA)" },
   "thorne-synaquell": { listingId: "1428451", listingName: "Thorne\u00ae SynaQuell\u2122" },
   "thorne-vitamin-b12": { listingId: "1811504", listingName: "Thorne\u00ae Vitamin B12" },
