@@ -31,8 +31,6 @@ export interface BlogPost {
   // Optional product pack shots shown side by side on the cover (a comparison's two
   // products, say), files in public/blog/. Used when there's no cover photo.
   packshots?: { src: string; alt: string }[];
-  // Shown as the large featured card at the top of the blog page.
-  startHere?: boolean;
   // Last substantive update (YYYY-MM-DD), shown as "Updated …" beside the publish date.
   updated?: string;
   // A named author and an optional reviewer, e.g. { name: "…", credential: "RD" }. Placeholders
@@ -809,7 +807,6 @@ Use the Pello Planner to get a personalized recommendation based on your specifi
   {
     slug: "marathon-nutrition-guide",
     image: { src: "/blog/marathon-course.jpg", alt: "Map of a marathon course from start to finish" },
-    startHere: true,
     title: "Marathon Nutrition Guide 2026 — What to Eat Before, During and After",
     description: "Everything you need to know about fueling a marathon — from pre-race carb loading to mid-race gel strategy and post-race recovery.",
     date: "2026-09-22",

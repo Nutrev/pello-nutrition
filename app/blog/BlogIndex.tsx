@@ -17,7 +17,6 @@ export type BlogCard = {
   productCount: number;
   image?: { src: string; alt: string };
   packshots?: { src: string; alt: string }[];
-  startHere?: boolean;
 };
 
 // Categories are plural ("Guides"); a single post reads better singular ("Guide · 9 min read").
@@ -44,9 +43,8 @@ export default function BlogIndex({ posts }: { posts: BlogCard[] }) {
   const searching = query.trim() !== "";
   const categories = Array.from(new Set(posts.map((p) => p.category)));
   const shown = posts.filter((p) => (!filter || p.category === filter) && (!searching || matches(p, query)));
-  // The "Start here" post leads the full list; a filtered or searched list leads with its newest post.
-  const narrowed = !!filter || searching;
-  const featured = (!narrowed && shown.find((p) => p.startHere)) || shown[0];
+  // The newest post (posts arrive newest first) always takes the large featured card.
+  const featured = shown[0];
   const rest = shown.filter((p) => p !== featured);
   // Pack shots sit on sand rather than moss, so the products keep their own colors.
   const featuredOnSand = !featured?.image && !!featured?.packshots?.length;
@@ -93,10 +91,7 @@ export default function BlogIndex({ posts }: { posts: BlogCard[] }) {
           className="group grid md:grid-cols-[1.1fr_1fr] rounded-2xl overflow-hidden border border-sand bg-white/60 hover:shadow-md transition-all">
           <div className={`relative ${featuredOnSand ? "bg-sand/50" : "bg-moss"} min-h-[200px] md:min-h-[300px] overflow-hidden`}>
             <BlogCover slug={featured.slug} category={featured.category} image={featured.image} packshots={featured.packshots} featured />
-            <div className="relative p-6 flex flex-col h-full justify-between min-h-[200px] md:min-h-[300px]">
-              {featured.startHere && !narrowed ? (
-                <span className={`self-start text-xs ${featuredOnSand ? "text-ink/80 border-ink/20" : "text-cream/90 border-cream/40"} border rounded-full px-2.5 py-0.5 backdrop-blur-sm`}>Start here</span>
-              ) : <span />}
+            <div className="relative p-6 flex flex-col h-full justify-end min-h-[200px] md:min-h-[300px]">
               {!featured.image && !featuredOnSand && <div className="text-cream/90 font-display font-semibold text-sm">{featured.category}</div>}
             </div>
           </div>

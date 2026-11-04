@@ -39,7 +39,6 @@ export default function BlogPage() {
     productCount: post.relatedProducts.filter((id) => PRODUCTS.some((p) => p.id === id)).length,
     image: post.image,
     packshots: post.packshots,
-    startHere: post.startHere,
   }));
 
   return (
