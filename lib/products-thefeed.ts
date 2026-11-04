@@ -1620,8 +1620,9 @@ export const THE_FEED_PRODUCTS: Product[] = [
     logo: "/logo/Styrkr.png",
     category: "Energy Gel",
     rating: 4.5,
-    reviewCount: 42,
+    reviewCount: 43,
     price: 39.99,      // Box of 12 on The Feed
+    // Nitrate: "350mg of natural nitrates" per gel (The Feed's product description, 2026-11-04).
     servingsPerContainer: 12,
     carbsPerServing: 30,
     sodiumPerServing: 12,
@@ -1644,10 +1645,10 @@ export const THE_FEED_PRODUCTS: Product[] = [
     sentiment: {},
     ingredients: [
       { name: "Maltodextrin + Fructose", dose: "30g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
-      { name: "Dietary Nitrate (beetroot)", dose: "", verdict: "likely", note: "Nitrate can improve efficiency in recreational athletes; benefits are smaller and less consistent in well-trained athletes.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=dietary+nitrate+beetroot+endurance+performance" },
+      { name: "Dietary Nitrate (beetroot and amaranthus leaf extracts)", dose: "350mg", verdict: "likely", note: "Nitrate can improve efficiency in recreational athletes; benefits are smaller and less consistent in well-trained athletes.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=dietary+nitrate+beetroot+endurance+performance" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 42, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 43, unit: "reviews", credibility: "medium" },
     ],
   },
   {

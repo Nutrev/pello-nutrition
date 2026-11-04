@@ -1783,6 +1783,8 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     rating: 4.7,
     reviewCount: 339,
     price: 39.95,      // 30 Servings on The Feed
+    // The beet powder and grape seed extract have no amounts on the label, and no nitrate content is
+    // given (checked on The Feed, 2026-11-04).
     servingsPerContainer: 30,
     carbsPerServing: 4,
     proteinPerServing: 1,
@@ -1800,9 +1802,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     retailerLinks: {"theFeed": "https://thefeed.com/products/human-n-superbeets-energy-plus"},
     goals: ["endurance"],
     imageEmoji: "⚡",
-    transparencyScore: 85,
+    // 35 + 25 + 0 (beet and grape seed amounts not listed) + 10 + 0 (no third-party testing).
+    transparencyScore: 70,
     sentiment: {},
     ingredients: [
+      { name: "Non-GMO beet powder (dietary nitrate)", dose: "Amount not listed", verdict: "likely", note: "Nitrate can improve efficiency in recreational athletes; benefits are smaller and less consistent in well-trained athletes.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=dietary+nitrate+beetroot+endurance+performance" },
+      { name: "Enovita grape seed extract", dose: "Amount not listed", verdict: "disputed", note: "A grape antioxidant extract studied for blood pressure and circulation; evidence for performance is limited.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=grape+seed+extract+exercise" },
       { name: "Sodium", dose: "15mg", verdict: "proven", note: "Sodium is the main electrolyte lost in sweat; replacing it supports fluid balance in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
       { name: "Vitamin C", dose: "50mg", verdict: "likely", note: "Supports immune function and acts as an antioxidant; moderate doses may reduce colds during heavy training, while very high doses may blunt training adaptations.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=vitamin+C+athletes+immune" },
       { name: "Magnesium", dose: "4mg", verdict: "likely", note: "Magnesium supports muscle and nerve function and sleep; many athletes fall short of the recommended intake. Supplementing helps mainly when intake is low. Glycinate and malate forms are well absorbed and gentle on the stomach.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=magnesium+supplementation+sleep+exercise" },
@@ -5006,9 +5011,14 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     category: "Performance",
     rating: 4.5,
     reviewCount: 2,
-    price: 40.14,      // 12 Pack on The Feed (out of stock)
+    price: 54.99,      // 12 Pack on The Feed (out of stock on 2026-11-04; its listed price)
+    // Nitrate: the label's actives per 60ml are 17g beetroot juice concentrate (0.7% nitrate) and
+    // 4,300mg amaranthus extract (9% nitrate), about 506mg in all. The Feed's description says
+    // "500mg of dietary nitrate per 30ml shot", which doesn't match the 60ml serving on the label.
     servingsPerContainer: 12,
+    carbsPerServing: 10.9,
     proteinPerServing: 2.4,
+    caloriesPerServing: 59,
     caffeinePerServing: 0,
     servingSize: "60 ml",
     isBatchTested: true,
@@ -5018,13 +5028,14 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     flavours: ["Strawberry"],
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/sis_nirtrateshot_strawberry_12_1200x1200.png?v=1781283061",
     retailerLinks: {"theFeed": "https://thefeed.com/products/sis-go-nitrates-shot"},
-    goals: ["recovery"],
+    goals: ["endurance"],
     imageEmoji: "⚡",
-    transparencyScore: 85,
+    transparencyScore: 100,
     sentiment: {},
     ingredients: [
-      { name: "Beetroot Juice Concentrate (Beta Vulgaris Root)", verdict: "likely", note: "Dietary nitrate (from beetroot or similar) can improve exercise efficiency and endurance, especially in recreational athletes; the evidence is weaker in highly trained athletes. Studies use roughly 400–800mg of nitrate.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=dietary+nitrate+beetroot+endurance" },
-      { name: "Amaranthus Leaf Extract 50:1 (Amaranthus Tricolor L.)", verdict: "likely", note: "Dietary nitrate (from beetroot or similar) can improve exercise efficiency and endurance, especially in recreational athletes; the evidence is weaker in highly trained athletes. Studies use roughly 400–800mg of nitrate.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=dietary+nitrate+beetroot+endurance" },
+      { name: "Dietary nitrate (from beetroot juice concentrate and amaranthus leaf extract)", dose: "About 500mg", verdict: "likely", note: "Dietary nitrate (from beetroot or similar) can improve exercise efficiency and endurance, especially in recreational athletes; the evidence is weaker in highly trained athletes. Studies use roughly 400–800mg of nitrate.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=dietary+nitrate+beetroot+endurance" },
+      { name: "Beetroot Juice Concentrate (Beta Vulgaris Root) (0.7% nitrates)", dose: "17g", verdict: "likely", note: "Dietary nitrate (from beetroot or similar) can improve exercise efficiency and endurance, especially in recreational athletes; the evidence is weaker in highly trained athletes. Studies use roughly 400–800mg of nitrate.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=dietary+nitrate+beetroot+endurance" },
+      { name: "Amaranthus Leaf Extract 50:1 (Amaranthus Tricolor L.) (9% nitrates)", dose: "4300mg", verdict: "likely", note: "Dietary nitrate (from beetroot or similar) can improve exercise efficiency and endurance, especially in recreational athletes; the evidence is weaker in highly trained athletes. Studies use roughly 400–800mg of nitrate.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=dietary+nitrate+beetroot+endurance" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 2, unit: "reviews", credibility: "medium" },
