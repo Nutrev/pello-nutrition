@@ -1061,7 +1061,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     category: "Energy Gel",
     rating: 4.8,
     reviewCount: 12,
-    price: 59.99,      // Box of 12 on The Feed
+    price: 49.99,      // Box of 12 on The Feed (out of stock on 2026-11-04; its listed price)
     // Nitrate: "100mg of dietary nitrates" per gel (The Feed's product description, 2026-11-04).
     servingsPerContainer: 12,
     carbsPerServing: 30,
