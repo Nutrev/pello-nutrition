@@ -102,14 +102,19 @@ export function isAlreadyTaken(p: ProductSummary, have: string): boolean {
 }
 
 const diet = (p: ProductSummary) => ({ isVegan: p.nutrition.isVegan, isGlutenFree: p.nutrition.isGlutenFree, allergens: p.allergens });
-const hasRating = (p: ProductSummary) => p.reviewCount > 0 && p.rating > 0;
+// Something to rank a product by: customer ratings or a Pello Score. Many supplements have no
+// retailer reviews yet, so requiring ratings would leave them out of every plan.
+const hasRating = (p: ProductSummary) => (p.reviewCount > 0 && p.rating > 0) || p.pelloScore != null;
 const hasPrice = (p: ProductSummary) => p.price > 0 && p.pricePerServing > 0;
 
-// At most `perCategory` from each category, best-rated first, up to `limit` in total.
+// Highest Pello Score first, then best-rated.
+const byScoreThenRating = (a: ProductSummary, b: ProductSummary) => (b.pelloScore ?? -1) - (a.pelloScore ?? -1) || byWeightedRating(a, b);
+
+// At most `perCategory` from each category, highest Pello Score first, up to `limit` in total.
 function topByCategory(list: ProductSummary[], perCategory: number, limit: number): ProductSummary[] {
   const counts = new Map<string, number>();
   const out: ProductSummary[] = [];
-  for (const p of [...list].sort(byWeightedRating)) {
+  for (const p of [...list].sort(byScoreThenRating)) {
     const n = counts.get(p.category) ?? 0;
     if (n >= perCategory) continue;
     counts.set(p.category, n + 1);

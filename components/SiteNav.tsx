@@ -27,6 +27,7 @@ const OTHER_MENUS: { label: string; items: NavItem[] }[] = [
       { href: "/query", label: "Explore" },
       { href: "/ingredients", label: "Ingredients" },
       { href: "/fueling", label: "Gut training and race day" },
+      { href: "/supplement-finder", label: "Supplement finder" },
     ],
   },
   {
