@@ -35,7 +35,6 @@ export default function ModeSelector({ onChoose }: { onChoose: (m: PlannerMode) 
         className={`group p-4 rounded-xl border text-left transition-all flex flex-col gap-2 ${
           on ? "border-moss bg-moss/5" : isLocked ? "border-sand bg-sand/20 hover:border-muted" : "border-sand hover:border-muted bg-white/40"}`}>
         <div className="flex flex-wrap items-center gap-1.5 min-h-[22px]">
-          {m.isNew && <span className={tag}>New</span>}
           {access && <span className={tag}>{access}</span>}
           {isLocked && <span className="ml-auto text-amber" title="Pello Pro"><LockIcon className="h-4 w-4" /></span>}
         </div>
@@ -53,7 +52,6 @@ export default function ModeSelector({ onChoose }: { onChoose: (m: PlannerMode) 
     <Link key="supplement-finder" href="/supplement-finder"
       className="group p-4 rounded-xl border border-sand hover:border-muted bg-white/40 text-left transition-all flex flex-col gap-2">
       <div className="flex flex-wrap items-center gap-1.5 min-h-[22px]">
-        <span className={tag}>New</span>
         <span className={tag}>Free</span>
       </div>
       <div className="font-display font-semibold text-sm">Supplement finder</div>
