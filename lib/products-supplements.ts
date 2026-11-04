@@ -6373,10 +6373,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     name: "Sport Nitrate 400 Shot",
     brand: "Beet It",
     logoDomain: "beet-it.com",
-    category: "Recovery",
+    category: "Performance",
     rating: 4.7,
-    reviewCount: 61,
+    reviewCount: 65,
     price: 55.5,      // Box of 15 on The Feed (out of stock)
+    // Nitrate: "exactly 400 mg of natural dietary nitrate in each 70 ml shot" (The Feed's product
+    // description, 2026-11-04); the supplement facts panel doesn't list it.
     servingsPerContainer: 15,
     carbsPerServing: 16,
     proteinPerServing: 3,
@@ -6391,17 +6393,18 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     allergens: [],
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/products/BeetIt_02_1200x1200.png?v=1694629475",
     retailerLinks: {"theFeed": "https://thefeed.com/products/beet-it-sport-nitrate-shot"},
-    goals: ["recovery", "endurance"],
-    imageEmoji: "🔄",
+    goals: ["endurance"],
+    imageEmoji: "⚡",
     transparencyScore: 100,
     sentiment: {},
     ingredients: [
+      { name: "Dietary nitrate (from concentrated beetroot juice)", dose: "400mg", verdict: "likely", note: "Nitrate can improve efficiency in recreational athletes; benefits are smaller and less consistent in well-trained athletes.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=dietary+nitrate+beetroot+endurance+performance" },
       { name: "Sodium", dose: "90mg", verdict: "proven", note: "Sodium is the main electrolyte lost in sweat; replacing it supports fluid balance in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
       { name: "Iron", dose: "0.3mg", verdict: "proven", note: "Iron is essential for carrying oxygen; deficiency is common in endurance athletes (especially women) and impairs performance. Supplement only if a blood test shows you need it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=iron+deficiency+endurance+athletes" },
       { name: "Potassium", dose: "850mg", verdict: "likely", note: "An electrolyte involved in muscle and nerve function; sweat losses are much smaller than sodium's.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=potassium+electrolyte+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 61, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 65, unit: "reviews", credibility: "medium" },
     ],
   },
   {
@@ -7310,8 +7313,10 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     logoDomain: "beet-it.com",
     category: "Recovery",
     rating: 5.0,
-    reviewCount: 11,
+    reviewCount: 12,
     price: 49.99,      // Box of 15 on The Feed
+    // Made from sour cherry juice concentrate (58%) and beet juice concentrate (42%); the label
+    // doesn't give its nitrate content.
     servingsPerContainer: 15,
     carbsPerServing: 20,
     proteinPerServing: 1,
@@ -7326,16 +7331,19 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     retailerLinks: {"theFeed": "https://thefeed.com/products/beet-it-regen-cherry-shot"},
     goals: ["recovery"],
     imageEmoji: "🔄",
-    transparencyScore: 100,
+    // 35 + 25 + 0 (the nitrate amount isn't listed) + 10 + 15 (Informed Sport).
+    transparencyScore: 85,
     sentiment: {},
     ingredients: [
+      { name: "Sour cherry juice concentrate", dose: "58% of the shot", verdict: "likely", note: "Tart cherry has good evidence for reducing muscle soreness after hard exercise and some for sleep quality, mostly from studies using juice or concentrate.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=tart+cherry+recovery+sleep" },
+      { name: "Beet juice concentrate (dietary nitrate)", dose: "42% of the shot (nitrate amount not listed)", verdict: "likely", note: "Nitrate can improve efficiency in recreational athletes; benefits are smaller and less consistent in well-trained athletes.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=dietary+nitrate+beetroot+endurance+performance" },
       { name: "Sodium", dose: "30mg", verdict: "proven", note: "Sodium is the main electrolyte lost in sweat; replacing it supports fluid balance in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
       { name: "Calcium", dose: "28.7mg", verdict: "likely", note: "An electrolyte and bone mineral; sweat losses are small compared with sodium.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=calcium+sweat+losses" },
       { name: "Iron", dose: "0.58mg", verdict: "proven", note: "Iron is essential for carrying oxygen; deficiency is common in endurance athletes (especially women) and impairs performance. Supplement only if a blood test shows you need it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=iron+deficiency+endurance+athletes" },
       { name: "Potassium", dose: "518mg", verdict: "likely", note: "An electrolyte involved in muscle and nerve function; sweat losses are much smaller than sodium's.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=potassium+electrolyte+exercise" },
     ],
     sources: [
-      { name: "The Feed", icon: "🛒", count: 11, unit: "reviews", credibility: "medium" },
+      { name: "The Feed", icon: "🛒", count: 12, unit: "reviews", credibility: "medium" },
     ],
   },
   {

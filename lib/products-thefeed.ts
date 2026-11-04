@@ -1062,6 +1062,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     rating: 4.8,
     reviewCount: 12,
     price: 59.99,      // Box of 12 on The Feed
+    // Nitrate: "100mg of dietary nitrates" per gel (The Feed's product description, 2026-11-04).
     servingsPerContainer: 12,
     carbsPerServing: 30,
     servingSize: "1 Gel",
@@ -1079,7 +1080,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     sentiment: {},
     ingredients: [
       { name: "Fructose + Glucose", dose: "30g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
-      { name: "Dietary Nitrate (beetroot)", dose: "", verdict: "likely", note: "Nitrate can improve efficiency in recreational athletes; benefits are smaller and less consistent in well-trained athletes.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=dietary+nitrate+beetroot+endurance+performance" },
+      { name: "Dietary Nitrate (beetroot)", dose: "100mg", verdict: "likely", note: "Nitrate can improve efficiency in recreational athletes; benefits are smaller and less consistent in well-trained athletes.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=dietary+nitrate+beetroot+endurance+performance" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 12, unit: "reviews", credibility: "medium" },
