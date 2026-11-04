@@ -5,6 +5,7 @@
 // locked, with their descriptions blurred until hovered or selected. Choosing one still works:
 // the planner then shows what Pro adds.
 import { useState } from "react";
+import Link from "next/link";
 import { PLANNER_MODES, type PlannerMode, type ModeAccess } from "@/lib/planner-modes";
 import { useProAccess, useSubscription } from "@/lib/subscription";
 import { FREE_PLANS_PER_MONTH, TRIAL_DAYS } from "@/lib/pro";
@@ -46,6 +47,20 @@ export default function ModeSelector({ onChoose }: { onChoose: (m: PlannerMode) 
     );
   };
 
+  // The free supplement finder is its own page, not a step-by-step planner, so its card links
+  // straight there instead of being selected.
+  const finderCard = (
+    <Link key="supplement-finder" href="/supplement-finder"
+      className="group p-4 rounded-xl border border-sand hover:border-muted bg-white/40 text-left transition-all flex flex-col gap-2">
+      <div className="flex flex-wrap items-center gap-1.5 min-h-[22px]">
+        <span className={tag}>New</span>
+        <span className={tag}>Free</span>
+      </div>
+      <div className="font-display font-semibold text-sm">Supplement finder</div>
+      <div className="text-xs text-muted leading-relaxed">The best-scoring supplements for one goal, in four quick questions</div>
+    </Link>
+  );
+
   const grid = "grid grid-cols-2 md:grid-cols-3 gap-3";
   const free = PLANNER_MODES.filter((m) => m.access !== "pro");
   const pro = PLANNER_MODES.filter((m) => m.access === "pro");
@@ -58,7 +73,7 @@ export default function ModeSelector({ onChoose }: { onChoose: (m: PlannerMode) 
         {locked ? (
           <>
             <div className="text-[11px] uppercase tracking-widest text-moss mb-2">Free</div>
-            <div className={`${grid} mb-6`}>{free.map((m) => card(m, false))}</div>
+            <div className={`${grid} mb-6`}>{free.map((m) => card(m, false))}{finderCard}</div>
             <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 mb-2">
               <div className="text-[11px] uppercase tracking-widest text-amber">Pello Pro</div>
               <div className="text-xs text-muted">{hadTrial ? "Upgrade to unlock these planners" : `Unlock with a free ${TRIAL_DAYS}-day trial`}</div>
@@ -66,7 +81,7 @@ export default function ModeSelector({ onChoose }: { onChoose: (m: PlannerMode) 
             <div className={grid}>{pro.map((m) => card(m, true))}</div>
           </>
         ) : (
-          <div className={grid}>{PLANNER_MODES.map((m) => card(m, false))}</div>
+          <div className={grid}>{PLANNER_MODES.map((m) => [card(m, false), m.id === "supplement-stack" ? finderCard : null])}</div>
         )}
       </div>
       <button type="button" disabled={!selected} onClick={() => selected && onChoose(selected)} className="btn-primary w-full justify-center flex disabled:opacity-40">
