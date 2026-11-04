@@ -50,6 +50,91 @@ export interface BlogPost {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "recovery-shake-vs-protein-shake",
+    title: "Recovery Shake vs Protein Shake: Which Do You Need?",
+    description: "The difference between recovery and protein shakes, what the research says about protein, carbs and timing, when to use each, and the shakes we'd pick based on independent Pello Scores.",
+    date: "2026-11-04",
+    author: "Pello Nutrition",
+    authorName: "Ethan",
+    category: "Comparisons",
+    tags: ["recovery", "protein", "carbohydrates", "recovery shake"],
+    relatedProducts: ["science-in-sport-rego-rapid-recovery", "tailwind-rebuild-recovery", "bpn-whey-protein", "ascent-whey-protein", "bare-performance-nutrition-vegan-protein-powder"],
+    readingTime: 6,
+    references: [
+      { text: "Jäger R, Kerksick CM, Campbell BI, Cribb PJ, Wells SD, Skwiat TM, et al. International Society of Sports Nutrition Position Stand: protein and exercise. J Int Soc Sports Nutr. 2017;14:20.", doi: "10.1186/s12970-017-0177-8", pmid: "28642676" },
+      { text: "Thomas DT, Erdman KA, Burke LM. American College of Sports Medicine Joint Position Statement. Nutrition and Athletic Performance. Med Sci Sports Exerc. 2016;48(3):543-68.", doi: "10.1249/MSS.0000000000000852", pmid: "26891166" },
+      { text: "Beelen M, Burke LM, Gibala MJ, van Loon LJC. Nutritional strategies to promote postexercise recovery. Int J Sport Nutr Exerc Metab. 2010;20(6):515-32.", doi: "10.1123/ijsnem.20.6.515", pmid: "21116024" },
+      { text: "Schoenfeld BJ, Aragon AA, Krieger JW. The effect of protein timing on muscle strength and hypertrophy: a meta-analysis. J Int Soc Sports Nutr. 2013;10(1):53.", doi: "10.1186/1550-2783-10-53", pmid: "24299050" },
+      { text: "Product data from Pello product reports (live: scores, nutrition and prices update as products change).", url: "/products/recovery" },
+    ],
+    content: `A protein shake helps you rebuild muscle. A recovery shake does that and refuels you too. If you trained long or hard and go again within a day, you probably want the recovery shake. If not, plain protein (and a normal meal) is usually enough.
+
+Here's the difference, what the research says, when to use each, and the shakes we'd pick based on independent Pello Scores.
+
+## What's the difference
+
+The difference is carbs.
+
+- **Protein shake:** mostly protein, with very few carbs. A typical scoop has 20–25g of protein and 2–5g of carbs (5).
+- **Recovery shake:** protein plus a meaningful dose of carbs, and often sodium. Most have 10–20g of protein and 20–60g of carbs (5).
+
+Protein repairs and builds muscle. Carbs refill your glycogen, the fuel stored in your muscles that hard or long sessions drain. A protein shake only does the first job. A recovery shake does both.
+
+## What the research says
+
+**Protein:** about 20–40g of quality protein per serving, or roughly 0.25g per kg of body weight, is enough to maximize muscle building after exercise (1). That's one scoop of most protein powders. Spreading protein through the day, every 3–4 hours, helps more than one big dose (1).
+
+**Carbs:** if you need to refuel fast, aim for about 1–1.2g of carbs per kg of body weight per hour for the first few hours after exercise (2). For a 70kg athlete, that's about 70–85g an hour.
+
+**Carbs plus protein:** adding protein lets you get away with fewer carbs. A mix of about 0.8g of carbs plus 0.2–0.4g of protein per kg per hour refuels muscle about as well as 1.2g of carbs alone (3). Once carb intake is high, extra protein doesn't speed up refueling further (3).
+
+**Timing:** the "30-minute anabolic window" matters less than once thought. For building muscle, total daily protein matters far more than exactly when you take it (4). Timing matters most when you have to train again within about a day, because refueling speed then limits your next session (2).
+
+## Which one to use
+
+| Your situation | Best choice | Why |
+| --- | --- | --- |
+| Long or hard endurance session, training again within 24 hours | Recovery shake | You need to refill glycogen fast, and carbs plus protein does that (2, 3) |
+| Two sessions in one day | Recovery shake, then a carb-rich meal | Fastest refueling matters most here (2) |
+| Strength session or short, easy run or ride | Protein shake | Glycogen isn't heavily drained, so protein alone covers repair (1) |
+| Full meal within an hour or two | Either, or neither | A balanced meal with protein and carbs does the same job (1, 4) |
+| Trying to lose weight | Protein shake | Fewer calories, same muscle repair (1) |
+
+No recovery shake? A protein shake plus a carb-rich snack, like a banana and a bagel, does the same job.
+
+## What to look for on the label
+
+1. **Protein per serving:** at least 20g (1). Some "recovery" products have only 8–10g, which is low for one serving (5).
+2. **Carbs per serving (recovery shakes):** more carbs refuel faster. Check that the carbs match how hard you trained, not just the word "recovery" on the tub.
+3. **Protein source:** whey is fast-digesting and rich in leucine, the amino acid that switches on muscle building (1). Plant blends work too if they're well formulated.
+4. **Third-party testing:** if you're drug tested, look for Informed Sport or NSF Certified for Sport.
+5. **Price per serving:** recovery shakes often cost more per serving than protein plus a snack you already have.
+
+## Our picks
+
+Scores, nutrition and prices are from Pello's product reports (5).
+
+[[disclosure]]
+
+| Pick | Product | Pello Score | Protein / carbs per serving | Price per serving | Why |
+| --- | --- | --- | --- | --- | --- |
+| Best recovery shake | [SiS REGO Rapid Recovery](/report/science-in-sport-rego-rapid-recovery) | {{score:science-in-sport-rego-rapid-recovery}} ({{grade:science-in-sport-rego-rapid-recovery}}) | {{protein:science-in-sport-rego-rapid-recovery}} / {{carbs:science-in-sport-rego-rapid-recovery}} | {{pps:science-in-sport-rego-rapid-recovery}} | Balanced protein and carbs plus {{sodium:science-in-sport-rego-rapid-recovery}} sodium. Informed Sport tested. |
+| Most carbs | [Tailwind Recovery Mix](/report/tailwind-rebuild-recovery) | {{score:tailwind-rebuild-recovery}} ({{grade:tailwind-rebuild-recovery}}) | {{protein:tailwind-rebuild-recovery}} / {{carbs:tailwind-rebuild-recovery}} | {{pps:tailwind-rebuild-recovery}} | The most carbs of our picks, rated {{rating:tailwind-rebuild-recovery}}/5 from {{reviews:tailwind-rebuild-recovery}}. No banned-substance testing. |
+| Best protein shake | [Bare Performance Nutrition Whey Protein](/report/bpn-whey-protein) | {{score:bpn-whey-protein}} ({{grade:bpn-whey-protein}}) | {{protein:bpn-whey-protein}} / {{carbs:bpn-whey-protein}} | {{pps:bpn-whey-protein}} | Our top-scoring protein. NSF Certified for Sport and Informed Sport tested. |
+| Runner-up protein | [Ascent Whey Protein](/report/ascent-whey-protein) | {{score:ascent-whey-protein}} ({{grade:ascent-whey-protein}}) | {{protein:ascent-whey-protein}} / {{carbs:ascent-whey-protein}} | {{pps:ascent-whey-protein}} | Rated {{rating:ascent-whey-protein}}/5 from {{reviews:ascent-whey-protein}}. Informed Sport tested. |
+| Plant-based | [Bare Performance Nutrition Vegan Protein](/report/bare-performance-nutrition-vegan-protein-powder) | {{score:bare-performance-nutrition-vegan-protein-powder}} ({{grade:bare-performance-nutrition-vegan-protein-powder}}) | {{protein:bare-performance-nutrition-vegan-protein-powder}} / {{carbs:bare-performance-nutrition-vegan-protein-powder}} | {{pps:bare-performance-nutrition-vegan-protein-powder}} | Dairy-free, Informed Sport tested. |
+
+For a cheaper recovery shake, add a carb source to any protein shake. A scoop of whey with a banana and a glass of juice gets you close to the same mix.
+
+## The bottom line
+
+After a long or hard session, especially with another one coming within a day, a recovery shake refuels and repairs in one go. For strength work, easy sessions or when a meal is close, a protein shake is enough. Either way, aim for 20g or more of protein, and remember that your total daily protein matters more than the exact minute you drink it.
+
+Personally, I reach for a recovery shake after most workouts. If your everyday diet already has plenty of protein, refueling with carbs is usually the bigger gap after a long or hard endurance session.
+
+Want a plan built around your training? [Build your recovery and fueling plan on Pello](/quiz).`,
+  },
+  {
     slug: "drink-mixes-endurance-athletes",
     image: { src: "/blog/drink-mixes.jpg", alt: "A white drink mix tub beside sports bottles, with gel packets tied to one bottle" },
     title: "Make Every Bottle Count: How to Choose and Use a Drink Mix",
