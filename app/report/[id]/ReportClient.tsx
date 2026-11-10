@@ -11,6 +11,8 @@ import BrandLogo from "@/components/BrandLogo";
 import WarningIcon from "@/components/WarningIcon";
 import ProductActions from "@/components/account/ProductActions";
 import BuyButtons from "@/components/BuyButtons";
+import SwapSuggestions, { type SwapItem } from "@/components/SwapSuggestions";
+import { costPerHour, COST_PER_HOUR_CARBS } from "@/lib/cost";
 import { PRICE_POSITION_LABEL, PRICE_POSITION_STYLE, type Brand } from "@/lib/brand-types";
 import IngredientFlags, { detectFlags } from "@/components/IngredientFlags";
 import QualityStandards, { type NsfCheck } from "@/components/QualityStandards";
@@ -114,12 +116,13 @@ export interface ReportBrand extends Pick<Brand, "slug" | "name" | "founded" | "
 interface ReportClientProps {
   product: Product;
   similar: ProductSummary[];
+  swaps: SwapItem[];
   brand: ReportBrand;
   nsf: NsfCheck;
   summary: ProductSummaryText;  // built on the server (lib/product-summary.ts)
 }
 
-export default function ReportClient({ product, similar: similarProducts, brand, nsf, summary }: ReportClientProps) {
+export default function ReportClient({ product, similar: similarProducts, swaps, brand, nsf, summary }: ReportClientProps) {
   const [recent, setRecent] = useState<DirectoryEntry[]>([]);
   // Pello community reviews (loaded by ReviewSection); null until they've loaded.
   const [community, setCommunity] = useState<{ count: number; averages: AttributeAverages | null } | null>(null);
@@ -153,6 +156,7 @@ export default function ReportClient({ product, similar: similarProducts, brand,
   const shownNutrition = productNutrition(shown);
   const facts = servingFacts(shown, shownNutrition);
   const unit = servingUnit(product);
+  const hourly = costPerHour({ category: product.category, pricePerServing: calcPricePerServing(shown), nutrition: shownNutrition });
   const priceUnit = sizeUnit(unit, variant && product.variants!.length > 1 ? variant.label : undefined);
   const usedFor = usedForStatement(product);
   const disputedIngredients = getDisputedIngredients(product.ingredients);
@@ -248,6 +252,12 @@ export default function ReportClient({ product, similar: similarProducts, brand,
                 <span className="font-display font-bold text-2xl">${calcPricePerServing(shown).toFixed(2)}</span>
                 <span className="text-sm text-muted">per {priceUnit} · {formatPrice(shown.price)} for {servingsPerContainer(shown)}</span>
               </div>
+              {hourly && (
+                <p className="text-sm text-muted mt-1">
+                  ${hourly.cost.toFixed(2)} an hour at {COST_PER_HOUR_CARBS}g of carbs an hour · {hourly.servings} {hourly.servings === 1 ? priceUnit : `${priceUnit}s`}{" "}
+                  <Link href="/methodology#swaps" className="text-moss hover:underline">How</Link>
+                </p>
+              )}
               {/* Bicarb products are compared per gram of sodium bicarbonate, which changes with the size picked. */}
               {product.category === "Bicarb" && shown.bicarbPerServingG != null && shown.bicarbPerServingG > 0 && (
                 <p className="text-sm text-muted mt-1">
@@ -435,27 +445,8 @@ export default function ReportClient({ product, similar: similarProducts, brand,
         </div>
       </div>
 
-      {/* Similar products */}
-      {similarProducts.length > 0 && (
-        <div className="max-w-5xl mx-auto px-6 mt-2">
-          <h2 className="font-display font-semibold text-base mb-3">You might also like</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {similarProducts.map((p) => (
-              <Link key={p.id} href={`/report/${p.id}`}>
-                <div className="card hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group">
-                  <div className="flex items-start justify-between mb-3">
-                    <BrandLogo logoDomain={p.logoDomain} logo={p.logo} brand={p.brand} />
-                    <span className="text-xs text-muted">{p.reviewCount > 0 ? `${p.rating} ★` : "No reviews"}</span>
-                  </div>
-                  <div className="text-xs text-muted mb-0.5">{p.brand}</div>
-                  <div className="font-display font-semibold text-sm group-hover:text-moss transition-colors">{p.name}</div>
-                  <div className="text-xs text-muted mt-1">{formatPrice(p.price)} · {servingsPerContainer(p)} servings</div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
+      {/* Similar products: swaps with reasons, or others in the category */}
+      <SwapSuggestions productId={product.id} swaps={swaps} fallback={similarProducts} />
 
       {/* Recently viewed */}
       {recent.length > 0 && (

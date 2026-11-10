@@ -4,12 +4,17 @@ import { getProduct, getProductSummaries } from "@/lib/catalog";
 import { productSummary } from "@/lib/product-summary";
 import { byWeightedRating } from "@/lib/catalog-types";
 import { getBrandByName } from "@/lib/brands";
+import { findSwaps, swapScoreFloors } from "@/lib/swaps";
+import type { SwapItem } from "@/components/SwapSuggestions";
 import { NSF_SPORT_LISTINGS, NSF_NOT_FOUND, NSF_CHECKED_ON } from "@/lib/certification-checks";
 
 // Every product page is pre-built at deploy time.
 export function generateStaticParams() {
   return getProductSummaries().map((p) => ({ id: p.id }));
 }
+
+// Each category's swap score floor, worked out once per build.
+let floors: Map<string, number> | null = null;
 
 export default function ReportPage({ params }: { params: { id: string } }) {
   const product = getProduct(params.id);
@@ -20,6 +25,10 @@ export default function ReportPage({ params }: { params: { id: string } }) {
     .filter((p) => p.category === product.category && p.id !== product.id)
     .sort(byWeightedRating)
     .slice(0, 3);
+  floors ??= swapScoreFloors(all);
+  const byId = new Map(all.map((p) => [p.id, p]));
+  const self = byId.get(product.id)!;
+  const swaps: SwapItem[] = findSwaps(self, all, floors).map((swap) => ({ swap, product: byId.get(swap.id)! }));
 
   const b = getBrandByName(product.brand)!;
   const brand = {
@@ -30,5 +39,5 @@ export default function ReportPage({ params }: { params: { id: string } }) {
   const nsf = { listing: NSF_SPORT_LISTINGS[product.id] ?? null, notFound: NSF_NOT_FOUND.includes(product.id), checkedOn: NSF_CHECKED_ON };
 
   // Keyed by product so moving between products starts fresh (summary, selected size…).
-  return <ReportClient key={product.id} product={product} similar={similar} brand={brand} nsf={nsf} summary={productSummary(product)} />;
+  return <ReportClient key={product.id} product={product} similar={similar} swaps={swaps} brand={brand} nsf={nsf} summary={productSummary(product)} />;
 }

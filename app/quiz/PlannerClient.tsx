@@ -33,6 +33,7 @@ import {
 } from "@/lib/planner";
 import { CONDITIONS, carbsPerHour, carbRateNote, type Conditions } from "@/lib/fueling";
 import FuelingCost from "@/components/fueling/FuelingCost";
+import { costPerHour, COST_PER_HOUR_CARBS } from "@/lib/cost";
 
 // ── TYPES ─────────────────────────────────────────────────────
 
@@ -403,6 +404,7 @@ function PhaseProductCard({ item, borderColor }: { item: PhaseProduct; borderCol
   const p = item.product;
   const pricePerServing = (p.price / servingsPerContainer(p)).toFixed(2);
   const buy = primaryRetailerLink(p);
+  const hourly = item.group === "carb-option" ? costPerHour(p) : null;
 
   return (
     <div className={`bg-white/60 border ${borderColor} rounded-xl p-3 hover:shadow-md transition-all`}>
@@ -426,6 +428,7 @@ function PhaseProductCard({ item, borderColor }: { item: PhaseProduct; borderCol
           </div>
         </div>
         <p className="text-xs text-muted mt-2 leading-relaxed">{item.reason}</p>
+        {hourly && <p className="text-xs text-muted mt-1">${hourly.cost.toFixed(2)} an hour at {COST_PER_HOUR_CARBS}g of carbs an hour</p>}
       </Link>
       {buy && (
         <div className="text-right mt-1.5">

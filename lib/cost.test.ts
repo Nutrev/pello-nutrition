@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cheapestEquivalent, costPerGramCarb, fuelingCost, type Costed } from "./cost";
+import { cheapestEquivalent, costPerGramCarb, costPerHour, fuelingCost, type Costed } from "./cost";
 
 const p = (id: string, category: string, price: number, carbs: number | null, caffeine = false): Costed =>
   ({ id, category, pricePerServing: price, nutrition: { carbsPerServing: carbs, hasCaffeine: caffeine } });
@@ -41,5 +41,20 @@ describe("cheapestEquivalent", () => {
     const before = catalog.map((x) => x.id);
     cheapestEquivalent(base, catalog);
     expect(catalog.map((x) => x.id)).toEqual(before);
+  });
+});
+
+describe("costPerHour", () => {
+  const c = (category: string, price: number, carbs: number | null) => ({ category, pricePerServing: price, nutrition: { carbsPerServing: carbs } });
+  it("is (60 ÷ carbs) × price per serving", () => {
+    expect(costPerHour(c("Energy Gel", 3, 25))).toEqual({ cost: 7.2, servings: 2.4 });
+    expect(costPerHour(c("Carbohydrate Mix", 2, 60))).toEqual({ cost: 2, servings: 1 });
+    expect(costPerHour(c("Energy Gel", 3, 25), 90)).toEqual({ cost: 10.8, servings: 3.6 });
+  });
+  it("is only for carb products with at least 15g of carbs and a price", () => {
+    expect(costPerHour(c("Protein", 3, 25))).toBeNull();
+    expect(costPerHour(c("Energy Bar", 3, 12))).toBeNull();
+    expect(costPerHour(c("Energy Gel", 3, null))).toBeNull();
+    expect(costPerHour(c("Energy Gel", 0, 25))).toBeNull();
   });
 });

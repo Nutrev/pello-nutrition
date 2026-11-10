@@ -57,8 +57,8 @@ export const QUALITY_STANDARDS: QualityStandard[] = [
     certifier: "Cologne List®",
     what: "Listed after passing a label check and a laboratory analysis for steroids and stimulants.",
     testing: "Products pass a label check and a laboratory analysis for anabolic steroids and stimulants at the German Sport University Cologne's doping-research center at least once a year.",
-    lookupUrl: "https://www.koelnerliste.com/en/",
-    lookupLabel: "Cologne List product list",
+    lookupUrl: "https://www.koelnerliste.com/en/product-database",
+    lookupLabel: "Cologne List product database",
     guide: "sport-testing",
   },
   {
@@ -122,12 +122,14 @@ export type DietId = "vegan" | "gluten-free" | "dairy-free";
 export interface DietFacts {
   isVegan?: boolean | null;
   isGlutenFree?: boolean | null;
-  allergens?: string[] | null;   // undefined/null = allergen statement not available
+  allergens?: string[] | null;   // undefined/null/[] = allergen statement not available
 }
 
 export function meetsDiet(d: DietFacts, diet: DietId): boolean {
   if (diet === "vegan") return d.isVegan === true;
   if (diet === "gluten-free") return d.isGlutenFree === true;
-  // Dairy-free: labeled vegan, or an allergen statement is available and doesn't list milk.
-  return d.isVegan === true || (Array.isArray(d.allergens) && !d.allergens.some((a) => /milk|dairy|whey|casein/i.test(a)));
+  // Dairy-free: labeled vegan, or an allergen statement lists allergens and milk isn't one of them.
+  // An empty list doesn't count: for most products it means the allergens weren't recorded, not
+  // that there are none (whey and casein products have empty lists too).
+  return d.isVegan === true || (Array.isArray(d.allergens) && d.allergens.length > 0 && !d.allergens.some((a) => /milk|dairy|whey|casein/i.test(a)));
 }

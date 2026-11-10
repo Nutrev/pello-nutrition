@@ -4,6 +4,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import BrandLogo from "@/components/BrandLogo";
 import ProductCard from "@/components/ProductCard";
+import CategoryBrowser from "@/components/CategoryBrowser";
+import { filterFacts } from "@/lib/product-filters";
+import { COST_PER_HOUR_CATEGORIES } from "@/lib/cost";
 import type { Metadata } from "next";
 
 export function generateMetadata({ params }: { params: { category: string } }): Metadata {
@@ -48,7 +51,7 @@ export default function CategoryPage({ params }: { params: { category: string } 
           <div className="text-xs text-muted uppercase tracking-widest mb-1">Category</div>
           <h1 className="font-display font-bold text-3xl tracking-tight mb-2">{matched}</h1>
           <p className="text-muted text-sm">
-            {products.length} product{products.length !== 1 ? "s" : ""} · sorted by rating
+            {products.length} product{products.length !== 1 ? "s" : ""}
           </p>
         </div>
 
@@ -82,12 +85,13 @@ export default function CategoryPage({ params }: { params: { category: string } 
             ))}
         </div>
 
-        {/* Products grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        {/* Products grid, with filters and sorting */}
+        <CategoryBrowser
+          category={matched}
+          facts={products.map(filterFacts)}
+          cards={Object.fromEntries(products.map((product) => [product.id, <ProductCard key={product.id} product={product} />]))}
+          carbs={COST_PER_HOUR_CATEGORIES.includes(matched)}
+        />
       </div>
     </div>
   );

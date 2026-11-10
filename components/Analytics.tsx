@@ -5,7 +5,7 @@
 // kept in this browser's local storage. Analytics storage only: the advertising consents stay
 // denied until Pello runs ads and asks for them.
 //
-// Page views are sent here on each route change, skipping account, admin and login pages.
+// Page views are sent here on each route change (custom events go through trackEvent below), skipping account, admin and login pages.
 // In Google Analytics → Admin → Data streams → Enhanced measurement, "Page changes based on
 // browser history events" should be off so those pages aren't counted another way.
 import { useEffect, useState } from "react";
@@ -76,6 +76,14 @@ function stopAnalytics() {
       document.cookie = `${name}=; Max-Age=0; path=/${d ? `; domain=${d}` : ""}`;
     });
   });
+}
+
+// Custom events (swap clicked, filter used, ...). Sent only when the visitor has accepted analytics
+// and gtag has loaded; otherwise nothing happens. Never pass personal data in params.
+export type AnalyticsEvent = "swap_click" | "filter_use" | "drug_tested_link";
+export function trackEvent(name: AnalyticsEvent, params: Record<string, string | number | boolean> = {}) {
+  if (typeof window === "undefined" || !window.gtag || readChoice() !== "granted" || !tracked(location.pathname)) return;
+  window.gtag("event", name, params);
 }
 
 // "Cookie settings" in the footer: shows the banner again so the visitor can change their mind.

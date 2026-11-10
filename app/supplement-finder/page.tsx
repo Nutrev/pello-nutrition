@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import ProductCard from "@/components/ProductCard";
 import { getProductSummaries } from "@/lib/catalog";
-import { FINDER_GOALS, FINDER_DIETS, DRUG_TESTED_CERTS, GOAL_TOPIC, parseFinderParams, finderResults, type FinderResult } from "@/lib/supplement-finder";
+import { FINDER_GOALS, FINDER_DIETS, GOAL_TOPIC, parseFinderParams, finderResults, type FinderResult } from "@/lib/supplement-finder";
 
 // The free supplement finder. The answers live in the URL (a plain GET form), so the page works
 // without JavaScript, results can be shared, and each goal has its own address.
@@ -81,7 +81,7 @@ export default function SupplementFinderPage({ searchParams }: { searchParams: S
           </fieldset>
           <fieldset>
             <legend className="font-display font-semibold mb-1">Are you drug tested?</legend>
-            <p className="text-xs text-muted mb-3">Only show products tested batch by batch for banned substances ({DRUG_TESTED_CERTS.join(" or ")}).</p>
+            <p className="text-xs text-muted mb-3">Only show products tested for banned substances by NSF Certified for Sport, Informed Sport or Cologne List.</p>
             <Choice type="checkbox" name="tested" value="1" checked={!!inputs?.tested} label="Yes, I'm drug tested" />
           </fieldset>
           <fieldset>

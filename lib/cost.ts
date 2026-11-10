@@ -53,3 +53,21 @@ export function cheapestEquivalent<T extends Costed>(product: T, catalog: T[], e
   }
   return best?.p ?? null;
 }
+
+// ── Cost per hour ────────────────────────────────────────────────────────────
+// What an hour of fueling costs at a fixed carb rate, so products with different serving sizes
+// can be compared: (carbs per hour ÷ carbs per serving) × price per serving. Only for the carb
+// products (gels, chews, bars, carb mixes), and only when a serving has at least
+// COST_PER_HOUR_MIN_CARBS: below that it's an add-in or a protein bar, and an hourly carb cost
+// would mean nothing.
+export const COST_PER_HOUR_CATEGORIES = ["Energy Gel", "Energy Chew", "Energy Bar", "Carbohydrate Mix"];
+export const COST_PER_HOUR_CARBS = 60;
+export const COST_PER_HOUR_MIN_CARBS = 15;
+
+export function costPerHour(p: Pick<Costed, "category" | "pricePerServing" | "nutrition">, carbsPerHour = COST_PER_HOUR_CARBS): { cost: number; servings: number } | null {
+  const carbs = p.nutrition.carbsPerServing;
+  if (!COST_PER_HOUR_CATEGORIES.includes(p.category) || !carbs || carbs < COST_PER_HOUR_MIN_CARBS) return null;
+  const perGram = costPerGramCarb(p);
+  if (perGram == null) return null;
+  return { cost: Math.round(perGram * carbsPerHour * 100) / 100, servings: Math.round((carbsPerHour / carbs) * 10) / 10 };
+}

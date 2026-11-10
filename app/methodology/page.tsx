@@ -55,6 +55,27 @@ export default function MethodologyPage() {
             </ul>
           </div>
         </div>
+
+        <div className="card" id="swaps">
+          <h2 className="font-display font-semibold text-base mb-2">How swaps and cost per hour work</h2>
+          <p className="text-sm text-muted leading-relaxed mb-2">
+            Report pages suggest similar products for gels, chews, bars, carb mixes, protein, hydration and creatine. A swap is
+            the same type of product with about the same amount of what it&apos;s bought for (within 25% of the carbs, protein,
+            sodium or creatine per serving), and a Pello Score at or above its category&apos;s median. A swap never gives up
+            something the product already has: a vegan or sport-tested product is only swapped for another vegan or
+            sport-tested one.
+          </p>
+          <p className="text-sm text-muted leading-relaxed mb-2">
+            Each swap says why it&apos;s suggested. Cheaper means at least 10% less per gram of carbs, protein or creatine (per
+            serving for hydration). Caffeine-free means no caffeine or other stimulant on the label; products with caffeine in
+            some flavors don&apos;t count. Tested for sport means NSF Certified for Sport, Informed Sport or Cologne List.
+          </p>
+          <p className="text-sm text-muted leading-relaxed">
+            Cost per hour is what 60g of carbs an hour costs with one product: 60 divided by the carbs per serving, times the
+            price per serving. It&apos;s shown for products with at least 15g of carbs per serving. Swaps and costs use
+            listed prices and never change a Pello Score.
+          </p>
+        </div>
       </div>
 
       <div className="mt-8">

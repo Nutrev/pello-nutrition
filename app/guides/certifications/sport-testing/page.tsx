@@ -117,7 +117,7 @@ export default function SportTestingGuide() {
         <p>
           If you&apos;re drug tested, check the exact product (and lot, where the program lists lots) in the certifier&apos;s database,
           and follow your sport&apos;s own rules. Some organizations, for example, prohibit hemp or CBD products.{" "}
-          <Link href="/guides/certifications/how-to-verify" className="text-moss underline">How to verify a certification →</Link>
+          <Link href="/guides/certifications/how-to-verify" className="text-moss underline">How to verify a certification →</Link>{" "}·{" "}<Link href="/drug-tested-sports-nutrition" className="text-moss underline">Drug-tested products on Pello →</Link>
         </p>
       </Section>
     </GuideShell>

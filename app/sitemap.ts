@@ -20,6 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/fueling`, priority: 0.6, changeFrequency: "monthly" as const },
     { url: `${base}/supplement-finder`, priority: 0.8, changeFrequency: "weekly" as const },
     ...FINDER_GOALS.map((g) => ({ url: `${base}/supplement-finder?goal=${g.id}`, priority: 0.7, changeFrequency: "weekly" as const })),
+    { url: `${base}/drug-tested-sports-nutrition`, priority: 0.8, changeFrequency: "weekly" as const },
     { url: `${base}/guides`, priority: 0.7, changeFrequency: "monthly" as const },
     { url: `${base}/guides/carb-calculator`, priority: 0.7, changeFrequency: "monthly" as const },
     { url: `${base}/guides/recovery`, priority: 0.7, changeFrequency: "monthly" as const },

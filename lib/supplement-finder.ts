@@ -8,6 +8,7 @@ import type { ProductSummary } from "./catalog-types";
 import { byWeightedRating } from "./catalog-types";
 import { GOAL_CATEGORIES, STACK_GOALS, fitsGoal, type StackGoal } from "./planner-modes";
 import { meetsDiet, type DietId } from "./quality-standards";
+import { SPORT_TESTED_CERTS, hasStimulant, isSportTested, sportTestedCerts } from "./product-flags";
 import type { Verdict } from "./products";
 
 // Body composition is left out: in the stack planner it mostly means protein and creatine,
@@ -31,8 +32,8 @@ export const FINDER_DIETS: { id: DietId; label: string }[] = [
   { id: "dairy-free", label: "Dairy-free" },
 ];
 
-// Certifications that test every batch for substances banned in sport.
-export const DRUG_TESTED_CERTS = ["NSF Certified for Sport", "Informed Sport"];
+// Certifications that test for substances banned in sport (the same list everywhere on Pello).
+export const DRUG_TESTED_CERTS = SPORT_TESTED_CERTS;
 
 export interface FinderInputs {
   goal: FinderGoal;
@@ -64,7 +65,6 @@ export function finderHref(i: Partial<FinderInputs>): string {
   return `/supplement-finder${s ? `?${s}` : ""}`;
 }
 
-const STIMULANTS = /caffeine|guarana|coffee|green tea|yerba|cola nut|kola|theacrine|teacrine|synephrine|yohimb|energy blend|energy complex/i;
 // Sleep products that the focus goal would otherwise pick up for their L-theanine.
 const SLEEP_AIDS = /sleep|dream|night|melatonin/i;
 
@@ -88,8 +88,6 @@ export interface FinderResult {
   cautions: string[];
 }
 
-const hasStimulant = (p: ProductSummary) => p.nutrition.hasCaffeine || STIMULANTS.test(p.name) || p.ingredients.some((i) => STIMULANTS.test(i.name));
-
 // Words in product names that say nothing about the active ingredient.
 const GENERIC = new Set(["the", "and", "with", "for", "plus", "sport", "shot", "powder", "capsules", "caps", "gummies", "complex", "formula", "advanced", "daily", "performance", "recovery", "pro", "max", "ultra", "essential", "essentials", "original", "liquid", "drink", "mix", "blend", "support", "athlete", "nutrition", "concentrate", "super", "pure", "elite", "vegan", "organic", "natural"]);
 
@@ -106,7 +104,7 @@ function keyIngredient(p: ProductSummary): FinderResult["keyIngredient"] {
 export function finderResults(products: ProductSummary[], inputs: FinderInputs, limit = 9): FinderResult[] {
   const fits = products.filter((p) =>
     fitsGoal(p, inputs.goal) && p.pelloScore != null && p.price > 0 && p.pricePerServing > 0 &&
-    (!inputs.tested || (p.certifications ?? []).some((c) => DRUG_TESTED_CERTS.includes(c))) &&
+    (!inputs.tested || isSportTested(p.certifications)) &&
     inputs.diets.every((d) => meetsDiet({ isVegan: p.nutrition.isVegan, isGlutenFree: p.nutrition.isGlutenFree, allergens: p.allergens }, d)) &&
     (!inputs.noCaffeine || !hasStimulant(p)) &&
     (inputs.goal !== "cognitive" || ![p.name, ...p.ingredients.map((i) => i.name)].some((t) => SLEEP_AIDS.test(t)))
@@ -133,7 +131,7 @@ export function finderResults(products: ProductSummary[], inputs: FinderInputs, 
         product: p,
         keyIngredient: keyIngredient(p),
         evidence,
-        tested: (p.certifications ?? []).filter((c) => DRUG_TESTED_CERTS.includes(c)),
+        tested: sportTestedCerts(p.certifications),
         cautions: CAUTIONS.filter(([re]) => re.test(text)).map(([, msg]) => msg),
       });
     }

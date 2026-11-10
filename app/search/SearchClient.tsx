@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useMemo } from "react";
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
 import { reviewsAt, type ProductSummary } from "@/lib/catalog-types";
@@ -8,6 +8,9 @@ import ProductTeaser from "./ProductTeaser";
 import AskPanel from "@/components/search/AskPanel";
 import { looksLikeQuestion } from "@/lib/ask/detect";
 import WarningIcon from "@/components/WarningIcon";
+import ProductFilterBar from "@/components/ProductFilterBar";
+import { useUrlFilters } from "@/components/useUrlFilters";
+import { activeFilterCount, filterFacts, matchesFilters } from "@/lib/product-filters";
 
 // The barcode scanner opens the camera but can't detect barcodes yet (only the test codes
 // work), so it stays hidden until detection is built.
@@ -95,7 +98,13 @@ export default function SearchClient({ catalog, teaser }: { catalog: ProductSumm
 
   // Search Pello's products. Matches rank by where the words appear: brand and name first, then
   // category, then ingredients; ties go to the review-weighted rating. Every word must match.
-  const pelloResults = Explore.trim().length > 1 ? rankProducts(PRODUCTS, Explore) : [];
+  // Filters (kept in the URL) narrow the products searched.
+  const [filters, setFilters] = useUrlFilters("search");
+  const facts = useMemo(() => new Map(PRODUCTS.map((p) => [p.id, filterFacts(p)])), [PRODUCTS]);
+  const filtering = activeFilterCount(filters) > 0;
+  const typed = Explore.trim().length > 1;
+  const pelloResults = typed ? rankProducts(filtering ? PRODUCTS.filter((p) => matchesFilters(facts.get(p.id)!, filters)) : PRODUCTS, Explore) : [];
+  const filteredOut = typed && filtering && pelloResults.length === 0 && rankProducts(PRODUCTS, Explore).length > 0;
 
   const searchExternal = async (q: string) => {
     if (!q.trim() || q.length < 3) return;
@@ -286,6 +295,14 @@ export default function SearchClient({ catalog, teaser }: { catalog: ProductSumm
             </div>
             <p className="text-xs text-muted mt-2">Auto-detection coming soon — use test barcodes above to try the feature</p>
           </div>
+        )}
+
+        {/* Filters for Pello's products, once something is typed */}
+        {typed && !selectedProduct && (
+          <ProductFilterBar filters={filters} onChange={setFilters} carbs sorting={false} />
+        )}
+        {filteredOut && !selectedProduct && (
+          <p className="text-sm text-muted mb-6">No Pello products match &quot;{Explore.trim()}&quot; with these filters.</p>
         )}
 
         {/* Pello Explore results — always shown when Explore matches */}

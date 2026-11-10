@@ -7,6 +7,7 @@ import ProGate from "@/components/ProGate";
 import { ProTag } from "@/components/pro/LockIcon";
 import { useProAccess } from "@/lib/subscription";
 import { STANDARD_CHOICES, meetsAll, meetsDiet, type StandardChoice } from "@/lib/quality-standards";
+import { isCaffeineFree } from "@/lib/product-flags";
 import type { ProductSummary } from "@/lib/catalog-types";
 
 // ── TYPES ─────────────────────────────────────────────────────
@@ -114,8 +115,9 @@ export default function ExploreClient({ catalog }: { catalog: ProductSummary[] }
       if (filters.minCarbsPerServing && (p.carbsPerServing ?? 0) < filters.minCarbsPerServing) return false;
       if (filters.minSodiumPerServing && (p.sodiumPerServing ?? 0) < filters.minSodiumPerServing) return false;
       if (filters.minProteinPerServing && (p.proteinPerServing ?? 0) < filters.minProteinPerServing) return false;
-      if (filters.hasCaffeine === "no" && p.hasCaffeine) return false;
-      if (filters.hasCaffeine === "yes" && !p.hasCaffeine) return false;
+      // Same rule as category pages and swaps: caffeine-free means no stimulant anywhere on the label.
+      if (filters.hasCaffeine === "no" && !isCaffeineFree(p)) return false;
+      if (filters.hasCaffeine === "yes" && isCaffeineFree(p)) return false;
       if (filters.isVegan && !p.isVegan) return false;
       if (filters.isCleanLabel && !p.isCleanLabel) return false;
       if (filters.standards?.length && !meetsAll(p.standards, filters.standards)) return false;
