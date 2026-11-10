@@ -49,6 +49,7 @@ export interface BlogPost {
 export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "energy-gels-running-vs-cycling",
+    image: { src: "/blog/gels-running-vs-cycling.jpg", alt: "Two runners racing on a track beside a cyclist on a time trial bike" },
     title: "Energy Gels for Running vs Cycling",
     description: "Why the best gel for a run isn't always the best gel for a ride, what to look for in each sport, and our picks for running and cycling based on independent Pello Scores.",
     date: "2026-11-10",
