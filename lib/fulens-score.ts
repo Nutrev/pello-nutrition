@@ -7,6 +7,11 @@ import { INGREDIENT_TAXONOMY } from "./ingredient-taxonomy";
 
 // ── SCORE BREAKDOWN ──────────────────────────────────────────
 
+// Whether an ingredient's dose is an actual amount, rather than a note that the label doesn't give one.
+export function hasDisclosedDose(dose: string | undefined): boolean {
+  return !!dose && dose.trim().length > 0 && !/\bnot (listed|published|given|stated|disclosed)\b/i.test(dose);
+}
+
 export interface FulensScoreBreakdown {
   overall: number;          // 0-100 weighted composite
   science: number;          // 0-25
@@ -116,7 +121,9 @@ function scoreScience(input: ScoringInput): { score: number; notes: string[] } {
   if (disputed > 0) notes.push(`${disputed} disputed ingredient${disputed > 1 ? "s" : ""} penalized`);
 
   // Dose transparency (0-5)
-  const withDose = input.ingredients.filter((i) => i.dose && i.dose.length > 0).length;
+  // "Amount not listed" (and similar) records that the label hides the amount, so it doesn't count
+  // as a disclosed dose.
+  const withDose = input.ingredients.filter((i) => hasDisclosedDose(i.dose)).length;
   const dosePct = withDose / total;
   const doseScore = Math.round(dosePct * 5);
   score += doseScore;

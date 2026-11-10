@@ -208,7 +208,6 @@ export const THE_FEED_PRODUCTS: Product[] = [
     sentiment: {},
     ingredients: [
       { name: "Fructose + Maltodextrin", dose: "40g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
-      { name: "Dietary Nitrate (beetroot)", dose: "", verdict: "likely", note: "Nitrate can improve efficiency in recreational athletes; benefits are smaller and less consistent in well-trained athletes.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=dietary+nitrate+beetroot+endurance+performance" },
       { name: "Caffeine (select flavors)", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
     sources: [
@@ -542,7 +541,6 @@ export const THE_FEED_PRODUCTS: Product[] = [
     sentiment: {},
     ingredients: [
       { name: "Maltodextrin + Fructose", dose: "121g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
-      { name: "Sodium Bicarbonate", dose: "", verdict: "proven", note: "Buffers acid build-up during hard efforts of roughly 1–10 minutes; newer delivery systems reduce the stomach upset it's known for.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+bicarbonate+supplementation+exercise+performance" },
       { name: "Sodium", dose: "55mg", verdict: "proven", note: "A small amount of sodium; plan separate electrolytes for long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
     ],
     sources: [
@@ -1947,7 +1945,6 @@ export const THE_FEED_PRODUCTS: Product[] = [
     sentiment: {},
     ingredients: [
       { name: "Fructose", dose: "24g carbs", verdict: "likely", note: "Fructose on its own absorbs relatively slowly and can upset the stomach at high intakes; it works best alongside glucose.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=fructose+ingestion+exercise+gastrointestinal" },
-      { name: "Dietary Nitrate (beetroot)", dose: "", verdict: "likely", note: "Nitrate can improve efficiency in recreational athletes; benefits are smaller and less consistent in well-trained athletes.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=dietary+nitrate+beetroot+endurance+performance" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 116, unit: "reviews", credibility: "medium" },
@@ -2718,7 +2715,6 @@ export const THE_FEED_PRODUCTS: Product[] = [
     sentiment: {},
     ingredients: [
       { name: "Maltodextrin + Fructose", dose: "80g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
-      { name: "Sodium Bicarbonate", dose: "", verdict: "proven", note: "Buffers acid build-up during hard efforts of roughly 1–10 minutes; newer delivery systems reduce the stomach upset it's known for.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+bicarbonate+supplementation+exercise+performance" },
       { name: "Sodium", dose: "245mg", verdict: "proven", note: "A meaningful dose of sodium to help replace sweat losses in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
       { name: "Caffeine", dose: "100mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
@@ -3307,7 +3303,6 @@ export const THE_FEED_PRODUCTS: Product[] = [
     sentiment: {},
     ingredients: [
       { name: "Maltodextrin + Glucose + Fructose", dose: "60g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
-      { name: "Dietary Nitrate (beetroot)", dose: "", verdict: "likely", note: "Nitrate can improve efficiency in recreational athletes; benefits are smaller and less consistent in well-trained athletes.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=dietary+nitrate+beetroot+endurance+performance" },
       { name: "Sodium", dose: "263mg", verdict: "proven", note: "A meaningful dose of sodium to help replace sweat losses in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
     ],
     sources: [
@@ -3588,7 +3583,6 @@ export const THE_FEED_PRODUCTS: Product[] = [
     sentiment: {},
     ingredients: [
       { name: "Glucose + Fructose + Starches", dose: "42g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
-      { name: "Dietary Nitrate (beetroot)", dose: "", verdict: "likely", note: "Nitrate can improve efficiency in recreational athletes; benefits are smaller and less consistent in well-trained athletes.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=dietary+nitrate+beetroot+endurance+performance" },
       { name: "Sodium", dose: "120mg", verdict: "proven", note: "Moderate sodium; salty or heavy sweaters will still need electrolytes alongside it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
       { name: "Caffeine (select flavors)", dose: "75mg", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", examineUrl: "https://examine.com/supplements/caffeine/" },
     ],
@@ -3667,7 +3661,6 @@ export const THE_FEED_PRODUCTS: Product[] = [
     sentiment: {},
     ingredients: [
       { name: "Carbohydrate", dose: "40g carbs", verdict: "likely", note: "The listing doesn't specify the sugar types; check the label if you rely on a glucose-fructose mix for high intakes." },
-      { name: "Dietary Nitrate (beetroot)", dose: "", verdict: "likely", note: "Nitrate can improve efficiency in recreational athletes; benefits are smaller and less consistent in well-trained athletes.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=dietary+nitrate+beetroot+endurance+performance" },
       { name: "Protein (Whole Food)", dose: "5g protein", verdict: "proven", note: "Supports muscle repair; roughly 20–40g after training is the evidence-based target.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=protein+intake+muscle+protein+synthesis+after+exercise" },
     ],
     sources: [
@@ -4012,7 +4005,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     transparencyScore: 85,
     sentiment: {},
     ingredients: [
-      { name: "Carbohydrate", dose: "", verdict: "likely", note: "The listing doesn't specify the sugar types; check the label if you rely on a glucose-fructose mix for high intakes." },
+      { name: "Carbohydrate", dose: "Amount not listed", verdict: "likely", note: "The listing doesn't specify the sugar types; check the label if you rely on a glucose-fructose mix for high intakes." },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 86, unit: "reviews", credibility: "medium" },
@@ -4625,7 +4618,6 @@ export const THE_FEED_PRODUCTS: Product[] = [
     sentiment: {},
     ingredients: [
       { name: "Carbohydrate", dose: "15g carbs", verdict: "likely", note: "The listing doesn't specify the sugar types; check the label if you rely on a glucose-fructose mix for high intakes." },
-      { name: "Dietary Nitrate (beetroot)", dose: "", verdict: "likely", note: "Nitrate can improve efficiency in recreational athletes; benefits are smaller and less consistent in well-trained athletes.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=dietary+nitrate+beetroot+endurance+performance" },
       { name: "Protein (Egg, Whole Food, Milk)", dose: "6g protein", verdict: "proven", note: "Supports muscle repair; roughly 20–40g after training is the evidence-based target.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=protein+intake+muscle+protein+synthesis+after+exercise" },
     ],
     sources: [
@@ -4743,7 +4735,6 @@ export const THE_FEED_PRODUCTS: Product[] = [
     sentiment: {},
     ingredients: [
       { name: "Carbohydrate", dose: "22g carbs", verdict: "likely", note: "The listing doesn't specify the sugar types; check the label if you rely on a glucose-fructose mix for high intakes." },
-      { name: "Dietary Nitrate (beetroot)", dose: "", verdict: "likely", note: "Nitrate can improve efficiency in recreational athletes; benefits are smaller and less consistent in well-trained athletes.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=dietary+nitrate+beetroot+endurance+performance" },
       { name: "Sodium", dose: "54mg", verdict: "proven", note: "A small amount of sodium; plan separate electrolytes for long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
     ],
     sources: [

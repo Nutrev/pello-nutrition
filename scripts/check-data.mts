@@ -60,6 +60,19 @@ for (const p of PRODUCTS) {
   }
 
   // 3. Implausible values (worth checking against the label)
+  // A "nitrate" ingredient needs a real nitrate source: thiamine mononitrate is vitamin B1, and beet
+  // sugar has no nitrate.
+  for (const i of p.ingredients) {
+    if (/nitrate/i.test(i.name) && !/mononitrate|potassium nitrate|betaine nitrate|arginine nitrate|beetroot juice|beet juice|beet root|beetroot (powder|extract|concentrate)|amaranth|spinach|no3/i.test(i.name) && !p.ingredients.some((j) => j !== i && /beet ?(root)? (juice|powder|extract|concentrate)|potassium nitrate|amaranth|spinach/i.test(j.name)) && !/nitrate|beet/i.test(p.name))
+      flag("Nitrate ingredient without a nitrate source on the label", p, i.name);
+  }
+  // A supplement whose only ingredients are minerals is usually missing its main active.
+  const MINERAL = /^(sodium(?!.*bicarbonate)|potassium|calcium|chloride|magnesium|iron|zinc)\b/i;
+  if (!["Hydration", "Mineral", "Energy Gel", "Energy Chew", "Energy Bar", "Carbohydrate Mix"].includes(p.category) && p.ingredients.length > 0 && p.ingredients.every((i) => MINERAL.test(i.name)) && !/electrolyte|salt|hydrat|magnesium|calcium|iron|zinc|potassium|hmb/i.test(p.name))
+    flag("Supplement listing only minerals (main active missing?)", p, p.ingredients.map((i) => i.name).join(", "));
+  // Every ingredient row should give an amount, or say it isn't listed.
+  const noDose = p.ingredients.filter((i) => !i.dose || !i.dose.trim());
+  if (noDose.length) flag("Ingredient with no amount (add it, or say it isn't listed)", p, noDose.map((i) => i.name).join(", "));
   if ((n.sodiumPerServing ?? 0) > 3000) flag("Unusual per-serving amount", p, `${n.sodiumPerServing}mg sodium`);
   if ((n.caffeinePerServing ?? 0) > 400) flag("Unusual per-serving amount", p, `${n.caffeinePerServing}mg caffeine`);
   if ((n.carbsPerServing ?? 0) > 150) flag("Unusual per-serving amount", p, `${n.carbsPerServing}g carbs`);

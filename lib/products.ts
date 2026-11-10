@@ -222,6 +222,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
     {
       name: "Sodium Alginate (hydrogel)",
+      dose: "Amount not listed",
       verdict: "likely",
       note: "Forms a gel around the carbohydrate in the stomach, designed to reduce gut stress at high intakes; independent studies have found mixed results.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=hydrogel+carbohydrate+gastrointestinal+exercise",
@@ -318,8 +319,9 @@ const CURATED_PRODUCTS: Product[] = [
   ingredients: [
     {
       name: "Carbohydrates (Maltodextrin, Fructose)",
+      dose: "23g carbs",
       verdict: "proven",
-      note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar. The amount per gel isn't published on The Feed; check the label.",
+      note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates",
     },
     {
@@ -512,6 +514,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
     {
       name: "Sodium Alginate (hydrogel)",
+      dose: "Amount not listed",
       verdict: "likely",
       note: "Forms a gel around the carbohydrate in the stomach, designed to reduce gut stress at high intakes; independent studies have found mixed results.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=hydrogel+carbohydrate+gastrointestinal+exercise",
@@ -766,6 +769,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
     {
       name: "Caffeine (some flavors)",
+      dose: "Amount not listed",
       verdict: "proven",
       note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=caffeine+endurance+performance",
@@ -1241,6 +1245,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
     {
       name: "Unrefined Salt",
+      dose: "Amount not listed",
       verdict: "proven",
       note: "Sodium is the main electrolyte lost in sweat. The amount per scoop isn't published online; check the label to see whether you need extra electrolytes.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise",
@@ -1471,6 +1476,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
     {
       name: "Sodium Alginate (hydrogel)",
+      dose: "Amount not listed",
       verdict: "likely",
       note: "Forms a gel around the carbohydrate in the stomach, designed to reduce gut stress at high intakes; independent studies have found mixed results.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=hydrogel+carbohydrate+gastrointestinal+exercise",
@@ -1530,6 +1536,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
     {
       name: "Chicory Root Fiber",
+      dose: "Amount not listed",
       verdict: "likely",
       note: "A prebiotic fiber that feeds gut bacteria; in larger amounts it can cause bloating, so try it in training before race day.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=inulin+chicory+gastrointestinal+tolerance",
@@ -1644,6 +1651,7 @@ const CURATED_PRODUCTS: Product[] = [
     },
     {
       name: "Sodium Alginate (hydrogel)",
+      dose: "Amount not listed",
       verdict: "likely",
       note: "Forms a gel around the carbohydrate in the stomach, designed to reduce gut stress at high intakes; independent studies have found mixed results.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=hydrogel+carbohydrate+gastrointestinal+exercise",
@@ -2734,7 +2742,8 @@ const CURATED_PRODUCTS: Product[] = [
   retailerLinks: { theFeed: "https://thefeed.com/products/swiss-rx-collagen" },
   goals: ["recovery", "health"],
   imageEmoji: "🦴",
-  transparencyScore: null,                 // not yet scored: full label not available
+  // 35 + 25 + 15 + 10 + 0 (no third-party testing); full label on The Feed, 2026-11-10.
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -3114,7 +3123,8 @@ const CURATED_PRODUCTS: Product[] = [
   retailerLinks: { theFeed: "https://thefeed.com/products/carbs-fuel-bicarb" },
   goals: ["endurance"],
   imageEmoji: "🧪",
-  transparencyScore: null,                 // not yet scored: full ingredient list not available
+  // 35 + 25 + 15 + 10 + 0 (no third-party testing); full label on The Feed, 2026-11-10.
+  transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
@@ -3272,6 +3282,7 @@ const CURATED_PRODUCTS: Product[] = [
   ingredients: [
     {
       name: "Broccoli Sprout Extract (80%)",
+      dose: "80% of the shot",
       verdict: "disputed",
       note: "Rich in sulforaphane, an antioxidant compound. Small studies suggest it may lower lactate or oxidative stress during exercise, but evidence in athletes is still early.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sulforaphane+broccoli+exercise",
@@ -3365,36 +3376,42 @@ const CURATED_PRODUCTS: Product[] = [
   ingredients: [
     {
       name: "Magnesium Malate",
+      dose: "Amount not listed",
       verdict: "likely",
       note: "Magnesium bound to malic acid, which takes part in energy production. A well-absorbed form, though athlete-specific trials of the malate form are limited. Doses aren't published.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=magnesium+malate+energy+exercise",
     },
     {
       name: "Magnesium Glycinate",
+      dose: "Amount not listed",
       verdict: "likely",
       note: "A well-absorbed, gentle form of magnesium; glycine itself may aid relaxation and sleep. Magnesium supports muscle and nerve function, and low intake is common in athletes. Doses aren't published.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=magnesium+glycinate+sleep",
     },
     {
       name: "Magnesium Gluconate",
+      dose: "Amount not listed",
       verdict: "likely",
       note: "A soluble, well-tolerated magnesium salt. Useful for topping up intake, but there are few sport-specific studies of this form. Doses aren't published.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=magnesium+supplementation+exercise+performance",
     },
     {
       name: "Sodium",
+      dose: "Amount not listed",
       verdict: "proven",
       note: "The main electrolyte lost in sweat; replacing it supports fluid balance in long or hot sessions. The amount per serving isn't published, so check it covers your sweat losses.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise",
     },
     {
       name: "Potassium",
+      dose: "Amount not listed",
       verdict: "likely",
       note: "An electrolyte involved in muscle contraction and fluid balance; sweat losses are much smaller than for sodium. Amount not published.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=potassium+electrolyte+exercise",
     },
     {
       name: "Vitamins D, B6 and B12",
+      dose: "Amount not listed",
       verdict: "likely",
       note: "Support bone, immune, energy and nerve function. Helpful if your diet is short on them, but they won't boost performance in athletes who already get enough. Amounts not published.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=vitamin+D+B12+athletes",
@@ -4038,6 +4055,7 @@ const CURATED_PRODUCTS: Product[] = [
   ingredients: [
     {
       name: "Protein Blend (Whey Protein Concentrate, Whey Protein Isolate, Native Whey Protein Isolate)",
+      dose: "25g protein",
       verdict: "proven",
       note: "Whey is a fast-digesting, complete protein that supports muscle repair; roughly 20–40g after training is the evidence-based target. The amount per scoop isn't published on The Feed; check the label.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=whey+protein+muscle+protein+synthesis",
@@ -4793,6 +4811,7 @@ const CURATED_PRODUCTS: Product[] = [
   ingredients: [
     {
       name: "Bacillus subtilis ZB183™ (genetically engineered)",
+      dose: "Amount not listed",
       verdict: "disputed",
       note: "Engineered to break down acetaldehyde, a by-product of alcohol, in the gut. Published human evidence is limited, and it doesn't lower blood alcohol or intoxication.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=engineered+probiotic+acetaldehyde",
@@ -6387,6 +6406,7 @@ imageEmoji: "💧",
     },
     {
       name: "Sodium Alginate (hydrogel)",
+      dose: "Amount not listed",
       verdict: "likely",
       note: "Forms a gel around the carbohydrate in the stomach, designed to reduce gut stress at high intakes; independent studies have found mixed results.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=hydrogel+carbohydrate+gastrointestinal+exercise",
@@ -6425,8 +6445,9 @@ imageEmoji: "💧",
   ingredients: [
     {
       name: "Carbohydrates (Maltodextrin, Fructose)",
+      dose: "21g carbs",
       verdict: "proven",
-      note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar. The amount per gel isn't published on The Feed; check the label.",
+      note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates",
     },
     {
@@ -6792,12 +6813,6 @@ imageEmoji: "💧",
       verdict: "proven",
       note: "D3 is the best-absorbed form of vitamin D. Deficiency is common in athletes who train indoors or live at higher latitudes, and correcting it supports bone, muscle and immune health. 5,000 IU is a high daily dose — best used to correct a measured deficiency.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=vitamin+D3+supplementation+athletes",
-    },
-    {
-      name: "Vitamin E (d-Alpha-Tocopheryl)",
-      verdict: "likely",
-      note: "Added in a small amount to keep the vitamin D3 stable; it isn't there for its own health effects.",
-      pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=vitamin+E+tocopherol+antioxidant",
     },
   ],
   sources: [

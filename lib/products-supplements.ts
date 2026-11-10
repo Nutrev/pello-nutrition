@@ -1103,10 +1103,10 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     sentiment: {},
     ingredients: [
       { name: "Creatine Monohydrate", dose: "5g", verdict: "proven", note: "The most researched sports supplement: 3–5g a day raises muscle creatine stores, improving repeated high-intensity efforts, strength training and recovery. Creapure® is a well-known high-purity creatine monohydrate.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=creatine+monohydrate+performance" },
-      { name: "Sodium", verdict: "proven", note: "Sodium is the main electrolyte lost in sweat; replacing it supports fluid balance in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Potassium", verdict: "likely", note: "An electrolyte involved in muscle and nerve function; sweat losses are much smaller than sodium's.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=potassium+electrolyte+exercise" },
-      { name: "Magnesium", verdict: "likely", note: "Magnesium supports muscle and nerve function and sleep; many athletes fall short of the recommended intake. Supplementing helps mainly when intake is low. Glycinate and malate forms are well absorbed and gentle on the stomach.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=magnesium+supplementation+sleep+exercise" },
-      { name: "Taurine (Passion Fruit and Lemon Lime)", verdict: "likely", note: "May reduce exercise-related oxidative stress and modestly improve endurance performance; results are mixed.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=taurine+endurance+exercise" },
+      { name: "Sodium", dose: "Amount not listed", verdict: "proven", note: "Sodium is the main electrolyte lost in sweat; replacing it supports fluid balance in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
+      { name: "Potassium", dose: "Amount not listed", verdict: "likely", note: "An electrolyte involved in muscle and nerve function; sweat losses are much smaller than sodium's.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=potassium+electrolyte+exercise" },
+      { name: "Magnesium", dose: "Amount not listed", verdict: "likely", note: "Magnesium supports muscle and nerve function and sleep; many athletes fall short of the recommended intake. Supplementing helps mainly when intake is low. Glycinate and malate forms are well absorbed and gentle on the stomach.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=magnesium+supplementation+sleep+exercise" },
+      { name: "Taurine (Passion Fruit and Lemon Lime)", dose: "Amount not listed", verdict: "likely", note: "May reduce exercise-related oxidative stress and modestly improve endurance performance; results are mixed.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=taurine+endurance+exercise" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 5, unit: "reviews", credibility: "medium" },
@@ -2342,9 +2342,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     retailerLinks: {"theFeed": "https://thefeed.com/products/kenetik-ketone-concentrate"},
     goals: ["endurance"],
     imageEmoji: "⚡",
-    transparencyScore: 85,
+    // 35 + 25 + 0 (the ketone amount isn't listed) + 10 + 0.
+    transparencyScore: 70,
     sentiment: {},
     ingredients: [
+      { name: "Ketones (D-beta-hydroxybutyric acid, R-1,3-butanediol)", dose: "Amount not listed", verdict: "disputed", note: "Ketone supplements raise blood ketones, but most studies show no improvement in endurance performance and some show worse; stomach upset is common.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=exogenous+ketone+supplementation+performance" },
+      { name: "Sodium", dose: "100mg", verdict: "proven", note: "Sodium is the main electrolyte lost in sweat; replacing it supports fluid balance in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
       { name: "Potassium", dose: "235mg", verdict: "likely", note: "An electrolyte involved in muscle and nerve function; sweat losses are much smaller than sodium's.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=potassium+electrolyte+exercise" },
       { name: "Magnesium", dose: "69mg", verdict: "likely", note: "Magnesium supports muscle and nerve function and sleep; many athletes fall short of the recommended intake. Supplementing helps mainly when intake is low. Glycinate and malate forms are well absorbed and gentle on the stomach.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=magnesium+supplementation+sleep+exercise" },
     ],
@@ -4736,9 +4739,11 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     retailerLinks: {"theFeed": "https://thefeed.com/products/laird-superfood-hot-chocolate"},
     goals: [],
     imageEmoji: "⚡",
-    transparencyScore: 85,
+    // 35 + 25 + 0 (mushroom extract amounts aren't listed) + 10 + 0.
+    transparencyScore: 70,
     sentiment: {},
     ingredients: [
+      { name: "Mushroom extracts (chaga, lion's mane, maitake, cordyceps)", dose: "Amount not listed", verdict: "disputed", note: "Medicinal mushroom blends are marketed for energy, focus or immunity; human evidence is limited, and blend amounts make doses hard to judge.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=medicinal+mushroom+exercise" },
       { name: "Potassium", dose: "255mg", verdict: "likely", note: "An electrolyte involved in muscle and nerve function; sweat losses are much smaller than sodium's.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=potassium+electrolyte+exercise" },
       { name: "Calcium", dose: "25mg", verdict: "likely", note: "An electrolyte and bone mineral; sweat losses are small compared with sodium.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=calcium+sweat+losses" },
       { name: "Iron", dose: "3mg", verdict: "proven", note: "Iron is essential for carrying oxygen; deficiency is common in endurance athletes (especially women) and impairs performance. Supplement only if a blood test shows you need it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=iron+deficiency+endurance+athletes" },
@@ -5585,14 +5590,14 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     transparencyScore: 60,
     sentiment: {},
     ingredients: [
-      { name: "Maltodextrin", verdict: "proven", note: "A fast-digesting carbohydrate; useful fuel for long or hard exercise.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=carbohydrate+supplementation+endurance" },
-      { name: "L-Tyrosine", verdict: "likely", note: "An amino acid that may help maintain focus under stress or sleep loss; effects on endurance are inconsistent.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=tyrosine+cognition+stress" },
-      { name: "L-Citrulline Malate", verdict: "likely", note: "Raises nitric oxide and may modestly improve high-intensity performance at 3–6g; lower doses are less studied.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=citrulline+exercise+performance" },
-      { name: "Cordyceps Sinensis", verdict: "disputed", note: "A mushroom marketed for energy and endurance; human evidence is limited and mixed.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=cordyceps+exercise+performance" },
-      { name: "Guarana Extract 4:1", verdict: "likely", note: "A natural source of caffeine; count it towards your total caffeine intake. Caffeine at around 3mg per kg of body weight improves endurance.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=caffeine+endurance+performance" },
-      { name: "Beta Alanine", verdict: "proven", note: "Raises muscle carnosine, which buffers acid; around 3–6g a day for at least 4 weeks improves efforts of roughly 1–4 minutes. Harmless tingling is common; split doses reduce it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=beta-alanine+supplementation+performance" },
-      { name: "MSM Powder", verdict: "disputed", note: "A sulfur compound studied for joint pain and exercise soreness; small trials show modest benefits.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=methylsulfonylmethane+exercise" },
-      { name: "Caffeine", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=caffeine+endurance+performance" },
+      { name: "Maltodextrin", dose: "Amount not listed", verdict: "proven", note: "A fast-digesting carbohydrate; useful fuel for long or hard exercise.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=carbohydrate+supplementation+endurance" },
+      { name: "L-Tyrosine", dose: "Amount not listed", verdict: "likely", note: "An amino acid that may help maintain focus under stress or sleep loss; effects on endurance are inconsistent.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=tyrosine+cognition+stress" },
+      { name: "L-Citrulline Malate", dose: "Amount not listed", verdict: "likely", note: "Raises nitric oxide and may modestly improve high-intensity performance at 3–6g; lower doses are less studied.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=citrulline+exercise+performance" },
+      { name: "Cordyceps Sinensis", dose: "Amount not listed", verdict: "disputed", note: "A mushroom marketed for energy and endurance; human evidence is limited and mixed.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=cordyceps+exercise+performance" },
+      { name: "Guarana Extract 4:1", dose: "Amount not listed", verdict: "likely", note: "A natural source of caffeine; count it towards your total caffeine intake. Caffeine at around 3mg per kg of body weight improves endurance.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=caffeine+endurance+performance" },
+      { name: "Beta Alanine", dose: "Amount not listed", verdict: "proven", note: "Raises muscle carnosine, which buffers acid; around 3–6g a day for at least 4 weeks improves efforts of roughly 1–4 minutes. Harmless tingling is common; split doses reduce it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=beta-alanine+supplementation+performance" },
+      { name: "MSM Powder", dose: "Amount not listed", verdict: "disputed", note: "A sulfur compound studied for joint pain and exercise soreness; small trials show modest benefits.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=methylsulfonylmethane+exercise" },
+      { name: "Caffeine", dose: "Amount not listed", verdict: "proven", note: "Around 3mg per kg of body weight reliably improves endurance performance and focus; count all caffeine sources across the day.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=caffeine+endurance+performance" },
     ],
     sources: [],
   },
@@ -6127,6 +6132,8 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     transparencyScore: 85,
     sentiment: {},
     ingredients: [
+      { name: "Tart cherry juice and tart cherry juice concentrate", dose: "1 pouch (2.5 oz)", verdict: "likely", note: "Tart cherry has good evidence for reducing muscle soreness after hard exercise and some for sleep quality, mostly from studies using juice or concentrate.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=tart+cherry+recovery+sleep" },
+      { name: "Carbohydrates (from tart cherry)", dose: "23g carbs", verdict: "proven", note: "Carbohydrate is the main fuel for hard or long exercise.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=carbohydrate+intake+endurance+exercise+performance" },
       { name: "Potassium", dose: "320mg", verdict: "likely", note: "An electrolyte involved in muscle and nerve function; sweat losses are much smaller than sodium's.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=potassium+electrolyte+exercise" },
     ],
     sources: [
@@ -7112,9 +7119,14 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     retailerLinks: {"theFeed": "https://thefeed.com/products/flow-formulas-recovery-drink-mix"},
     goals: ["recovery"],
     imageEmoji: "🔄",
-    transparencyScore: 85,
+    // 35 + 25 + 0 (the tart cherry amount isn't listed) + 10 + 0.
+    transparencyScore: 70,
     sentiment: {},
     ingredients: [
+      { name: "Carbohydrates (tapioca maltodextrin, agave, cane sugar)", dose: "54g carbs", verdict: "proven", note: "Glucose-based carbs plus fructose use two separate gut transporters, allowing intakes up to ~90g/hr with less stomach upset than a single sugar.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=glucose+fructose+multiple+transportable+carbohydrates+endurance" },
+      { name: "Protein (pea, brown rice)", dose: "18g protein", verdict: "proven", note: "Supports muscle repair; roughly 20\u201340g after training is the evidence-based target.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=protein+intake+muscle+protein+synthesis+after+exercise" },
+      { name: "Sodium", dose: "420mg", verdict: "proven", note: "Sodium is the main electrolyte lost in sweat; replacing it supports fluid balance in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
+      { name: "Montmorency tart cherries", dose: "Amount not listed", verdict: "likely", note: "Tart cherry has good evidence for reducing muscle soreness after hard exercise and some for sleep quality, mostly from studies using juice or concentrate.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=tart+cherry+recovery+sleep" },
       { name: "Potassium", dose: "10mg", verdict: "likely", note: "An electrolyte involved in muscle and nerve function; sweat losses are much smaller than sodium's.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=potassium+electrolyte+exercise" },
       { name: "Calcium", dose: "20mg", verdict: "likely", note: "An electrolyte and bone mineral; sweat losses are small compared with sodium.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=calcium+sweat+losses" },
       { name: "Iron", dose: "5.2mg", verdict: "proven", note: "Iron is essential for carrying oxygen; deficiency is common in endurance athletes (especially women) and impairs performance. Supplement only if a blood test shows you need it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=iron+deficiency+endurance+athletes" },
@@ -7148,9 +7160,12 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     retailerLinks: {"theFeed": "https://thefeed.com/products/amacx-cherry-gummy"},
     goals: ["recovery", "sleep"],
     imageEmoji: "🔄",
-    transparencyScore: 85,
+    // 35 + 25 + 0 (the cherry extract amount isn't listed) + 10 + 0.
+    transparencyScore: 70,
     sentiment: {},
     ingredients: [
+      { name: "Sour cherry extract (Prunus cerasus)", dose: "Amount not listed", verdict: "likely", note: "Tart cherry has good evidence for reducing muscle soreness after hard exercise and some for sleep quality, mostly from studies using juice or concentrate.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=tart+cherry+recovery+sleep" },
+      { name: "Carbohydrates (fruit pulp, sugar, glucose syrup)", dose: "24g carbs", verdict: "proven", note: "Carbohydrate is the main fuel for hard or long exercise.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=carbohydrate+intake+endurance+exercise+performance" },
       { name: "Sodium", dose: "8mg", verdict: "proven", note: "Sodium is the main electrolyte lost in sweat; replacing it supports fluid balance in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
     ],
     sources: [
@@ -7182,9 +7197,14 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     retailerLinks: {"theFeed": "https://thefeed.com/products/noble-origins-all-in-one-protein"},
     goals: ["recovery"],
     imageEmoji: "🔄",
-    transparencyScore: 85,
+    // 35 + 25 + 0 (organ blend and leucine amounts aren't listed) + 10 + 0.
+    transparencyScore: 70,
     sentiment: {},
     ingredients: [
+      { name: "Protein (grass-fed beef protein isolate, bovine collagen)", dose: "21g protein", verdict: "likely", note: "Beef protein isolate is largely collagen-derived and lower in leucine than whey; studies show it supports training gains but evidence is thinner than for whey.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=beef+protein+isolate+resistance+training" },
+      { name: "Nose-to-tail organ blend (liver, kidney, spleen, pancreas, blood, bone and marrow, colostrum)", dose: "Amount not listed", verdict: "disputed", note: "Dried organ meats (liver, kidney and others) are a source of vitamins and minerals; there's little research on organ supplements themselves, and amounts here aren't listed.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=organ+meat+supplement+nutrient" },
+      { name: "L-Leucine", dose: "Amount not listed", verdict: "likely", note: "The amino acid that most strongly switches on muscle protein building; about 2\u20133g per meal, usually from protein, is enough.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=leucine+muscle+protein+synthesis" },
+      { name: "Sodium", dose: "290mg", verdict: "proven", note: "Sodium is the main electrolyte lost in sweat; replacing it supports fluid balance in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
       { name: "Calcium", dose: "16mg", verdict: "likely", note: "An electrolyte and bone mineral; sweat losses are small compared with sodium.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=calcium+sweat+losses" },
       { name: "Iron", dose: "1mg", verdict: "proven", note: "Iron is essential for carrying oxygen; deficiency is common in endurance athletes (especially women) and impairs performance. Supplement only if a blood test shows you need it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=iron+deficiency+endurance+athletes" },
       { name: "Potassium", dose: "211mg", verdict: "likely", note: "An electrolyte involved in muscle and nerve function; sweat losses are much smaller than sodium's.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=potassium+electrolyte+exercise" },
@@ -7492,11 +7512,11 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     transparencyScore: 45,
     sentiment: {},
     ingredients: [
-      { name: "Maltodextrin", verdict: "proven", note: "A fast-digesting carbohydrate; useful fuel for long or hard exercise.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=carbohydrate+supplementation+endurance" },
-      { name: "Tart Cherry Extract 30% Polyphenols", verdict: "likely", note: "Tart cherry has good evidence for reducing muscle soreness after hard exercise and some for sleep quality, mostly from studies using juice or concentrate.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=tart+cherry+recovery+sleep" },
-      { name: "Sodium Chloride", verdict: "proven", note: "Sodium is the main electrolyte lost in sweat; replacing it supports fluid balance in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
-      { name: "Lactobacillus Rahmnosus", verdict: "likely", note: "Probiotic strains can support gut health, but benefits depend on the specific strain and dose, and evidence for athletes is still developing.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=probiotic+athletes+gastrointestinal" },
-      { name: "Lactobacillus Salivarius (UCC18)", verdict: "likely", note: "Probiotic strains can support gut health, but benefits depend on the specific strain and dose, and evidence for athletes is still developing.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=probiotic+athletes+gastrointestinal" },
+      { name: "Maltodextrin", dose: "Amount not listed", verdict: "proven", note: "A fast-digesting carbohydrate; useful fuel for long or hard exercise.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=carbohydrate+supplementation+endurance" },
+      { name: "Tart Cherry Extract 30% Polyphenols", dose: "Amount not listed", verdict: "likely", note: "Tart cherry has good evidence for reducing muscle soreness after hard exercise and some for sleep quality, mostly from studies using juice or concentrate.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=tart+cherry+recovery+sleep" },
+      { name: "Sodium Chloride", dose: "Amount not listed", verdict: "proven", note: "Sodium is the main electrolyte lost in sweat; replacing it supports fluid balance in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
+      { name: "Lactobacillus Rahmnosus", dose: "Amount not listed", verdict: "likely", note: "Probiotic strains can support gut health, but benefits depend on the specific strain and dose, and evidence for athletes is still developing.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=probiotic+athletes+gastrointestinal" },
+      { name: "Lactobacillus Salivarius (UCC18)", dose: "Amount not listed", verdict: "likely", note: "Probiotic strains can support gut health, but benefits depend on the specific strain and dose, and evidence for athletes is still developing.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=probiotic+athletes+gastrointestinal" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 12, unit: "reviews", credibility: "medium" },
@@ -7982,6 +8002,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     transparencyScore: 100,
     sentiment: {},
     ingredients: [
+      { name: "Grass-fed hydrolyzed bovine collagen", dose: "20g protein", verdict: "likely", note: "Collagen peptides studied for joint comfort; several trials report less activity-related joint pain at around 5g a day, though effects are modest. As a protein for muscle repair, collagen is incomplete (it lacks tryptophan) and less effective than whey.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=collagen+peptides+joint+pain+athletes" },
       { name: "Sodium", dose: "100mg", verdict: "proven", note: "Sodium is the main electrolyte lost in sweat; replacing it supports fluid balance in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
       { name: "Calcium", dose: "30mg", verdict: "likely", note: "An electrolyte and bone mineral; sweat losses are small compared with sodium.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=calcium+sweat+losses" },
       { name: "Iron", dose: "0.1mg", verdict: "proven", note: "Iron is essential for carrying oxygen; deficiency is common in endurance athletes (especially women) and impairs performance. Supplement only if a blood test shows you need it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=iron+deficiency+endurance+athletes" },
@@ -8971,6 +8992,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     transparencyScore: 85,
     sentiment: {},
     ingredients: [
+      { name: "Collagen peptides (bovine)", dose: "9g protein", verdict: "likely", note: "Collagen peptides studied for joint comfort; several trials report less activity-related joint pain at around 5g a day, though effects are modest. As a protein for muscle repair, collagen is incomplete (it lacks tryptophan) and less effective than whey.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=collagen+peptides+joint+pain+athletes" },
       { name: "Sodium", dose: "50mg", verdict: "proven", note: "Sodium is the main electrolyte lost in sweat; replacing it supports fluid balance in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
     ],
     sources: [
@@ -9347,9 +9369,11 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     retailerLinks: {"theFeed": "https://thefeed.com/products/mont-elite-recovery"},
     goals: ["recovery"],
     imageEmoji: "🔄",
-    transparencyScore: 85,
+    // 35 + 25 + 0 (the tart cherry amount isn't listed) + 10 + 0.
+    transparencyScore: 70,
     sentiment: {},
     ingredients: [
+      { name: "Tart cherry extract", dose: "Amount not listed", verdict: "likely", note: "Tart cherry has good evidence for reducing muscle soreness after hard exercise and some for sleep quality, mostly from studies using juice or concentrate.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=tart+cherry+recovery+sleep" },
       { name: "Sodium", dose: "190mg", verdict: "proven", note: "Sodium is the main electrolyte lost in sweat; replacing it supports fluid balance in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
       { name: "Potassium", dose: "240mg", verdict: "likely", note: "An electrolyte involved in muscle and nerve function; sweat losses are much smaller than sodium's.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=potassium+electrolyte+exercise" },
       { name: "Magnesium", dose: "30mg", verdict: "likely", note: "Magnesium supports muscle and nerve function and sleep; many athletes fall short of the recommended intake. Supplementing helps mainly when intake is low. Glycinate and malate forms are well absorbed and gentle on the stomach.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=magnesium+supplementation+sleep+exercise" },
@@ -9571,7 +9595,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     transparencyScore: 60,
     sentiment: {},
     ingredients: [
-      { name: "Collagen Peptides (bovine)", verdict: "likely", note: "Collagen peptides studied for joint comfort; several trials report less activity-related joint pain at around 5g a day, though effects are modest.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=collagen+peptides+joint+pain+athletes" },
+      { name: "Collagen Peptides (bovine)", dose: "20g protein", verdict: "likely", note: "Collagen peptides studied for joint comfort; several trials report less activity-related joint pain at around 5g a day, though effects are modest.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=collagen+peptides+joint+pain+athletes" },
     ],
     sources: [],
   },
@@ -11544,9 +11568,11 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     retailerLinks: {"theFeed": "https://thefeed.com/products/good-bacteria-rotating-synbiotic"},
     goals: ["gut health", "immunity"],
     imageEmoji: "🦠",
-    transparencyScore: 85,
+    // 35 + 25 + 0 (The Feed's label doesn't list the strains or their amounts) + 10 + 0.
+    transparencyScore: 70,
     sentiment: {},
     ingredients: [
+      { name: "Probiotic strains and prebiotic fiber", dose: "Not listed on The Feed", verdict: "likely", note: "Probiotic strains can support gut health, but benefits depend on the specific strain and dose, and evidence for athletes is still developing.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=probiotic+athletes+gastrointestinal" },
       { name: "Sodium", dose: "5mg", verdict: "proven", note: "Sodium is the main electrolyte lost in sweat; replacing it supports fluid balance in long or hot sessions.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=sodium+replacement+endurance+exercise" },
     ],
     sources: [
@@ -11636,10 +11662,10 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     transparencyScore: 35,
     sentiment: {},
     ingredients: [
-      { name: "Proprietary Probiotic Blend", verdict: "likely", note: "A blend whose individual ingredient amounts aren't disclosed on the label, so the dose of each can't be checked against the research." },
-      { name: "Saccharomyces cerevesiae var boulardii (CNCM-I-1079)", verdict: "likely", note: "Probiotic strains can support gut health, but benefits depend on the specific strain and dose, and evidence for athletes is still developing.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=probiotic+athletes+gastrointestinal" },
-      { name: "Bacillus clausii (SC-109)", verdict: "likely", note: "Probiotic strains can support gut health, but benefits depend on the specific strain and dose, and evidence for athletes is still developing.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=probiotic+athletes+gastrointestinal" },
-      { name: "Bacillus subtilis (HU58)", verdict: "likely", note: "Probiotic strains can support gut health, but benefits depend on the specific strain and dose, and evidence for athletes is still developing.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=probiotic+athletes+gastrointestinal" },
+      { name: "Proprietary Probiotic Blend", dose: "Amount not listed", verdict: "likely", note: "A blend whose individual ingredient amounts aren't disclosed on the label, so the dose of each can't be checked against the research." },
+      { name: "Saccharomyces cerevesiae var boulardii (CNCM-I-1079)", dose: "Amount not listed", verdict: "likely", note: "Probiotic strains can support gut health, but benefits depend on the specific strain and dose, and evidence for athletes is still developing.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=probiotic+athletes+gastrointestinal" },
+      { name: "Bacillus clausii (SC-109)", dose: "Amount not listed", verdict: "likely", note: "Probiotic strains can support gut health, but benefits depend on the specific strain and dose, and evidence for athletes is still developing.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=probiotic+athletes+gastrointestinal" },
+      { name: "Bacillus subtilis (HU58)", dose: "Amount not listed", verdict: "likely", note: "Probiotic strains can support gut health, but benefits depend on the specific strain and dose, and evidence for athletes is still developing.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=probiotic+athletes+gastrointestinal" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 3, unit: "reviews", credibility: "medium" },
@@ -11840,9 +11866,9 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     sentiment: {},
     ingredients: [
       { name: "Proprietary Probiotic Blend", dose: "5 billion live cells", verdict: "likely", note: "A blend whose individual ingredient amounts aren't disclosed on the label, so the dose of each can't be checked against the research." },
-      { name: "Lactobacillus gasseri KS-13", verdict: "likely", note: "Probiotic strains can support gut health, but benefits depend on the specific strain and dose, and evidence for athletes is still developing.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=probiotic+athletes+gastrointestinal" },
-      { name: "Bifidobacterium longum MM-2", verdict: "likely", note: "Probiotic strains can support gut health, but benefits depend on the specific strain and dose, and evidence for athletes is still developing.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=probiotic+athletes+gastrointestinal" },
-      { name: "Bifidobacterium bifidum G9-1", verdict: "likely", note: "Probiotic strains can support gut health, but benefits depend on the specific strain and dose, and evidence for athletes is still developing.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=probiotic+athletes+gastrointestinal" },
+      { name: "Lactobacillus gasseri KS-13", dose: "Amount not listed", verdict: "likely", note: "Probiotic strains can support gut health, but benefits depend on the specific strain and dose, and evidence for athletes is still developing.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=probiotic+athletes+gastrointestinal" },
+      { name: "Bifidobacterium longum MM-2", dose: "Amount not listed", verdict: "likely", note: "Probiotic strains can support gut health, but benefits depend on the specific strain and dose, and evidence for athletes is still developing.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=probiotic+athletes+gastrointestinal" },
+      { name: "Bifidobacterium bifidum G9-1", dose: "Amount not listed", verdict: "likely", note: "Probiotic strains can support gut health, but benefits depend on the specific strain and dose, and evidence for athletes is still developing.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=probiotic+athletes+gastrointestinal" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 1, unit: "reviews", credibility: "medium" },
@@ -12157,6 +12183,8 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     transparencyScore: 85,
     sentiment: {},
     ingredients: [
+      { name: "Dietary fiber (fruit superfiber flour, agave inulin, tapioca fiber)", dose: "15g", verdict: "likely", note: "Fiber supports regular digestion and feeds gut bacteria; large amounts shortly before exercise can cause stomach upset.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=dietary+fiber+gut+health" },
+      { name: "Carbohydrates", dose: "28g carbs", verdict: "proven", note: "Carbohydrate is the main fuel for hard or long exercise.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=carbohydrate+intake+endurance+exercise+performance" },
       { name: "Potassium", dose: "150mg", verdict: "likely", note: "An electrolyte involved in muscle and nerve function; sweat losses are much smaller than sodium's.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=potassium+electrolyte+exercise" },
       { name: "Calcium", dose: "30mg", verdict: "likely", note: "An electrolyte and bone mineral; sweat losses are small compared with sodium.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=calcium+sweat+losses" },
       { name: "Iron", dose: "3.5mg", verdict: "proven", note: "Iron is essential for carrying oxygen; deficiency is common in endurance athletes (especially women) and impairs performance. Supplement only if a blood test shows you need it.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=iron+deficiency+endurance+athletes" },
@@ -12698,9 +12726,11 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     retailerLinks: {"theFeed": "https://thefeed.com/products/h2tab-molecular-hydrogen-tablets"},
     goals: ["health", "recovery"],
     imageEmoji: "🧂",
-    transparencyScore: 100,
+    // 35 + 25 + 0 (the hydrogen amount isn't listed) + 10 + 15 (tested).
+    transparencyScore: 85,
     sentiment: {},
     ingredients: [
+      { name: "Molecular hydrogen (released when the magnesium tablet dissolves in water)", dose: "Amount not listed", verdict: "disputed", note: "Hydrogen-rich water is studied for fatigue and recovery; results from small trials are mixed, and benefits for athletes aren't established.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=hydrogen+rich+water+exercise" },
       { name: "Magnesium", dose: "80mg", verdict: "likely", note: "Magnesium supports muscle and nerve function and sleep; many athletes fall short of the recommended intake. Supplementing helps mainly when intake is low. Glycinate and malate forms are well absorbed and gentle on the stomach.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=magnesium+supplementation+sleep+exercise" },
     ],
     sources: [
@@ -14388,7 +14418,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     transparencyScore: 50,
     sentiment: {},
     ingredients: [
-      { name: "Calcium Laurate", verdict: "likely", note: "An electrolyte and bone mineral; sweat losses are small compared with sodium.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=calcium+sweat+losses" },
+      { name: "Multivitamin and mineral blend (AM and PM capsules)", dose: "Amounts not listed on The Feed", verdict: "likely", note: "A multivitamin covers small gaps in the diet; it doesn't improve performance in athletes who already eat well.", pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=multivitamin+supplementation+athletes" },
     ],
     sources: [
       { name: "The Feed", icon: "🛒", count: 89, unit: "reviews", credibility: "medium" },
