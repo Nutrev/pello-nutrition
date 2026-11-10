@@ -20,6 +20,8 @@ const nextConfig = {
       { source: "/brands/brutal-salty-energy", destination: "/brands", permanent: true },
       { source: "/brands/trail-butter", destination: "/brands", permanent: true },
       { source: "/brands/smash-foods", destination: "/brands", permanent: true },
+      // Duplicate of ascent-whey-protein (same Ascent whey bag, same price); removed 2026-11-10
+      { source: "/report/ascent-native-whey", destination: "/report/ascent-whey-protein", permanent: true },
       // Knowledge graph page removed
       { source: "/graph", destination: "/ingredients", permanent: true },
     ];

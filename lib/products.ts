@@ -1496,26 +1496,30 @@ const CURATED_PRODUCTS: Product[] = [
   logo: "/logo/cadence.png",
   rating: 0,
   reviewCount: 0,
-  price: 36,                       // box of 12 (confirmed)
+  price: 36,                       // box of 12 at Running Warehouse, 2026-11-10 (confirmed)
+  // Label from Running Warehouse's product page (2026-11-10). No longer sold on The Feed, and
+  // Cadence's own store blocks automated checks. Not NSF certified (only Cadence's Core 24 gel is).
   servingsPerContainer: 12,
   carbsPerServing: 40,
   sodiumPerServing: 400,
   caffeinePerServing: 0,
-  proteinPerServing: 2,
-  caloriesPerServing: 170,
-  servingSize: "1 bar",
+  proteinPerServing: 1,
+  caloriesPerServing: 180,
+  servingSize: "1 bar (50g)",
   isHydrogel: false,
   isVegan: false,
-  allergens: ["tree nuts"],
+  allergens: ["tree nuts"],   // almond flour; may contain traces of milk, soy and gluten
+  retailerLinks: { runningWarehouse: "https://www.runningwarehouse.com/Cadence_Core_Fuel_Bar/descpage-CDCRFB.html" },
   flavours: ["Chocolate"],
   goals: ["endurance", "recovery"],
   imageEmoji: "🍫",
+  // 35 + 25 + 15 + 10 + 0 (no third-party testing): full label and ingredient list.
   transparencyScore: 85,
   sentiment: {},
   ingredients: [
     {
-      name: "Carbohydrates (Rice Crisps, Tapioca Syrup, Dates, Honey, Sugar)",
-      dose: "40g carbs (18g sugars)",
+      name: "Carbohydrates (rice crisps, tapioca IMO syrup, date paste, honey, coconut sugar)",
+      dose: "40g carbs (13g sugars)",
       verdict: "likely",
       note: "A mix of starch and sugars for energy during longer sessions; solid food digests more slowly than gels or drinks, so it suits steadier efforts.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=carbohydrate+intake+endurance+performance",
@@ -1535,8 +1539,8 @@ const CURATED_PRODUCTS: Product[] = [
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=electrolyte+sweat+losses+potassium+magnesium",
     },
     {
-      name: "Chicory Root Fiber",
-      dose: "Amount not listed",
+      name: "Chicory root inulin",
+      dose: "Part of the bar's 2g fiber",
       verdict: "likely",
       note: "A prebiotic fiber that feeds gut bacteria; in larger amounts it can cause bloating, so try it in training before race day.",
       pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=inulin+chicory+gastrointestinal+tolerance",
@@ -3998,33 +4002,6 @@ const CURATED_PRODUCTS: Product[] = [
 
 // ── PROTEIN ──────────────────────────────────────────────────
 
-{
-  id: "ascent-native-whey",
-  name: "Whey Protein Powder",
-  brand: "Ascent",
-  logoDomain: "ascentprotein.com",
-  category: "Protein",
-  logo: "/logo/ascent.png",
-  rating: 0,
-  reviewCount: 0,
-  price: 54.99,                    // bag, 25–30 servings depending on flavor (confirmed)
-  servingsPerContainer: 28,
-  proteinPerServing: 25,
-  goals: ["muscle", "recovery"],
-  imageEmoji: "🥛",
-  transparencyScore: null,                 // not yet scored: full label not available
-  sentiment: {},
-  ingredients: [
-    {
-      name: "Whey Protein",
-      dose: "25g protein",
-      verdict: "proven",
-      note: "Whey is a fast-digesting, complete protein that supports muscle repair; roughly 20–40g after training is the evidence-based target.",
-      pubmedUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=whey+protein+muscle+protein+synthesis",
-    },
-  ],
-  sources: [],
-},
 // ── PROTEIN ──────────────────────────────────────────────────
 
 {
