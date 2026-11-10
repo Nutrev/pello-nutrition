@@ -3941,7 +3941,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     brand: "Enervit",
     logoDomain: "enervit.com",
     logo: "/logo/enervit.png",
-    category: "Energy Bar",
+    category: "Protein",
     rating: 4.8,
     reviewCount: 9,
     price: 59.99,      // Box of 16 on The Feed
@@ -4094,7 +4094,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     brand: "Science in Sport",
     logoDomain: "scienceinsport.com",
     logo: "/logo/sis.png",
-    category: "Energy Bar",
+    category: "Protein",
     rating: 4.5,
     reviewCount: 386,
     price: 39.99,      // Box of 12 on The Feed
@@ -11634,7 +11634,7 @@ export const THE_FEED_PRODUCTS: Product[] = [
     name: "Perfect Amino Bar",
     brand: "BodyHealth",
     logoDomain: "bodyhealth.com",
-    category: "Energy Bar",
+    category: "Protein",
     rating: 4.9,
     reviewCount: 10,
     price: 47.95,      // Blondie / Box of 12 on The Feed
