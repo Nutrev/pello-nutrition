@@ -49,6 +49,7 @@ export interface BlogPost {
 export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "recovery-shake-vs-protein-shake",
+    image: { src: "/blog/recovery-vs-protein.jpg", alt: "Protein vs. Recovery, beside a column of sachets in cream, gold and green" },
     title: "Recovery Shake vs Protein Shake: Which Do You Need?",
     description: "The difference between recovery and protein shakes, what the research says about protein, carbs and timing, when to use each, and the shakes we'd pick based on independent Pello Scores.",
     date: "2026-11-04",
