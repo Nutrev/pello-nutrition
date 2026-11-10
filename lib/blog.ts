@@ -48,6 +48,93 @@ export interface BlogPost {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "energy-gels-running-vs-cycling",
+    title: "Energy Gels for Running vs Cycling",
+    description: "Why the best gel for a run isn't always the best gel for a ride, what to look for in each sport, and our picks for running and cycling based on independent Pello Scores.",
+    date: "2026-11-10",
+    author: "Pello Nutrition",
+    authorName: "Ethan",
+    category: "Comparisons",
+    tags: ["energy gels", "running", "cycling", "fueling"],
+    relatedProducts: ["sis-go-isotonic", "precision-fuel-pf30", "bare-performance-nutrition-go-gel", "maurten-gel-100", "sis-beta-fuel-gel", "precision-fuel-and-hydration-pf90-gel", "chargel-gel-drink", "enervit-carbo-gel-c21"],
+    readingTime: 6,
+    references: [
+      { text: "Pfeiffer B, Stellingwerff T, Hodgson AB, Randell R, Pöttgen K, Res P, et al. Nutritional intake and gastrointestinal problems during competitive endurance events. Med Sci Sports Exerc. 2012;44(2):344-51.", doi: "10.1249/MSS.0b013e31822dc809", pmid: "21775906" },
+      { text: "Peters HP, Bos M, Seebregts L, Akkermans LM, van Berge Henegouwen GP, Bol E, et al. Gastrointestinal symptoms in long-distance runners, cyclists, and triathletes: prevalence, medication, and etiology. Am J Gastroenterol. 1999;94(6):1570-81.", doi: "10.1111/j.1572-0241.1999.01147.x", pmid: "10364027" },
+      { text: "de Oliveira EP, Burini RC, Jeukendrup A. Gastrointestinal complaints during exercise: prevalence, etiology, and nutritional recommendations. Sports Med. 2014;44(Suppl 1):S79-85.", doi: "10.1007/s40279-014-0153-2", pmid: "24791919" },
+      { text: "Thomas DT, Erdman KA, Burke LM. American College of Sports Medicine Joint Position Statement. Nutrition and Athletic Performance. Med Sci Sports Exerc. 2016;48(3):543-68.", doi: "10.1249/MSS.0000000000000852", pmid: "26891166" },
+      { text: "Jeukendrup A. A step towards personalized sports nutrition: carbohydrate intake during exercise. Sports Med. 2014;44(Suppl 1):S25-33.", doi: "10.1007/s40279-014-0148-z", pmid: "24791914" },
+      { text: "Product data from Pello product reports (live: scores, nutrition and prices update as products change).", url: "/products/energy-gel" },
+    ],
+    content: `The gel market is crowded, which at least means there's a gel for almost every need. But the best gel for a run isn't always the best gel for a ride. Runners do better with smaller, easy-to-take gels that sit well on a bouncing stomach. Cyclists can handle bigger, high-carb gels, because the bike is gentler on the gut and a bottle is always close.
+
+Here's why the two sports need different gels, what to look for, and our picks for each based on independent Pello Scores.
+
+## Why running and cycling need different gels
+
+**Runners take in less.** In one study of real races, marathon runners averaged about 35g of carbs an hour, while cyclists in a road race averaged about 53g (1). Eating on the run is simply harder.
+
+**Running upsets a different part of the gut.** A survey of over 600 endurance athletes found runners mostly had lower-gut problems during exercise, like cramps and the urge to go (71% reported them). Cyclists had upper and lower symptoms at similar rates, such as nausea and heartburn (67% and 64%) (2).
+
+**Gut trouble is common in both.** Around 30–50% of endurance athletes get stomach issues during exercise. Causes include reduced blood flow to the gut during hard efforts, dehydration, mechanical factors and what you eat (3).
+
+**Water access is different.** Runners often have to wait for an aid station to wash a gel down. Cyclists carry bottles, so a thick, high-carb gel is easier to manage on the bike.
+
+## What to look for
+
+| | Running | Cycling |
+| --- | --- | --- |
+| Carbs per gel | 20–30g, easy to take often | 40g or more, fewer packets to open |
+| Texture | Thin, or needs no water | Thicker is fine, a bottle is close |
+| Carb type | Glucose plus fructose if you take more than about 60g an hour (4, 5) | Glucose plus fructose for high intakes (4, 5) |
+| Size | Small and light to carry in a belt or shorts | Bigger packets or flasks fit in jersey pockets |
+| Sodium | Helpful on hot or long runs | Helpful on long rides, or get it from your bottle |
+
+Whatever you pick, try it in training first. Your gut adapts to carbs with practice.
+
+## Best gels for running
+
+Scores, nutrition and prices are from Pello's product reports (6).
+
+[[disclosure]]
+
+| Pick | Product | Pello Score | Carbs per gel | Price per gel | Why |
+| --- | --- | --- | --- | --- | --- |
+| Best overall | [SiS GO Isotonic Energy Gel](/report/sis-go-isotonic) | {{score:sis-go-isotonic}} ({{grade:sis-go-isotonic}}) | {{carbs:sis-go-isotonic}} | {{pps:sis-go-isotonic}} | Our top-scoring gel. Thin and designed to take without water. Informed Sport tested. Almost no sodium. |
+| More carbs | [Precision Fuel & Hydration PF 30 Gel](/report/precision-fuel-pf30) | {{score:precision-fuel-pf30}} ({{grade:precision-fuel-pf30}}) | {{carbs:precision-fuel-pf30}} | {{pps:precision-fuel-pf30}} | Maltodextrin plus fructose, Informed Sport tested. |
+| Caffeine option | [Bare Performance Nutrition Go Gel](/report/bare-performance-nutrition-go-gel) | {{score:bare-performance-nutrition-go-gel}} ({{grade:bare-performance-nutrition-go-gel}}) | {{carbs:bare-performance-nutrition-go-gel}} | {{pps:bare-performance-nutrition-go-gel}} | 75mg of caffeine in some flavors, and {{sodium:bare-performance-nutrition-go-gel}} sodium. NSF Certified for Sport. |
+| Gentle on the stomach | [Maurten Gel 100](/report/maurten-gel-100) | {{score:maurten-gel-100}} ({{grade:maurten-gel-100}}) | {{carbs:maurten-gel-100}} | {{pps:maurten-gel-100}} | Hydrogel with a short ingredient list. Rated {{rating:maurten-gel-100}}/5 from {{reviews:maurten-gel-100}}. |
+
+## Best gels for cycling
+
+Scores, nutrition and prices are from Pello's product reports (6). For a deeper dive, see our [best energy gels for cycling](/blog/best-energy-gels-cycling-2026) guide.
+
+| Pick | Product | Pello Score | Carbs per gel | Price per gel | Why |
+| --- | --- | --- | --- | --- | --- |
+| Best overall | [SiS Beta Fuel Gel](/report/sis-beta-fuel-gel) | {{score:sis-beta-fuel-gel}} ({{grade:sis-beta-fuel-gel}}) | {{carbs:sis-beta-fuel-gel}} | {{pps:sis-beta-fuel-gel}} | {{carbs:sis-beta-fuel-gel}} of carbs plus {{sodium:sis-beta-fuel-gel}} sodium. Informed Sport tested. |
+| Most carbs | [Precision Fuel & Hydration PF 90 Gel](/report/precision-fuel-and-hydration-pf90-gel) | {{score:precision-fuel-and-hydration-pf90-gel}} ({{grade:precision-fuel-and-hydration-pf90-gel}}) | {{carbs:precision-fuel-and-hydration-pf90-gel}} | {{pps:precision-fuel-and-hydration-pf90-gel}} | A full hour of carbs in one pack. Informed Sport tested. |
+| Drinkable | [Chargel Gel Drink](/report/chargel-gel-drink) | {{score:chargel-gel-drink}} ({{grade:chargel-gel-drink}}) | {{carbs:chargel-gel-drink}} | {{pps:chargel-gel-drink}} | Easy to sip on the bike. Informed Sport tested. |
+| 2:1 carb ratio | [Enervit C2:1 PRO Carbo Gel](/report/enervit-carbo-gel-c21) | {{score:enervit-carbo-gel-c21}} ({{grade:enervit-carbo-gel-c21}}) | {{carbs:enervit-carbo-gel-c21}} | {{pps:enervit-carbo-gel-c21}} | Maltodextrin plus fructose with {{sodium:enervit-carbo-gel-c21}} sodium. Cologne List tested. |
+
+SiS Beta Fuel works for runners too, if your stomach handles {{carbs:sis-beta-fuel-gel}} at a time.
+
+## How to use them
+
+Aim for about 30–60g of carbs an hour for sessions of 1–2.5 hours, and up to 90g an hour for longer efforts (4).
+
+- **Running:** that's about one 20–30g gel every 25–45 minutes. Take it just before an aid station so you can wash it down.
+- **Cycling:** one 40g gel every 30–45 minutes, plus a drink mix in your bottle, gets most riders to 60–90g an hour.
+- **Practice:** use your race gels on long training sessions, so race day isn't the first time your gut sees them.
+
+## The bottom line
+
+For running, choose small, easy gels you can take often. SiS GO Isotonic is our top pick. For cycling, choose bigger, high-carb gels and pair them with a drink mix. SiS Beta Fuel is our top pick. In both sports, test your gels in training first.
+
+Personally, my go-to on the bike is the [Carbs Fuel 50g gel](/report/carbs-fuel-gel). It's a lot of carbs in one go and keeps me rolling through my weekly training. But I've been running more lately and found those same gels hard to carry and take on the run, which is why I wrote this post.
+
+Not sure how many gels you need? [Build your fueling plan on Pello](/quiz) for your next run or ride.`,
+  },
+  {
     slug: "recovery-shake-vs-protein-shake",
     image: { src: "/blog/recovery-vs-protein.jpg", alt: "Protein vs. Recovery, beside a column of sachets in cream, gold and green" },
     title: "Recovery Shake vs Protein Shake: Which Do You Need?",
