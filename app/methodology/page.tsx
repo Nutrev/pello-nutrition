@@ -13,6 +13,14 @@ export const metadata: Metadata = {
   openGraph: { title: "How the Pello Score Works | Pello", description: "How Pello scores sports nutrition products: research support, label transparency, value, athlete reviews and quality, and where the data comes from.", url: "https://www.pellonutrition.com/methodology" },
 };
 
+// Shows Pello's contact address in a principle as a mailto link.
+const EMAIL = "pellonutrition@gmail.com";
+function withEmailLink(text: string) {
+  const i = text.indexOf(EMAIL);
+  if (i < 0) return text;
+  return <>{text.slice(0, i)}<a href={`mailto:${EMAIL}`} className="text-moss hover:underline">{EMAIL}</a>{text.slice(i + EMAIL.length)}</>;
+}
+
 export default function MethodologyPage() {
   const m = FULENS_SCORE_METHODOLOGY;
   // lastUpdated is a calendar date (YYYY-MM-DD), so format it in UTC to keep the same day.
@@ -49,7 +57,7 @@ export default function MethodologyPage() {
               {m.principles.map((p: string) => (
                 <li key={p} className="flex gap-2 text-sm leading-snug">
                   <span aria-hidden="true" className="text-moss font-bold">✓</span>
-                  <span>{p}</span>
+                  <span>{withEmailLink(p)}</span>
                 </li>
               ))}
             </ul>

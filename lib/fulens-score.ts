@@ -487,5 +487,7 @@ export const FULENS_SCORE_METHODOLOGY = {
     "The full methodology is published and transparent",
     "GI comfort is given special weight as it is uniquely critical for endurance athletes",
     "Scores are recalculated when new reviews or formula changes occur",
+    "Pello Scores are our opinion, based on the published criteria and the data available at the time",
+    "Brands can request a correction at pellonutrition@gmail.com with supporting evidence",
   ],
 };

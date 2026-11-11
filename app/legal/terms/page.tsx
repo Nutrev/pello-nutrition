@@ -21,7 +21,7 @@ export default function TermsPage() {
         <div className="mb-10">
           <div className="text-xs text-muted uppercase tracking-widest mb-2">Legal</div>
           <h1 className="font-display font-bold text-4xl tracking-tight mb-2">Terms of Service</h1>
-          <p className="text-muted text-sm">Last updated: October 2026</p>
+          <p className="text-muted text-sm">Last updated: November 2026</p>
         </div>
 
         <div className="prose prose-sm max-w-none space-y-6 text-muted leading-relaxed">
@@ -39,6 +39,7 @@ export default function TermsPage() {
             <h2 className="font-display font-semibold text-lg text-ink mb-2">3. Editorial independence</h2>
             <p>Pello Scores, ingredient verdicts and editorial recommendations are independent and not influenced by brands, advertisers or affiliate relationships. We may earn commissions on purchases made through links on the site — this never affects our scores or editorial content.</p>
             <p>Some product pages also show customer ratings and review counts from third-party retailers, such as The Feed. These are shown as published by that source and credited to it; they are not Pello Nutrition LLC ratings.</p>
+            <p>Pello Scores are our opinion, based on the published criteria and the data available at the time. Brands can request a correction at <a href="mailto:pellonutrition@gmail.com" className="text-moss hover:underline">pellonutrition@gmail.com</a> with supporting evidence.</p>
           </section>
 
           <section>
