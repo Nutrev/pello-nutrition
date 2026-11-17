@@ -12657,7 +12657,7 @@ export const THE_FEED_SUPPLEMENTS: Product[] = [
     certifications: ["NSF Certified for Sport"],
     allergens: [],
     imageUrl: "https://cdn.shopify.com/s/files/1/1515/2714/files/thorne_magnesium_travelpacks_1200x1200.png?v=1760634636",
-    retailerLinks: {"theFeed": "https://thefeed.com/products/thorne-magnesium-bisglycinate"},
+    retailerLinks: { amazon: "https://www.amazon.com/dp/B0797HBLL3","theFeed": "https://thefeed.com/products/thorne-magnesium-bisglycinate"},
     goals: ["health"],
     imageEmoji: "🧂",
     transparencyScore: 100,

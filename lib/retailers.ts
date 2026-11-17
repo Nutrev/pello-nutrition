@@ -2,7 +2,8 @@
 // Where to buy a product, in priority order. Client-safe.
 // - The Feed: the exact product page, stored on the product (checked against The Feed's
 //   catalog when it was added).
-// - Amazon: a search for the brand and product name (not a guessed product page).
+// - Amazon: the product's Amazon page when one has been matched (the brand's own listing, from
+//   its title naming the brand and product), otherwise a search for the brand and product name.
 // - REI / Running Warehouse: only when a product has a verified link to them.
 // - Brand website: only when set on the product (e.g. a brand with its own affiliate
 //   program); brand homepages are linked from brand pages instead.
@@ -33,7 +34,7 @@ export function getRetailerLinks(p: LinkSource): RetailerLink[] {
   };
 
   push("theFeed", "The Feed", "Endurance specialist", r.theFeed, "theFeed");
-  push("amazon", "Amazon", "Search results", r.amazon ?? `https://www.amazon.com/s?k=${encodeURIComponent(`${p.brand} ${p.name}`)}`, "amazon");
+  push("amazon", "Amazon", r.amazon ? "Product page" : "Search results", r.amazon ?? `https://www.amazon.com/s?k=${encodeURIComponent(`${p.brand} ${p.name}`)}`, "amazon");
   push("rei", "REI", "Outdoor retailer", r.rei, "rei");
   push("runningWarehouse", "Running Warehouse", "Running specialist", r.runningWarehouse, "runningWarehouse");
   push("brandWebsite", `${p.brand} official site`, "Brand's own website", r.brandWebsite);
